@@ -138,8 +138,9 @@
   .vendas-bar { display: flex; gap: 2px; align-items: flex-end; height: 36px; }
   .bar-wrap { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
   .bar-num { font-size: 8px; color: var(--cinza-escuro); line-height: 1; margin-top: 1px; }
-  .bar { background: var(--verde-claro); border-radius: 2px 2px 0 0; width: 8px; min-height: 2px; opacity: 0.7; }
+  .bar { background: var(--verde-claro); border-radius: 2px 2px 0 0; width: 6px; min-height: 2px; opacity: 0.7; }
   .bar.current { background: var(--verde); opacity: 1; }
+  .bar.sazonal { background: #C4621A; opacity: 0.9; }
   .bar.current { opacity: 1; background: var(--verde); }
 
   input.qt-input {
@@ -267,7 +268,7 @@
         <th class="num">Stock</th>
         <th class="num">Dias</th>
         <th class="num">Méd/Base</th>
-        <th>Vendas (V0-V5)</th>
+        <th>Vendas (18m)</th>
         <th class="num">Margem</th>
         <th class="num">Proposta</th>
         <th class="num">Editar</th>
@@ -543,13 +544,17 @@ function renderTabela() {
   tbody.innerHTML = '';
 
   rows.forEach((p, idx) => {
-    const maxV = Math.max(...p.v.slice(0,6), 0.1);
-    // V0 = maio 2026, V1 = abril, V2 = março, V3 = fev, V4 = jan, V5 = dez 2025
-    const meses = ['Mai','Abr','Mar','Fev','Jan','Dez'];
-    const barras = p.v.slice(0,6).map((vv, i) => {
+    const maxV = Math.max(...p.v.slice(0,18), 0.1);
+    // V0=Jun26, V1=Mai26, V2=Abr26, V3=Mar26, V4=Fev26, V5=Jan26,
+    // V6=Dez25, V7=Nov25, V8=Out25, V9=Set25, V10=Ago25, V11=Jul25,
+    // V12=Jun25, V13=Mai25, V14=Abr25, V15=Mar25, V16=Fev25, V17=Jan25
+    const meses = ['Jun','Mai','Abr','Mar','Fev','Jan','Dez','Nov','Out','Set','Ago','Jul','Jun','Mai','Abr','Mar','Fev','Jan'];
+    const barras = p.v.slice(0,18).map((vv, i) => {
       const h = Math.round(vv/maxV*22)+2;
       const label = vv > 0 ? `<span class="bar-num">${Math.round(vv)}</span>` : '';
-      return `<div class="bar-wrap" title="${meses[i]}: ${vv.toFixed(1)} un"><div class="bar${i===0?' current':''}" style="height:${h}px"></div>${label}</div>`;
+      const isSazonalBar = p.sazonal && (i === 10 || i === 11 || i === 12);
+      const barClass = i === 0 ? 'bar current' : isSazonalBar ? 'bar sazonal' : 'bar';
+      return `<div class="bar-wrap" title="${meses[i]}: ${vv.toFixed(1)} un"><div class="${barClass}" style="height:${h}px"></div>${label}</div>`;
     }).join('');
 
     const prLabel = {rutura:'RUTURA',urgente:'URGENTE',comprar:'COMPRAR',ok:'OK'}[p.prioridade];
