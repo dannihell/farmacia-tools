@@ -59,7 +59,7 @@ def agregar_por_produto(rows):
 
     produtos = {}
     for row in rows:
-        cod = row.get("COD_PRD")
+        row={k.lstrip(chr(65279)):v for k,v in row.items()};cod=row.get("COD_PRD")
         if cod is None:
             continue
         if cod not in produtos:
