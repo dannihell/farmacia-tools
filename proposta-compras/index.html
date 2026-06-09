@@ -29,7 +29,7 @@
     justify-content: space-between;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 30;
   }
   header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.3px; }
   header .meta { font-size: 11px; opacity: 0.7; margin-top: 2px; }
@@ -42,6 +42,9 @@
     gap: 12px;
     align-items: center;
     flex-wrap: wrap;
+    position: sticky;
+    top: 51px;
+    z-index: 20;
   }
   .toolbar label { font-size: 12px; color: var(--cinza-escuro); font-weight: 500; }
   select, input[type=number] {
@@ -108,7 +111,7 @@
     text-transform: uppercase;
     white-space: nowrap;
     position: sticky;
-    top: 51px;
+    top: 0; /* calculado via JS */
   }
   thead th.num { text-align: right; }
   tbody tr { border-bottom: 1px solid #eeecea; }
@@ -214,6 +217,10 @@
   <div class="toolbar-group">
     <label>Pesquisa</label>
     <input type="text" id="pesquisa" placeholder="Designação..." style="min-width:160px;padding:6px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;">
+  </div>
+  <div class="toolbar-group">
+    <label>CNP</label>
+    <input type="text" id="pesquisa-cnp" placeholder="Código CNP..." style="min-width:120px;padding:6px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;">
   </div>
   <div class="toolbar-group">
     <label>Cobertura</label>
@@ -452,6 +459,7 @@ function renderTabela() {
   const cat = document.getElementById('cat-select').value;
   const subcat = document.getElementById('subcat-select').value;
   const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
+  const cnp = document.getElementById('pesquisa-cnp').value.trim();
 
   let rows = propostaActual;
 
@@ -460,6 +468,7 @@ function renderTabela() {
   if (cat) rows = rows.filter(r => r.CATEGORIA_DESIGNACAO === cat);
   if (subcat) rows = rows.filter(r => r.MERCADO_DESIGNACAO === subcat);
   if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
+  if (cnp) rows = rows.filter(r => String(r.COD_PRD || '').includes(cnp));
 
   // Filtro prioridade
   if (filtro === 'rutura') rows = rows.filter(r => r.prioridade === 'rutura');
@@ -514,6 +523,7 @@ function renderTabela() {
   if (!rows.length) document.getElementById('empty').textContent = 'Nenhum produto com este filtro.';
   document.getElementById('footer').style.display = 'flex';
   updateFooter();
+  setTimeout(updateStickyOffset, 50);
 }
 
 function updateQt(input) {
@@ -574,6 +584,22 @@ document.getElementById('filtro-prioridade').addEventListener('change', () => {
 document.getElementById('pesquisa').addEventListener('input', () => {
   if (propostaActual.length) renderTabela();
 });
+document.getElementById('pesquisa-cnp').addEventListener('input', () => {
+  if (propostaActual.length) renderTabela();
+});
+
+function updateStickyOffset() {
+  const header = document.querySelector('header');
+  const toolbar = document.querySelector('.toolbar');
+  const statusBar = document.getElementById('status-bar');
+  const headerH = header ? header.offsetHeight : 0;
+  const toolbarH = toolbar ? toolbar.offsetHeight : 0;
+  const statusH = statusBar && statusBar.style.display !== 'none' ? statusBar.offsetHeight : 0;
+  const offset = headerH + toolbarH + statusH;
+  document.querySelectorAll('thead th').forEach(th => th.style.top = offset - statusH + 'px');
+}
+
+window.addEventListener('resize', updateStickyOffset);
 
 init();
 </script>
