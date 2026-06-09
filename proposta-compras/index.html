@@ -189,8 +189,20 @@
 <div class="toolbar">
   <div class="toolbar-group">
     <label>Laboratório</label>
-    <select id="lab-select">
+    <select id="lab-select" onchange="onLabChange()">
       <option value="">Seleccionar laboratório...</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Categoria</label>
+    <select id="cat-select" onchange="onCatChange()" disabled>
+      <option value="">Todas</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Subcategoria</label>
+    <select id="subcat-select" disabled>
+      <option value="">Todas</option>
     </select>
   </div>
   <div class="toolbar-group">
@@ -268,7 +280,6 @@ async function init() {
       const ent = l.ENT_RESP_COMERC || l['ENT_RESP_COMERC'];
       if (ent && !labMap[ent]) labMap[ent] = true;
     });
-    // Se não houver laboratorios separados, extrair dos produtos
     if (labs.length === 0) {
       (allData.produtos || []).forEach(p => {
         const ent = p.ENT_RESP_COMERC;
@@ -289,7 +300,60 @@ async function init() {
   }
 }
 
-function calcPrioridade(stock, media6m) {
+function onLabChange() {
+  const lab = document.getElementById('lab-select').value;
+  const catSel = document.getElementById('cat-select');
+  const subcatSel = document.getElementById('subcat-select');
+
+  // Reset cascata
+  catSel.innerHTML = '<option value="">Todas</option>';
+  subcatSel.innerHTML = '<option value="">Todas</option>';
+  catSel.disabled = true;
+  subcatSel.disabled = true;
+
+  if (!lab || !allData) return;
+
+  const produtosLab = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
+  const cats = [...new Set(produtosLab.map(p => p.FAM_ESTAT).filter(Boolean))].sort();
+
+  if (cats.length > 0) {
+    cats.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      catSel.appendChild(opt);
+    });
+    catSel.disabled = false;
+  }
+}
+
+function onCatChange() {
+  const lab = document.getElementById('lab-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcatSel = document.getElementById('subcat-select');
+
+  subcatSel.innerHTML = '<option value="">Todas</option>';
+  subcatSel.disabled = true;
+
+  if (!cat || !allData) return;
+
+  const produtosFiltrados = (allData.produtos || []).filter(p =>
+    p.ENT_RESP_COMERC === lab && p.FAM_ESTAT === cat
+  );
+  const subcats = [...new Set(produtosFiltrados.map(p => p.SFAM_ESTAT).filter(Boolean))].sort();
+
+  if (subcats.length > 0) {
+    subcats.forEach(sub => {
+      const opt = document.createElement('option');
+      opt.value = sub;
+      opt.textContent = sub;
+      subcatSel.appendChild(opt);
+    });
+    subcatSel.disabled = false;
+  }
+}
+
+(stock, media6m) {
   if (media6m === 0) return 'ok';
   const dias = (stock / (media6m / 30));
   if (stock === 0 && media6m > 0) return 'rutura';
@@ -309,7 +373,14 @@ function aplicar() {
   const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
   const filtro = document.getElementById('filtro-prioridade').value;
 
-  const produtos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
+  const produtos = (allData.produtos || []).filter(p => {
+    if (p.ENT_RESP_COMERC !== lab) return false;
+    const cat = document.getElementById('cat-select').value;
+    const subcat = document.getElementById('subcat-select').value;
+    if (cat && p.FAM_ESTAT !== cat) return false;
+    if (subcat && p.SFAM_ESTAT !== subcat) return false;
+    return true;
+  });
 
   propostaActual = produtos.map(p => {
     const v = [0,1,2,3,4,5].map(i => parseFloat(p[`V${i}`] || 0));
