@@ -179,6 +179,18 @@
   .footer-info { color: var(--cinza-escuro); font-size: 12px; }
   .footer-actions { margin-left: auto; display: flex; gap: 8px; }
 
+  .kpi-card {
+    background: var(--fundo);
+    border: 1px solid var(--cinza);
+    border-radius: 8px;
+    padding: 10px 16px;
+    min-width: 120px;
+  }
+  .kpi-label { font-size: 11px; color: var(--cinza-escuro); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+  .kpi-value { font-size: 18px; font-weight: 600; color: var(--texto); margin-top: 2px; }
+  .kpi-pos { color: var(--comprar); }
+  .kpi-neg { color: var(--rutura); }
+
   .tag-updated { font-size: 11px; color: var(--cinza-escuro); }
 </style>
 </head>
@@ -258,6 +270,39 @@
 </div>
 
 <div id="modal-vendedor" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;padding:24px"></div>
+
+<div id="kpi-panel" style="display:none;padding:12px 24px;background:#fff;border-bottom:1px solid var(--cinza);display:none">
+  <div style="display:flex;gap:16px;flex-wrap:wrap">
+    <div class="kpi-card">
+      <div class="kpi-label">Vendas YTD</div>
+      <div class="kpi-value" id="kpi-vendas-ytd">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Margem YTD</div>
+      <div class="kpi-value" id="kpi-margem-ytd">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Cresc. Homólogo</div>
+      <div class="kpi-value" id="kpi-cresc">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Refs Activas</div>
+      <div class="kpi-value" id="kpi-refs-activas">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Em Rutura</div>
+      <div class="kpi-value" id="kpi-rutura">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Stock (Custo)</div>
+      <div class="kpi-value" id="kpi-stock-custo">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Proposta (Custo)</div>
+      <div class="kpi-value" id="kpi-proposta-custo">—</div>
+    </div>
+  </div>
+</div>
 
 <div class="container">
   <div class="loading" id="loading">A carregar dados...</div>
@@ -598,6 +643,7 @@ function renderTabela() {
   if (!rows.length) document.getElementById('empty').textContent = 'Nenhum produto com este filtro.';
   document.getElementById('footer').style.display = 'flex';
   updateFooter();
+  updateKPIs(rows);
 }
 
 function updateQt(input) {
@@ -730,7 +776,53 @@ function processarLinhasVendedor(rows, colCnp, colQt, headerRow) {
 }
 
 
-function guardarProposta() {
+function fmt(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:0, maximumFractionDigits:0}); }
+function fmtEur(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
+
+function updateKPIs(rows) {
+  // Usar propostaActual completo (sem filtros) para KPIs de lab/marca
+  const todos = propostaActual;
+
+  const vendasYtd = todos.reduce((s,p) => s + parseFloat(p.VENDAS_YTD || 0), 0);
+  const margemYtd = todos.reduce((s,p) => s + parseFloat(p.MARGEM_YTD || 0), 0);
+  const margemPct = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
+
+  // Crescimento: YTD 2026 (V0-V5 em valor) vs homólogo 2025 (V12-V17)
+  // Aproximação em unidades (não temos valor por mês)
+  const unid2026 = todos.reduce((s,p) => s + [0,1,2,3,4,5].reduce((a,i) => a + (p.v[i]||0), 0), 0);
+  const unid2025 = todos.reduce((s,p) => s + [12,13,14,15,16,17].reduce((a,i) => a + (p.v[i]||0), 0), 0);
+  const cresc = unid2025 > 0 ? ((unid2026 - unid2025) / unid2025 * 100) : null;
+
+  const refsActivas = todos.filter(p => [0,1,2,3,4,5].some(i => (p.v[i]||0) > 0)).length;
+  const emRutura = todos.filter(p => p.prioridade === 'rutura').length;
+  const stockCusto = todos.reduce((s,p) => s + (parseFloat(p.STK_FARMACIA||0) * parseFloat(p.PCUSMED_PROD||0)), 0);
+  const propostaCusto = todos.reduce((s,p) => s + (p.proposta_edit * parseFloat(p.PCUSMED_PROD||0)), 0);
+
+  document.getElementById('kpi-vendas-ytd').textContent = fmtEur(vendasYtd);
+  const mEl = document.getElementById('kpi-margem-ytd');
+  mEl.textContent = margemPct.toFixed(1) + '%';
+  mEl.className = 'kpi-value ' + (margemPct >= 30 ? 'kpi-pos' : 'kpi-neg');
+
+  const cEl = document.getElementById('kpi-cresc');
+  if (cresc !== null) {
+    cEl.textContent = (cresc >= 0 ? '+' : '') + cresc.toFixed(1) + '%';
+    cEl.className = 'kpi-value ' + (cresc >= 0 ? 'kpi-pos' : 'kpi-neg');
+  } else {
+    cEl.textContent = '—';
+    cEl.className = 'kpi-value';
+  }
+
+  document.getElementById('kpi-refs-activas').textContent = refsActivas;
+  const rEl = document.getElementById('kpi-rutura');
+  rEl.textContent = emRutura;
+  rEl.className = 'kpi-value ' + (emRutura > 0 ? 'kpi-neg' : '');
+  document.getElementById('kpi-stock-custo').textContent = fmtEur(stockCusto);
+  document.getElementById('kpi-proposta-custo').textContent = fmtEur(propostaCusto);
+
+  document.getElementById('kpi-panel').style.display = 'block';
+}
+
+
   const lab = document.getElementById('lab-select').value;
   if (!lab || !propostaActual.length) return;
   const dados = {
