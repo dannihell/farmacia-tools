@@ -20,7 +20,7 @@ def get_access_token():
 
 def query_zoho(token, sql):
     headers = {"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": ORG_ID}
-    
+
     # 1. Criar job
     config = {"sqlQuery": sql, "responseFormat": "json"}
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
@@ -30,38 +30,36 @@ def query_zoho(token, sql):
         raise Exception(f"Job creation error: {d}")
     job_id = d["data"]["jobId"]
     print(f"  Job criado: {job_id}")
-    
-    # 2. Aguardar conclusão
+
+    # 2. Aguardar conclusão - endpoint correcto
     for attempt in range(30):
         time.sleep(3)
-        r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/jobs/{job_id}",
-            headers=headers)
+        r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
+            params={"CONFIG": json.dumps({"jobId": job_id})}, headers=headers)
         d = r.json()
-        status = d.get("data", {}).get("jobStatus", "")
-        print(f"  Poll response: {str(d)[:200]}")
-        print(f"  Job status: {status}")
+        print(f"  Poll {attempt+1}: {str(d)[:150]}")
+        status = d.get("data", {}).get("jobStatus", "") if isinstance(d.get("data"), dict) else ""
         if status == "JOB COMPLETED":
             break
         if status in ("JOB FAILED", "JOB CANCELLED"):
             raise Exception(f"Job falhou: {d}")
     else:
         raise Exception("Timeout aguardando job")
-    
+
     # 3. Download resultado
-    r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/jobs/{job_id}/data",
-        headers=headers)
+    r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
+        params={"CONFIG": json.dumps({"jobId": job_id, "action": "download"})}, headers=headers)
+    print(f"Download response: {str(r.json())[:300]}")
     return r.json()
 
 def main():
     print(f"🚀 {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     token = get_access_token()
     os.makedirs("data", exist_ok=True)
-
     print("📊 A carregar AROEIRA_BRAND_ANALYSIS...")
-    sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, QT, ANO, MES, VALOR_VENDA, MARGEM_EUROS, VALOR_QUEBRA FROM AROEIRA_BRAND_ANALYSIS"
+    sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, STK_FARMACIA FROM AROEIRA_BRAND_ANALYSIS LIMIT 10"
     result = query_zoho(token, sql)
-    print(f"Result keys: {list(result.keys()) if isinstance(result, dict) else type(result)}")
-    print(f"Result preview: {str(result)[:300]}")
+    print(f"✅ Done: {str(result)[:200]}")
 
 if __name__ == "__main__":
     main()
