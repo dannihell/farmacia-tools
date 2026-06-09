@@ -252,8 +252,8 @@
         <th class="num">Margem</th>
         <th class="num">Proposta</th>
         <th class="num">Editar</th>
-        <th class="num">PVP</th>
-        <th class="num">Total €</th>
+        <th class="num">Custo s/IVA</th>
+        <th class="num">Total Custo</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -503,8 +503,8 @@ function renderTabela() {
       <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
       <td class="num">${p.proposta}</td>
       <td class="num"><input class="qt-input" type="number" min="0" value="${p.proposta_edit}" data-idx="${propostaActual.indexOf(p)}" onchange="updateQt(this)"></td>
-      <td class="num">${p.pvp.toFixed(2)} €</td>
-      <td class="num total-cell">${(p.proposta_edit * p.pvp).toFixed(2)} €</td>
+      <td class="num">${p.pcus.toFixed(2)} €</td>
+      <td class="num total-cell">${(p.proposta_edit * p.pcus).toFixed(2)} €</td>
     `;
     tbody.appendChild(tr);
   });
@@ -522,25 +522,25 @@ function updateQt(input) {
   propostaActual[idx].proposta_edit = val;
   input.classList.toggle('modified', val !== propostaActual[idx].proposta);
   const tr = input.closest('tr');
-  tr.querySelector('.total-cell').textContent = (val * propostaActual[idx].pvp).toFixed(2) + ' €';
+  tr.querySelector('.total-cell').textContent = (val * propostaActual[idx].pcus).toFixed(2) + ' €';
   updateFooter();
 }
 
 function updateFooter() {
   const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
-  const total = comProposta.reduce((s, p) => s + p.proposta_edit * p.pvp, 0);
+  const total = comProposta.reduce((s, p) => s + p.proposta_edit * p.pcus, 0);
   document.getElementById('footer-refs').textContent = comProposta.length + ' referências com quantidade';
-  document.getElementById('footer-total').textContent = 'Total PVP: ' + total.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  document.getElementById('footer-total').textContent = 'Total Custo s/IVA: ' + total.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
 }
 
 function exportarCSV() {
   const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
-  const linhas = [['COD_PRD','DESIGNACAO','ENT_RESP_COMERC','STK','MEDIA_6M','PROPOSTA','PVP','TOTAL_PVP','MARGEM_PCT'].join(';')];
+  const linhas = [['COD_PRD','DESIGNACAO','ENT_RESP_COMERC','STK','MEDIA_6M','PROPOSTA','CUSTO_UNIT','TOTAL_CUSTO','MARGEM_PCT'].join(';')];
   comProposta.forEach(p => {
     linhas.push([
       p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`,
       p.stock, p.media6m.toFixed(2), p.proposta_edit,
-      p.pvp.toFixed(2), (p.proposta_edit * p.pvp).toFixed(2), p.margem.toFixed(1)+'%'
+      p.pcus.toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%'
     ].join(';'));
   });
   const blob = new Blob(['\ufeff'+linhas.join('\n')], {type:'text/csv;charset=utf-8'});
@@ -553,13 +553,13 @@ function exportarCSV() {
 function copiarResumo() {
   const lab = document.getElementById('lab-select').value;
   const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
-  const total = comProposta.reduce((s,p) => s + p.proposta_edit * p.pvp, 0);
+  const total = comProposta.reduce((s,p) => s + p.proposta_edit * p.pcus, 0);
   const linhas = [`Proposta de Compra — ${lab}`, `Data: ${new Date().toLocaleDateString('pt-PT')}`, ''];
   comProposta.forEach(p => {
-    linhas.push(`${p.proposta_edit}x ${p.DESIGNACAO} (${p.COD_PRD}) — ${(p.proposta_edit*p.pvp).toFixed(2)}€`);
+    linhas.push(`${p.proposta_edit}x ${p.DESIGNACAO} (${p.COD_PRD}) — ${(p.proposta_edit*p.pcus).toFixed(2)}€ custo`);
   });
   linhas.push('');
-  linhas.push(`Total PVP: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})}€`);
+  linhas.push(`Total Custo s/IVA: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})}€`);
   navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
 }
 
