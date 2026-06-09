@@ -29,10 +29,10 @@ def get_access_token():
 
 # ─── QUERY ZOHO ───────────────────────────────────────────────────────────────
 def query_zoho(token, sql):
-    response = requests.get(
+    response = requests.post(
         f"{API_BASE}/workspaces/{WORKSPACE_ID}/views/data",
         params={"sqlQuery": sql},
-        headers={"Authorization": f"Zoho-oauthtoken {token}"}
+        headers={"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": "20085290558"}
     )
     data = response.json()
     if data.get("status") != "success":
