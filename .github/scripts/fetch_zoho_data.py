@@ -1,5 +1,6 @@
-import requests, json, os, time
+import requests, json, os, time, csv, io
 from datetime import datetime
+from collections import defaultdict
 
 REFRESH_TOKEN = os.environ["ZOHO_REFRESH_TOKEN"]
 CLIENT_ID = os.environ["ZOHO_CLIENT_ID"]
@@ -15,65 +16,82 @@ def get_access_token():
     d = r.json()
     if "access_token" not in d:
         raise Exception(f"Token error: {d}")
-    print("✓ Access token obtido")
+    print("Access token OK")
     return d["access_token"]
 
-def query_zoho(token, sql):
+def bulk_query(token, sql):
     headers = {"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": ORG_ID}
-
-    # 1. Criar job
     config = {"sqlQuery": sql, "responseFormat": "csv"}
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
         params={"CONFIG": json.dumps(config)}, headers=headers)
     d = r.json()
-    if d.get("status") != "success":
-        raise Exception(f"Job creation error: {d}")
     job_id = d["data"]["jobId"]
-    print(f"  Job criado: {job_id}")
-
-    # 2. Polling status - endpoint correcto
-    for attempt in range(20):
+    print(f"Job: {job_id}")
+    for i in range(20):
         time.sleep(5)
-        r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}",
-            headers=headers)
-        d = r.json()
-        status = d.get("data", {}).get("jobStatus", "UNKNOWN")
-        print(f"  Poll {attempt+1}: {status}")
+        s = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}", headers=headers).json()
+        status = s.get("data", {}).get("jobStatus", "")
+        print(f"Poll {i+1}: {status}")
         if status == "JOB COMPLETED":
             break
-        if status in ("JOB FAILED", "JOB CANCELLED"):
-            raise Exception(f"Job falhou: {d}")
-    else:
-        raise Exception("Timeout aguardando job")
+        if "FAIL" in status or "CANCEL" in status:
+            raise Exception(f"Job failed: {s}")
+    r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}/data", headers=headers)
+    return list(csv.DictReader(io.StringIO(r.text)))
 
-    # 3. Download resultado
-    r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}/data",
-        headers=headers)
-    import csv, io
-    reader = csv.DictReader(io.StringIO(r.text))
-    return list(reader)
+def aggregate(rows):
+    now = datetime.now()
+    year, month = now.year, now.month
+    months = []
+    for i in range(7):
+        m, y = month - i, year
+        while m <= 0: m += 12; y -= 1
+        months.append((y, m))
+    prods = {}
+    for row in rows:
+        cod = row.get("COD_PRD")
+        if not cod: continue
+        if cod not in prods:
+            prods[cod] = {k: row.get(k) for k in ["COD_PRD","DESIGNACAO","ENT_RESP_COMERC","MARCA","STK_FARMACIA","PCUSMED_PROD","DUV","CATEGORIA_DESIGNACAO","MERCADO_DESIGNACAO"]}
+            for i in range(7): prods[cod][f"V{i}"] = 0
+            prods[cod].update({"VENDAS_YTD":0,"MARGEM_YTD":0,"VALOR_QUEBRAS":0,"TOTAL_QT":0})
+        p = prods[cod]
+        try:
+            ano, mes = int(row.get("ANO",0)), int(row.get("MES",0))
+            qt = float(row.get("QT") or 0)
+            venda = float(row.get("VALOR_VENDA") or 0)
+            margem = float(row.get("MARGEM_EUROS") or 0)
+            quebra = float(row.get("VALOR_QUEBRA") or 0)
+        except: continue
+        p["TOTAL_QT"] += qt
+        p["VALOR_QUEBRAS"] += quebra
+        for i,(y,m) in enumerate(months):
+            if ano==y and mes==m: p[f"V{i}"] += qt
+        if ano == year:
+            p["VENDAS_YTD"] += venda
+            p["MARGEM_YTD"] += margem
+    return sorted(prods.values(), key=lambda x: x.get("TOTAL_QT",0), reverse=True)
 
 def main():
-    print(f"🚀 {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(datetime.now().strftime("%Y-%m-%d %H:%M"))
     token = get_access_token()
     os.makedirs("data", exist_ok=True)
-
-    print("📊 A carregar AROEIRA_BRAND_ANALYSIS...")
-    sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, QT, ANO, MES, VALOR_VENDA, MARGEM_EUROS, VALOR_QUEBRA FROM AROEIRA_BRAND_ANALYSIS"
-    result = query_zoho(token, sql)
-
-    if isinstance(result, dict):
-        rows = result.get("data", result)
-    else:
-        rows = result
-
-    print(f"✓ {len(rows) if isinstance(rows, list) else 'N/A'} linhas")
-    print(f"Preview: {str(result)[:300]}")
-
-    with open("data/aroeira_brand.json", "w", encoding="utf-8") as f:
-        json.dump({"updated_at": datetime.now().isoformat(), "result": result}, f, ensure_ascii=False, indent=2)
-
-    print("✅ Guardado!")
+    now = datetime.now()
+    year, month = now.year, now.month
+    min_m, min_y = month - 12, year
+    while min_m <= 0: min_m += 12; min_y -= 1
+    print("A carregar AROEIRA_BRAND_ANALYSIS (13 meses)...")
+    sql = f"SELECT COD_PRD,DESIGNACAO,ENT_RESP_COMERC,MARCA,STK_FARMACIA,PCUSMED_PROD,DUV,CATEGORIA_DESIGNACAO,MERCADO_DESIGNACAO,QT,ANO,MES,VALOR_VENDA,MARGEM_EUROS,VALOR_QUEBRA FROM AROEIRA_BRAND_ANALYSIS WHERE (ANO*12+MES)>=({min_y}*12+{min_m})"
+    rows = bulk_query(token, sql)
+    print(f"{len(rows)} linhas raw")
+    prods = aggregate(rows)
+    print(f"{len(prods)} produtos unicos")
+    labs = bulk_query(token, "SELECT DISTINCT ENT_RESP_COMERC,MARCA FROM AROEIRA_BRAND_ANALYSIS WHERE ENT_RESP_COMERC IS NOT NULL ORDER BY ENT_RESP_COMERC")
+    out = {"updated_at": datetime.now().isoformat(), "produtos": prods, "laboratorios": labs, "total_produtos": len(prods)}
+    with open("data/aroeira_brand.json","w",encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=2)
+    mb = os.path.getsize("data/aroeira_brand.json")/1024/1024
+    print(f"Guardado: {len(prods)} produtos, {mb:.1f}MB")
 
 if __name__ == "__main__":
     main()
