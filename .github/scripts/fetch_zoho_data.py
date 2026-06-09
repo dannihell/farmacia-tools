@@ -22,7 +22,7 @@ def query_zoho(token, sql):
     headers = {"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": ORG_ID}
 
     # 1. Criar job
-    config = {"sqlQuery": sql, "responseFormat": "json"}
+    config = {"sqlQuery": sql, "responseFormat": "json", "keyValueFormat": false}
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
         params={"CONFIG": json.dumps(config)}, headers=headers)
     d = r.json()
