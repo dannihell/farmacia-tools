@@ -243,6 +243,7 @@
       <option value="urgente_comprar">Urgente + Comprar</option>
       <option value="com_proposta">Com proposta > 0</option>
       <option value="com_vendedor">Com proposta vendedor</option>
+      <option value="sem_vendedor">Sem proposta vendedor</option>
     </select>
   </div>
   <button class="btn btn-primary" onclick="aplicar()">Gerar proposta</button>
@@ -530,6 +531,7 @@ function renderTabela() {
   if (filtro === 'urgente_comprar') rows = rows.filter(r => ['rutura','urgente','comprar'].includes(r.prioridade));
   if (filtro === 'com_proposta') rows = rows.filter(r => r.proposta_edit > 0);
   if (filtro === 'com_vendedor') rows = rows.filter(r => vendedorMap[parseInt(r.COD_PRD)] > 0);
+  if (filtro === 'sem_vendedor') rows = rows.filter(r => !vendedorMap[parseInt(r.COD_PRD)]);
 
   const cntR = propostaActual.filter(r=>r.prioridade==='rutura').length;
   const cntU = propostaActual.filter(r=>r.prioridade==='urgente').length;
