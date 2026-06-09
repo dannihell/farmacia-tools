@@ -38,6 +38,7 @@ def query_zoho(token, sql):
             headers=headers)
         d = r.json()
         status = d.get("data", {}).get("jobStatus", "")
+        print(f"  Poll response: {str(d)[:200]}")
         print(f"  Job status: {status}")
         if status == "JOB COMPLETED":
             break
