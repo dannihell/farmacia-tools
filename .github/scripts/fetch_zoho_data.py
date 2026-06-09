@@ -1,4 +1,4 @@
-import requests, json, os
+import requests, json, os, urllib.parse
 from datetime import datetime
 
 REFRESH_TOKEN = os.environ["ZOHO_REFRESH_TOKEN"]
@@ -6,6 +6,7 @@ CLIENT_ID = os.environ["ZOHO_CLIENT_ID"]
 CLIENT_SECRET = os.environ["ZOHO_CLIENT_SECRET"]
 WORKSPACE_ID = "1135564000002838003"
 API_BASE = "https://analyticsapi.zoho.com/restapi/v2"
+ORG_ID = "67632106"
 
 def get_access_token():
     r = requests.post("https://accounts.zoho.com/oauth/v2/token", data={
@@ -18,11 +19,12 @@ def get_access_token():
     return d["access_token"]
 
 def query_zoho(token, sql):
-    r = requests.post(
-        f"{API_BASE}/workspaces/{WORKSPACE_ID}/data",
-        data={"sqlQuery": sql, "responseFormat": "json"},
+    config = {"sqlQuery": sql, "responseFormat": "json"}
+    r = requests.get(
+        f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
+        params={"CONFIG": json.dumps(config)},
         headers={"Authorization": f"Zoho-oauthtoken {token}",
-                 "ZANALYTICS-ORGID": "67632106"})
+                 "ZANALYTICS-ORGID": ORG_ID})
     print(f"Status: {r.status_code}, Length: {len(r.text)}")
     print(f"Body[:300]: {r.text[:300]}")
     d = r.json()
@@ -33,10 +35,10 @@ def query_zoho(token, sql):
 def main():
     print(datetime.now().strftime("%Y-%m-%d %H:%M"))
     token = get_access_token()
-    print("📊 Query com endpoint correcto...")
+    print("📊 Bulk query com CONFIG...")
     sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, STK_FARMACIA FROM AROEIRA_BRAND_ANALYSIS LIMIT 10"
     data = query_zoho(token, sql)
-    print(f"✓ {data}")
+    print(f"✓ {str(data)[:200]}")
     os.makedirs("data", exist_ok=True)
     with open("data/aroeira_brand.json", "w") as f:
         json.dump({"updated_at": datetime.now().isoformat(), "data": data}, f)
