@@ -11,34 +11,38 @@ ORG_ID = "67632106"
 API_BASE = "https://analyticsapi.zoho.com/restapi/v2"
 
 def get_access_token():
-    response = requests.post(
-        "https://accounts.zoho.com/oauth/v2/token",
-        data={"refresh_token": REFRESH_TOKEN, "client_id": CLIENT_ID,
-              "client_secret": CLIENT_SECRET, "grant_type": "refresh_token"})
-    data = response.json()
-    if "access_token" not in data:
-        raise Exception(f"Erro ao obter token: {data}")
-    print(f"✓ Access token obtido")
-    return data["access_token"]
+    r = requests.post("https://accounts.zoho.com/oauth/v2/token", data={
+        "refresh_token": REFRESH_TOKEN, "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET, "grant_type": "refresh_token"})
+    d = r.json()
+    if "access_token" not in d:
+        raise Exception(f"Token error: {d}")
+    print("✓ Access token obtido")
+    return d["access_token"]
 
 def query_zoho(token, sql):
     config = {"sqlQuery": sql, "responseFormat": "json"}
-    response = requests.get(
-        f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
+    r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
         params={"CONFIG": json.dumps(config)},
         headers={"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": ORG_ID})
-    data = response.json()
-    if data.get("status") != "success":
-        raise Exception(f"Erro na query: {data}")
-    return data["data"]
+    d = r.json()
+    if d.get("status") != "success":
+        raise Exception(f"Query error: {d}")
+    return d["data"]
 
-def fetch_brand_analysis(token):
-    sql = """SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, SUM(QT) AS TOTAL_QT, SUM(CASE WHEN MES = EXTRACT(MONTH FROM CURRENT_DATE) AND ANO = EXTRACT(YEAR FROM CURRENT_DATE) THEN QT ELSE 0 END) AS V0, SUM(CASE WHEN (ANO * 12 + MES) = (EXTRACT(YEAR FROM CURRENT_DATE) * 12 + EXTRACT(MONTH FROM CURRENT_DATE) - 1) THEN QT ELSE 0 END) AS V1, SUM(CASE WHEN (ANO * 12 + MES) = (EXTRACT(YEAR FROM CURRENT_DATE) * 12 + EXTRACT(MONTH FROM CURRENT_DATE) - 2) THEN QT ELSE 0 END) AS V2, SUM(CASE WHEN (ANO * 12 + MES) = (EXTRACT(YEAR FROM CURRENT_DATE) * 12 + EXTRACT(MONTH FROM CURRENT_DATE) - 3) THEN QT ELSE 0 END) AS V3, SUM(CASE WHEN (ANO * 12 + MES) = (EXTRACT(YEAR FROM CURRENT_DATE) * 12 + EXTRACT(MONTH FROM CURRENT_DATE) - 4) THEN QT ELSE 0 END) AS V4, SUM(CASE WHEN (ANO * 12 + MES) = (EXTRACT(YEAR FROM CURRENT_DATE) * 12 + EXTRACT(MONTH FROM CURRENT_DATE) - 5) THEN QT ELSE 0 END) AS V5, SUM(CASE WHEN (ANO * 12 + MES) = (EXTRACT(YEAR FROM CURRENT_DATE) * 12 + EXTRACT(MONTH FROM CURRENT_DATE) - 6) THEN QT ELSE 0 END) AS V6, SUM(CASE WHEN ANO = EXTRACT(YEAR FROM CURRENT_DATE) THEN VALOR_VENDA ELSE 0 END) AS VENDAS_YTD, SUM(CASE WHEN ANO = EXTRACT(YEAR FROM CURRENT_DATE) THEN MARGEM_EUROS ELSE 0 END) AS MARGEM_YTD, SUM(VALOR_QUEBRA) AS VALOR_QUEBRAS FROM AROEIRA_BRAND_ANALYSIS GROUP BY COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO ORDER BY SUM(QT) DESC"""
-    return query_zoho(token, sql)
-
-def fetch_laboratorios(token):
-    sql = "SELECT DISTINCT ENT_RESP_COMERC, MARCA FROM AROEIRA_BRAND_ANALYSIS WHERE ENT_RESP_COMERC IS NOT NULL ORDER BY ENT_RESP_COMERC"
-    return query_zoho(token, sql)
+def build_brand_sql():
+    now = datetime.now()
+    year, month = now.year, now.month
+    months = []
+    for i in range(7):
+        m = month - i
+        y = year
+        while m <= 0:
+            m += 12
+            y -= 1
+        months.append((y, m))
+    cases = ", ".join([f"SUM(CASE WHEN ANO = {y} AND MES = {m} THEN QT ELSE 0 END) AS V{i}" for i, (y, m) in enumerate(months)])
+    return f"""SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, SUM(QT) AS TOTAL_QT, {cases}, SUM(CASE WHEN ANO = {year} THEN VALOR_VENDA ELSE 0 END) AS VENDAS_YTD, SUM(CASE WHEN ANO = {year} THEN MARGEM_EUROS ELSE 0 END) AS MARGEM_YTD, SUM(VALOR_QUEBRA) AS VALOR_QUEBRAS FROM AROEIRA_BRAND_ANALYSIS GROUP BY COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO ORDER BY SUM(QT) DESC"""
 
 def main():
     print(f"🚀 {datetime.now().strftime('%Y-%m-%d %H:%M')}")
@@ -46,15 +50,15 @@ def main():
     os.makedirs("data", exist_ok=True)
 
     print("📊 A carregar AROEIRA_BRAND_ANALYSIS...")
-    brand_data = fetch_brand_analysis(token)
-    columns = brand_data["columns"]
-    produtos = [dict(zip([c.strip() for c in columns], row)) for row in brand_data["rows"]]
+    brand_data = query_zoho(token, build_brand_sql())
+    columns = [c.strip() for c in brand_data["columns"]]
+    produtos = [dict(zip(columns, row)) for row in brand_data["rows"]]
     print(f"✓ {len(produtos)} produtos carregados")
 
     print("🏭 A carregar laboratórios...")
-    lab_data = fetch_laboratorios(token)
-    lab_columns = lab_data["columns"]
-    laboratorios = [dict(zip([c.strip() for c in lab_columns], row)) for row in lab_data["rows"]]
+    lab_data = query_zoho(token, "SELECT DISTINCT ENT_RESP_COMERC, MARCA FROM AROEIRA_BRAND_ANALYSIS WHERE ENT_RESP_COMERC IS NOT NULL ORDER BY ENT_RESP_COMERC")
+    lab_columns = [c.strip() for c in lab_data["columns"]]
+    laboratorios = [dict(zip(lab_columns, row)) for row in lab_data["rows"]]
     print(f"✓ {len(laboratorios)} laboratórios carregados")
 
     output = {"updated_at": datetime.now().isoformat(), "produtos": produtos,
