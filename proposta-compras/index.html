@@ -82,9 +82,6 @@
     color: var(--cinza-escuro);
     display: flex;
     gap: 20px;
-    position: sticky;
-    top: 51px;
-    z-index: 19;
   }
   .badge {
     display: inline-flex;
@@ -486,7 +483,8 @@ function renderTabela() {
   document.getElementById('cnt-comprar').textContent = `● ${cntC} COMPRAR`;
   document.getElementById('cnt-total').textContent = `${rows.length} produtos mostrados`;
   document.getElementById('status-bar').style.display = 'flex';
-  setTimeout(updateStickyOffset, 0);
+  setTimeout(updateStickyOffset, 50);
+  setTimeout(updateStickyOffset, 200);
 
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
@@ -595,19 +593,16 @@ document.getElementById('pesquisa-cnp').addEventListener('input', () => {
 function updateStickyOffset() {
   const headerH = document.querySelector('header')?.offsetHeight || 0;
   const toolbarH = document.querySelector('.toolbar')?.offsetHeight || 0;
-  const statusH = document.getElementById('status-bar')?.offsetHeight || 0;
-  const theadTop = headerH + toolbarH;
-  document.querySelector('.toolbar').style.top = headerH + 'px';
-  document.getElementById('status-bar').style.top = (headerH + toolbarH) + 'px';
-  document.querySelectorAll('thead th').forEach(th => th.style.top = (headerH + toolbarH + statusH) + 'px');
+  const statusBar = document.getElementById('status-bar');
+  const statusH = (statusBar && statusBar.style.display !== 'none') ? statusBar.offsetHeight : 0;
+  const top = headerH + toolbarH + statusH;
+  document.querySelectorAll('thead th').forEach(th => th.style.top = top + 'px');
 }
 
-// Observar mudanças de altura na toolbar (wrap)
-const ro = new ResizeObserver(updateStickyOffset);
+const ro = new ResizeObserver(() => setTimeout(updateStickyOffset, 0));
 ro.observe(document.querySelector('header'));
 ro.observe(document.querySelector('.toolbar'));
 window.addEventListener('resize', updateStickyOffset);
-setTimeout(updateStickyOffset, 100);
 
 init();
 </script>
