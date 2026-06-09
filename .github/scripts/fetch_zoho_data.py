@@ -31,14 +31,14 @@ def query_zoho(token, sql):
     job_id = d["data"]["jobId"]
     print(f"  Job criado: {job_id}")
 
-    # 2. Aguardar conclusão - endpoint correcto
-    for attempt in range(30):
-        time.sleep(3)
-        r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
-            params={"CONFIG": json.dumps({"jobId": job_id})}, headers=headers)
+    # 2. Polling status - endpoint correcto
+    for attempt in range(20):
+        time.sleep(5)
+        r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}",
+            headers=headers)
         d = r.json()
-        print(f"  Poll {attempt+1}: {str(d)[:150]}")
-        status = d.get("data", {}).get("jobStatus", "") if isinstance(d.get("data"), dict) else ""
+        status = d.get("data", {}).get("jobStatus", "UNKNOWN")
+        print(f"  Poll {attempt+1}: {status}")
         if status == "JOB COMPLETED":
             break
         if status in ("JOB FAILED", "JOB CANCELLED"):
@@ -47,19 +47,31 @@ def query_zoho(token, sql):
         raise Exception("Timeout aguardando job")
 
     # 3. Download resultado
-    r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
-        params={"CONFIG": json.dumps({"jobId": job_id, "action": "download"})}, headers=headers)
-    print(f"Download response: {str(r.json())[:300]}")
+    r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}/data",
+        headers=headers)
     return r.json()
 
 def main():
     print(f"🚀 {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     token = get_access_token()
     os.makedirs("data", exist_ok=True)
+
     print("📊 A carregar AROEIRA_BRAND_ANALYSIS...")
-    sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, STK_FARMACIA FROM AROEIRA_BRAND_ANALYSIS LIMIT 10"
+    sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, QT, ANO, MES, VALOR_VENDA, MARGEM_EUROS, VALOR_QUEBRA FROM AROEIRA_BRAND_ANALYSIS"
     result = query_zoho(token, sql)
-    print(f"✅ Done: {str(result)[:200]}")
+
+    if isinstance(result, dict):
+        rows = result.get("data", result)
+    else:
+        rows = result
+
+    print(f"✓ {len(rows) if isinstance(rows, list) else 'N/A'} linhas")
+    print(f"Preview: {str(result)[:300]}")
+
+    with open("data/aroeira_brand.json", "w", encoding="utf-8") as f:
+        json.dump({"updated_at": datetime.now().isoformat(), "result": result}, f, ensure_ascii=False, indent=2)
+
+    print("✅ Guardado!")
 
 if __name__ == "__main__":
     main()
