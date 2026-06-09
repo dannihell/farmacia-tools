@@ -19,8 +19,8 @@ def get_access_token():
 
 def query_zoho(token, sql):
     r = requests.post(
-        f"{API_BASE}/workspaces/{WORKSPACE_ID}/views/data",
-        params={"sqlQuery": sql},
+        f"{API_BASE}/workspaces/{WORKSPACE_ID}/views/AROEIRA_BRAND_ANALYSIS/data",
+        data={"sqlQuery": sql, "responseFormat": "json"},
         headers={"Authorization": f"Zoho-oauthtoken {token}",
                  "ZANALYTICS-ORGID": "20085290558"})
     print(f"Status: {r.status_code}, Length: {len(r.text)}")
@@ -33,7 +33,7 @@ def query_zoho(token, sql):
 def main():
     print(datetime.now().strftime("%Y-%m-%d %H:%M"))
     token = get_access_token()
-    print("📊 Query sem aspas...")
+    print("📊 Query com endpoint correcto...")
     sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, STK_FARMACIA FROM AROEIRA_BRAND_ANALYSIS LIMIT 10"
     data = query_zoho(token, sql)
     print(f"✓ {data}")
