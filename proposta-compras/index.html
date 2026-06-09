@@ -1,580 +1,445 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proposta de Encomenda — Farmácias Connect</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F0; color: #1A1A18; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta de Compra — Farmácia Aroeira</title>
+<style>
+  :root {
+    --verde: #0F6E56;
+    --verde-claro: #1D9E75;
+    --fundo: #F8F8F6;
+    --cinza: #D3D1C7;
+    --cinza-escuro: #6B6B63;
+    --texto: #1A1A18;
+    --rutura: #A32D2D;
+    --urgente: #C4621A;
+    --comprar: #1D9E75;
+    --ok: #6B6B63;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--fundo); color: var(--texto); font-size: 14px; }
 
-    /* Header */
-    header { background: #fff; border-bottom: 1px solid #E8E8E4; padding: 12px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
-    .back-btn { background: none; border: none; cursor: pointer; color: #6B6B65; font-size: 20px; padding: 0; line-height: 1; }
-    .logo { display: flex; align-items: center; gap: 8px; }
-    .logo-icon { width: 28px; height: 28px; background: #0B5E47; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 14px; }
-    .logo-text { font-size: 13px; font-weight: 800; color: #2C2C2A; }
-    .header-actions { margin-left: auto; display: flex; gap: 8px; }
-    .btn { padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; border: none; transition: all 0.2s; }
-    .btn-outline { background: #fff; border: 1.5px solid #E8E8E4; color: #6B6B65; }
-    .btn-outline:hover { border-color: #0B5E47; color: #0B5E47; }
-    .btn-primary { background: #0B5E47; color: #fff; }
-    .btn-primary:hover { background: #16A57A; }
-    .btn-secondary { background: #fff; color: #0B5E47; border: 2px solid #0B5E47; }
+  header {
+    background: var(--verde);
+    color: white;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.3px; }
+  header .meta { font-size: 11px; opacity: 0.7; margin-top: 2px; }
 
-    /* Layout */
-    .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  .toolbar {
+    background: white;
+    border-bottom: 1px solid var(--cinza);
+    padding: 12px 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .toolbar label { font-size: 12px; color: var(--cinza-escuro); font-weight: 500; }
+  select, input[type=number] {
+    border: 1px solid var(--cinza);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    background: white;
+    color: var(--texto);
+    outline: none;
+  }
+  select:focus, input:focus { border-color: var(--verde); }
+  select { min-width: 280px; }
+  input[type=number] { width: 70px; }
+  .toolbar-group { display: flex; align-items: center; gap: 6px; }
 
-    /* Selecao */
-    .section { background: #fff; border-radius: 14px; padding: 22px; border: 1.5px solid #E8E8E4; margin-bottom: 14px; }
-    .section-title { font-size: 10px; font-weight: 700; color: #0B5E47; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip { padding: 8px 14px; border-radius: 8px; border: 2px solid #E8E8E4; background: #fff; color: #6B6B65; font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
-    .chip.active { border-color: #0B5E47; background: #E8F5F0; color: #0B5E47; font-weight: 700; }
-    .chip:hover:not(.active) { border-color: #ccc; }
-    .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .meses-chips { display: flex; gap: 8px; }
-    .mes-chip { width: 48px; height: 48px; border-radius: 10px; border: 2px solid #E8E8E4; background: #fff; color: #1A1A18; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-    .mes-chip.active { border-color: #0B5E47; background: #0B5E47; color: #fff; }
-    .generate-btn { width: 100%; padding: 15px; border-radius: 12px; background: #0B5E47; color: #fff; border: none; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s; margin-top: 8px; }
-    .generate-btn:hover { background: #16A57A; }
-    .generate-btn:disabled { background: #D0D0CA; cursor: not-allowed; }
+  .btn {
+    padding: 7px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--verde); color: white; }
+  .btn-secondary { background: var(--cinza); color: var(--texto); }
 
-    /* KPIs */
-    .kpis { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-    .kpi { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1.5px solid #E8E8E4; flex: 1; min-width: 120px; }
-    .kpi-label { font-size: 9px; font-weight: 700; color: #6B6B65; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
-    .kpi-value { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
-    .kpi-sub { font-size: 10px; color: #6B6B65; margin-top: 2px; }
+  .status-bar {
+    padding: 8px 24px;
+    background: #f0f0ee;
+    border-bottom: 1px solid var(--cinza);
+    font-size: 12px;
+    color: var(--cinza-escuro);
+    display: flex;
+    gap: 20px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+  .badge-rutura { color: var(--rutura); }
+  .badge-urgente { color: var(--urgente); }
+  .badge-comprar { color: var(--comprar); }
 
-    /* Header proposta */
-    .proposta-header { background: #0B5E47; border-radius: 14px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .proposta-header .lab { font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
-    .proposta-header .marca { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
-    .proposta-header .sub { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; }
-    .proposta-header .meta { text-align: right; font-size: 11px; color: rgba(255,255,255,0.6); }
+  .container { padding: 0; overflow-x: auto; }
 
-    /* Tabela */
-    .tabela-wrap { background: #fff; border-radius: 14px; overflow: hidden; border: 1.5px solid #E8E8E4; margin-bottom: 14px; }
-    .tabela-header { display: grid; grid-template-columns: 24px 1fr 50px 180px 55px 70px 55px 70px; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #F0F0EC; align-items: center; }
-    .tabela-header span { font-size: 9px; font-weight: 700; color: #6B6B65; text-transform: uppercase; letter-spacing: 0.07em; }
-    .tabela-row { display: grid; grid-template-columns: 24px 1fr 50px 180px 55px 70px 55px 70px; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #F5F5F2; align-items: center; cursor: pointer; transition: background 0.1s; }
-    .tabela-row:last-child { border-bottom: none; }
-    .tabela-row:hover { background: #FAFAF8; }
-    .tabela-row.selected { background: #E8F5F0; }
-    .tabela-row.rutura { background: #FFF8F8; }
-    .checkbox { width: 16px; height: 16px; border-radius: 4px; border: 2px solid #D0D0CA; background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; color: #fff; transition: all 0.15s; }
-    .checkbox.checked { border-color: #0B5E47; background: #0B5E47; }
-    .prod-nome { font-size: 11px; font-weight: 600; color: #1A1A18; line-height: 1.3; }
-    .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em; margin-top: 3px; }
-    .stk-val { font-size: 13px; font-weight: 700; text-align: center; }
-    .bars { display: flex; gap: 2px; align-items: flex-end; }
-    .bar-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
-    .bar { width: 100%; border-radius: 2px; min-height: 4px; transition: height 0.3s; }
-    .bar-num { font-size: 8px; font-weight: 700; color: #6B6B65; margin-top: 2px; }
-    .media-val { font-size: 11px; font-weight: 600; color: #6B6B65; text-align: center; }
-    .qty-badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 800; }
-    .mg-val { font-size: 11px; font-weight: 700; text-align: center; }
-    .valor-val { font-size: 12px; font-weight: 600; text-align: right; }
-    .tabela-total { display: grid; grid-template-columns: 24px 1fr 50px 180px 55px 70px 55px 70px; gap: 6px; padding: 12px 14px; background: #2C2C2A; align-items: center; }
-    .tabela-total span { font-size: 11px; font-weight: 700; color: #fff; }
-    .tabela-total .total-label { color: rgba(255,255,255,0.7); font-size: 10px; }
-    .tabela-total .total-val { color: #16A57A; font-size: 14px; font-weight: 800; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--verde);
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    position: sticky;
+    top: 51px;
+  }
+  thead th.num { text-align: right; }
+  tbody tr { border-bottom: 1px solid #eeecea; }
+  tbody tr:hover { background: #f5f5f3; }
+  td { padding: 7px 10px; vertical-align: middle; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.produto { max-width: 280px; }
+  td.produto .nome { font-weight: 500; line-height: 1.3; }
+  td.produto .cod { font-size: 11px; color: var(--cinza-escuro); margin-top: 1px; }
 
-    /* Condicoes */
-    .cond-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-    .field label { display: block; font-size: 9px; font-weight: 700; color: #6B6B65; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
-    .field input, .field select, .field textarea { width: 100%; padding: 8px 10px; border-radius: 7px; border: 1.5px solid #E8E8E4; font-size: 13px; font-family: inherit; outline: none; color: #1A1A18; transition: border-color 0.15s; }
-    .field input:focus, .field select:focus, .field textarea:focus { border-color: #0B5E47; }
-    .notas-field { grid-column: 1 / -1; }
-    .notas-field textarea { min-height: 60px; resize: vertical; }
+  .prioridade {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .p-rutura { background: #fde8e8; color: var(--rutura); }
+  .p-urgente { background: #fdf0e8; color: var(--urgente); }
+  .p-comprar { background: #e8f7f1; color: var(--comprar); }
+  .p-ok { background: #f0f0ee; color: var(--ok); }
 
-    /* Loading */
-    .loading { text-align: center; padding: 60px; }
-    .spinner { width: 36px; height: 36px; border: 3px solid #E8E8E4; border-top-color: #0B5E47; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading p { color: #6B6B65; font-size: 14px; }
+  .vendas-bar { display: flex; gap: 2px; align-items: flex-end; height: 24px; }
+  .bar { background: var(--verde-claro); border-radius: 2px 2px 0 0; width: 8px; min-height: 2px; opacity: 0.7; }
+  .bar.current { opacity: 1; background: var(--verde); }
 
-    /* Auth required */
-    .auth-required { text-align: center; padding: 60px 24px; }
-    .auth-required .icon { font-size: 48px; margin-bottom: 16px; }
-    .auth-required h2 { font-size: 20px; font-weight: 800; color: #2C2C2A; margin-bottom: 8px; }
-    .auth-required p { color: #6B6B65; font-size: 14px; margin-bottom: 24px; }
+  input.qt-input {
+    width: 55px;
+    text-align: right;
+    padding: 4px 6px;
+    border: 1px solid var(--cinza);
+    border-radius: 4px;
+    font-size: 13px;
+    background: white;
+  }
+  input.qt-input:focus { border-color: var(--verde); outline: none; }
+  input.qt-input.modified { border-color: var(--verde); background: #e8f7f1; }
 
-    /* Erro */
-    .error-box { background: #FFF0F0; border: 1.5px solid #F5C6C6; border-radius: 10px; padding: 16px; color: #8B1A1A; font-size: 13px; margin-bottom: 14px; }
+  .margem-pct { font-weight: 600; }
+  .margem-ok { color: var(--comprar); }
+  .margem-low { color: var(--urgente); }
 
-    @media print {
-      header, .header-actions, .generate-btn, .export-btns, .auth-notice { display: none !important; }
-      body { background: #fff; }
-      .container { padding: 0; }
-    }
-  </style>
+  .empty { text-align: center; padding: 60px; color: var(--cinza-escuro); }
+  .loading { text-align: center; padding: 60px; color: var(--cinza-escuro); }
+
+  .footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 2px solid var(--verde);
+    padding: 10px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .footer-total { font-weight: 600; color: var(--verde); }
+  .footer-info { color: var(--cinza-escuro); font-size: 12px; }
+  .footer-actions { margin-left: auto; display: flex; gap: 8px; }
+
+  .tag-updated { font-size: 11px; color: var(--cinza-escuro); }
+</style>
 </head>
 <body>
 
 <header>
-  <button class="back-btn" onclick="window.location.href='../index.html'">←</button>
-  <div class="logo">
-    <div class="logo-icon">F</div>
-    <div class="logo-text">Proposta de Encomenda</div>
+  <div>
+    <h1>Proposta de Compra</h1>
+    <div class="meta">Farmácia Aroeira · dados actualizados diariamente às 22h</div>
   </div>
-  <div class="header-actions" id="header-actions"></div>
+  <span class="tag-updated" id="updated-tag">A carregar...</span>
 </header>
 
-<div class="container">
-  <div id="app"></div>
+<div class="toolbar">
+  <div class="toolbar-group">
+    <label>Laboratório</label>
+    <select id="lab-select">
+      <option value="">Seleccionar laboratório...</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Cobertura</label>
+    <input type="number" id="cobertura" value="4" min="1" max="12"> meses
+  </div>
+  <div class="toolbar-group">
+    <label>Mostrar</label>
+    <select id="filtro-prioridade">
+      <option value="todos">Todos</option>
+      <option value="rutura">Só Rutura</option>
+      <option value="urgente_comprar">Urgente + Comprar</option>
+      <option value="com_proposta">Com proposta > 0</option>
+    </select>
+  </div>
+  <button class="btn btn-primary" onclick="aplicar()">Gerar proposta</button>
 </div>
 
-<script src="../shared/zoho-auth.js"></script>
+<div class="status-bar" id="status-bar" style="display:none">
+  <span class="badge badge-rutura" id="cnt-rutura">● 0 RUTURA</span>
+  <span class="badge badge-urgente" id="cnt-urgente">● 0 URGENTE</span>
+  <span class="badge badge-comprar" id="cnt-comprar">● 0 COMPRAR</span>
+  <span style="margin-left:auto" id="cnt-total">0 produtos</span>
+</div>
+
+<div class="container">
+  <div class="loading" id="loading">A carregar dados...</div>
+  <table id="tabela" style="display:none">
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Prioridade</th>
+        <th class="num">Stock</th>
+        <th class="num">Dias</th>
+        <th class="num">Méd 6m</th>
+        <th>Vendas (V0-V5)</th>
+        <th class="num">Margem</th>
+        <th class="num">Proposta</th>
+        <th class="num">Editar</th>
+        <th class="num">PVP</th>
+        <th class="num">Total €</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none">Seleccione um laboratório e clique em Gerar proposta.</div>
+</div>
+
+<div class="footer-bar" id="footer" style="display:none">
+  <span class="footer-info" id="footer-refs">0 referências</span>
+  <span class="footer-total" id="footer-total">Total: 0,00 €</span>
+  <div class="footer-actions">
+    <button class="btn btn-secondary" onclick="exportarCSV()">Exportar CSV</button>
+    <button class="btn btn-primary" onclick="copiarResumo()">Copiar resumo</button>
+  </div>
+</div>
+
 <script>
-// ─── STATE ────────────────────────────────────────────────────────────────────
-const state = {
-  fase: "selecao", // selecao | loading | proposta
-  farmacia: "Aroeira",
-  laboratorio: "",
-  marca: "",
-  meses: 4,
-  produtos: [],
-  selecionados: new Set(),
-  error: null,
-};
+const DATA_URL = 'https://dannihell.github.io/farmacia-tools/data/aroeira_brand.json';
+let allData = null;
+let propostaActual = [];
 
-const LABORATORIOS = [
-  "Haleon Portugal",
-  "Bayer Portugal, Lda.",
-  "Angelini Pharma Portugal, Unipessoal, Lda.",
-  "Biocodex",
-  "Nestlé Portugal, Unipessoal, Lda.",
-  "Perrigo Portugal, Lda.",
-  "Jaba Recordati, S.A",
-  "Arkopharma Laboratórios, S.A",
-  "Cooper Consumer Health B.V.",
-  "Isdin - Laboratório Farmacêutico, Unipessoal, Lda.",
-  "Tecnimede - Sociedade Técnico-Medicinal S.A.",
-  "Pierre Fabre Dermo-Cosmétique Portugal Lda.",
-  "Pierre Fabre Médicament Portugal Lda.",
-];
-
-const MARCAS_POR_LAB = {
-  "Pierre Fabre Dermo-Cosmétique Portugal Lda.": ["Ducray", "Avène", "Klorane", "René Furterer", "A-Derma"],
-  "Isdin - Laboratório Farmacêutico, Unipessoal, Lda.": ["Bexident", "Isdin"],
-  "Haleon Portugal": ["Voltaren", "Sensodyne", "Panadol", "Nicorette"],
-  "Bayer Portugal, Lda.": ["Bepanthen", "Canesten", "Aspirina"],
-};
-
-// ─── CÁLCULOS ─────────────────────────────────────────────────────────────────
-function calcularProduto(p) {
-  const vendas = [p.V1||0, p.V2||0, p.V3||0, p.V4||0, p.V5||0, p.V6||0];
-  const totalVendas = vendas.reduce((a,b)=>a+b, 0);
-  const media = totalVendas / 6;
-  const stk = parseFloat(p.STK_FARMACIA) || 0;
-  const pcus = parseFloat(p.PCUSMED_PROD) || 0;
-  const qtySugerida = Math.max(0, Math.ceil(media * state.meses - stk));
-  const valorEncomenda = qtySugerida * pcus;
-  const cobertura = media > 0 ? stk / media : 999;
-  const margemPct = p.MARGEM_YTD && p.VENDAS_YTD ? (parseFloat(p.MARGEM_YTD) / parseFloat(p.VENDAS_YTD)) * 100 : 35;
-
-  let prioridade = "OK";
-  let prioCor = "#16A57A";
-  let prioBg = "#16A57A18";
-  if (stk === 0 && media > 0) { prioridade = "RUTURA"; prioCor = "#8B1A1A"; prioBg = "#8B1A1A18"; }
-  else if (cobertura < 15) { prioridade = "URGENTE"; prioCor = "#C0392B"; prioBg = "#C0392B18"; }
-  else if (cobertura < 30) { prioridade = "COMPRAR"; prioCor = "#D4820A"; prioBg = "#D4820A18"; }
-
-  return { ...p, vendas, totalVendas, media, stk, pcus, qtySugerida, valorEncomenda, cobertura, margemPct, prioridade, prioCor, prioBg };
-}
-
-// ─── QUERIES ZOHO ─────────────────────────────────────────────────────────────
-async function carregarProdutos() {
-  state.fase = "loading";
-  state.error = null;
-  render();
-
+async function init() {
   try {
-    let whereClause = "";
-    if (state.marca) {
-      whereClause = `WHERE UPPER("DESIGNACAO") LIKE UPPER('%${state.marca}%')`;
-    } else if (state.laboratorio) {
-      whereClause = `WHERE "ENT_RESP_COMERC" = '${state.laboratorio}'`;
-    }
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    allData = await r.json();
+    const upd = new Date(allData.updated_at);
+    document.getElementById('updated-tag').textContent =
+      'Actualizado: ' + upd.toLocaleDateString('pt-PT') + ' ' + upd.toLocaleTimeString('pt-PT', {hour:'2-digit',minute:'2-digit'});
 
-    const sql = `
-      SELECT 
-        "CODIGO", "DESIGNACAO", "ENT_RESP_COMERC", "MARCA",
-        "STK_FARMACIA", "PCUSMED_PROD", "DUV",
-        "CATEGORIA_DESIGNACAO", "MERCADO_DESIGNACAO",
-        "V1", "V2", "V3", "V4", "V5", "V6",
-        "VENDAS_YTD", "MARGEM_YTD", "VALOR_QUEBRAS"
-      FROM "AROEIRA_PRODUCT_ANALYSIS"
-      ${whereClause}
-      ORDER BY ("V1"+"V2"+"V3"+"V4"+"V5"+"V6") DESC
-      LIMIT 100
-    `;
-
-    // Se não tiver AROEIRA_PRODUCT_ANALYSIS ainda, usa AROEIRA_BRAND_ANALYSIS
-    const sqlAlt = `
-      SELECT 
-        "COD_PRD" AS "CODIGO",
-        "DESIGNACAO", "ENT_RESP_COMERC", "MARCA",
-        "STK_FARMACIA", "PCUSMED_PROD", "DUV",
-        "CATEGORIA_DESIGNACAO", "MERCADO_DESIGNACAO",
-        SUM("QT") AS "TOTAL_QT",
-        SUM("VALOR_VENDA") AS "VENDAS_YTD",
-        SUM("MARGEM_EUROS") AS "MARGEM_YTD"
-      FROM "AROEIRA_BRAND_ANALYSIS"
-      WHERE "MARCA" = '${state.marca || "Ducray"}'
-      GROUP BY "COD_PRD", "DESIGNACAO", "ENT_RESP_COMERC", "MARCA",
-               "STK_FARMACIA", "PCUSMED_PROD", "DUV",
-               "CATEGORIA_DESIGNACAO", "MERCADO_DESIGNACAO"
-      ORDER BY SUM("QT") DESC
-    `;
-
-    let data;
-    try {
-      data = await queryZoho(sql);
-    } catch(e) {
-      // Fallback para AROEIRA_BRAND_ANALYSIS
-      data = await queryZoho(sqlAlt);
-    }
-
-    const rows = data.rows || [];
-    const cols = data.columns || [];
-
-    // Mapear para objeto
-    const produtos = rows.map(row => {
-      const obj = {};
-      cols.forEach((col, i) => { obj[col] = row[i]; });
-      return calcularProduto(obj);
+    // Preencher laboratórios
+    const labs = allData.laboratorios || [];
+    const labMap = {};
+    labs.forEach(l => {
+      const ent = l.ENT_RESP_COMERC || l['ENT_RESP_COMERC'];
+      if (ent && !labMap[ent]) labMap[ent] = true;
     });
-
-    // Ordenar: ruturas primeiro, depois urgentes, depois por vendas
-    produtos.sort((a,b) => {
-      const prio = { RUTURA: 0, URGENTE: 1, COMPRAR: 2, OK: 3 };
-      if (prio[a.prioridade] !== prio[b.prioridade]) return prio[a.prioridade] - prio[b.prioridade];
-      return b.totalVendas - a.totalVendas;
+    // Se não houver laboratorios separados, extrair dos produtos
+    if (labs.length === 0) {
+      (allData.produtos || []).forEach(p => {
+        const ent = p.ENT_RESP_COMERC;
+        if (ent) labMap[ent] = true;
+      });
+    }
+    const sel = document.getElementById('lab-select');
+    Object.keys(labMap).sort().forEach(lab => {
+      const opt = document.createElement('option');
+      opt.value = lab;
+      opt.textContent = lab;
+      sel.appendChild(opt);
     });
-
-    state.produtos = produtos;
-    state.selecionados = new Set(produtos.filter(p => p.qtySugerida > 0).map(p => p.CODIGO));
-    state.fase = "proposta";
-    render();
-
-  } catch(err) {
-    state.error = err.message;
-    state.fase = "selecao";
-    render();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('empty').style.display = 'block';
+  } catch(e) {
+    document.getElementById('loading').textContent = 'Erro a carregar dados: ' + e.message;
   }
 }
 
-// ─── TOTAIS ───────────────────────────────────────────────────────────────────
-function getTotais() {
-  const selecionados = state.produtos.filter(p => state.selecionados.has(p.CODIGO));
-  return {
-    un: selecionados.reduce((a,p) => a + p.qtySugerida, 0),
-    valor: selecionados.reduce((a,p) => a + p.valorEncomenda, 0),
-    count: selecionados.length,
-  };
+function calcPrioridade(stock, media6m) {
+  if (media6m === 0) return 'ok';
+  const dias = (stock / (media6m / 30));
+  if (stock === 0 && media6m > 0) return 'rutura';
+  if (dias < 15) return 'urgente';
+  if (dias < 30) return 'comprar';
+  return 'ok';
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
-function render() {
-  const app = document.getElementById("app");
-  const actions = document.getElementById("header-actions");
-
-  if (!ZohoAuth.isAuthenticated()) {
-    app.innerHTML = renderAuthRequired();
-    actions.innerHTML = `<button class="btn btn-primary" onclick="doLogin()">Ligar ao Zoho</button>`;
-    return;
-  }
-
-  if (state.fase === "loading") {
-    app.innerHTML = renderLoading();
-    actions.innerHTML = "";
-    return;
-  }
-
-  if (state.fase === "selecao") {
-    app.innerHTML = renderSelecao();
-    actions.innerHTML = "";
-    return;
-  }
-
-  if (state.fase === "proposta") {
-    app.innerHTML = renderProposta();
-    actions.innerHTML = `
-      <button class="btn btn-outline" onclick="voltarSelecao()">← Editar</button>
-      <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir</button>
-    `;
-    return;
-  }
+function calcDias(stock, media6m) {
+  if (media6m === 0) return '—';
+  return Math.round(stock / (media6m / 30));
 }
 
-function renderAuthRequired() {
-  return `
-    <div class="auth-required">
-      <div class="icon">🔐</div>
-      <h2>Ligação ao Zoho necessária</h2>
-      <p>Para aceder aos dados em tempo real da farmácia, precisas de fazer login com a tua conta Zoho.</p>
-      <button class="btn btn-primary" style="font-size:14px;padding:12px 24px" onclick="doLogin()">Ligar ao Zoho Analytics</button>
-    </div>
-  `;
-}
+function aplicar() {
+  const lab = document.getElementById('lab-select').value;
+  if (!lab || !allData) return;
+  const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
+  const filtro = document.getElementById('filtro-prioridade').value;
 
-function renderLoading() {
-  return `
-    <div class="loading">
-      <div class="spinner"></div>
-      <p>A carregar dados da ${state.marca || state.laboratorio}...</p>
-    </div>
-  `;
-}
+  const produtos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
 
-function renderSelecao() {
-  const marcas = MARCAS_POR_LAB[state.laboratorio] || [];
-  return `
-    ${state.error ? `<div class="error-box">⚠️ ${state.error}</div>` : ""}
-    
-    <div style="margin-bottom:20px">
-      <h1 style="font-size:20px;font-weight:800;color:#2C2C2A;letter-spacing:-0.02em">Proposta de Encomenda</h1>
-      <p style="font-size:13px;color:#6B6B65;margin-top:4px">Seleciona o laboratório e as condições da análise</p>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Farmácia</div>
-      <div class="chips">
-        ${["Aroeira", "Dias e Brito", "Cidade Univ.", "Grupo"].map(f => `
-          <button class="chip ${state.farmacia === f ? "active" : ""}" onclick="setFarmacia('${f}')">${f}</button>
-        `).join("")}
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Laboratório</div>
-      <div class="lab-grid">
-        ${LABORATORIOS.map(lab => `
-          <button class="chip ${state.laboratorio === lab ? "active" : ""}" onclick="setLab('${lab.replace(/'/g, "\\'")}')">
-            ${lab.split(",")[0].split("-")[0].trim()}
-          </button>
-        `).join("")}
-      </div>
-    </div>
-
-    ${marcas.length > 0 ? `
-      <div class="section">
-        <div class="section-title">Marca (delegado ${state.laboratorio.split(" ")[0]})</div>
-        <div class="chips">
-          ${marcas.map(m => `
-            <button class="chip ${state.marca === m ? "active" : ""}" onclick="setMarca('${m}')">${m}</button>
-          `).join("")}
-        </div>
-      </div>
-    ` : ""}
-
-    <div class="section">
-      <div class="section-title">Meses de cobertura</div>
-      <div class="meses-chips">
-        ${[1,2,3,4,6].map(m => `
-          <button class="mes-chip ${state.meses === m ? "active" : ""}" onclick="setMeses(${m})">${m}</button>
-        `).join("")}
-      </div>
-      <p style="font-size:11px;color:#6B6B65;margin-top:8px">Padrão: 4 meses · Média baseada nos últimos 6 meses</p>
-    </div>
-
-    <button class="generate-btn" onclick="carregarProdutos()" ${!state.laboratorio ? "disabled" : ""}>
-      Gerar Proposta →
-    </button>
-  `;
-}
-
-function renderProposta() {
-  const totais = getTotais();
-  const ruturas = state.produtos.filter(p => p.prioridade === "RUTURA").length;
-  const vendas6 = state.produtos.reduce((a,p) => a + p.totalVendas, 0);
-  const marcaNome = state.marca || state.laboratorio.split(" ")[0];
-  const data = new Date().toLocaleDateString("pt-PT");
-
-  return `
-    <div class="proposta-header">
-      <div>
-        <div class="lab">${state.farmacia} · ${state.meses} meses · ${data}</div>
-        <div class="marca">${marcaNome}</div>
-        <div class="sub">${state.laboratorio}</div>
-      </div>
-      <div class="meta">
-        <div>Dados reais · Zoho Analytics</div>
-        <div style="margin-top:4px">AROEIRA_PRODUCT_ANALYSIS</div>
-      </div>
-    </div>
-
-    <div class="kpis">
-      <div class="kpi">
-        <div class="kpi-label">Produtos</div>
-        <div class="kpi-value" style="color:#2C2C2A">${state.produtos.length}</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Vendas 6M</div>
-        <div class="kpi-value" style="color:#2C2C2A">${vendas6} un</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Ruturas</div>
-        <div class="kpi-value" style="color:${ruturas > 0 ? "#8B1A1A" : "#16A57A"}">${ruturas}</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">A encomendar</div>
-        <div class="kpi-value" style="color:#0B5E47">${totais.count}</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Total encomenda</div>
-        <div class="kpi-value" style="color:#0B5E47">${totais.valor.toFixed(2)}€</div>
-        <div class="kpi-sub">${totais.un} unidades</div>
-      </div>
-    </div>
-
-    <div class="tabela-wrap">
-      <div class="tabela-header">
-        <span></span>
-        <span>Produto</span>
-        <span>Stk</span>
-        <span>V1·V2·V3·V4·V5·V6</span>
-        <span>Média</span>
-        <span>Qty ${state.meses}M</span>
-        <span>Mg%</span>
-        <span>Valor€</span>
-      </div>
-
-      ${state.produtos.map(p => {
-        const sel = state.selecionados.has(p.CODIGO);
-        const maxBar = Math.max(...p.vendas, 1);
-        return `
-          <div class="tabela-row ${sel ? "selected" : ""} ${p.prioridade === "RUTURA" ? "rutura" : ""}" onclick="toggleProd('${p.CODIGO}')">
-            <div class="checkbox ${sel ? "checked" : ""}">${sel ? "✓" : ""}</div>
-            <div>
-              <div class="prod-nome">${p.DESIGNACAO}</div>
-              <span class="badge" style="color:${p.prioCor};background:${p.prioBg}">${p.prioridade}</span>
-            </div>
-            <div class="stk-val" style="color:${p.stk === 0 ? "#8B1A1A" : "#1A1A18"}">${p.stk}</div>
-            <div class="bars">
-              ${p.vendas.map((v,i) => `
-                <div class="bar-item">
-                  <div class="bar" style="height:${Math.max(4, (v/maxBar)*28)}px;background:${v>0?"#0B5E47":"#F0F0EC"}"></div>
-                  <div class="bar-num">${v}</div>
-                </div>
-              `).join("")}
-            </div>
-            <div class="media-val">${parseFloat(p.media).toFixed(1)}</div>
-            <div>
-              <span class="qty-badge" style="background:${p.qtySugerida>0?"#0B5E4718":"#F0F0EC"};color:${p.qtySugerida>0?"#0B5E47":"#6B6B65"}">
-                ${p.qtySugerida > 0 ? `${p.qtySugerida}un` : "—"}
-              </span>
-            </div>
-            <div class="mg-val" style="color:${p.margemPct>=35?"#16A57A":p.margemPct>=25?"#D4820A":"#C0392B"}">${p.margemPct.toFixed(0)}%</div>
-            <div class="valor-val">${p.valorEncomenda > 0 ? p.valorEncomenda.toFixed(2)+"€" : "—"}</div>
-          </div>
-        `;
-      }).join("")}
-
-      <div class="tabela-total">
-        <span></span>
-        <span class="total-label">TOTAL ENCOMENDA</span>
-        <span></span><span></span><span></span>
-        <span class="total-val">${totais.un}un</span>
-        <span></span>
-        <span class="total-val">${totais.valor.toFixed(2)}€</span>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Condições negociadas</div>
-      <div class="cond-grid">
-        <div class="field">
-          <label>Desconto (%)</label>
-          <input type="number" placeholder="0" min="0" max="100" step="0.1">
-        </div>
-        <div class="field">
-          <label>Bónus (unidades)</label>
-          <input type="number" placeholder="0" min="0">
-        </div>
-        <div class="field">
-          <label>Prazo pagamento</label>
-          <select>
-            <option>Pronto pagamento</option>
-            <option>30 dias</option>
-            <option selected>45 dias</option>
-            <option>60 dias</option>
-            <option>90 dias</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Data entrega</label>
-          <input type="text" placeholder="ex: Julho 2026">
-        </div>
-        <div class="field">
-          <label>Vendedor</label>
-          <input type="text" placeholder="Nome do delegado">
-        </div>
-        <div class="field">
-          <label>Email vendedor</label>
-          <input type="email" placeholder="email@laboratorio.com">
-        </div>
-        <div class="field">
-          <label>Góndola / Promotores / Formações</label>
-          <input type="text" placeholder="Detalhar se aplicável">
-        </div>
-        <div class="field">
-          <label>Campanhas / Validades a regularizar</label>
-          <input type="text" placeholder="Detalhar se aplicável">
-        </div>
-        <div class="field notas-field">
-          <label>Notas</label>
-          <textarea placeholder="Observações da reunião com o delegado..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="export-btns" style="display:flex;gap:10px;margin-bottom:24px">
-      <button class="btn btn-primary" style="flex:1;padding:13px" onclick="window.print()">🖨️ Imprimir / PDF</button>
-      <button class="btn btn-secondary" style="flex:1;padding:13px" onclick="exportExcel()">📊 Exportar Excel</button>
-    </div>
-  `;
-}
-
-// ─── ACTIONS ──────────────────────────────────────────────────────────────────
-function setFarmacia(f) { state.farmacia = f; render(); }
-function setLab(lab) { state.laboratorio = lab; state.marca = ""; render(); }
-function setMarca(m) { state.marca = m; render(); }
-function setMeses(m) { state.meses = m; render(); }
-function voltarSelecao() { state.fase = "selecao"; render(); }
-function toggleProd(cod) {
-  if (state.selecionados.has(cod)) state.selecionados.delete(cod);
-  else state.selecionados.add(cod);
-  render();
-}
-function doLogin() {
-  sessionStorage.setItem("zoho_redirect", window.location.href);
-  ZohoAuth.login();
-}
-
-function exportExcel() {
-  const totais = getTotais();
-  const selecionados = state.produtos.filter(p => state.selecionados.has(p.CODIGO));
-  
-  let csv = "Código;Designação;Stock;V1;V2;V3;V4;V5;V6;Média;Qty Sugerida;Preço Custo;Valor Encomenda;Margem%;Prioridade\n";
-  selecionados.forEach(p => {
-    csv += `${p.CODIGO};"${p.DESIGNACAO}";${p.stk};${p.vendas.join(";")};${p.media};${p.qtySugerida};${p.pcus.toFixed(2)};${p.valorEncomenda.toFixed(2)};${p.margemPct.toFixed(1)};${p.prioridade}\n`;
+  propostaActual = produtos.map(p => {
+    const v = [0,1,2,3,4,5].map(i => parseFloat(p[`V${i}`] || 0));
+    const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
+    const stock = parseFloat(p.STK_FARMACIA || 0);
+    const pvp = parseFloat(p.DUV || 0);
+    const pcus = parseFloat(p.PCUSMED_PROD || 0);
+    const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) : 0;
+    const proposta = Math.max(0, Math.round(media6m * cobertura - stock));
+    const prioridade = calcPrioridade(stock, media6m);
+    const dias = calcDias(stock, media6m);
+    return { ...p, v, media6m, stock, pvp, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias };
   });
-  csv += `;;;;;;;;;;${totais.un};;${totais.valor.toFixed(2)};;TOTAL\n`;
 
-  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `proposta_${state.marca || state.laboratorio.split(" ")[0]}_${new Date().toLocaleDateString("pt-PT").replace(/\//g,"-")}.csv`;
+  // Ordenar: rutura > urgente > comprar > ok, depois por media6m desc
+  const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
+  propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
+
+  renderTabela(filtro);
+}
+
+function renderTabela(filtro) {
+  filtro = filtro || document.getElementById('filtro-prioridade').value;
+  let rows = propostaActual;
+  if (filtro === 'rutura') rows = rows.filter(r => r.prioridade === 'rutura');
+  if (filtro === 'urgente_comprar') rows = rows.filter(r => ['rutura','urgente','comprar'].includes(r.prioridade));
+  if (filtro === 'com_proposta') rows = rows.filter(r => r.proposta_edit > 0);
+
+  const cntR = propostaActual.filter(r=>r.prioridade==='rutura').length;
+  const cntU = propostaActual.filter(r=>r.prioridade==='urgente').length;
+  const cntC = propostaActual.filter(r=>r.prioridade==='comprar').length;
+  document.getElementById('cnt-rutura').textContent = `● ${cntR} RUTURA`;
+  document.getElementById('cnt-urgente').textContent = `● ${cntU} URGENTE`;
+  document.getElementById('cnt-comprar').textContent = `● ${cntC} COMPRAR`;
+  document.getElementById('cnt-total').textContent = `${rows.length} produtos mostrados`;
+  document.getElementById('status-bar').style.display = 'flex';
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+
+  rows.forEach((p, idx) => {
+    const maxV = Math.max(...p.v.slice(0,6), 0.1);
+    const barras = p.v.slice(0,6).map((vv, i) =>
+      `<div class="bar${i===0?' current':''}" style="height:${Math.round(vv/maxV*22)+2}px" title="V${i}: ${vv.toFixed(1)}"></div>`
+    ).join('');
+
+    const prLabel = {rutura:'RUTURA',urgente:'URGENTE',comprar:'COMPRAR',ok:'OK'}[p.prioridade];
+    const prClass = `p-${p.prioridade}`;
+    const margemClass = p.margem >= 30 ? 'margem-ok' : 'margem-low';
+    const diasStr = typeof p.dias === 'number' ? p.dias + 'd' : p.dias;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="produto">
+        <div class="nome">${p.DESIGNACAO || ''}</div>
+        <div class="cod">${p.COD_PRD || ''}</div>
+      </td>
+      <td><span class="prioridade ${prClass}">${prLabel}</span></td>
+      <td class="num">${p.stock}</td>
+      <td class="num">${diasStr}</td>
+      <td class="num">${p.media6m.toFixed(1)}</td>
+      <td><div class="vendas-bar">${barras}</div></td>
+      <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
+      <td class="num">${p.proposta}</td>
+      <td class="num"><input class="qt-input" type="number" min="0" value="${p.proposta_edit}" data-idx="${propostaActual.indexOf(p)}" onchange="updateQt(this)"></td>
+      <td class="num">${p.pvp.toFixed(2)} €</td>
+      <td class="num total-cell">${(p.proposta_edit * p.pvp).toFixed(2)} €</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('tabela').style.display = rows.length ? 'table' : 'none';
+  document.getElementById('empty').style.display = rows.length ? 'none' : 'block';
+  if (!rows.length) document.getElementById('empty').textContent = 'Nenhum produto com este filtro.';
+  document.getElementById('footer').style.display = 'flex';
+  updateFooter();
+}
+
+function updateQt(input) {
+  const idx = parseInt(input.dataset.idx);
+  const val = Math.max(0, parseInt(input.value) || 0);
+  propostaActual[idx].proposta_edit = val;
+  input.classList.toggle('modified', val !== propostaActual[idx].proposta);
+  const tr = input.closest('tr');
+  tr.querySelector('.total-cell').textContent = (val * propostaActual[idx].pvp).toFixed(2) + ' €';
+  updateFooter();
+}
+
+function updateFooter() {
+  const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
+  const total = comProposta.reduce((s, p) => s + p.proposta_edit * p.pvp, 0);
+  document.getElementById('footer-refs').textContent = comProposta.length + ' referências com quantidade';
+  document.getElementById('footer-total').textContent = 'Total PVP: ' + total.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+}
+
+function exportarCSV() {
+  const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
+  const linhas = [['COD_PRD','DESIGNACAO','ENT_RESP_COMERC','STK','MEDIA_6M','PROPOSTA','PVP','TOTAL_PVP','MARGEM_PCT'].join(';')];
+  comProposta.forEach(p => {
+    linhas.push([
+      p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`,
+      p.stock, p.media6m.toFixed(2), p.proposta_edit,
+      p.pvp.toFixed(2), (p.proposta_edit * p.pvp).toFixed(2), p.margem.toFixed(1)+'%'
+    ].join(';'));
+  });
+  const blob = new Blob(['\ufeff'+linhas.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'proposta_' + document.getElementById('lab-select').value.substring(0,20).replace(/\s/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.csv';
   a.click();
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-render();
+function copiarResumo() {
+  const lab = document.getElementById('lab-select').value;
+  const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
+  const total = comProposta.reduce((s,p) => s + p.proposta_edit * p.pvp, 0);
+  const linhas = [`Proposta de Compra — ${lab}`, `Data: ${new Date().toLocaleDateString('pt-PT')}`, ''];
+  comProposta.forEach(p => {
+    linhas.push(`${p.proposta_edit}x ${p.DESIGNACAO} (${p.COD_PRD}) — ${(p.proposta_edit*p.pvp).toFixed(2)}€`);
+  });
+  linhas.push('');
+  linhas.push(`Total PVP: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})}€`);
+  navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
+}
+
+document.getElementById('filtro-prioridade').addEventListener('change', () => {
+  if (propostaActual.length) renderTabela();
+});
+
+init();
 </script>
 </body>
 </html>
