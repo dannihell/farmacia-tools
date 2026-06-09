@@ -266,7 +266,7 @@
         <th>Prioridade</th>
         <th class="num">Stock</th>
         <th class="num">Dias</th>
-        <th class="num">Méd 6m</th>
+        <th class="num">Méd/Base</th>
         <th>Vendas (V0-V5)</th>
         <th class="num">Margem</th>
         <th class="num">Proposta</th>
@@ -438,26 +438,65 @@ function calcDias(stock, media6m) {
   return Math.round(stock / (media6m / 30));
 }
 
+// Categorias sazonais e meses restantes da época (a partir de junho)
+const CATEGORIAS_SAZONAIS = ['protectores solares', 'protetores solares', 'pos solares', 'pós solares', 'after sun'];
+const MES_ATUAL = new Date().getMonth() + 1; // 1-12
+function mesesRestantesEpoca() {
+  // Época solar: junho(6), julho(7), agosto(8)
+  const fimEpoca = 8;
+  return Math.max(0, fimEpoca - MES_ATUAL + 1);
+}
+function isSazonal(p) {
+  const cat = (p.CATEGORIA_DESIGNACAO || '').toLowerCase();
+  return CATEGORIAS_SAZONAIS.some(c => cat.includes(c));
+}
+
 function aplicar() {
   const lab = document.getElementById('lab-select').value;
   if (!lab || !allData) return;
   const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
+  const mesesEpoca = mesesRestantesEpoca();
 
   const produtos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
 
   const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
 
   propostaActual = produtos.map(p => {
-    const v = [0,1,2,3,4,5].map(i => parseFloat(p[`V${i}`] || 0));
+    const v = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17].map(i => parseFloat(p[`V${i}`] || 0));
     const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
     const stock = parseFloat(p.STK_FARMACIA || 0);
     const pvp = parseFloat(p.DUV || 0);
     const pcus = parseFloat(p.PCUSMED_PROD || 0);
     const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) : 0;
-    const proposta = Math.max(0, Math.round(media6m * cobertura - stock));
-    const prioridade = calcPrioridade(stock, media6m);
-    const dias = calcDias(stock, media6m);
-    return { ...p, v, media6m, stock, pvp, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias };
+
+    let proposta, mediaBase, sazonal = false;
+
+    if (isSazonal(p) && mesesEpoca > 0) {
+      // Base sazonal: V10=ago25, V11=jul25, V12=jun25
+      const baseSazonal = v[10] + v[11] + v[12];
+      if (baseSazonal > 0) {
+        // Média mensal época 2025 × meses restantes - stock
+        const mediaEpoca = baseSazonal / 3;
+        proposta = Math.max(0, Math.round(mediaEpoca * mesesEpoca - stock));
+        mediaBase = mediaEpoca;
+        sazonal = true;
+      } else if (media6m > 0) {
+        // Fallback: sem histórico 2025, usa últimos 6 meses
+        proposta = Math.max(0, Math.round(media6m * mesesEpoca - stock));
+        mediaBase = media6m;
+        sazonal = true;
+      } else {
+        proposta = 0;
+        mediaBase = 0;
+      }
+    } else {
+      proposta = Math.max(0, Math.round(media6m * cobertura - stock));
+      mediaBase = media6m;
+    }
+
+    const prioridade = calcPrioridade(stock, mediaBase);
+    const dias = calcDias(stock, mediaBase);
+    return { ...p, v, media6m: mediaBase, media6m_raw: media6m, stock, pvp, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
   });
 
   propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
@@ -533,7 +572,7 @@ function renderTabela() {
       <td><span class="prioridade ${prClass}">${prLabel}</span></td>
       <td class="num">${p.stock}</td>
       <td class="num">${diasStr}</td>
-      <td class="num">${p.media6m.toFixed(1)}</td>
+      <td class="num">${p.media6m.toFixed(1)}${p.sazonal ? ' ☀️' : ''}</td>
       <td><div class="vendas-bar">${barras}</div></td>
       <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
       <td class="num">${p.proposta}</td>
