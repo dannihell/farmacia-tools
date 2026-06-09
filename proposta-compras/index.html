@@ -20,6 +20,11 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', system-ui, sans-serif; background: var(--fundo); color: var(--texto); font-size: 14px; }
 
+  #sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
   header {
     background: var(--verde);
     color: white;
@@ -27,9 +32,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 30;
   }
   header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.3px; }
   header .meta { font-size: 11px; opacity: 0.7; margin-top: 2px; }
@@ -42,9 +44,6 @@
     gap: 12px;
     align-items: center;
     flex-wrap: wrap;
-    position: sticky;
-    top: 51px;
-    z-index: 20;
   }
   .toolbar label { font-size: 12px; color: var(--cinza-escuro); font-weight: 500; }
   select, input[type=number] {
@@ -111,7 +110,7 @@
     text-transform: uppercase;
     white-space: nowrap;
     position: sticky;
-    top: 0; /* calculado via JS */
+    top: 0; /* sticky-top wrapper já posiciona tudo */
   }
   thead th.num { text-align: right; }
   tbody tr { border-bottom: 1px solid #eeecea; }
@@ -181,12 +180,17 @@
 </head>
 <body>
 
+<div id="sticky-top">
 <header>
   <div>
     <h1>Proposta de Compra</h1>
     <div class="meta">Farmácia Aroeira · dados actualizados diariamente às 22h</div>
   </div>
-  <span class="tag-updated" id="updated-tag">A carregar...</span>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="btn btn-secondary" onclick="guardarProposta()" id="btn-guardar" style="display:none;font-size:12px;padding:5px 12px">💾 Guardar</button>
+    <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
+    <span class="tag-updated" id="updated-tag">A carregar...</span>
+  </div>
 </header>
 
 <div class="toolbar">
@@ -243,6 +247,7 @@
   <span class="badge badge-urgente" id="cnt-urgente">● 0 URGENTE</span>
   <span class="badge badge-comprar" id="cnt-comprar">● 0 COMPRAR</span>
   <span style="margin-left:auto" id="cnt-total">0 produtos</span>
+</div>
 </div>
 
 <div class="container">
@@ -445,7 +450,7 @@ function aplicar() {
     return { ...p, v, media6m, stock, pvp, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias };
   });
 
-  const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
+  document.getElementById('btn-guardar').style.display = 'inline-block';
   propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
 
   renderTabela();
@@ -483,8 +488,6 @@ function renderTabela() {
   document.getElementById('cnt-comprar').textContent = `● ${cntC} COMPRAR`;
   document.getElementById('cnt-total').textContent = `${rows.length} produtos mostrados`;
   document.getElementById('status-bar').style.display = 'flex';
-  setTimeout(updateStickyOffset, 50);
-  setTimeout(updateStickyOffset, 200);
 
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
@@ -525,7 +528,6 @@ function renderTabela() {
   if (!rows.length) document.getElementById('empty').textContent = 'Nenhum produto com este filtro.';
   document.getElementById('footer').style.display = 'flex';
   updateFooter();
-  setTimeout(updateStickyOffset, 50);
 }
 
 function updateQt(input) {
@@ -575,6 +577,53 @@ function copiarResumo() {
   navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
 }
 
+function guardarProposta() {
+  const lab = document.getElementById('lab-select').value;
+  if (!lab || !propostaActual.length) return;
+  const dados = {
+    lab,
+    cobertura: document.getElementById('cobertura').value,
+    data: new Date().toISOString(),
+    quantidades: propostaActual.map(p => ({ cod: p.COD_PRD, qt: p.proposta_edit }))
+  };
+  const blob = new Blob([JSON.stringify(dados, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'proposta_' + lab.substring(0,30).replace(/[^a-zA-Z0-9]/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.json';
+  a.click();
+}
+
+function carregarProposta(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const dados = JSON.parse(e.target.result);
+      const labSel = document.getElementById('lab-select');
+      labSel.value = dados.lab;
+      if (!labSel.value) { alert('Laboratório não encontrado: ' + dados.lab); return; }
+      document.getElementById('cobertura').value = dados.cobertura || 4;
+      onLabChange();
+      aplicar();
+      setTimeout(() => {
+        const qtMap = {};
+        dados.quantidades.forEach(q => qtMap[q.cod] = q.qt);
+        propostaActual.forEach(p => {
+          if (qtMap[p.COD_PRD] !== undefined) p.proposta_edit = qtMap[p.COD_PRD];
+        });
+        renderTabela();
+        updateFooter();
+        alert('Proposta carregada — guardada em ' + new Date(dados.data).toLocaleString('pt-PT'));
+      }, 400);
+    } catch(err) {
+      alert('Erro ao carregar ficheiro: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
 document.getElementById('filtro-prioridade').addEventListener('change', () => {
   if (propostaActual.length) renderTabela();
 });
@@ -589,20 +638,6 @@ document.getElementById('pesquisa').addEventListener('input', () => {
 document.getElementById('pesquisa-cnp').addEventListener('input', () => {
   if (propostaActual.length) renderTabela();
 });
-
-function updateStickyOffset() {
-  const headerH = document.querySelector('header')?.offsetHeight || 0;
-  const toolbarH = document.querySelector('.toolbar')?.offsetHeight || 0;
-  const statusBar = document.getElementById('status-bar');
-  const statusH = (statusBar && statusBar.style.display !== 'none') ? statusBar.offsetHeight : 0;
-  const top = headerH + toolbarH + statusH;
-  document.querySelectorAll('thead th').forEach(th => th.style.top = top + 'px');
-}
-
-const ro = new ResizeObserver(() => setTimeout(updateStickyOffset, 0));
-ro.observe(document.querySelector('header'));
-ro.observe(document.querySelector('.toolbar'));
-window.addEventListener('resize', updateStickyOffset);
 
 init();
 </script>
