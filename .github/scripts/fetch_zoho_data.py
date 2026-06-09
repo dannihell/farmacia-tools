@@ -26,6 +26,7 @@ def query_zoho(token, sql):
         params={"CONFIG": json.dumps(config)},
         headers={"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": ORG_ID})
     d = r.json()
+    print(f"Response keys: {list(d.keys())}")
     if d.get("status") != "success":
         raise Exception(f"Query error: {d}")
     return d["data"]
