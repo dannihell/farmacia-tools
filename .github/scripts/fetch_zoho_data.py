@@ -5,7 +5,7 @@ REFRESH_TOKEN = os.environ["ZOHO_REFRESH_TOKEN"]
 CLIENT_ID = os.environ["ZOHO_CLIENT_ID"]
 CLIENT_SECRET = os.environ["ZOHO_CLIENT_SECRET"]
 WORKSPACE_ID = "1135564000002838003"
-API_BASE = "https://analyticsapi.zoho.com/api/v2"
+API_BASE = "https://analyticsapi.zoho.com/restapi/v2"
 
 def get_access_token():
     r = requests.post("https://accounts.zoho.com/oauth/v2/token", data={
@@ -19,7 +19,7 @@ def get_access_token():
 
 def query_zoho(token, sql):
     r = requests.post(
-        f"{API_BASE}/workspaces/{WORKSPACE_ID}/views/AROEIRA_BRAND_ANALYSIS/data",
+        f"{API_BASE}/workspaces/{WORKSPACE_ID}/data",
         data={"sqlQuery": sql, "responseFormat": "json"},
         headers={"Authorization": f"Zoho-oauthtoken {token}",
                  "ZANALYTICS-ORGID": "67632106"})
