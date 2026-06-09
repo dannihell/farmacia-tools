@@ -49,7 +49,7 @@ def agregar_por_produto(rows):
 
     # Calcular os 7 meses relevantes (V0=actual, V1..V6=anteriores)
     months = []
-    for i in range(7):
+    for i in range(18):
         m = month - i
         y = year
         while m <= 0:
@@ -108,7 +108,7 @@ def main():
     # Só últimos 13 meses para limitar tamanho
     now = datetime.now()
     year, month = now.year, now.month
-    min_m = month - 12
+    min_m = month - 17
     min_y = year
     while min_m <= 0:
         min_m += 12
