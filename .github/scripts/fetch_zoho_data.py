@@ -22,7 +22,7 @@ def query_zoho(token, sql):
         f"{API_BASE}/workspaces/{WORKSPACE_ID}/views/AROEIRA_BRAND_ANALYSIS/data",
         data={"sqlQuery": sql, "responseFormat": "json"},
         headers={"Authorization": f"Zoho-oauthtoken {token}",
-                 "ZANALYTICS-ORGID": "20085290558"})
+                 "ZANALYTICS-ORGID": "67632106"})
     print(f"Status: {r.status_code}, Length: {len(r.text)}")
     print(f"Body[:300]: {r.text[:300]}")
     d = r.json()
