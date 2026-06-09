@@ -467,9 +467,10 @@ function aplicar() {
     const v = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17].map(i => parseFloat(p[`V${i}`] || 0));
     const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
     const stock = parseFloat(p.STK_FARMACIA || 0);
-    const pvp = parseFloat(p.DUV || 0);
     const pcus = parseFloat(p.PCUSMED_PROD || 0);
-    const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) : 0;
+    const vendasYtd = parseFloat(p.VENDAS_YTD || 0);
+    const margemYtd = parseFloat(p.MARGEM_YTD || 0);
+    const margem = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
 
     let proposta, mediaBase, sazonal = false;
 
@@ -498,7 +499,7 @@ function aplicar() {
 
     const prioridade = calcPrioridade(stock, mediaBase);
     const dias = calcDias(stock, mediaBase);
-    return { ...p, v, media6m: mediaBase, media6m_raw: media6m, stock, pvp, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
+    return { ...p, v, media6m: mediaBase, media6m_raw: media6m, stock, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
   });
 
   propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
