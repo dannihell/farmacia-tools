@@ -22,7 +22,7 @@ def query_zoho(token, sql):
     headers = {"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": ORG_ID}
 
     # 1. Criar job
-    config = {"sqlQuery": sql, "responseFormat": "json", "keyValueFormat": False}
+    config = {"sqlQuery": sql, "responseFormat": "csv"}
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
         params={"CONFIG": json.dumps(config)}, headers=headers)
     d = r.json()
@@ -49,7 +49,9 @@ def query_zoho(token, sql):
     # 3. Download resultado
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}/data",
         headers=headers)
-    return r.json()
+    import csv, io
+    reader = csv.DictReader(io.StringIO(r.text))
+    return list(reader)
 
 def main():
     print(f"🚀 {datetime.now().strftime('%Y-%m-%d %H:%M')}")
