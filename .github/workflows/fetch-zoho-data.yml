@@ -1,0 +1,37 @@
+name: Fetch Zoho Analytics Data
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # Corre todos os dias às 22h (após sync Zoho às 21h)
+  workflow_dispatch:        # Permite correr manualmente
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch data from Zoho Analytics
+        env:
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+        run: python .github/scripts/fetch_zoho_data.py
+
+      - name: Commit and push data
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update Zoho data $(date +'%Y-%m-%d %H:%M')"
+          git push
