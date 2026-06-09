@@ -189,6 +189,7 @@
   <div style="display:flex;gap:10px;align-items:center">
     <button class="btn btn-secondary" onclick="guardarProposta()" id="btn-guardar" style="display:none;font-size:12px;padding:5px 12px">💾 Guardar</button>
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
+    <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
   </div>
 </header>
@@ -250,6 +251,8 @@
 </div>
 </div>
 
+<div id="modal-vendedor" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;padding:24px"></div>
+
 <div class="container">
   <div class="loading" id="loading">A carregar dados...</div>
   <table id="tabela" style="display:none">
@@ -266,6 +269,7 @@
         <th class="num">Editar</th>
         <th class="num">Custo s/IVA</th>
         <th class="num">Total Custo</th>
+        <th class="num" id="th-vendedor" style="display:none;background:#1a5c8a">V.Qt</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -282,8 +286,8 @@
   </div>
 </div>
 
-<script>
-const DATA_URL = 'https://dannihell.github.io/farmacia-tools/data/aroeira_brand.json';
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script> = 'https://dannihell.github.io/farmacia-tools/data/aroeira_brand.json';
 let allData = null;
 let propostaActual = [];
 
@@ -434,8 +438,9 @@ function aplicar() {
   if (!lab || !allData) return;
   const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
 
-  // Carregar TODOS os produtos do laboratório sem filtros de marca/cat/subcat/pesquisa
   const produtos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
+
+  const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
 
   propostaActual = produtos.map(p => {
     const v = [0,1,2,3,4,5].map(i => parseFloat(p[`V${i}`] || 0));
@@ -450,9 +455,9 @@ function aplicar() {
     return { ...p, v, media6m, stock, pvp, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias };
   });
 
-  document.getElementById('btn-guardar').style.display = 'inline-block';
   propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
-
+  document.getElementById('btn-guardar').style.display = 'inline-block';
+  document.getElementById('btn-vendedor').style.display = 'inline-block';
   renderTabela();
 }
 
@@ -503,6 +508,12 @@ function renderTabela() {
     const margemClass = p.margem >= 30 ? 'margem-ok' : 'margem-low';
     const diasStr = typeof p.dias === 'number' ? p.dias + 'd' : p.dias;
 
+    const cnp = parseInt(p.COD_PRD);
+    const vQt = vendedorMap[cnp];
+    const vCell = Object.keys(vendedorMap).length > 0
+      ? `<td class="num" style="${vQt > 0 ? 'color:var(--verde);font-weight:600' : 'color:var(--cinza-escuro)'}">${vQt > 0 ? vQt : '—'}</td>`
+      : '';
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="produto">
@@ -519,10 +530,12 @@ function renderTabela() {
       <td class="num"><input class="qt-input" type="number" min="0" value="${p.proposta_edit}" data-idx="${propostaActual.indexOf(p)}" onchange="updateQt(this)"></td>
       <td class="num">${p.pcus.toFixed(2)} €</td>
       <td class="num total-cell">${(p.proposta_edit * p.pcus).toFixed(2)} €</td>
+      ${vCell}
     `;
     tbody.appendChild(tr);
   });
 
+  document.getElementById('th-vendedor').style.display = Object.keys(vendedorMap).length > 0 ? '' : 'none';
   document.getElementById('tabela').style.display = rows.length ? 'table' : 'none';
   document.getElementById('empty').style.display = rows.length ? 'none' : 'block';
   if (!rows.length) document.getElementById('empty').textContent = 'Nenhum produto com este filtro.';
@@ -577,7 +590,89 @@ function copiarResumo() {
   navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
 }
 
-function guardarProposta() {
+let vendedorMap = {}; // CNP -> qt proposta vendedor
+
+function carregarExcelVendedor(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result, {type: 'array'});
+      // Juntar todas as sheets numa lista de rows
+      const todasRows = [];
+      wb.SheetNames.forEach(name => {
+        const ws = wb.Sheets[name];
+        const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+        rows.forEach(r => todasRows.push(r));
+      });
+
+      // Tentar detetar colunas automaticamente
+      // Procurar header row com CÓDIGO/CNP e QUANTIDADE
+      let colCnp = -1, colQt = -1, headerRow = -1;
+      for (let i = 0; i < Math.min(todasRows.length, 10); i++) {
+        const row = todasRows[i].map(c => String(c).toUpperCase().trim());
+        const cnpIdx = row.findIndex(c => c.includes('CÓDIGO') || c.includes('CODIGO') || c.includes('CNP') || c.includes('REF'));
+        const qtIdx = row.findIndex(c => c.includes('QUANT') || c.includes('QT') || c === 'QTD');
+        if (cnpIdx >= 0 && qtIdx >= 0) {
+          colCnp = cnpIdx; colQt = qtIdx; headerRow = i;
+          break;
+        }
+      }
+
+      if (colCnp < 0) {
+        // Mostrar primeiras colunas para seleção manual
+        const headers = todasRows.find(r => r.some(c => c !== '')) || [];
+        const opcoes = headers.map((h,i) => `<option value="${i}">${i}: ${h}</option>`).join('');
+        document.getElementById('modal-vendedor').innerHTML = `
+          <div style="background:white;padding:24px;border-radius:12px;max-width:400px;margin:auto;margin-top:20vh;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+            <h3 style="margin-bottom:16px;color:var(--verde)">Mapear colunas do Excel</h3>
+            <div style="margin-bottom:12px"><label>Coluna CNP/Código:</label><br><select id="sel-cnp" style="width:100%;margin-top:4px">${opcoes}</select></div>
+            <div style="margin-bottom:16px"><label>Coluna Quantidade:</label><br><select id="sel-qt" style="width:100%;margin-top:4px">${opcoes}</select></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-secondary" onclick="document.getElementById('modal-vendedor').style.display='none'">Cancelar</button>
+              <button class="btn btn-primary" onclick="aplicarMapeamento(${JSON.stringify(todasRows)})">Confirmar</button>
+            </div>
+          </div>`;
+        document.getElementById('modal-vendedor').style.display = 'flex';
+        input.value = '';
+        return;
+      }
+
+      processarLinhasVendedor(todasRows, colCnp, colQt, headerRow);
+    } catch(err) {
+      alert('Erro ao ler Excel: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  input.value = '';
+}
+
+function aplicarMapeamento(rows) {
+  const colCnp = parseInt(document.getElementById('sel-cnp').value);
+  const colQt = parseInt(document.getElementById('sel-qt').value);
+  document.getElementById('modal-vendedor').style.display = 'none';
+  processarLinhasVendedor(rows, colCnp, colQt, 0);
+}
+
+function processarLinhasVendedor(rows, colCnp, colQt, headerRow) {
+  vendedorMap = {};
+  let count = 0;
+  rows.forEach((row, i) => {
+    if (i <= headerRow) return;
+    const cnpRaw = String(row[colCnp] || '').replace(/\.0$/, '').trim();
+    const cnp = parseInt(cnpRaw);
+    const qt = parseFloat(row[colQt]);
+    if (!isNaN(cnp) && cnp > 0 && !isNaN(qt) && qt > 0) {
+      vendedorMap[cnp] = qt;
+      count++;
+    }
+  });
+  renderTabela();
+  alert(`Excel do vendedor carregado — ${count} referências com quantidade.\nColuna "V.Qt" adicionada à tabela.`);
+}
+
+
   const lab = document.getElementById('lab-select').value;
   if (!lab || !propostaActual.length) return;
   const dados = {
