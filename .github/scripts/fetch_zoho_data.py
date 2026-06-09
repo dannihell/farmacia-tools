@@ -30,30 +30,17 @@ def query_zoho(token, sql):
         raise Exception(f"Query error: {d}")
     return d["data"]
 
-def build_brand_sql():
-    now = datetime.now()
-    year, month = now.year, now.month
-    months = []
-    for i in range(7):
-        m = month - i
-        y = year
-        while m <= 0:
-            m += 12
-            y -= 1
-        months.append((y, m))
-    cases = ", ".join([f"SUM(CASE WHEN ANO = {y} AND MES = {m} THEN QT ELSE 0 END) AS V{i}" for i, (y, m) in enumerate(months)])
-    return f"""SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, SUM(QT) AS TOTAL_QT, {cases}, SUM(CASE WHEN ANO = {year} THEN VALOR_VENDA ELSE 0 END) AS VENDAS_YTD, SUM(CASE WHEN ANO = {year} THEN MARGEM_EUROS ELSE 0 END) AS MARGEM_YTD, SUM(VALOR_QUEBRA) AS VALOR_QUEBRAS FROM AROEIRA_BRAND_ANALYSIS GROUP BY COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO ORDER BY SUM(QT) DESC"""
-
 def main():
     print(f"🚀 {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     token = get_access_token()
     os.makedirs("data", exist_ok=True)
 
     print("📊 A carregar AROEIRA_BRAND_ANALYSIS...")
-    brand_data = query_zoho(token, build_brand_sql())
+    sql = "SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, QT, ANO, MES, VALOR_VENDA, MARGEM_EUROS, VALOR_QUEBRA FROM AROEIRA_BRAND_ANALYSIS"
+    brand_data = query_zoho(token, sql)
     columns = [c.strip() for c in brand_data["columns"]]
-    produtos = [dict(zip(columns, row)) for row in brand_data["rows"]]
-    print(f"✓ {len(produtos)} produtos carregados")
+    rows = [dict(zip(columns, row)) for row in brand_data["rows"]]
+    print(f"✓ {len(rows)} linhas carregadas")
 
     print("🏭 A carregar laboratórios...")
     lab_data = query_zoho(token, "SELECT DISTINCT ENT_RESP_COMERC, MARCA FROM AROEIRA_BRAND_ANALYSIS WHERE ENT_RESP_COMERC IS NOT NULL ORDER BY ENT_RESP_COMERC")
@@ -61,13 +48,13 @@ def main():
     laboratorios = [dict(zip(lab_columns, row)) for row in lab_data["rows"]]
     print(f"✓ {len(laboratorios)} laboratórios carregados")
 
-    output = {"updated_at": datetime.now().isoformat(), "produtos": produtos,
-              "laboratorios": laboratorios, "total_produtos": len(produtos)}
+    output = {"updated_at": datetime.now().isoformat(), "rows": rows,
+              "laboratorios": laboratorios, "total_rows": len(rows)}
 
     with open("data/aroeira_brand.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ data/aroeira_brand.json guardado ({len(produtos)} produtos)")
+    print(f"✅ data/aroeira_brand.json guardado ({len(rows)} linhas)")
 
 if __name__ == "__main__":
     main()
