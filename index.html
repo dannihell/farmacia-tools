@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmácias Connect — Ferramentas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F0; min-height: 100vh; display: flex; flex-direction: column; color: #1A1A18; }
+
+    header { background: #fff; border-bottom: 1px solid #E8E8E4; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 32px; height: 32px; background: #0B5E47; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 16px; }
+    .logo-text .top { font-size: 10px; font-weight: 700; color: #0B5E47; letter-spacing: 0.12em; text-transform: uppercase; }
+    .logo-text .bottom { font-size: 14px; font-weight: 800; color: #2C2C2A; letter-spacing: -0.01em; }
+    .user-info { font-size: 12px; color: #6B6B65; display: flex; align-items: center; gap: 8px; }
+    .auth-btn { padding: 7px 14px; border-radius: 7px; border: 1.5px solid #E8E8E4; background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; color: #6B6B65; font-family: inherit; transition: all 0.2s; }
+    .auth-btn:hover { border-color: #0B5E47; color: #0B5E47; }
+    .auth-btn.login { background: #0B5E47; color: #fff; border-color: #0B5E47; }
+    .auth-btn.login:hover { background: #16A57A; }
+
+    main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; }
+    .greeting { text-align: center; margin-bottom: 32px; }
+    .greeting h1 { font-size: 28px; font-weight: 800; color: #2C2C2A; letter-spacing: -0.02em; }
+    .greeting p { font-size: 14px; color: #6B6B65; margin-top: 6px; }
+
+    .apps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 600px; }
+    .app-card { background: #fff; border: 2px solid #E8E8E4; border-radius: 16px; padding: 28px 24px; cursor: pointer; text-align: left; text-decoration: none; color: inherit; transition: all 0.2s; display: block; }
+    .app-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .app-icon { font-size: 36px; margin-bottom: 14px; }
+    .app-title { font-size: 15px; font-weight: 800; color: #2C2C2A; margin-bottom: 6px; }
+    .app-desc { font-size: 12px; color: #6B6B65; line-height: 1.5; margin-bottom: 14px; }
+    .app-user { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    .auth-notice { margin-top: 24px; padding: 14px 20px; background: #E8F5F0; border-radius: 10px; font-size: 12px; color: #0B5E47; font-weight: 600; text-align: center; max-width: 600px; width: 100%; }
+
+    footer { text-align: center; padding: 16px; font-size: 11px; color: #bbb; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-icon">F</div>
+      <div class="logo-text">
+        <div class="top">Farmácias</div>
+        <div class="bottom">Connect</div>
+      </div>
+    </div>
+    <div class="user-info">
+      <span id="auth-status">Não autenticado</span>
+      <button class="auth-btn login" id="auth-btn" onclick="handleAuth()">Ligar ao Zoho</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="greeting">
+      <h1>Bom dia 👋</h1>
+      <p>Seleciona a ferramenta que precisas</p>
+    </div>
+
+    <div class="apps">
+      <a href="proposta-compras/index.html" class="app-card" style="--accent: #0B5E47">
+        <div class="app-icon">🛒</div>
+        <div class="app-title">Proposta de Encomenda</div>
+        <div class="app-desc">Análise de marca e sugestão automática de compra para reunião com delegado</div>
+        <div class="app-user">Daniel · Matilde</div>
+      </a>
+      <a href="contagem-stocks/index.html" class="app-card" style="--accent: #C4952A">
+        <div class="app-icon">📦</div>
+        <div class="app-title">Contagem de Stocks</div>
+        <div class="app-desc">Contagem física com scanner de CNP, validades e sincronização com Google Sheets</div>
+        <div class="app-user">Tatiana · Backoffice</div>
+      </a>
+    </div>
+
+    <div class="auth-notice" id="auth-notice" style="display:none">
+      ⚠️ Liga ao Zoho Analytics para aceder aos dados em tempo real
+    </div>
+  </main>
+
+  <footer>
+    Dados: AROEIRA_BRAND_ANALYSIS · Atualizado diariamente às 21h
+  </footer>
+
+  <script src="shared/zoho-auth.js"></script>
+  <script>
+    function checkAuth() {
+      const token = ZohoAuth.getToken();
+      const btn = document.getElementById("auth-btn");
+      const status = document.getElementById("auth-status");
+      const notice = document.getElementById("auth-notice");
+
+      if (token) {
+        status.textContent = "Zoho conectado ✓";
+        btn.textContent = "Desligar";
+        btn.classList.remove("login");
+        notice.style.display = "none";
+      } else {
+        status.textContent = "Não autenticado";
+        btn.textContent = "Ligar ao Zoho";
+        btn.classList.add("login");
+        notice.style.display = "block";
+      }
+    }
+
+    function handleAuth() {
+      if (ZohoAuth.isAuthenticated()) {
+        ZohoAuth.clearToken();
+        checkAuth();
+      } else {
+        sessionStorage.setItem("zoho_redirect", "/farmacia-tools/index.html");
+        ZohoAuth.login();
+      }
+    }
+
+    checkAuth();
+  </script>
+</body>
+</html>

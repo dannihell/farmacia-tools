@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contagem de Stocks — Farmácias Connect</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F0; min-height: 100vh; }
+    header { background: #fff; border-bottom: 1px solid #E8E8E4; padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
+    .back-btn { background: none; border: none; cursor: pointer; color: #6B6B65; font-size: 20px; padding: 0; }
+    .logo-icon { width: 28px; height: 28px; background: #C4952A; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 14px; }
+    .logo-text { font-size: 13px; font-weight: 800; color: #2C2C2A; }
+    main { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 60px); padding: 24px; }
+    .box { text-align: center; background: #fff; border-radius: 16px; padding: 48px 40px; border: 1.5px solid #E8E8E4; max-width: 480px; }
+    .icon { font-size: 56px; margin-bottom: 20px; }
+    h2 { font-size: 22px; font-weight: 800; color: #2C2C2A; margin-bottom: 10px; }
+    p { font-size: 14px; color: #6B6B65; line-height: 1.6; margin-bottom: 20px; }
+    .link { display: inline-block; padding: 10px 20px; background: #E8F5F0; border-radius: 10px; color: #0B5E47; font-size: 13px; font-weight: 700; text-decoration: none; }
+    .link:hover { background: #D0EDE4; }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-btn" onclick="window.location.href='../index.html'">←</button>
+    <div class="logo-icon">F</div>
+    <div class="logo-text">Contagem de Stocks</div>
+  </header>
+  <main>
+    <div class="box">
+      <div class="icon">📦</div>
+      <h2>Contagem de Stocks</h2>
+      <p>Esta app está a ser desenvolvida no repositório <strong>farmacia-contagem</strong>.<br><br>Usa scanner CNP, leitura de validades e sincronização com Google Sheets via Zoho Analytics.</p>
+      <a class="link" href="https://dannihell.github.io/farmacia-contagem/" target="_blank">→ Abrir App de Contagem</a>
+    </div>
+  </main>
+</body>
+</html>

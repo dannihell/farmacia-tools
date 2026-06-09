@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta de Encomenda — Farmácias Connect</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F0; color: #1A1A18; min-height: 100vh; }
+
+    /* Header */
+    header { background: #fff; border-bottom: 1px solid #E8E8E4; padding: 12px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+    .back-btn { background: none; border: none; cursor: pointer; color: #6B6B65; font-size: 20px; padding: 0; line-height: 1; }
+    .logo { display: flex; align-items: center; gap: 8px; }
+    .logo-icon { width: 28px; height: 28px; background: #0B5E47; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 14px; }
+    .logo-text { font-size: 13px; font-weight: 800; color: #2C2C2A; }
+    .header-actions { margin-left: auto; display: flex; gap: 8px; }
+    .btn { padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; border: none; transition: all 0.2s; }
+    .btn-outline { background: #fff; border: 1.5px solid #E8E8E4; color: #6B6B65; }
+    .btn-outline:hover { border-color: #0B5E47; color: #0B5E47; }
+    .btn-primary { background: #0B5E47; color: #fff; }
+    .btn-primary:hover { background: #16A57A; }
+    .btn-secondary { background: #fff; color: #0B5E47; border: 2px solid #0B5E47; }
+
+    /* Layout */
+    .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+
+    /* Selecao */
+    .section { background: #fff; border-radius: 14px; padding: 22px; border: 1.5px solid #E8E8E4; margin-bottom: 14px; }
+    .section-title { font-size: 10px; font-weight: 700; color: #0B5E47; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 8px 14px; border-radius: 8px; border: 2px solid #E8E8E4; background: #fff; color: #6B6B65; font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .chip.active { border-color: #0B5E47; background: #E8F5F0; color: #0B5E47; font-weight: 700; }
+    .chip:hover:not(.active) { border-color: #ccc; }
+    .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .meses-chips { display: flex; gap: 8px; }
+    .mes-chip { width: 48px; height: 48px; border-radius: 10px; border: 2px solid #E8E8E4; background: #fff; color: #1A1A18; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .mes-chip.active { border-color: #0B5E47; background: #0B5E47; color: #fff; }
+    .generate-btn { width: 100%; padding: 15px; border-radius: 12px; background: #0B5E47; color: #fff; border: none; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s; margin-top: 8px; }
+    .generate-btn:hover { background: #16A57A; }
+    .generate-btn:disabled { background: #D0D0CA; cursor: not-allowed; }
+
+    /* KPIs */
+    .kpis { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .kpi { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1.5px solid #E8E8E4; flex: 1; min-width: 120px; }
+    .kpi-label { font-size: 9px; font-weight: 700; color: #6B6B65; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .kpi-value { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+    .kpi-sub { font-size: 10px; color: #6B6B65; margin-top: 2px; }
+
+    /* Header proposta */
+    .proposta-header { background: #0B5E47; border-radius: 14px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .proposta-header .lab { font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .proposta-header .marca { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .proposta-header .sub { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+    .proposta-header .meta { text-align: right; font-size: 11px; color: rgba(255,255,255,0.6); }
+
+    /* Tabela */
+    .tabela-wrap { background: #fff; border-radius: 14px; overflow: hidden; border: 1.5px solid #E8E8E4; margin-bottom: 14px; }
+    .tabela-header { display: grid; grid-template-columns: 24px 1fr 50px 180px 55px 70px 55px 70px; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #F0F0EC; align-items: center; }
+    .tabela-header span { font-size: 9px; font-weight: 700; color: #6B6B65; text-transform: uppercase; letter-spacing: 0.07em; }
+    .tabela-row { display: grid; grid-template-columns: 24px 1fr 50px 180px 55px 70px 55px 70px; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #F5F5F2; align-items: center; cursor: pointer; transition: background 0.1s; }
+    .tabela-row:last-child { border-bottom: none; }
+    .tabela-row:hover { background: #FAFAF8; }
+    .tabela-row.selected { background: #E8F5F0; }
+    .tabela-row.rutura { background: #FFF8F8; }
+    .checkbox { width: 16px; height: 16px; border-radius: 4px; border: 2px solid #D0D0CA; background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; color: #fff; transition: all 0.15s; }
+    .checkbox.checked { border-color: #0B5E47; background: #0B5E47; }
+    .prod-nome { font-size: 11px; font-weight: 600; color: #1A1A18; line-height: 1.3; }
+    .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em; margin-top: 3px; }
+    .stk-val { font-size: 13px; font-weight: 700; text-align: center; }
+    .bars { display: flex; gap: 2px; align-items: flex-end; }
+    .bar-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .bar { width: 100%; border-radius: 2px; min-height: 4px; transition: height 0.3s; }
+    .bar-num { font-size: 8px; font-weight: 700; color: #6B6B65; margin-top: 2px; }
+    .media-val { font-size: 11px; font-weight: 600; color: #6B6B65; text-align: center; }
+    .qty-badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 800; }
+    .mg-val { font-size: 11px; font-weight: 700; text-align: center; }
+    .valor-val { font-size: 12px; font-weight: 600; text-align: right; }
+    .tabela-total { display: grid; grid-template-columns: 24px 1fr 50px 180px 55px 70px 55px 70px; gap: 6px; padding: 12px 14px; background: #2C2C2A; align-items: center; }
+    .tabela-total span { font-size: 11px; font-weight: 700; color: #fff; }
+    .tabela-total .total-label { color: rgba(255,255,255,0.7); font-size: 10px; }
+    .tabela-total .total-val { color: #16A57A; font-size: 14px; font-weight: 800; }
+
+    /* Condicoes */
+    .cond-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .field label { display: block; font-size: 9px; font-weight: 700; color: #6B6B65; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+    .field input, .field select, .field textarea { width: 100%; padding: 8px 10px; border-radius: 7px; border: 1.5px solid #E8E8E4; font-size: 13px; font-family: inherit; outline: none; color: #1A1A18; transition: border-color 0.15s; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: #0B5E47; }
+    .notas-field { grid-column: 1 / -1; }
+    .notas-field textarea { min-height: 60px; resize: vertical; }
+
+    /* Loading */
+    .loading { text-align: center; padding: 60px; }
+    .spinner { width: 36px; height: 36px; border: 3px solid #E8E8E4; border-top-color: #0B5E47; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading p { color: #6B6B65; font-size: 14px; }
+
+    /* Auth required */
+    .auth-required { text-align: center; padding: 60px 24px; }
+    .auth-required .icon { font-size: 48px; margin-bottom: 16px; }
+    .auth-required h2 { font-size: 20px; font-weight: 800; color: #2C2C2A; margin-bottom: 8px; }
+    .auth-required p { color: #6B6B65; font-size: 14px; margin-bottom: 24px; }
+
+    /* Erro */
+    .error-box { background: #FFF0F0; border: 1.5px solid #F5C6C6; border-radius: 10px; padding: 16px; color: #8B1A1A; font-size: 13px; margin-bottom: 14px; }
+
+    @media print {
+      header, .header-actions, .generate-btn, .export-btns, .auth-notice { display: none !important; }
+      body { background: #fff; }
+      .container { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <button class="back-btn" onclick="window.location.href='../index.html'">←</button>
+  <div class="logo">
+    <div class="logo-icon">F</div>
+    <div class="logo-text">Proposta de Encomenda</div>
+  </div>
+  <div class="header-actions" id="header-actions"></div>
+</header>
+
+<div class="container">
+  <div id="app"></div>
+</div>
+
+<script src="../shared/zoho-auth.js"></script>
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+const state = {
+  fase: "selecao", // selecao | loading | proposta
+  farmacia: "Aroeira",
+  laboratorio: "",
+  marca: "",
+  meses: 4,
+  produtos: [],
+  selecionados: new Set(),
+  error: null,
+};
+
+const LABORATORIOS = [
+  "Haleon Portugal",
+  "Bayer Portugal, Lda.",
+  "Angelini Pharma Portugal, Unipessoal, Lda.",
+  "Biocodex",
+  "Nestlé Portugal, Unipessoal, Lda.",
+  "Perrigo Portugal, Lda.",
+  "Jaba Recordati, S.A",
+  "Arkopharma Laboratórios, S.A",
+  "Cooper Consumer Health B.V.",
+  "Isdin - Laboratório Farmacêutico, Unipessoal, Lda.",
+  "Tecnimede - Sociedade Técnico-Medicinal S.A.",
+  "Pierre Fabre Dermo-Cosmétique Portugal Lda.",
+  "Pierre Fabre Médicament Portugal Lda.",
+];
+
+const MARCAS_POR_LAB = {
+  "Pierre Fabre Dermo-Cosmétique Portugal Lda.": ["Ducray", "Avène", "Klorane", "René Furterer", "A-Derma"],
+  "Isdin - Laboratório Farmacêutico, Unipessoal, Lda.": ["Bexident", "Isdin"],
+  "Haleon Portugal": ["Voltaren", "Sensodyne", "Panadol", "Nicorette"],
+  "Bayer Portugal, Lda.": ["Bepanthen", "Canesten", "Aspirina"],
+};
+
+// ─── CÁLCULOS ─────────────────────────────────────────────────────────────────
+function calcularProduto(p) {
+  const vendas = [p.V1||0, p.V2||0, p.V3||0, p.V4||0, p.V5||0, p.V6||0];
+  const totalVendas = vendas.reduce((a,b)=>a+b, 0);
+  const media = totalVendas / 6;
+  const stk = parseFloat(p.STK_FARMACIA) || 0;
+  const pcus = parseFloat(p.PCUSMED_PROD) || 0;
+  const qtySugerida = Math.max(0, Math.ceil(media * state.meses - stk));
+  const valorEncomenda = qtySugerida * pcus;
+  const cobertura = media > 0 ? stk / media : 999;
+  const margemPct = p.MARGEM_YTD && p.VENDAS_YTD ? (parseFloat(p.MARGEM_YTD) / parseFloat(p.VENDAS_YTD)) * 100 : 35;
+
+  let prioridade = "OK";
+  let prioCor = "#16A57A";
+  let prioBg = "#16A57A18";
+  if (stk === 0 && media > 0) { prioridade = "RUTURA"; prioCor = "#8B1A1A"; prioBg = "#8B1A1A18"; }
+  else if (cobertura < 15) { prioridade = "URGENTE"; prioCor = "#C0392B"; prioBg = "#C0392B18"; }
+  else if (cobertura < 30) { prioridade = "COMPRAR"; prioCor = "#D4820A"; prioBg = "#D4820A18"; }
+
+  return { ...p, vendas, totalVendas, media, stk, pcus, qtySugerida, valorEncomenda, cobertura, margemPct, prioridade, prioCor, prioBg };
+}
+
+// ─── QUERIES ZOHO ─────────────────────────────────────────────────────────────
+async function carregarProdutos() {
+  state.fase = "loading";
+  state.error = null;
+  render();
+
+  try {
+    let whereClause = "";
+    if (state.marca) {
+      whereClause = `WHERE UPPER("DESIGNACAO") LIKE UPPER('%${state.marca}%')`;
+    } else if (state.laboratorio) {
+      whereClause = `WHERE "ENT_RESP_COMERC" = '${state.laboratorio}'`;
+    }
+
+    const sql = `
+      SELECT 
+        "CODIGO", "DESIGNACAO", "ENT_RESP_COMERC", "MARCA",
+        "STK_FARMACIA", "PCUSMED_PROD", "DUV",
+        "CATEGORIA_DESIGNACAO", "MERCADO_DESIGNACAO",
+        "V1", "V2", "V3", "V4", "V5", "V6",
+        "VENDAS_YTD", "MARGEM_YTD", "VALOR_QUEBRAS"
+      FROM "AROEIRA_PRODUCT_ANALYSIS"
+      ${whereClause}
+      ORDER BY ("V1"+"V2"+"V3"+"V4"+"V5"+"V6") DESC
+      LIMIT 100
+    `;
+
+    // Se não tiver AROEIRA_PRODUCT_ANALYSIS ainda, usa AROEIRA_BRAND_ANALYSIS
+    const sqlAlt = `
+      SELECT 
+        "COD_PRD" AS "CODIGO",
+        "DESIGNACAO", "ENT_RESP_COMERC", "MARCA",
+        "STK_FARMACIA", "PCUSMED_PROD", "DUV",
+        "CATEGORIA_DESIGNACAO", "MERCADO_DESIGNACAO",
+        SUM("QT") AS "TOTAL_QT",
+        SUM("VALOR_VENDA") AS "VENDAS_YTD",
+        SUM("MARGEM_EUROS") AS "MARGEM_YTD"
+      FROM "AROEIRA_BRAND_ANALYSIS"
+      WHERE "MARCA" = '${state.marca || "Ducray"}'
+      GROUP BY "COD_PRD", "DESIGNACAO", "ENT_RESP_COMERC", "MARCA",
+               "STK_FARMACIA", "PCUSMED_PROD", "DUV",
+               "CATEGORIA_DESIGNACAO", "MERCADO_DESIGNACAO"
+      ORDER BY SUM("QT") DESC
+    `;
+
+    let data;
+    try {
+      data = await queryZoho(sql);
+    } catch(e) {
+      // Fallback para AROEIRA_BRAND_ANALYSIS
+      data = await queryZoho(sqlAlt);
+    }
+
+    const rows = data.rows || [];
+    const cols = data.columns || [];
+
+    // Mapear para objeto
+    const produtos = rows.map(row => {
+      const obj = {};
+      cols.forEach((col, i) => { obj[col] = row[i]; });
+      return calcularProduto(obj);
+    });
+
+    // Ordenar: ruturas primeiro, depois urgentes, depois por vendas
+    produtos.sort((a,b) => {
+      const prio = { RUTURA: 0, URGENTE: 1, COMPRAR: 2, OK: 3 };
+      if (prio[a.prioridade] !== prio[b.prioridade]) return prio[a.prioridade] - prio[b.prioridade];
+      return b.totalVendas - a.totalVendas;
+    });
+
+    state.produtos = produtos;
+    state.selecionados = new Set(produtos.filter(p => p.qtySugerida > 0).map(p => p.CODIGO));
+    state.fase = "proposta";
+    render();
+
+  } catch(err) {
+    state.error = err.message;
+    state.fase = "selecao";
+    render();
+  }
+}
+
+// ─── TOTAIS ───────────────────────────────────────────────────────────────────
+function getTotais() {
+  const selecionados = state.produtos.filter(p => state.selecionados.has(p.CODIGO));
+  return {
+    un: selecionados.reduce((a,p) => a + p.qtySugerida, 0),
+    valor: selecionados.reduce((a,p) => a + p.valorEncomenda, 0),
+    count: selecionados.length,
+  };
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function render() {
+  const app = document.getElementById("app");
+  const actions = document.getElementById("header-actions");
+
+  if (!ZohoAuth.isAuthenticated()) {
+    app.innerHTML = renderAuthRequired();
+    actions.innerHTML = `<button class="btn btn-primary" onclick="doLogin()">Ligar ao Zoho</button>`;
+    return;
+  }
+
+  if (state.fase === "loading") {
+    app.innerHTML = renderLoading();
+    actions.innerHTML = "";
+    return;
+  }
+
+  if (state.fase === "selecao") {
+    app.innerHTML = renderSelecao();
+    actions.innerHTML = "";
+    return;
+  }
+
+  if (state.fase === "proposta") {
+    app.innerHTML = renderProposta();
+    actions.innerHTML = `
+      <button class="btn btn-outline" onclick="voltarSelecao()">← Editar</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir</button>
+    `;
+    return;
+  }
+}
+
+function renderAuthRequired() {
+  return `
+    <div class="auth-required">
+      <div class="icon">🔐</div>
+      <h2>Ligação ao Zoho necessária</h2>
+      <p>Para aceder aos dados em tempo real da farmácia, precisas de fazer login com a tua conta Zoho.</p>
+      <button class="btn btn-primary" style="font-size:14px;padding:12px 24px" onclick="doLogin()">Ligar ao Zoho Analytics</button>
+    </div>
+  `;
+}
+
+function renderLoading() {
+  return `
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>A carregar dados da ${state.marca || state.laboratorio}...</p>
+    </div>
+  `;
+}
+
+function renderSelecao() {
+  const marcas = MARCAS_POR_LAB[state.laboratorio] || [];
+  return `
+    ${state.error ? `<div class="error-box">⚠️ ${state.error}</div>` : ""}
+    
+    <div style="margin-bottom:20px">
+      <h1 style="font-size:20px;font-weight:800;color:#2C2C2A;letter-spacing:-0.02em">Proposta de Encomenda</h1>
+      <p style="font-size:13px;color:#6B6B65;margin-top:4px">Seleciona o laboratório e as condições da análise</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Farmácia</div>
+      <div class="chips">
+        ${["Aroeira", "Dias e Brito", "Cidade Univ.", "Grupo"].map(f => `
+          <button class="chip ${state.farmacia === f ? "active" : ""}" onclick="setFarmacia('${f}')">${f}</button>
+        `).join("")}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Laboratório</div>
+      <div class="lab-grid">
+        ${LABORATORIOS.map(lab => `
+          <button class="chip ${state.laboratorio === lab ? "active" : ""}" onclick="setLab('${lab.replace(/'/g, "\\'")}')">
+            ${lab.split(",")[0].split("-")[0].trim()}
+          </button>
+        `).join("")}
+      </div>
+    </div>
+
+    ${marcas.length > 0 ? `
+      <div class="section">
+        <div class="section-title">Marca (delegado ${state.laboratorio.split(" ")[0]})</div>
+        <div class="chips">
+          ${marcas.map(m => `
+            <button class="chip ${state.marca === m ? "active" : ""}" onclick="setMarca('${m}')">${m}</button>
+          `).join("")}
+        </div>
+      </div>
+    ` : ""}
+
+    <div class="section">
+      <div class="section-title">Meses de cobertura</div>
+      <div class="meses-chips">
+        ${[1,2,3,4,6].map(m => `
+          <button class="mes-chip ${state.meses === m ? "active" : ""}" onclick="setMeses(${m})">${m}</button>
+        `).join("")}
+      </div>
+      <p style="font-size:11px;color:#6B6B65;margin-top:8px">Padrão: 4 meses · Média baseada nos últimos 6 meses</p>
+    </div>
+
+    <button class="generate-btn" onclick="carregarProdutos()" ${!state.laboratorio ? "disabled" : ""}>
+      Gerar Proposta →
+    </button>
+  `;
+}
+
+function renderProposta() {
+  const totais = getTotais();
+  const ruturas = state.produtos.filter(p => p.prioridade === "RUTURA").length;
+  const vendas6 = state.produtos.reduce((a,p) => a + p.totalVendas, 0);
+  const marcaNome = state.marca || state.laboratorio.split(" ")[0];
+  const data = new Date().toLocaleDateString("pt-PT");
+
+  return `
+    <div class="proposta-header">
+      <div>
+        <div class="lab">${state.farmacia} · ${state.meses} meses · ${data}</div>
+        <div class="marca">${marcaNome}</div>
+        <div class="sub">${state.laboratorio}</div>
+      </div>
+      <div class="meta">
+        <div>Dados reais · Zoho Analytics</div>
+        <div style="margin-top:4px">AROEIRA_PRODUCT_ANALYSIS</div>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="kpi-label">Produtos</div>
+        <div class="kpi-value" style="color:#2C2C2A">${state.produtos.length}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Vendas 6M</div>
+        <div class="kpi-value" style="color:#2C2C2A">${vendas6} un</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Ruturas</div>
+        <div class="kpi-value" style="color:${ruturas > 0 ? "#8B1A1A" : "#16A57A"}">${ruturas}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">A encomendar</div>
+        <div class="kpi-value" style="color:#0B5E47">${totais.count}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Total encomenda</div>
+        <div class="kpi-value" style="color:#0B5E47">${totais.valor.toFixed(2)}€</div>
+        <div class="kpi-sub">${totais.un} unidades</div>
+      </div>
+    </div>
+
+    <div class="tabela-wrap">
+      <div class="tabela-header">
+        <span></span>
+        <span>Produto</span>
+        <span>Stk</span>
+        <span>V1·V2·V3·V4·V5·V6</span>
+        <span>Média</span>
+        <span>Qty ${state.meses}M</span>
+        <span>Mg%</span>
+        <span>Valor€</span>
+      </div>
+
+      ${state.produtos.map(p => {
+        const sel = state.selecionados.has(p.CODIGO);
+        const maxBar = Math.max(...p.vendas, 1);
+        return `
+          <div class="tabela-row ${sel ? "selected" : ""} ${p.prioridade === "RUTURA" ? "rutura" : ""}" onclick="toggleProd('${p.CODIGO}')">
+            <div class="checkbox ${sel ? "checked" : ""}">${sel ? "✓" : ""}</div>
+            <div>
+              <div class="prod-nome">${p.DESIGNACAO}</div>
+              <span class="badge" style="color:${p.prioCor};background:${p.prioBg}">${p.prioridade}</span>
+            </div>
+            <div class="stk-val" style="color:${p.stk === 0 ? "#8B1A1A" : "#1A1A18"}">${p.stk}</div>
+            <div class="bars">
+              ${p.vendas.map((v,i) => `
+                <div class="bar-item">
+                  <div class="bar" style="height:${Math.max(4, (v/maxBar)*28)}px;background:${v>0?"#0B5E47":"#F0F0EC"}"></div>
+                  <div class="bar-num">${v}</div>
+                </div>
+              `).join("")}
+            </div>
+            <div class="media-val">${parseFloat(p.media).toFixed(1)}</div>
+            <div>
+              <span class="qty-badge" style="background:${p.qtySugerida>0?"#0B5E4718":"#F0F0EC"};color:${p.qtySugerida>0?"#0B5E47":"#6B6B65"}">
+                ${p.qtySugerida > 0 ? `${p.qtySugerida}un` : "—"}
+              </span>
+            </div>
+            <div class="mg-val" style="color:${p.margemPct>=35?"#16A57A":p.margemPct>=25?"#D4820A":"#C0392B"}">${p.margemPct.toFixed(0)}%</div>
+            <div class="valor-val">${p.valorEncomenda > 0 ? p.valorEncomenda.toFixed(2)+"€" : "—"}</div>
+          </div>
+        `;
+      }).join("")}
+
+      <div class="tabela-total">
+        <span></span>
+        <span class="total-label">TOTAL ENCOMENDA</span>
+        <span></span><span></span><span></span>
+        <span class="total-val">${totais.un}un</span>
+        <span></span>
+        <span class="total-val">${totais.valor.toFixed(2)}€</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Condições negociadas</div>
+      <div class="cond-grid">
+        <div class="field">
+          <label>Desconto (%)</label>
+          <input type="number" placeholder="0" min="0" max="100" step="0.1">
+        </div>
+        <div class="field">
+          <label>Bónus (unidades)</label>
+          <input type="number" placeholder="0" min="0">
+        </div>
+        <div class="field">
+          <label>Prazo pagamento</label>
+          <select>
+            <option>Pronto pagamento</option>
+            <option>30 dias</option>
+            <option selected>45 dias</option>
+            <option>60 dias</option>
+            <option>90 dias</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Data entrega</label>
+          <input type="text" placeholder="ex: Julho 2026">
+        </div>
+        <div class="field">
+          <label>Vendedor</label>
+          <input type="text" placeholder="Nome do delegado">
+        </div>
+        <div class="field">
+          <label>Email vendedor</label>
+          <input type="email" placeholder="email@laboratorio.com">
+        </div>
+        <div class="field">
+          <label>Góndola / Promotores / Formações</label>
+          <input type="text" placeholder="Detalhar se aplicável">
+        </div>
+        <div class="field">
+          <label>Campanhas / Validades a regularizar</label>
+          <input type="text" placeholder="Detalhar se aplicável">
+        </div>
+        <div class="field notas-field">
+          <label>Notas</label>
+          <textarea placeholder="Observações da reunião com o delegado..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="export-btns" style="display:flex;gap:10px;margin-bottom:24px">
+      <button class="btn btn-primary" style="flex:1;padding:13px" onclick="window.print()">🖨️ Imprimir / PDF</button>
+      <button class="btn btn-secondary" style="flex:1;padding:13px" onclick="exportExcel()">📊 Exportar Excel</button>
+    </div>
+  `;
+}
+
+// ─── ACTIONS ──────────────────────────────────────────────────────────────────
+function setFarmacia(f) { state.farmacia = f; render(); }
+function setLab(lab) { state.laboratorio = lab; state.marca = ""; render(); }
+function setMarca(m) { state.marca = m; render(); }
+function setMeses(m) { state.meses = m; render(); }
+function voltarSelecao() { state.fase = "selecao"; render(); }
+function toggleProd(cod) {
+  if (state.selecionados.has(cod)) state.selecionados.delete(cod);
+  else state.selecionados.add(cod);
+  render();
+}
+function doLogin() {
+  sessionStorage.setItem("zoho_redirect", window.location.href);
+  ZohoAuth.login();
+}
+
+function exportExcel() {
+  const totais = getTotais();
+  const selecionados = state.produtos.filter(p => state.selecionados.has(p.CODIGO));
+  
+  let csv = "Código;Designação;Stock;V1;V2;V3;V4;V5;V6;Média;Qty Sugerida;Preço Custo;Valor Encomenda;Margem%;Prioridade\n";
+  selecionados.forEach(p => {
+    csv += `${p.CODIGO};"${p.DESIGNACAO}";${p.stk};${p.vendas.join(";")};${p.media};${p.qtySugerida};${p.pcus.toFixed(2)};${p.valorEncomenda.toFixed(2)};${p.margemPct.toFixed(1)};${p.prioridade}\n`;
+  });
+  csv += `;;;;;;;;;;${totais.un};;${totais.valor.toFixed(2)};;TOTAL\n`;
+
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `proposta_${state.marca || state.laboratorio.split(" ")[0]}_${new Date().toLocaleDateString("pt-PT").replace(/\//g,"-")}.csv`;
+  a.click();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
