@@ -37,7 +37,7 @@ def bulk_query(token, sql):
         if "FAIL" in status or "CANCEL" in status:
             raise Exception(f"Job failed: {s}")
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}/data", headers=headers)
-    return list(csv.DictReader(io.StringIO(r.text)))
+    return list(csv.DictReader(io.StringIO(r.text.lstrip(chr(65279)))))
 
 def aggregate(rows):
     now = datetime.now()
@@ -49,7 +49,7 @@ def aggregate(rows):
         months.append((y, m))
     prods = {}
     for row in rows:
-        cod = row.get("COD_PRD")
+        row = {k.lstrip(chr(65279)): v for k,v in row.items()}; cod = row.get("COD_PRD")
         if not cod: continue
         if cod not in prods:
             prods[cod] = {k: row.get(k) for k in ["COD_PRD","DESIGNACAO","ENT_RESP_COMERC","MARCA","STK_FARMACIA","PCUSMED_PROD","DUV","CATEGORIA_DESIGNACAO","MERCADO_DESIGNACAO"]}
