@@ -337,7 +337,7 @@ function onLabChange() {
     marcaSel.disabled = false;
   }
 
-  const cats = [...new Set(produtosLab.map(p => p.FAM_ESTAT).filter(Boolean))].sort();
+  const cats = [...new Set(produtosLab.map(p => p.CATEGORIA_DESIGNACAO).filter(Boolean))].sort();
   if (cats.length > 0) {
     cats.forEach(cat => {
       const opt = document.createElement('option');
@@ -364,7 +364,7 @@ function onMarcaChange() {
     return true;
   });
 
-  const cats = [...new Set(produtosFiltrados.map(p => p.FAM_ESTAT).filter(Boolean))].sort();
+  const cats = [...new Set(produtosFiltrados.map(p => p.CATEGORIA_DESIGNACAO).filter(Boolean))].sort();
   cats.forEach(cat => {
     const opt = document.createElement('option');
     opt.value = cat; opt.textContent = cat;
@@ -387,10 +387,10 @@ function onCatChange() {
   const produtosFiltrados = (allData.produtos || []).filter(p => {
     if (p.ENT_RESP_COMERC !== lab) return false;
     if (marca && p.MARCA !== marca) return false;
-    if (p.FAM_ESTAT !== cat) return false;
+    if (p.CATEGORIA_DESIGNACAO !== cat) return false;
     return true;
   });
-  const subcats = [...new Set(produtosFiltrados.map(p => p.SFAM_ESTAT).filter(Boolean))].sort();
+  const subcats = [...new Set(produtosFiltrados.map(p => p.MERCADO_DESIGNACAO).filter(Boolean))].sort();
 
   if (subcats.length > 0) {
     subcats.forEach(sub => {
@@ -430,8 +430,8 @@ function aplicar() {
     const subcat = document.getElementById('subcat-select').value;
     const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
     if (marca && p.MARCA !== marca) return false;
-    if (cat && p.FAM_ESTAT !== cat) return false;
-    if (subcat && p.SFAM_ESTAT !== subcat) return false;
+    if (cat && p.CATEGORIA_DESIGNACAO !== cat) return false;
+    if (subcat && p.MERCADO_DESIGNACAO !== subcat) return false;
     if (pesquisa && !(p.DESIGNACAO || '').toLowerCase().includes(pesquisa)) return false;
     return true;
   });
