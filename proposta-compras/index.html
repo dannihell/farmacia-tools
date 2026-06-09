@@ -421,20 +421,9 @@ function aplicar() {
   const lab = document.getElementById('lab-select').value;
   if (!lab || !allData) return;
   const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
-  const filtro = document.getElementById('filtro-prioridade').value;
 
-  const produtos = (allData.produtos || []).filter(p => {
-    if (p.ENT_RESP_COMERC !== lab) return false;
-    const marca = document.getElementById('marca-select').value;
-    const cat = document.getElementById('cat-select').value;
-    const subcat = document.getElementById('subcat-select').value;
-    const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
-    if (marca && p.MARCA !== marca) return false;
-    if (cat && p.CATEGORIA_DESIGNACAO !== cat) return false;
-    if (subcat && p.MERCADO_DESIGNACAO !== subcat) return false;
-    if (pesquisa && !(p.DESIGNACAO || '').toLowerCase().includes(pesquisa)) return false;
-    return true;
-  });
+  // Carregar TODOS os produtos do laboratório sem filtros de marca/cat/subcat/pesquisa
+  const produtos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
 
   propostaActual = produtos.map(p => {
     const v = [0,1,2,3,4,5].map(i => parseFloat(p[`V${i}`] || 0));
@@ -449,16 +438,30 @@ function aplicar() {
     return { ...p, v, media6m, stock, pvp, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias };
   });
 
-  // Ordenar: rutura > urgente > comprar > ok, depois por media6m desc
   const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
   propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
 
-  renderTabela(filtro);
+  renderTabela();
 }
 
-function renderTabela(filtro) {
-  filtro = filtro || document.getElementById('filtro-prioridade').value;
+function renderTabela() {
+  if (!propostaActual.length) return;
+
+  const filtro = document.getElementById('filtro-prioridade').value;
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcat = document.getElementById('subcat-select').value;
+  const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
+
   let rows = propostaActual;
+
+  // Filtros em tempo real
+  if (marca) rows = rows.filter(r => r.MARCA === marca);
+  if (cat) rows = rows.filter(r => r.CATEGORIA_DESIGNACAO === cat);
+  if (subcat) rows = rows.filter(r => r.MERCADO_DESIGNACAO === subcat);
+  if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
+
+  // Filtro prioridade
   if (filtro === 'rutura') rows = rows.filter(r => r.prioridade === 'rutura');
   if (filtro === 'urgente_comprar') rows = rows.filter(r => ['rutura','urgente','comprar'].includes(r.prioridade));
   if (filtro === 'com_proposta') rows = rows.filter(r => r.proposta_edit > 0);
@@ -561,6 +564,14 @@ function copiarResumo() {
 }
 
 document.getElementById('filtro-prioridade').addEventListener('change', () => {
+  if (propostaActual.length) renderTabela();
+});
+['marca-select','cat-select','subcat-select'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => {
+    if (propostaActual.length) renderTabela();
+  });
+});
+document.getElementById('pesquisa').addEventListener('input', () => {
   if (propostaActual.length) renderTabela();
 });
 
