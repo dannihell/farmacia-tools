@@ -555,7 +555,7 @@ function renderTabela() {
       const isSazonalBar = p.sazonal && (i === 10 || i === 11 || i === 12);
       const barClass = i === 0 ? 'bar current' : isSazonalBar ? 'bar sazonal' : 'bar';
       return `<div class="bar-wrap" title="${meses[i]}: ${vv.toFixed(1)} un"><div class="${barClass}" style="height:${h}px"></div>${label}</div>`;
-    }).join('');
+    }).reverse().join('');
 
     const prLabel = {rutura:'RUTURA',urgente:'URGENTE',comprar:'COMPRAR',ok:'OK'}[p.prioridade];
     const prClass = `p-${p.prioridade}`;
