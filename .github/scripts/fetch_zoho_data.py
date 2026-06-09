@@ -73,7 +73,7 @@ def agregar_por_produto(rows):
                 "DUV": row.get("DUV"),
                 "CATEGORIA_DESIGNACAO": row.get("CATEGORIA_DESIGNACAO"),
                 "MERCADO_DESIGNACAO": row.get("MERCADO_DESIGNACAO"),
-                "V0": 0, "V1": 0, "V2": 0, "V3": 0, "V4": 0, "V5": 0, "V6": 0,
+                "V0": 0, "V1": 0, "V2": 0, "V3": 0, "V4": 0, "V5": 0, "V6": 0, "V7": 0, "V8": 0, "V9": 0, "V10": 0, "V11": 0, "V12": 0, "V13": 0, "V14": 0, "V15": 0, "V16": 0, "V17": 0,
                 "VENDAS_YTD": 0, "MARGEM_YTD": 0, "VALOR_QUEBRAS": 0, "TOTAL_QT": 0
             }
         p = produtos[cod]
