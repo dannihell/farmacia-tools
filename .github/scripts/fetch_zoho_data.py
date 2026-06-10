@@ -47,7 +47,8 @@ def agregar_por_produto(rows):
     now = datetime.now()
     year, month = now.year, now.month
 
-    # Calcular os 7 meses relevantes (V0=actual, V1..V6=anteriores)
+    # 18 meses: V0=actual, V1..V17=anteriores
+    # V0=Jun26, V1=Mai26, V2=Abr26, ..., V11=Jul25, V12=Jun25, V13=Mai25, V14=Abr25...
     months = []
     for i in range(18):
         m = month - i
@@ -59,7 +60,8 @@ def agregar_por_produto(rows):
 
     produtos = {}
     for row in rows:
-        row={k.lstrip(chr(65279)):v for k,v in row.items()};cod=row.get("COD_PRD")
+        row = {k.lstrip(chr(65279)): v for k, v in row.items()}
+        cod = row.get("COD_PRD")
         if cod is None:
             continue
         if cod not in produtos:
@@ -73,7 +75,9 @@ def agregar_por_produto(rows):
                 "DUV": row.get("DUV"),
                 "CATEGORIA_DESIGNACAO": row.get("CATEGORIA_DESIGNACAO"),
                 "MERCADO_DESIGNACAO": row.get("MERCADO_DESIGNACAO"),
-                "V0": 0, "V1": 0, "V2": 0, "V3": 0, "V4": 0, "V5": 0, "V6": 0, "V7": 0, "V8": 0, "V9": 0, "V10": 0, "V11": 0, "V12": 0, "V13": 0, "V14": 0, "V15": 0, "V16": 0, "V17": 0,
+                "V0": 0, "V1": 0, "V2": 0, "V3": 0, "V4": 0, "V5": 0,
+                "V6": 0, "V7": 0, "V8": 0, "V9": 0, "V10": 0, "V11": 0,
+                "V12": 0, "V13": 0, "V14": 0, "V15": 0, "V16": 0, "V17": 0,
                 "VENDAS_YTD": 0, "MARGEM_YTD": 0, "VALOR_QUEBRAS": 0, "TOTAL_QT": 0
             }
         p = produtos[cod]
@@ -105,7 +109,7 @@ def main():
     token = get_access_token()
     os.makedirs("data", exist_ok=True)
 
-    # Só últimos 13 meses para limitar tamanho
+    # Últimos 18 meses para suportar análise sazonal (época passada)
     now = datetime.now()
     year, month = now.year, now.month
     min_m = month - 17
@@ -114,7 +118,7 @@ def main():
         min_m += 12
         min_y -= 1
 
-    print("📊 A carregar AROEIRA_BRAND_ANALYSIS (últimos 13 meses)...")
+    print("📊 A carregar AROEIRA_BRAND_ANALYSIS (últimos 18 meses)...")
     sql = f"""SELECT COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO, QT, ANO, MES, VALOR_VENDA, MARGEM_EUROS, VALOR_QUEBRA FROM AROEIRA_BRAND_ANALYSIS WHERE (ANO * 12 + MES) >= ({min_y} * 12 + {min_m})"""
 
     result = query_zoho(token, sql)
