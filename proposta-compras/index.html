@@ -301,6 +301,10 @@
       <div class="kpi-label">Proposta (Custo)</div>
       <div class="kpi-value" id="kpi-proposta-custo">—</div>
     </div>
+    <div class="kpi-card" id="kpi-card-vendedor" style="display:none">
+      <div class="kpi-label">Proposta Vendedor</div>
+      <div class="kpi-value" id="kpi-proposta-vendedor">—</div>
+    </div>
   </div>
 </div>
 
@@ -654,6 +658,7 @@ function updateQt(input) {
   const tr = input.closest('tr');
   tr.querySelector('.total-cell').textContent = (val * propostaActual[idx].pcus).toFixed(2) + ' €';
   updateFooter();
+  updateKPIsLight();
 }
 
 function updateFooter() {
@@ -772,6 +777,7 @@ function processarLinhasVendedor(rows, colCnp, colQt, headerRow) {
     }
   });
   renderTabela();
+  updateKPIsLight();
   alert(`Excel do vendedor carregado — ${count} referências com quantidade.\nColuna "V.Qt" adicionada à tabela.`);
 }
 
@@ -820,10 +826,27 @@ function updateKPIs(rows) {
   document.getElementById('kpi-proposta-custo').textContent = fmtEur(propostaCusto);
 
   document.getElementById('kpi-panel').style.display = 'block';
+  updateKPIsLight();
 }
 
 
-function guardarProposta() {
+function updateKPIsLight() {
+  // Actualiza só os KPIs que dependem das quantidades editadas
+  const propostaCusto = propostaActual.reduce((s, p) => s + p.proposta_edit * parseFloat(p.PCUSMED_PROD || 0), 0);
+  document.getElementById('kpi-proposta-custo').textContent = fmtEur(propostaCusto);
+
+  // Proposta vendedor
+  if (Object.keys(vendedorMap).length > 0) {
+    const vendedorCusto = propostaActual.reduce((s, p) => {
+      const vQt = vendedorMap[parseInt(p.COD_PRD)] || 0;
+      return s + vQt * parseFloat(p.PCUSMED_PROD || 0);
+    }, 0);
+    document.getElementById('kpi-proposta-vendedor').textContent = fmtEur(vendedorCusto);
+    document.getElementById('kpi-card-vendedor').style.display = '';
+  }
+}
+
+
   const lab = document.getElementById('lab-select').value;
   if (!lab || !propostaActual.length) return;
   const dados = {
