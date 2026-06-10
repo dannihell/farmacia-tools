@@ -45,7 +45,7 @@ def query_zoho(token, sql):
 def to_float(v):
     if v is None:
         return 0.0
-    return float(str(v).replace(',', '.').replace(' ', ''))
+    s = str(v).strip().replace(',', '.').replace(' ', ''); return float(s) if s else 0.0
 
 def main():
     print(datetime.now().strftime("%Y-%m-%d %H:%M"))
