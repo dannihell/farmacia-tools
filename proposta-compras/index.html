@@ -298,6 +298,10 @@
       <div class="kpi-value" id="kpi-stock-custo">—</div>
     </div>
     <div class="kpi-card">
+      <div class="kpi-label">Quebras YTD</div>
+      <div class="kpi-value kpi-neg" id="kpi-quebras">—</div>
+    </div>
+    <div class="kpi-card">
       <div class="kpi-label">Proposta (Custo)</div>
       <div class="kpi-value" id="kpi-proposta-custo">—</div>
     </div>
@@ -322,6 +326,7 @@
         <th class="num">Margem</th>
         <th class="num">Proposta</th>
         <th class="num">Editar</th>
+        <th class="num">PVP s/IVA</th>
         <th class="num">Custo s/IVA</th>
         <th class="num">Total Custo</th>
         <th class="num" id="th-vendedor" style="display:none;background:#1a5c8a">V.Qt</th>
@@ -634,6 +639,7 @@ function renderTabela() {
       <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
       <td class="num">${p.proposta}</td>
       <td class="num"><input class="qt-input" type="number" min="0" value="${p.proposta_edit}" data-idx="${propostaActual.indexOf(p)}" onchange="updateQt(this)"></td>
+      <td class="num">${parseFloat(p.PVP_PROD || 0).toFixed(2)} €</td>
       <td class="num">${p.pcus.toFixed(2)} €</td>
       <td class="num total-cell">${(p.proposta_edit * p.pcus).toFixed(2)} €</td>
       ${vCell}
@@ -823,6 +829,8 @@ function updateKPIs(rows) {
   rEl.textContent = emRutura;
   rEl.className = 'kpi-value ' + (emRutura > 0 ? 'kpi-neg' : '');
   document.getElementById('kpi-stock-custo').textContent = fmtEur(stockCusto);
+  const quebras = todos.reduce((s,p) => s + parseFloat(p.VALOR_QUEBRAS || 0), 0);
+  document.getElementById('kpi-quebras').textContent = fmtEur(quebras);
   document.getElementById('kpi-proposta-custo').textContent = fmtEur(propostaCusto);
 
   document.getElementById('kpi-panel').style.display = 'block';
