@@ -521,10 +521,9 @@ function aplicar() {
     const v = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17].map(i => parseFloat(p[`V${i}`] || 0));
     const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
     const stock = parseFloat(p.STK_FARMACIA || 0);
+    const pvp = parseFloat(p.PVP_PROD || 0);
     const pcus = parseFloat(p.PCUSMED_PROD || 0);
-    const vendasYtd = parseFloat(p.VENDAS_YTD || 0);
-    const margemYtd = parseFloat(p.MARGEM_YTD || 0);
-    const margem = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
+    const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) : (parseFloat(p.MARGEM_YTD||0) > 0 && parseFloat(p.VENDAS_YTD||0) > 0 ? parseFloat(p.MARGEM_YTD)/parseFloat(p.VENDAS_YTD)*100 : 0);
 
     let proposta, mediaBase, sazonal = false;
 
@@ -792,14 +791,19 @@ function fmt(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:0, max
 function fmtEur(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 
 function updateKPIs(rows) {
-  // KPIs estáticos — todo o laboratório
-  const todos = propostaActual;
-  const vendasYtd = todos.reduce((s,p) => s + parseFloat(p.VENDAS_YTD || 0), 0);
-  const margemYtd = todos.reduce((s,p) => s + parseFloat(p.MARGEM_YTD || 0), 0);
+  // Todos os KPIs reflectem os filtros activos (rows)
+  const vendasYtd = rows.reduce((s,p) => s + parseFloat(p.VENDAS_YTD || 0), 0);
+  const margemYtd = rows.reduce((s,p) => s + parseFloat(p.MARGEM_YTD || 0), 0);
   const margemPct = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
-  const unid2026 = todos.reduce((s,p) => s + [0,1,2,3,4,5].reduce((a,i) => a + (p.v[i]||0), 0), 0);
-  const unid2025 = todos.reduce((s,p) => s + [12,13,14,15,16,17].reduce((a,i) => a + (p.v[i]||0), 0), 0);
-  const cresc = unid2025 > 0 ? ((unid2026 - unid2025) / unid2025 * 100) : null;
+
+  // Crescimento YTD homólogo correcto: VENDAS_YTD vs VENDAS_ANO_ANT_YTD
+  const vendasAnoAnt = rows.reduce((s,p) => s + parseFloat(p.VENDAS_ANO_ANT_YTD || p.VENDAS_ANO_ANT || 0), 0);
+  const cresc = vendasAnoAnt > 0 ? ((vendasYtd - vendasAnoAnt) / vendasAnoAnt * 100) : null;
+
+  const refsActivas = rows.filter(p => [0,1,2,3,4,5].some(i => (p.v[i]||0) > 0)).length;
+  const emRutura = rows.filter(p => p.prioridade === 'rutura').length;
+  const stockCusto = rows.reduce((s,p) => s + (parseFloat(p.STK_FARMACIA||0) * parseFloat(p.PCUSMED_PROD||0)), 0);
+  const quebras = rows.reduce((s,p) => s + parseFloat(p.VALOR_QUEBRAS || 0), 0);
 
   document.getElementById('kpi-vendas-ytd').textContent = fmtEur(vendasYtd);
   const mEl = document.getElementById('kpi-margem-ytd');
@@ -813,13 +817,6 @@ function updateKPIs(rows) {
     cEl.textContent = '—';
     cEl.className = 'kpi-value';
   }
-
-  // KPIs dinâmicos — afectados pelos filtros activos
-  const refsActivas = rows.filter(p => [0,1,2,3,4,5].some(i => (p.v[i]||0) > 0)).length;
-  const emRutura = rows.filter(p => p.prioridade === 'rutura').length;
-  const stockCusto = rows.reduce((s,p) => s + (parseFloat(p.STK_FARMACIA||0) * parseFloat(p.PCUSMED_PROD||0)), 0);
-  const quebras = rows.reduce((s,p) => s + parseFloat(p.VALOR_QUEBRAS || 0), 0);
-
   document.getElementById('kpi-refs-activas').textContent = refsActivas;
   const rEl = document.getElementById('kpi-rutura');
   rEl.textContent = emRutura;
