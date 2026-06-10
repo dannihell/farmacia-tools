@@ -59,7 +59,7 @@ def main():
 
     produtos = []
     for row in rows:
-        row = {k.lstrip(chr(65279)): v for k, v in row.items()}
+        row = {k.lstrip(chr(65279)).split(".")[-1]: v for k, v in row.items()}
         produtos.append(row)
 
     produtos.sort(key=lambda x: to_float(x.get("TOTAL_QT", 0)), reverse=True)
