@@ -1,4 +1,4 @@
-import requests, json, os, csv, io, time
+import requests, json, os, time
 from datetime import datetime
 
 REFRESH_TOKEN = os.environ["ZOHO_REFRESH_TOKEN"]
@@ -18,9 +18,9 @@ def get_access_token():
     print("Access token obtido")
     return d["access_token"]
 
-def query_zoho_csv(token, sql):
+def query_zoho(token, sql):
     headers = {"Authorization": f"Zoho-oauthtoken {token}", "ZANALYTICS-ORGID": ORG_ID}
-    config = {"sqlQuery": sql, "responseFormat": "csv"}
+    config = {"sqlQuery": sql, "responseFormat": "json"}
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/data",
         params={"CONFIG": json.dumps(config)}, headers=headers)
     d = r.json()
@@ -40,84 +40,27 @@ def query_zoho_csv(token, sql):
     else:
         raise Exception("Timeout")
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}/data", headers=headers)
-    text = r.text.lstrip(chr(65279))
-    reader = csv.DictReader(io.StringIO(text))
-    return list(reader)
+    return r.json()
 
 def to_float(v):
-    if v is None or v == '':
+    if v is None:
         return 0.0
-    try:
-        return float(str(v).replace(',', '.').replace(' ', ''))
-    except:
-        return 0.0
-
-def month_offset(year, month, offset):
-    m = month - offset
-    y = year
-    while m <= 0:
-        m += 12
-        y -= 1
-    return y, m
-
-def build_sql():
-    today = datetime.now()
-    cur_year = today.year
-    prev_year = cur_year - 1
-    cur_month = today.month
-
-    # min date = 18 months ago
-    min_y, min_m = month_offset(cur_year, cur_month, 17)
-
-    v_cols = []
-    for i in range(18):
-        y, m = month_offset(cur_year, cur_month, i)
-        v_cols.append(f"SUM(CASE WHEN ANO={y} AND MES={m} THEN QT ELSE 0 END) AS V{i}")
-
-    v_sql = ",\n  ".join(v_cols)
-
-    return f"""SELECT
-  COD_PRD,
-  DESIGNACAO,
-  ENT_RESP_COMERC,
-  MARCA,
-  STK_FARMACIA,
-  PCUSMED_PROD,
-  DUV,
-  CATEGORIA_DESIGNACAO,
-  MERCADO_DESIGNACAO,
-  {v_sql},
-  SUM(CASE WHEN ANO={cur_year} THEN VALOR_VENDA ELSE 0 END) AS VENDAS_YTD,
-  SUM(CASE WHEN ANO={cur_year} THEN MARGEM_EUROS ELSE 0 END) AS MARGEM_YTD,
-  SUM(CASE WHEN ANO={prev_year} AND MES<={cur_month} THEN VALOR_VENDA ELSE 0 END) AS VENDAS_ANO_ANT_YTD,
-  SUM(QT) AS TOTAL_QT,
-  SUM(VALOR_QUEBRA) AS VALOR_QUEBRAS
-FROM AROEIRA_BRAND_ANALYSIS
-WHERE (ANO * 12 + MES) >= ({min_y} * 12 + {min_m})
-GROUP BY COD_PRD, DESIGNACAO, ENT_RESP_COMERC, MARCA, STK_FARMACIA, PCUSMED_PROD, DUV, CATEGORIA_DESIGNACAO, MERCADO_DESIGNACAO
-HAVING SUM(QT) > 0 OR MAX(STK_FARMACIA) > 0"""
+    return float(str(v).replace(',', '.').replace(' ', ''))
 
 def main():
     print(datetime.now().strftime("%Y-%m-%d %H:%M"))
     token = get_access_token()
     os.makedirs("data", exist_ok=True)
 
-    print("A construir SQL com datas literais...")
-    sql = build_sql()
-    print(f"SQL pronto ({len(sql)} chars)")
-
-    print("A carregar dados do Zoho...")
-    rows = query_zoho_csv(token, sql)
-    print(f"{len(rows)} produtos recebidos")
-
-    if rows:
-        print(f"DEBUG chaves: {list(rows[0].keys())[:8]}")
-        print(f"DEBUG V0={rows[0].get('V0')} V1={rows[0].get('V1')} VENDAS_YTD={rows[0].get('VENDAS_YTD')}")
+    print("A carregar AROEIRA_PRODUCT_ANALYSIS...")
+    result = query_zoho(token, "SELECT * FROM AROEIRA_PRODUCT_ANALYSIS")
+    rows = result if isinstance(result, list) else result.get("data", [])
+    print(f"{len(rows)} produtos")
 
     produtos = []
     for row in rows:
-        clean = {k.lstrip(chr(65279)): v for k, v in row.items()}
-        produtos.append(clean)
+        row = {k.lstrip(chr(65279)): v for k, v in row.items()}
+        produtos.append(row)
 
     produtos.sort(key=lambda x: to_float(x.get("TOTAL_QT", 0)), reverse=True)
 
