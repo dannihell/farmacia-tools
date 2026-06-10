@@ -1,6 +1,5 @@
 import requests, json, os, csv, io, time
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 REFRESH_TOKEN = os.environ["ZOHO_REFRESH_TOKEN"]
 CLIENT_ID = os.environ["ZOHO_CLIENT_ID"]
@@ -41,7 +40,7 @@ def query_zoho_csv(token, sql):
     else:
         raise Exception("Timeout")
     r = requests.get(f"{API_BASE}/bulk/workspaces/{WORKSPACE_ID}/exportjobs/{job_id}/data", headers=headers)
-    text = r.text.lstrip(chr(65279))  # remover BOM
+    text = r.text.lstrip(chr(65279))
     reader = csv.DictReader(io.StringIO(text))
     return list(reader)
 
@@ -53,6 +52,14 @@ def to_float(v):
     except:
         return 0.0
 
+def month_offset(year, month, offset):
+    m = month - offset
+    y = year
+    while m <= 0:
+        m += 12
+        y -= 1
+    return y, m
+
 def build_sql():
     today = datetime.now()
     cur_year = today.year
@@ -61,9 +68,8 @@ def build_sql():
 
     v_cols = []
     for i in range(18):
-        from dateutil.relativedelta import relativedelta
-        d = today - relativedelta(months=i)
-        v_cols.append(f"SUM(CASE WHEN ANO={d.year} AND MES={d.month} THEN QT ELSE 0 END) AS V{i}")
+        y, m = month_offset(cur_year, cur_month, i)
+        v_cols.append(f"SUM(CASE WHEN ANO={y} AND MES={m} THEN QT ELSE 0 END) AS V{i}")
 
     v_sql = ",\n  ".join(v_cols)
 
