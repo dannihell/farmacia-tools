@@ -1,6 +1,6 @@
 import requests, json, os, csv, io, time
 from datetime import datetime
-
+from dateutil.relativedelta import relativedelta
 
 REFRESH_TOKEN = os.environ["ZOHO_REFRESH_TOKEN"]
 CLIENT_ID = os.environ["ZOHO_CLIENT_ID"]
@@ -61,7 +61,7 @@ def build_sql():
 
     v_cols = []
     for i in range(18):
-        
+        from dateutil.relativedelta import relativedelta
         d = today - relativedelta(months=i)
         v_cols.append(f"SUM(CASE WHEN ANO={d.year} AND MES={d.month} THEN QT ELSE 0 END) AS V{i}")
 
