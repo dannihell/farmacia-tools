@@ -326,8 +326,8 @@
         <th class="num">Margem</th>
         <th class="num">Proposta</th>
         <th class="num">Editar</th>
-        <th class="num">PVP s/IVA</th>
         <th class="num">Custo s/IVA</th>
+        <th class="num">PVP s/IVA</th>
         <th class="num">Total Custo</th>
         <th class="num" id="th-vendedor" style="display:none;background:#1a5c8a">V.Qt</th>
       </tr>
@@ -639,8 +639,8 @@ function renderTabela() {
       <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
       <td class="num">${p.proposta}</td>
       <td class="num"><input class="qt-input" type="number" min="0" value="${p.proposta_edit}" data-idx="${propostaActual.indexOf(p)}" onchange="updateQt(this)"></td>
-      <td class="num">${parseFloat(p.PVP_PROD || 0).toFixed(2)} €</td>
       <td class="num">${p.pcus.toFixed(2)} €</td>
+      <td class="num">${parseFloat(p.PVP_PROD || 0).toFixed(2)} €</td>
       <td class="num total-cell">${(p.proposta_edit * p.pcus).toFixed(2)} €</td>
       ${vCell}
     `;
@@ -792,29 +792,19 @@ function fmt(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:0, max
 function fmtEur(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 
 function updateKPIs(rows) {
-  // Usar propostaActual completo (sem filtros) para KPIs de lab/marca
+  // KPIs estáticos — todo o laboratório
   const todos = propostaActual;
-
   const vendasYtd = todos.reduce((s,p) => s + parseFloat(p.VENDAS_YTD || 0), 0);
   const margemYtd = todos.reduce((s,p) => s + parseFloat(p.MARGEM_YTD || 0), 0);
   const margemPct = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
-
-  // Crescimento: YTD 2026 (V0-V5 em valor) vs homólogo 2025 (V12-V17)
-  // Aproximação em unidades (não temos valor por mês)
   const unid2026 = todos.reduce((s,p) => s + [0,1,2,3,4,5].reduce((a,i) => a + (p.v[i]||0), 0), 0);
   const unid2025 = todos.reduce((s,p) => s + [12,13,14,15,16,17].reduce((a,i) => a + (p.v[i]||0), 0), 0);
   const cresc = unid2025 > 0 ? ((unid2026 - unid2025) / unid2025 * 100) : null;
-
-  const refsActivas = todos.filter(p => [0,1,2,3,4,5].some(i => (p.v[i]||0) > 0)).length;
-  const emRutura = todos.filter(p => p.prioridade === 'rutura').length;
-  const stockCusto = todos.reduce((s,p) => s + (parseFloat(p.STK_FARMACIA||0) * parseFloat(p.PCUSMED_PROD||0)), 0);
-  const propostaCusto = todos.reduce((s,p) => s + (p.proposta_edit * parseFloat(p.PCUSMED_PROD||0)), 0);
 
   document.getElementById('kpi-vendas-ytd').textContent = fmtEur(vendasYtd);
   const mEl = document.getElementById('kpi-margem-ytd');
   mEl.textContent = margemPct.toFixed(1) + '%';
   mEl.className = 'kpi-value ' + (margemPct >= 30 ? 'kpi-pos' : 'kpi-neg');
-
   const cEl = document.getElementById('kpi-cresc');
   if (cresc !== null) {
     cEl.textContent = (cresc >= 0 ? '+' : '') + cresc.toFixed(1) + '%';
@@ -824,14 +814,18 @@ function updateKPIs(rows) {
     cEl.className = 'kpi-value';
   }
 
+  // KPIs dinâmicos — afectados pelos filtros activos
+  const refsActivas = rows.filter(p => [0,1,2,3,4,5].some(i => (p.v[i]||0) > 0)).length;
+  const emRutura = rows.filter(p => p.prioridade === 'rutura').length;
+  const stockCusto = rows.reduce((s,p) => s + (parseFloat(p.STK_FARMACIA||0) * parseFloat(p.PCUSMED_PROD||0)), 0);
+  const quebras = rows.reduce((s,p) => s + parseFloat(p.VALOR_QUEBRAS || 0), 0);
+
   document.getElementById('kpi-refs-activas').textContent = refsActivas;
   const rEl = document.getElementById('kpi-rutura');
   rEl.textContent = emRutura;
   rEl.className = 'kpi-value ' + (emRutura > 0 ? 'kpi-neg' : '');
   document.getElementById('kpi-stock-custo').textContent = fmtEur(stockCusto);
-  const quebras = todos.reduce((s,p) => s + parseFloat(p.VALOR_QUEBRAS || 0), 0);
   document.getElementById('kpi-quebras').textContent = fmtEur(quebras);
-  document.getElementById('kpi-proposta-custo').textContent = fmtEur(propostaCusto);
 
   document.getElementById('kpi-panel').style.display = 'block';
   updateKPIsLight();
