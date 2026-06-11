@@ -1,119 +1,875 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Farmácias Connect — Ferramentas</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F0; min-height: 100vh; display: flex; flex-direction: column; color: #1A1A18; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f6e56">
+<title>Contagem de Stock — Aroeira</title>
+<link rel="manifest" href="manifest.json">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --green: #0f6e56;
+    --green-light: #1d9e75;
+    --green-bg: #e1f5ee;
+    --green-dark: #085041;
+    --red: #e24b4a;
+    --red-bg: #fcebeb;
+    --amber: #ba7517;
+    --amber-bg: #faeeda;
+    --gray: #5f5e5a;
+    --gray-light: #f1efe8;
+    --gray-border: #d3d1c7;
+    --text: #2c2c2a;
+    --text-muted: #888780;
+    --bg: #ffffff;
+    --bg-secondary: #f1efe8;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-secondary);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.5;
+    overscroll-behavior: none;
+  }
 
-    header { background: #fff; border-bottom: 1px solid #E8E8E4; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-icon { width: 32px; height: 32px; background: #0B5E47; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 16px; }
-    .logo-text .top { font-size: 10px; font-weight: 700; color: #0B5E47; letter-spacing: 0.12em; text-transform: uppercase; }
-    .logo-text .bottom { font-size: 14px; font-weight: 800; color: #2C2C2A; letter-spacing: -0.01em; }
-    .user-info { font-size: 12px; color: #6B6B65; display: flex; align-items: center; gap: 8px; }
-    .auth-btn { padding: 7px 14px; border-radius: 7px; border: 1.5px solid #E8E8E4; background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; color: #6B6B65; font-family: inherit; transition: all 0.2s; }
-    .auth-btn:hover { border-color: #0B5E47; color: #0B5E47; }
-    .auth-btn.login { background: #0B5E47; color: #fff; border-color: #0B5E47; }
-    .auth-btn.login:hover { background: #16A57A; }
+  /* HEADER */
+  .header {
+    background: var(--green);
+    color: white;
+    padding: 16px 20px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .header h1 { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+  .header-sub { font-size: 12px; opacity: 0.75; }
+  .session-badge {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
 
-    main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; }
-    .greeting { text-align: center; margin-bottom: 32px; }
-    .greeting h1 { font-size: 28px; font-weight: 800; color: #2C2C2A; letter-spacing: -0.02em; }
-    .greeting p { font-size: 14px; color: #6B6B65; margin-top: 6px; }
+  /* SCREENS */
+  .screen { display: none; padding: 16px; }
+  .screen.active { display: block; }
 
-    .apps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 600px; }
-    .app-card { background: #fff; border: 2px solid #E8E8E4; border-radius: 16px; padding: 28px 24px; cursor: pointer; text-align: left; text-decoration: none; color: inherit; transition: all 0.2s; display: block; }
-    .app-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-    .app-icon { font-size: 36px; margin-bottom: 14px; }
-    .app-title { font-size: 15px; font-weight: 800; color: #2C2C2A; margin-bottom: 6px; }
-    .app-desc { font-size: 12px; color: #6B6B65; line-height: 1.5; margin-bottom: 14px; }
-    .app-user { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+  /* CARDS */
+  .card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    border: 0.5px solid var(--gray-border);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
 
-    .auth-notice { margin-top: 24px; padding: 14px 20px; background: #E8F5F0; border-radius: 10px; font-size: 12px; color: #0B5E47; font-weight: 600; text-align: center; max-width: 600px; width: 100%; }
+  /* BUTTONS */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--gray-border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 8px;
+    transition: background 0.15s;
+  }
+  .btn:active { background: var(--bg-secondary); }
+  .btn-primary {
+    background: var(--green);
+    color: white;
+    border-color: var(--green-dark);
+  }
+  .btn-primary:active { background: var(--green-dark); }
+  .btn-danger {
+    background: var(--red-bg);
+    color: var(--red);
+    border-color: #f7c1c1;
+  }
+  .btn-sm {
+    width: auto;
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
 
-    footer { text-align: center; padding: 16px; font-size: 11px; color: #bbb; }
-  </style>
+  /* SELECT */
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--gray-border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    margin-bottom: 10px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888780' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+
+  /* SCAN INPUT */
+  .scan-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  #scan-input {
+    width: 100%;
+    padding: 16px 14px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--green-light);
+    background: var(--green-bg);
+    color: var(--text);
+    font-size: 18px;
+    font-family: monospace;
+    letter-spacing: 2px;
+  }
+  #scan-input:focus { outline: none; border-color: var(--green); }
+  .scan-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* PRODUCT CARD */
+  .product-card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    border: 0.5px solid var(--gray-border);
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .product-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .product-cnp {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: monospace;
+    margin-bottom: 12px;
+  }
+  .stock-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .stock-box {
+    flex: 1;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    text-align: center;
+  }
+  .stock-box-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .stock-box-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .stock-box-value.desvio-pos { color: var(--red); }
+  .stock-box-value.desvio-neg { color: var(--amber); }
+  .stock-box-value.desvio-ok { color: var(--green); }
+
+  /* COUNTER */
+  .counter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .counter-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 0.5px solid var(--gray-border);
+    background: var(--bg);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .counter-btn.minus { color: var(--red); border-color: #f7c1c1; background: var(--red-bg); }
+  .counter-btn.plus { color: var(--green); border-color: #9fe1cb; background: var(--green-bg); }
+  .counter-display {
+    flex: 1;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+  }
+
+  /* VALIDADE */
+  .validade-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .validade-row label { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+  .validade-row input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--gray-border);
+    background: var(--bg);
+    font-size: 15px;
+    color: var(--text);
+  }
+  .validade-row input:focus { outline: none; border-color: var(--green); }
+
+  /* LISTA CONTAGENS */
+  .contagem-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--gray-border);
+  }
+  .contagem-item:last-child { border-bottom: none; }
+  .contagem-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .dot-ok { background: var(--green-light); }
+  .dot-warn { background: var(--amber); }
+  .dot-err { background: var(--red); }
+  .contagem-info { flex: 1; min-width: 0; }
+  .contagem-nome {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .contagem-cnp { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+  .contagem-nums {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .contagem-nums .desvio {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .contagem-nums .stocks {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .stat-pill {
+    flex: 1;
+    background: var(--bg);
+    border: 0.5px solid var(--gray-border);
+    border-radius: 20px;
+    padding: 6px 10px;
+    text-align: center;
+  }
+  .stat-pill-num { font-size: 18px; font-weight: 700; }
+  .stat-pill-label { font-size: 10px; color: var(--text-muted); }
+
+  /* LOADING */
+  .loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-state {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .mode-toggle {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .mode-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--gray-border);
+    background: var(--bg);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-align: center;
+  }
+  .mode-btn.active {
+    background: var(--green-bg);
+    border-color: var(--green-light);
+    color: var(--green-dark);
+  }
+
+  .alert {
+    background: var(--amber-bg);
+    border: 0.5px solid #fac775;
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <div class="logo-icon">F</div>
-      <div class="logo-text">
-        <div class="top">Farmácias</div>
-        <div class="bottom">Connect</div>
+
+<div class="header">
+  <div class="header-top">
+    <h1>Contagem de Stock</h1>
+    <span class="session-badge" id="header-badge">—</span>
+  </div>
+  <div class="header-sub" id="header-sub">Farmácia Aroeira</div>
+</div>
+
+<!-- ECRÃ 1: IDENTIFICAÇÃO -->
+<div class="screen active" id="screen-login">
+  <div style="padding-top: 8px;">
+
+    <!-- STOCK STATUS -->
+    <div class="card" id="stock-status-card">
+      <div class="card-title">Stock carregado</div>
+      <div id="stock-status-info" style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">
+        A verificar...
+      </div>
+      <button class="btn btn-primary" id="btn-actualizar" onclick="actualizarStock()">
+        ↻ Actualizar stock
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Colaborador</div>
+      <select id="sel-colaborador">
+        <option value="">Selecionar colaborador...</option>
+        <option>Duarte</option>
+        <option>Alina</option>
+        <option>Jéssica</option>
+        <option>Tatiana</option>
+        <option>Matilde</option>
+      </select>
+    </div>
+    <div class="card">
+      <div class="card-title">Zona a contar</div>
+      <select id="sel-zona">
+        <option value="">Selecionar zona...</option>
+        <option>Armário MSRM — A a D</option>
+        <option>Armário MSRM — E a K</option>
+        <option>Armário MSRM — L a R</option>
+        <option>Armário MSRM — S a Z</option>
+        <option>L01 — Suplementos</option>
+        <option>L02 — Suplementos</option>
+        <option>L03 — Dietética</option>
+        <option>L04 — Avène</option>
+        <option>L05 — A-Derma</option>
+        <option>L19/L20/L21 — Higiene Oral</option>
+        <option>Gondola 1</option>
+        <option>Gondola 2</option>
+        <option>Gondola 3</option>
+        <option>Gondola 4</option>
+        <option>Gondola 5</option>
+        <option>Gondola 6</option>
+        <option>Beauty Point</option>
+        <option>OTC Balcão</option>
+        <option>Frigorífico</option>
+        <option>Outra zona</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="iniciarSessao()">Iniciar contagem</button>
+  </div>
+</div>
+
+<!-- ECRÃ 2: CONTAGEM -->
+<div class="screen" id="screen-contagem">
+
+  <div class="mode-toggle">
+    <div class="mode-btn active" id="mode-livre" onclick="setMode('livre')">Picking livre</div>
+    <div class="mode-btn" id="mode-lista" onclick="setMode('lista')">Lista guiada</div>
+  </div>
+
+  <!-- SCAN -->
+  <div class="card" id="scan-card">
+    <div class="card-title">Ler código de barras</div>
+    <div class="scan-wrapper">
+      <input type="text" id="scan-input" placeholder="Aguarda leitura..." autocomplete="off" autocorrect="off" spellcheck="false" inputmode="numeric">
+    </div>
+    <div class="scan-hint">O scanner envia automaticamente. Ou digita o CNP e pressiona Enter.</div>
+  </div>
+
+  <!-- PRODUTO ATUAL -->
+  <div id="produto-atual" style="display:none;">
+    <div class="product-card">
+      <div class="product-name" id="prod-nome">—</div>
+      <div class="product-cnp" id="prod-cnp">—</div>
+
+      <div class="stock-row">
+        <div class="stock-box">
+          <div class="stock-box-label">Sifarma</div>
+          <div class="stock-box-value" id="prod-stock-sifarma">—</div>
+        </div>
+        <div class="stock-box">
+          <div class="stock-box-label">Contado</div>
+          <div class="stock-box-value" id="prod-contado">0</div>
+        </div>
+        <div class="stock-box">
+          <div class="stock-box-label">Desvio</div>
+          <div class="stock-box-value" id="prod-desvio">—</div>
+        </div>
+      </div>
+
+      <div class="counter-row">
+        <button class="counter-btn minus" onclick="ajustarContador(-1)">−</button>
+        <div class="counter-display" id="counter-display">0</div>
+        <button class="counter-btn plus" onclick="ajustarContador(1)">+</button>
+      </div>
+
+      <div class="validade-row">
+        <label>Validade</label>
+        <input type="text" id="input-validade" placeholder="MM/AAAA" maxlength="7">
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="registarProduto()">✓ Registar</button>
+        <button class="btn btn-sm" onclick="cancelarProduto()">Cancelar</button>
       </div>
     </div>
-    <div class="user-info">
-      <span id="auth-status">Não autenticado</span>
-      <button class="auth-btn login" id="auth-btn" onclick="handleAuth()">Ligar ao Zoho</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar" id="stats-bar" style="display:none;">
+    <div class="stat-pill">
+      <div class="stat-pill-num" id="stat-total">0</div>
+      <div class="stat-pill-label">Contados</div>
     </div>
-  </header>
-
-  <main>
-    <div class="greeting">
-      <h1>Bom dia 👋</h1>
-      <p>Seleciona a ferramenta que precisas</p>
+    <div class="stat-pill">
+      <div class="stat-pill-num" style="color:var(--red);" id="stat-desvios">0</div>
+      <div class="stat-pill-label">Desvios</div>
     </div>
-
-    <div class="apps">
-      <a href="proposta-compras/index.html" class="app-card" style="--accent: #0B5E47">
-        <div class="app-icon">🛒</div>
-        <div class="app-title">Proposta de Encomenda</div>
-        <div class="app-desc">Análise de marca e sugestão automática de compra para reunião com delegado</div>
-        <div class="app-user">Daniel · Matilde</div>
-      </a>
-      <a href="contagem-stocks/index.html" class="app-card" style="--accent: #C4952A">
-        <div class="app-icon">📦</div>
-        <div class="app-title">Contagem de Stocks</div>
-        <div class="app-desc">Contagem física com scanner de CNP, validades e sincronização com Google Sheets</div>
-        <div class="app-user">Tatiana · Backoffice</div>
-      </a>
+    <div class="stat-pill">
+      <div class="stat-pill-num" style="color:var(--amber);" id="stat-val">0</div>
+      <div class="stat-pill-label">Val. curtas</div>
     </div>
+  </div>
 
-    <div class="auth-notice" id="auth-notice" style="display:none">
-      ⚠️ Liga ao Zoho Analytics para aceder aos dados em tempo real
-    </div>
-  </main>
+  <!-- LISTA DE CONTAGENS -->
+  <div class="card" id="lista-card" style="display:none;">
+    <div class="card-title">Produtos contados</div>
+    <div id="lista-contagens"></div>
+  </div>
 
-  <footer>
-    Dados: AROEIRA_BRAND_ANALYSIS · Atualizado diariamente às 21h
-  </footer>
+  <!-- SUBMETER -->
+  <div id="btn-submeter-wrapper" style="display:none; margin-top:4px;">
+    <button class="btn btn-primary" onclick="submeterContagem()">
+      Submeter sessão para registo
+    </button>
+    <button class="btn" onclick="novaContagem()">Nova sessão</button>
+  </div>
 
-  <script src="shared/zoho-auth.js"></script>
-  <script>
-    function checkAuth() {
-      const token = ZohoAuth.getToken();
-      const btn = document.getElementById("auth-btn");
-      const status = document.getElementById("auth-status");
-      const notice = document.getElementById("auth-notice");
+</div>
 
-      if (token) {
-        status.textContent = "Zoho conectado ✓";
-        btn.textContent = "Desligar";
-        btn.classList.remove("login");
-        notice.style.display = "none";
-      } else {
-        status.textContent = "Não autenticado";
-        btn.textContent = "Ligar ao Zoho";
-        btn.classList.add("login");
-        notice.style.display = "block";
-      }
+<!-- ECRÃ 3: SUCESSO -->
+<div class="screen" id="screen-sucesso">
+  <div style="text-align:center; padding: 40px 16px;">
+    <div style="font-size: 56px; margin-bottom: 16px;">✓</div>
+    <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--green);">Sessão submetida</div>
+    <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 32px;" id="sucesso-msg">Os dados foram registados na folha partilhada.</div>
+    <button class="btn btn-primary" onclick="novaContagem()">Nova sessão</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SHEET_ID = '10P4wcbr55d0a_11tIObehmdf6IM91IkSwxCfmvyeWdU';
+
+// ============================================================
+// CONFIGURAÇÃO ZOHO ANALYTICS
+// Substitui estas constantes com os teus valores reais
+// ============================================================
+const ZOHO_CONFIG = {
+  // Obtém em: Zoho Analytics > Workspace > API > OAuth
+  CLIENT_ID: 'ZOHO_CLIENT_ID_AQUI',
+  CLIENT_SECRET: 'ZOHO_CLIENT_SECRET_AQUI',
+  REFRESH_TOKEN: 'ZOHO_REFRESH_TOKEN_AQUI',
+  WORKSPACE_ID: '1135564000002838003',
+  VIEW_NAME: 'AROEIRA_BRAND_ANALYSIS',
+  CNP_COLUMN: 'COD_PRD',
+  STOCK_COLUMN: 'STK_FARMACIA',
+  NAME_COLUMN: 'NOME',
+};
+
+// ============================================================
+// CONFIGURAÇÃO GOOGLE SHEETS
+// Substitui com o URL do teu Google Apps Script (ver instruções)
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYbzkj0GHtLoxUgI_vhSg3wRbObYuXkLJ8tWP1xhWhzTuMUJ3Op6gSvecKDEMRI8EU/exec';
+
+// ============================================================
+
+let sessao = { colaborador: '', zona: '', inicio: null, contagens: [] };
+let produtoAtual = null;
+let contadorAtual = 0;
+let modo = 'livre';
+
+function iniciarSessao() {
+  const col = document.getElementById('sel-colaborador').value;
+  const zona = document.getElementById('sel-zona').value;
+  if (!col || !zona) { showToast('Seleciona colaborador e zona'); return; }
+  sessao = { colaborador: col, zona, inicio: new Date(), contagens: [] };
+  document.getElementById('header-badge').textContent = col;
+  document.getElementById('header-sub').textContent = zona;
+  showScreen('screen-contagem');
+  document.getElementById('scan-input').focus();
+}
+
+function setMode(m) {
+  modo = m;
+  document.getElementById('mode-livre').classList.toggle('active', m === 'livre');
+  document.getElementById('mode-lista').classList.toggle('active', m === 'lista');
+  if (m === 'lista') showToast('Lista guiada em breve — requer ligação Zoho');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ============================================================
+// SCAN INPUT
+// ============================================================
+const scanInput = document.getElementById('scan-input');
+
+scanInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const cnp = scanInput.value.trim();
+    if (cnp) processarCNP(cnp);
+    scanInput.value = '';
+  }
+});
+
+// Scanner HID envia string + Enter em <100ms
+let scanBuffer = '';
+let scanTimer = null;
+document.addEventListener('keydown', function(e) {
+  if (document.activeElement === scanInput) return;
+  if (e.key === 'Enter') {
+    if (scanBuffer.length > 4) {
+      processarCNP(scanBuffer);
+      scanBuffer = '';
+    }
+    clearTimeout(scanTimer);
+    return;
+  }
+  if (e.key.length === 1) {
+    scanBuffer += e.key;
+    clearTimeout(scanTimer);
+    scanTimer = setTimeout(() => { scanBuffer = ''; }, 200);
+  }
+});
+
+async function processarCNP(cnp) {
+  if (document.getElementById('screen-contagem').className.indexOf('active') === -1) return;
+
+  // Verifica se produto já foi contado
+  const existente = sessao.contagens.find(c => c.cnp === cnp);
+  if (existente && produtoAtual && produtoAtual.cnp === cnp) {
+    ajustarContador(1);
+    showToast('+1 ' + existente.nome.substring(0, 20));
+    return;
+  }
+  if (existente) {
+    existente.contado++;
+    atualizarLista();
+    showToast('+1 → ' + existente.nome.substring(0, 20));
+    return;
+  }
+
+  const produto = await buscarProduto(cnp);
+  mostrarProduto(produto, cnp);
+}
+
+async function buscarProduto(cnp) {
+  // Primeiro tenta o cache local
+  const cached = stockCache[cnp];
+  if (cached) {
+    return {
+      cnp,
+      nome: cached.nome || 'Sem nome',
+      stockSifarma: parseFloat(cached.stock) || 0,
+      validade: cached.validade || '',
+      familia: cached.familia || '',
+      subfamilia: cached.subfamilia || '',
+      prateleira: cached.prateleira || '',
+    };
+  }
+  // Se não está em cache, avisa
+  return { cnp, nome: 'Produto não encontrado no stock carregado', stockSifarma: 0, validade: '', erro: true };
+}
+
+function mostrarProduto(produto, cnp) {
+  produtoAtual = { ...produto, cnp };
+  contadorAtual = 0;
+
+  document.getElementById('prod-nome').textContent = produto.nome;
+  document.getElementById('prod-cnp').textContent = 'CNP: ' + cnp;
+  document.getElementById('prod-stock-sifarma').textContent = produto.stockSifarma;
+  document.getElementById('counter-display').textContent = 0;
+  document.getElementById('prod-contado').textContent = 0;
+  document.getElementById('prod-desvio').textContent = '—';
+  document.getElementById('prod-desvio').className = 'stock-box-value';
+  document.getElementById('input-validade').value = produto.validade || '';
+  document.getElementById('produto-atual').style.display = 'block';
+}
+
+function ajustarContador(delta) {
+  contadorAtual = Math.max(0, contadorAtual + delta);
+  document.getElementById('counter-display').textContent = contadorAtual;
+  document.getElementById('prod-contado').textContent = contadorAtual;
+
+  if (produtoAtual) {
+    const desvio = contadorAtual - produtoAtual.stockSifarma;
+    const el = document.getElementById('prod-desvio');
+    el.textContent = (desvio > 0 ? '+' : '') + desvio;
+    el.className = 'stock-box-value ' + (desvio === 0 ? 'desvio-ok' : desvio > 0 ? 'desvio-pos' : 'desvio-neg');
+  }
+}
+
+function registarProduto() {
+  if (!produtoAtual) return;
+  const validade = document.getElementById('input-validade').value.trim();
+  const desvio = contadorAtual - produtoAtual.stockSifarma;
+
+  sessao.contagens.push({
+    cnp: produtoAtual.cnp,
+    nome: produtoAtual.nome,
+    stockSifarma: produtoAtual.stockSifarma,
+    contado: contadorAtual,
+    desvio,
+    validade,
+    ts: new Date().toISOString(),
+  });
+
+  produtoAtual = null;
+  contadorAtual = 0;
+  document.getElementById('produto-atual').style.display = 'none';
+  atualizarLista();
+  showToast('Registado');
+  scanInput.focus();
+}
+
+function cancelarProduto() {
+  produtoAtual = null;
+  document.getElementById('produto-atual').style.display = 'none';
+  scanInput.focus();
+}
+
+function atualizarLista() {
+  const lista = sessao.contagens;
+  if (lista.length === 0) return;
+
+  document.getElementById('stats-bar').style.display = 'flex';
+  document.getElementById('lista-card').style.display = 'block';
+  document.getElementById('btn-submeter-wrapper').style.display = 'block';
+
+  const desvios = lista.filter(c => c.desvio !== 0).length;
+  const valCurtas = lista.filter(c => c.validade && validadeProxima(c.validade)).length;
+
+  document.getElementById('stat-total').textContent = lista.length;
+  document.getElementById('stat-desvios').textContent = desvios;
+  document.getElementById('stat-val').textContent = valCurtas;
+
+  const container = document.getElementById('lista-contagens');
+  container.innerHTML = [...lista].reverse().map(c => {
+    const dotClass = c.desvio === 0 ? 'dot-ok' : Math.abs(c.desvio) > 3 ? 'dot-err' : 'dot-warn';
+    const desvioStr = (c.desvio > 0 ? '+' : '') + c.desvio;
+    const desvioColor = c.desvio === 0 ? 'var(--green)' : Math.abs(c.desvio) > 3 ? 'var(--red)' : 'var(--amber)';
+    return `<div class="contagem-item">
+      <div class="contagem-dot ${dotClass}"></div>
+      <div class="contagem-info">
+        <div class="contagem-nome">${c.nome}</div>
+        <div class="contagem-cnp">${c.cnp}${c.validade ? ' · ' + c.validade : ''}</div>
+      </div>
+      <div class="contagem-nums">
+        <div class="desvio" style="color:${desvioColor}">${desvioStr}</div>
+        <div class="stocks">${c.stockSifarma} → ${c.contado}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function validadeProxima(val) {
+  if (!val || val.length < 7) return false;
+  const parts = val.split('/');
+  if (parts.length !== 2) return false;
+  const m = parseInt(parts[0]);
+  const y = parseInt(parts[1]);
+  if (isNaN(m) || isNaN(y)) return false;
+  const d = new Date(y, m - 1, 1);
+  const diff = (d - new Date()) / (1000 * 60 * 60 * 24 * 30);
+  return diff < 4;
+}
+
+async function submeterContagem() {
+  if (sessao.contagens.length === 0) { showToast('Nenhum produto contado'); return; }
+
+  const btn = document.querySelector('#btn-submeter-wrapper .btn-primary');
+  btn.innerHTML = '<span class="loading-spinner"></span>A submeter...';
+  btn.disabled = true;
+
+  try {
+    if (APPS_SCRIPT_URL === 'APPS_SCRIPT_URL_AQUI') {
+      await new Promise(r => setTimeout(r, 1000));
+      showScreen('screen-sucesso');
+      document.getElementById('sucesso-msg').textContent =
+        sessao.contagens.length + ' produtos registados. Configura o Apps Script para guardar na Google Sheet.';
+      return;
     }
 
-    function handleAuth() {
-      if (ZohoAuth.isAuthenticated()) {
-        ZohoAuth.clearToken();
-        checkAuth();
-      } else {
-        sessionStorage.setItem("zoho_redirect", "/farmacia-tools/index.html");
-        ZohoAuth.login();
-      }
-    }
+    const payload = sessao.contagens.map(c => ({
+      data: new Date().toLocaleDateString('pt-PT'),
+      hora: new Date().toLocaleTimeString('pt-PT'),
+      colaborador: sessao.colaborador,
+      zona: sessao.zona,
+      cnp: c.cnp,
+      nome: c.nome,
+      stock_sifarma: c.stockSifarma,
+      contado: c.contado,
+      desvio: c.desvio,
+      validade: c.validade,
+    }));
 
-    checkAuth();
-  </script>
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessao: sessao.colaborador + ' — ' + sessao.zona, linhas: payload }),
+    });
+
+    showScreen('screen-sucesso');
+    document.getElementById('sucesso-msg').textContent =
+      sessao.contagens.length + ' produtos registados por ' + sessao.colaborador + '.';
+  } catch (e) {
+    showToast('Erro ao submeter — tenta de novo');
+    btn.innerHTML = 'Submeter sessão para registo';
+    btn.disabled = false;
+  }
+}
+
+function novaContagem() {
+  sessao = { colaborador: '', zona: '', inicio: null, contagens: [] };
+  produtoAtual = null;
+  contadorAtual = 0;
+  document.getElementById('header-badge').textContent = '—';
+  document.getElementById('header-sub').textContent = 'Farmácia Aroeira';
+  document.getElementById('sel-colaborador').value = '';
+  document.getElementById('sel-zona').value = '';
+  document.getElementById('lista-contagens').innerHTML = '';
+  document.getElementById('stats-bar').style.display = 'none';
+  document.getElementById('lista-card').style.display = 'none';
+  document.getElementById('btn-submeter-wrapper').style.display = 'none';
+  document.getElementById('produto-atual').style.display = 'none';
+  showScreen('screen-login');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// Manter scan input focado
+document.addEventListener('click', function(e) {
+  if (document.getElementById('screen-contagem').classList.contains('active')) {
+    if (!e.target.closest('input, button, select')) {
+      scanInput.focus();
+    }
+  }
+});
+</script>
 </body>
 </html>
