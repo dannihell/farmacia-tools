@@ -680,16 +680,16 @@ function exportarCSV() {
   const colsVendas = mesesLabel.map(m => 'V_' + m);
 
   const linhas = [[
-    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','STK','MEDIA_6M','PROPOSTA','CUSTO_UNIT','TOTAL_CUSTO','MARGEM_PCT',
+    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','MEDIA_6M','PROPOSTA','CUSTO_UNIT','PVP_SIVA','TOTAL_CUSTO','MARGEM_PCT',
     ...colsVendas
   ].join(';')];
 
   comProposta.forEach(p => {
     const vendasMensais = mesesLabel.map((_, i) => (p.v[i] || 0).toFixed(1));
     linhas.push([
-      p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`,
+      p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`, `"${p.MARCA || ''}"`, `"${p.CATEGORIA_DESIGNACAO || ''}"`,
       p.stock, p.media6m.toFixed(2), p.proposta_edit,
-      p.pcus.toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
+      p.pcus.toFixed(2), parseFloat(p.PVP_PROD || 0).toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
       ...vendasMensais
     ].join(';'));
   });
