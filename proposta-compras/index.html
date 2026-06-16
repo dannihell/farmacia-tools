@@ -342,6 +342,7 @@
   <span class="footer-total" id="footer-total">Total: 0,00 €</span>
   <div class="footer-actions">
     <button class="btn btn-secondary" onclick="exportarCSV()">Exportar CSV</button>
+    <button class="btn btn-secondary" onclick="exportarAnalise()">Exportar Análise</button>
     <button class="btn btn-primary" onclick="copiarResumo()">Copiar resumo</button>
   </div>
 </div>
@@ -697,6 +698,61 @@ function exportarCSV() {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'proposta_' + document.getElementById('lab-select').value.substring(0,20).replace(/\s/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.csv';
+  a.click();
+}
+
+function getFilteredRowsForExport() {
+  // Reaplica os mesmos filtros do topo usados em renderTabela(), mas SEM o filtro de prioridade/proposta
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcat = document.getElementById('subcat-select').value;
+  const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
+  const cnp = document.getElementById('pesquisa-cnp').value.trim();
+
+  let rows = propostaActual;
+  if (marca) rows = rows.filter(r => r.MARCA === marca);
+  if (cat) rows = rows.filter(r => r.CATEGORIA_DESIGNACAO === cat);
+  if (subcat) rows = rows.filter(r => r.MERCADO_DESIGNACAO === subcat);
+  if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
+  if (cnp) rows = rows.filter(r => String(r.COD_PRD || '').includes(cnp));
+  return rows;
+}
+
+function exportarAnalise() {
+  if (!propostaActual.length) return;
+  const rows = getFilteredRowsForExport();
+
+  const mesesLabel = ['Jun26','Mai26','Abr26','Mar26','Fev26','Jan26','Dez25','Nov25','Out25','Set25','Ago25','Jul25','Jun25','Mai25','Abr25','Mar25','Fev25','Jan25'];
+  const colsVendas = mesesLabel.map(m => 'V_' + m);
+  const temVendedor = Object.keys(vendedorMap).length > 0;
+
+  const header = [
+    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','DIAS','MEDIA_6M','CUSTO_UNIT','PVP_SIVA','TOTAL_CUSTO','MARGEM_PCT',
+    ...colsVendas
+  ];
+  if (temVendedor) header.push('V_QT_VENDEDOR');
+  const linhas = [header.join(';')];
+
+  rows.forEach(p => {
+    const vendasMensais = mesesLabel.map((_, i) => (p.v[i] || 0).toFixed(1));
+    const diasVal = typeof p.dias === 'number' ? p.dias : '';
+    const linha = [
+      p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`, `"${p.MARCA || ''}"`, `"${p.CATEGORIA_DESIGNACAO || ''}"`,
+      p.stock, diasVal, p.media6m.toFixed(2),
+      p.pcus.toFixed(2), parseFloat(p.PVP_PROD || 0).toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
+      ...vendasMensais
+    ];
+    if (temVendedor) {
+      const vQt = vendedorMap[parseInt(p.COD_PRD)] || 0;
+      linha.push(vQt);
+    }
+    linhas.push(linha.join(';'));
+  });
+
+  const blob = new Blob(['\ufeff'+linhas.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'analise_' + document.getElementById('lab-select').value.substring(0,20).replace(/\s/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.csv';
   a.click();
 }
 
