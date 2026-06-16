@@ -675,12 +675,22 @@ function updateFooter() {
 
 function exportarCSV() {
   const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
-  const linhas = [['COD_PRD','DESIGNACAO','ENT_RESP_COMERC','STK','MEDIA_6M','PROPOSTA','CUSTO_UNIT','TOTAL_CUSTO','MARGEM_PCT'].join(';')];
+  // V0=Jun26 ... V17=Jan25 (mais recente primeiro); cabeçalhos com o mês/ano correspondente
+  const mesesLabel = ['Jun26','Mai26','Abr26','Mar26','Fev26','Jan26','Dez25','Nov25','Out25','Set25','Ago25','Jul25','Jun25','Mai25','Abr25','Mar25','Fev25','Jan25'];
+  const colsVendas = mesesLabel.map(m => 'V_' + m);
+
+  const linhas = [[
+    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','STK','MEDIA_6M','PROPOSTA','CUSTO_UNIT','TOTAL_CUSTO','MARGEM_PCT',
+    ...colsVendas
+  ].join(';')];
+
   comProposta.forEach(p => {
+    const vendasMensais = mesesLabel.map((_, i) => (p.v[i] || 0).toFixed(1));
     linhas.push([
       p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`,
       p.stock, p.media6m.toFixed(2), p.proposta_edit,
-      p.pcus.toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%'
+      p.pcus.toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
+      ...vendasMensais
     ].join(';'));
   });
   const blob = new Blob(['\ufeff'+linhas.join('\n')], {type:'text/csv;charset=utf-8'});
