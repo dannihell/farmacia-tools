@@ -583,65 +583,94 @@ function aplicar() {
   const mesesEpoca = mesesRestantesEpoca();
   const farm = document.getElementById('farmacia-select').value;
 
-  let produtosRaw = getProdutosFarmacia().filter(p => p.ENT_RESP_COMERC === lab);
+  // Universo completo do laboratório (todas as farmácias) — define quais produtos existem e a ordem
+  const todosOsProdutos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
 
-  // Se "Todas" — agregar por COD_PRD (somar stock e vendas, manter campos estáticos)
-  let produtos;
-  if (!farm) {
-    const agregado = {};
-    produtosRaw.forEach(p => {
-      const cod = p.COD_PRD;
-      if (!agregado[cod]) {
-        agregado[cod] = { ...p };
-      } else {
-        const a = agregado[cod];
-        a.STK_FARMACIA = (a.STK_FARMACIA || 0) + (p.STK_FARMACIA || 0);
-        a.VENDAS_YTD = (a.VENDAS_YTD || 0) + (p.VENDAS_YTD || 0);
-        a.MARGEM_YTD = (a.MARGEM_YTD || 0) + (p.MARGEM_YTD || 0);
-        a.VENDAS_ANO_ANT_YTD = (a.VENDAS_ANO_ANT_YTD || 0) + (p.VENDAS_ANO_ANT_YTD || 0);
-        a.VALOR_QUEBRAS = (a.VALOR_QUEBRAS || 0) + (p.VALOR_QUEBRAS || 0);
-        for (let i = 0; i < 18; i++) {
-          a[`V${i}`] = (a[`V${i}`] || 0) + (p[`V${i}`] || 0);
-        }
-        // PCUSMED_PROD: média ponderada pelo stock
-        // Para simplificar usa o valor da primeira farmácia (já está em agregado[cod])
-      }
+  // Agregar por COD_PRD para obter universo único e ordem consistente
+  const agregadoTodos = {};
+  todosOsProdutos.forEach(p => {
+    const cod = p.COD_PRD;
+    if (!agregadoTodos[cod]) {
+      agregadoTodos[cod] = { ...p, _stk_todas: p.STK_FARMACIA || 0 };
+      for (let i = 0; i < 18; i++) agregadoTodos[cod][`_v${i}_todas`] = p[`V${i}`] || 0;
+    } else {
+      const a = agregadoTodos[cod];
+      a._stk_todas += (p.STK_FARMACIA || 0);
+      for (let i = 0; i < 18; i++) a[`_v${i}_todas`] += (p[`V${i}`] || 0);
+    }
+  });
+
+  // Se farmácia específica — construir mapa de valores dessa farmácia por COD_PRD
+  const valoresFarm = {};
+  if (farm) {
+    todosOsProdutos.filter(p => p.FARMACIA === farm).forEach(p => {
+      valoresFarm[p.COD_PRD] = p;
     });
-    produtos = Object.values(agregado);
-  } else {
-    produtos = produtosRaw;
   }
 
   const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
 
-  propostaActual = produtos.map(p => {
-    const v = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17].map(i => parseFloat(p[`V${i}`] || 0));
+  // Ordem global: baseada na média agregada de todas as farmácias (não muda ao trocar farmácia)
+  const mediaGlobal = cod => {
+    const a = agregadoTodos[cod];
+    return [0,1,2,3,4,5].reduce((s, i) => s + (a[`_v${i}_todas`] || 0), 0) / 6;
+  };
+
+  const codsPorOrdem = Object.keys(agregadoTodos).sort((a, b) => mediaGlobal(b) - mediaGlobal(a));
+
+  propostaActual = codsPorOrdem.map(cod => {
+    // Usar valores da farmácia seleccionada se existir, senão zeros
+    const base = agregadoTodos[cod];
+    const pFarm = farm ? (valoresFarm[cod] || null) : null;
+
+    // Campos estáticos do produto (iguais em todas as farmácias)
+    const p = { ...base };
+
+    // Valores de stock e vendas: da farmácia específica ou agregados
+    if (farm && pFarm) {
+      p.STK_FARMACIA = pFarm.STK_FARMACIA || 0;
+      for (let i = 0; i < 18; i++) p[`V${i}`] = pFarm[`V${i}`] || 0;
+      p.VENDAS_YTD = pFarm.VENDAS_YTD || 0;
+      p.MARGEM_YTD = pFarm.MARGEM_YTD || 0;
+      p.VENDAS_ANO_ANT_YTD = pFarm.VENDAS_ANO_ANT_YTD || 0;
+      p.VALOR_QUEBRAS = pFarm.VALOR_QUEBRAS || 0;
+      p.PCUSMED_PROD = pFarm.PCUSMED_PROD || base.PCUSMED_PROD || 0;
+      p.PVP_PROD = pFarm.PVP_PROD || base.PVP_PROD || 0;
+    } else if (farm && !pFarm) {
+      // Produto não existe nesta farmácia — zeros mas mantém na lista
+      p.STK_FARMACIA = 0;
+      for (let i = 0; i < 18; i++) p[`V${i}`] = 0;
+      p.VENDAS_YTD = 0; p.MARGEM_YTD = 0; p.VENDAS_ANO_ANT_YTD = 0; p.VALOR_QUEBRAS = 0;
+    } else {
+      // "Todas" — usar agregado
+      p.STK_FARMACIA = base._stk_todas;
+      for (let i = 0; i < 18; i++) p[`V${i}`] = base[`_v${i}_todas`] || 0;
+      p.VENDAS_YTD = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VENDAS_YTD||0), 0);
+      p.MARGEM_YTD = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.MARGEM_YTD||0), 0);
+      p.VENDAS_ANO_ANT_YTD = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VENDAS_ANO_ANT_YTD||0), 0);
+      p.VALOR_QUEBRAS = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VALOR_QUEBRAS||0), 0);
+    }
+
+    const v = Array.from({length:18}, (_, i) => parseFloat(p[`V${i}`] || 0));
     const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
     const stock = parseFloat(p.STK_FARMACIA || 0);
-    const pvp = parseFloat(p.PVP_PROD || 0);
     const pcus = parseFloat(p.PCUSMED_PROD || 0);
-    const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) : (parseFloat(p.MARGEM_YTD||0) > 0 && parseFloat(p.VENDAS_YTD||0) > 0 ? parseFloat(p.MARGEM_YTD)/parseFloat(p.VENDAS_YTD)*100 : 0);
+    const pvp = parseFloat(p.PVP_PROD || 0);
+    const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) :
+      (parseFloat(p.MARGEM_YTD||0) > 0 && parseFloat(p.VENDAS_YTD||0) > 0 ?
+        parseFloat(p.MARGEM_YTD)/parseFloat(p.VENDAS_YTD)*100 : 0);
 
     let proposta, mediaBase, sazonal = false;
-
     if (isSazonal(p) && mesesEpoca > 0) {
-      // Base sazonal: V10=ago25, V11=jul25, V12=jun25
       const baseSazonal = v[10] + v[11] + v[12];
       if (baseSazonal > 0) {
-        // Média mensal época 2025 × meses restantes - stock
         const mediaEpoca = baseSazonal / 3;
         proposta = Math.max(0, Math.round(mediaEpoca * mesesEpoca - stock));
-        mediaBase = mediaEpoca;
-        sazonal = true;
+        mediaBase = mediaEpoca; sazonal = true;
       } else if (media6m > 0) {
-        // Fallback: sem histórico 2025, usa últimos 6 meses
         proposta = Math.max(0, Math.round(media6m * mesesEpoca - stock));
-        mediaBase = media6m;
-        sazonal = true;
-      } else {
-        proposta = 0;
-        mediaBase = 0;
-      }
+        mediaBase = media6m; sazonal = true;
+      } else { proposta = 0; mediaBase = 0; }
     } else {
       proposta = Math.max(0, Math.round(media6m * cobertura - stock));
       mediaBase = media6m;
@@ -649,10 +678,12 @@ function aplicar() {
 
     const prioridade = calcPrioridade(stock, mediaBase);
     const dias = calcDias(stock, mediaBase);
-    return { ...p, v, media6m: mediaBase, media6m_raw: media6m, stock, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
+    return { ...p, v, media6m: mediaBase, stock, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
   });
 
+  // Ordenar por prioridade dentro da ordem global de vendas já estabelecida
   propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
+
   document.getElementById('btn-guardar').style.display = 'inline-block';
   document.getElementById('btn-vendedor').style.display = 'inline-block';
   renderTabela();
