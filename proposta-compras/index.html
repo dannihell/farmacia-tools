@@ -647,6 +647,7 @@ function renderTabela() {
 
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
+  const mostrarFarmacia = !document.getElementById('farmacia-select').value;
 
   rows.forEach((p, idx) => {
     const maxV = Math.max(...p.v.slice(0,18), 0.1);
@@ -1015,9 +1016,6 @@ function carregarProposta(input) {
   input.value = '';
 }
 
-document.getElementById('farmacia-select').addEventListener('change', () => {
-  onFarmaciaChange();
-});
 document.getElementById('filtro-prioridade').addEventListener('change', () => {
   if (propostaActual.length) renderTabela();
 });
