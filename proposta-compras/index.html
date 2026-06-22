@@ -409,30 +409,50 @@ function popularLabs(farmacia) {
 
 function onFarmaciaChange() {
   const farm = document.getElementById('farmacia-select').value;
-  const labActual = document.getElementById('lab-select').value;
+
+  // Guardar todos os filtros activos antes de reconstruir
+  const labActual    = document.getElementById('lab-select').value;
+  const marcaActual  = document.getElementById('marca-select').value;
+  const catActual    = document.getElementById('cat-select').value;
+  const subcatActual = document.getElementById('subcat-select').value;
+
+  // Reconstruir laboratórios para a nova farmácia
   popularLabs(farm);
-  // Tenta manter o laboratório seleccionado se existir na nova farmácia
-  if (labActual) {
-    const labSel = document.getElementById('lab-select');
-    const existe = [...labSel.options].some(o => o.value === labActual);
-    if (existe) {
-      labSel.value = labActual;
-      onLabChange(); // actualiza marcas/categorias para a nova farmácia
-      if (propostaActual.length) aplicar(); // regenera se já havia proposta activa
-    } else {
-      // Lab não existe nesta farmácia — limpa só os dependentes, mantém pesquisa/CNP
-      ['marca-select','cat-select','subcat-select'].forEach(id => {
-        document.getElementById(id).innerHTML = '<option value="">Todas</option>';
-        document.getElementById(id).disabled = true;
-      });
-      propostaActual = [];
-      document.getElementById('tabela').style.display = 'none';
-      document.getElementById('footer').style.display = 'none';
-      document.getElementById('status-bar').style.display = 'none';
-      document.getElementById('kpi-panel').style.display = 'none';
-      document.getElementById('empty').style.display = 'block';
-      document.getElementById('empty').textContent = 'Laboratório não disponível nesta farmácia. Seleccione outro.';
-    }
+
+  // Restaurar laboratório se existir
+  const labSel = document.getElementById('lab-select');
+  const labExiste = [...labSel.options].some(o => o.value === labActual);
+  if (labExiste) labSel.value = labActual;
+
+  // Reconstruir marcas/categorias respeitando o lab restaurado
+  onLabChange();
+
+  // Restaurar marca
+  const marcaSel = document.getElementById('marca-select');
+  const marcaExiste = [...marcaSel.options].some(o => o.value === marcaActual);
+  if (marcaExiste) { marcaSel.value = marcaActual; onMarcaChange(); }
+
+  // Restaurar categoria
+  const catSel = document.getElementById('cat-select');
+  const catExiste = [...catSel.options].some(o => o.value === catActual);
+  if (catExiste) { catSel.value = catActual; onCatChange(); }
+
+  // Restaurar subcategoria
+  const subcatSel = document.getElementById('subcat-select');
+  const subcatExiste = [...subcatSel.options].some(o => o.value === subcatActual);
+  if (subcatExiste) subcatSel.value = subcatActual;
+
+  // Regenerar proposta se havia uma activa e o lab ainda existe
+  if (labActual && labExiste && propostaActual.length) {
+    aplicar();
+  } else if (labActual && !labExiste) {
+    propostaActual = [];
+    document.getElementById('tabela').style.display = 'none';
+    document.getElementById('footer').style.display = 'none';
+    document.getElementById('status-bar').style.display = 'none';
+    document.getElementById('kpi-panel').style.display = 'none';
+    document.getElementById('empty').style.display = 'block';
+    document.getElementById('empty').textContent = 'Laboratório não disponível nesta farmácia. Seleccione outro.';
   }
 }
 
