@@ -678,11 +678,12 @@ function aplicar() {
 
     const prioridade = calcPrioridade(stock, mediaBase);
     const dias = calcDias(stock, mediaBase);
-    return { ...p, v, media6m: mediaBase, stock, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
+    const mediaGlobalProd = mediaGlobal(cod);
+    return { ...p, v, media6m: mediaBase, mediaGlobal: mediaGlobalProd, stock, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
   });
 
-  // Ordenar por prioridade dentro da ordem global de vendas já estabelecida
-  propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.media6m-a.media6m);
+  // Ordenar sempre pela média GLOBAL (todas as farmácias), não pela média da farmácia seleccionada
+  propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.mediaGlobal-a.mediaGlobal);
 
   document.getElementById('btn-guardar').style.display = 'inline-block';
   document.getElementById('btn-vendedor').style.display = 'inline-block';
