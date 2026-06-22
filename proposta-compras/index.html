@@ -264,6 +264,13 @@
       <option value="sem_vendedor">Sem proposta vendedor</option>
     </select>
   </div>
+  <div class="toolbar-group" style="margin-left:auto">
+    <button id="btn-sifarma" onclick="setModoKpi(modoKpi === 'fechado' ? 'ytd' : 'fechado')"
+      style="padding:5px 10px;border-radius:5px;border:1px solid var(--cinza);background:white;font-size:11px;color:var(--cinza-escuro);cursor:pointer;font-family:inherit;transition:all 0.15s"
+      title="Alternar entre YTD e período fechado (Jan→Mês-1) para comparar com Sifarma.gest">
+      Sifarma.gest
+    </button>
+  </div>
   <button class="btn btn-primary" onclick="aplicar()">Gerar proposta</button>
 </div>
 
@@ -279,10 +286,6 @@
 
 <div id="kpi-panel" style="display:none;padding:12px 24px;background:#fff;border-bottom:1px solid var(--cinza);display:none">
   <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-    <div style="display:flex;background:#f0f0ee;border-radius:8px;padding:3px;gap:2px;margin-right:4px">
-      <button id="btn-ytd" onclick="setModoKpi('ytd')" style="padding:4px 12px;border-radius:6px;border:none;cursor:pointer;font-size:11px;font-weight:700;background:var(--verde);color:white;font-family:inherit">YTD</button>
-      <button id="btn-fechado" onclick="setModoKpi('fechado')" style="padding:4px 12px;border-radius:6px;border:none;cursor:pointer;font-size:11px;font-weight:600;background:transparent;color:var(--cinza-escuro);font-family:inherit">Jan→Mês-1</button>
-    </div>
     <div class="kpi-card">
       <div class="kpi-label">Vendas YTD</div>
       <div class="kpi-value" id="kpi-vendas-ytd">—</div>
@@ -914,10 +917,13 @@ let modoKpi = 'ytd'; // 'ytd' ou 'fechado'
 
 function setModoKpi(modo) {
   modoKpi = modo;
-  document.getElementById('btn-ytd').style.background = modo === 'ytd' ? 'var(--verde)' : 'transparent';
-  document.getElementById('btn-ytd').style.color = modo === 'ytd' ? 'white' : 'var(--cinza-escuro)';
-  document.getElementById('btn-fechado').style.background = modo === 'fechado' ? 'var(--verde)' : 'transparent';
-  document.getElementById('btn-fechado').style.color = modo === 'fechado' ? 'white' : 'var(--cinza-escuro)';
+  const btn = document.getElementById('btn-sifarma');
+  if (btn) {
+    btn.style.background = modo === 'fechado' ? '#e8f7f1' : 'white';
+    btn.style.color = modo === 'fechado' ? 'var(--verde)' : 'var(--cinza-escuro)';
+    btn.style.borderColor = modo === 'fechado' ? 'var(--verde)' : 'var(--cinza)';
+    btn.style.fontWeight = modo === 'fechado' ? '700' : 'normal';
+  }
   if (propostaActual.length) updateKPIs(propostaActual);
 }
 
