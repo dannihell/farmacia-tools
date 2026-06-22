@@ -278,7 +278,11 @@
 <div id="modal-vendedor" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;padding:24px"></div>
 
 <div id="kpi-panel" style="display:none;padding:12px 24px;background:#fff;border-bottom:1px solid var(--cinza);display:none">
-  <div style="display:flex;gap:16px;flex-wrap:wrap">
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+    <div style="display:flex;background:#f0f0ee;border-radius:8px;padding:3px;gap:2px;margin-right:4px">
+      <button id="btn-ytd" onclick="setModoKpi('ytd')" style="padding:4px 12px;border-radius:6px;border:none;cursor:pointer;font-size:11px;font-weight:700;background:var(--verde);color:white;font-family:inherit">YTD</button>
+      <button id="btn-fechado" onclick="setModoKpi('fechado')" style="padding:4px 12px;border-radius:6px;border:none;cursor:pointer;font-size:11px;font-weight:600;background:transparent;color:var(--cinza-escuro);font-family:inherit">Jan→Mês-1</button>
+    </div>
     <div class="kpi-card">
       <div class="kpi-label">Vendas YTD</div>
       <div class="kpi-value" id="kpi-vendas-ytd">—</div>
@@ -905,7 +909,16 @@ function copiarResumo() {
   navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
 }
 
-let vendedorMap = {}; // CNP -> qt proposta vendedor
+let modoKpi = 'ytd'; // 'ytd' ou 'fechado'
+
+function setModoKpi(modo) {
+  modoKpi = modo;
+  document.getElementById('btn-ytd').style.background = modo === 'ytd' ? 'var(--verde)' : 'transparent';
+  document.getElementById('btn-ytd').style.color = modo === 'ytd' ? 'white' : 'var(--cinza-escuro)';
+  document.getElementById('btn-fechado').style.background = modo === 'fechado' ? 'var(--verde)' : 'transparent';
+  document.getElementById('btn-fechado').style.color = modo === 'fechado' ? 'white' : 'var(--cinza-escuro)';
+  if (propostaActual.length) updateKPIs(propostaActual);
+}
 
 function carregarExcelVendedor(input) {
   const file = input.files[0];
@@ -993,13 +1006,24 @@ function fmt(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:0, max
 function fmtEur(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 
 function updateKPIs(rows) {
-  // Todos os KPIs reflectem os filtros activos (rows)
-  const vendasYtd = rows.reduce((s,p) => s + parseFloat(p.VENDAS_YTD || 0), 0);
-  const margemYtd = rows.reduce((s,p) => s + parseFloat(p.MARGEM_YTD || 0), 0);
-  const margemPct = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
+  const fechado = modoKpi === 'fechado';
 
-  // Crescimento YTD homólogo correcto: VENDAS_YTD vs VENDAS_ANO_ANT_YTD
-  const vendasAnoAnt = rows.reduce((s,p) => s + parseFloat(p.VENDAS_ANO_ANT_YTD || p.VENDAS_ANO_ANT || 0), 0);
+  const campoVendas  = fechado ? 'VENDAS_MES_ANT'       : 'VENDAS_YTD';
+  const campoMargem  = fechado ? 'MARGEM_MES_ANT'       : 'MARGEM_YTD';
+  const campoAntYTD  = fechado ? 'VENDAS_ANO_ANT_MES_ANT' : 'VENDAS_ANO_ANT_YTD';
+
+  // Calcular label do período para mostrar no KPI
+  const agora = new Date();
+  const mesAnterior = new Date(agora.getFullYear(), agora.getMonth() - 1, 1);
+  const nomeMes = mesAnterior.toLocaleString('pt-PT', {month:'short'}).replace('.','');
+  const labelPeriodo = fechado
+    ? `Jan→${nomeMes} (fechado)`
+    : `Jan→${agora.toLocaleString('pt-PT', {month:'short'}).replace('.','').replace('.','')} YTD`;
+
+  const vendasYtd = rows.reduce((s,p) => s + parseFloat(p[campoVendas] || 0), 0);
+  const margemYtd = rows.reduce((s,p) => s + parseFloat(p[campoMargem] || 0), 0);
+  const margemPct = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
+  const vendasAnoAnt = rows.reduce((s,p) => s + parseFloat(p[campoAntYTD] || 0), 0);
   const cresc = vendasAnoAnt > 0 ? ((vendasYtd - vendasAnoAnt) / vendasAnoAnt * 100) : null;
 
   const refsActivas = rows.filter(p => [0,1,2,3,4,5].some(i => (p.v[i]||0) > 0)).length;
@@ -1008,6 +1032,7 @@ function updateKPIs(rows) {
   const quebras = rows.reduce((s,p) => s + parseFloat(p.VALOR_QUEBRAS || 0), 0);
 
   document.getElementById('kpi-vendas-ytd').textContent = fmtEur(vendasYtd);
+  document.querySelector('[id="kpi-vendas-ytd"]').closest('.kpi-card').querySelector('.kpi-label').textContent = `Vendas ${labelPeriodo}`;
   const mEl = document.getElementById('kpi-margem-ytd');
   mEl.textContent = margemPct.toFixed(1) + '%';
   mEl.className = 'kpi-value ' + (margemPct >= 30 ? 'kpi-pos' : 'kpi-neg');
