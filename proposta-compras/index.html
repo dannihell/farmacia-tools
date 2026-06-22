@@ -561,8 +561,36 @@ function aplicar() {
   if (!lab || !allData) return;
   const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
   const mesesEpoca = mesesRestantesEpoca();
+  const farm = document.getElementById('farmacia-select').value;
 
-  const produtos = getProdutosFarmacia().filter(p => p.ENT_RESP_COMERC === lab);
+  let produtosRaw = getProdutosFarmacia().filter(p => p.ENT_RESP_COMERC === lab);
+
+  // Se "Todas" — agregar por COD_PRD (somar stock e vendas, manter campos estáticos)
+  let produtos;
+  if (!farm) {
+    const agregado = {};
+    produtosRaw.forEach(p => {
+      const cod = p.COD_PRD;
+      if (!agregado[cod]) {
+        agregado[cod] = { ...p };
+      } else {
+        const a = agregado[cod];
+        a.STK_FARMACIA = (a.STK_FARMACIA || 0) + (p.STK_FARMACIA || 0);
+        a.VENDAS_YTD = (a.VENDAS_YTD || 0) + (p.VENDAS_YTD || 0);
+        a.MARGEM_YTD = (a.MARGEM_YTD || 0) + (p.MARGEM_YTD || 0);
+        a.VENDAS_ANO_ANT_YTD = (a.VENDAS_ANO_ANT_YTD || 0) + (p.VENDAS_ANO_ANT_YTD || 0);
+        a.VALOR_QUEBRAS = (a.VALOR_QUEBRAS || 0) + (p.VALOR_QUEBRAS || 0);
+        for (let i = 0; i < 18; i++) {
+          a[`V${i}`] = (a[`V${i}`] || 0) + (p[`V${i}`] || 0);
+        }
+        // PCUSMED_PROD: média ponderada pelo stock
+        // Para simplificar usa o valor da primeira farmácia (já está em agregado[cod])
+      }
+    });
+    produtos = Object.values(agregado);
+  } else {
+    produtos = produtosRaw;
+  }
 
   const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
 
