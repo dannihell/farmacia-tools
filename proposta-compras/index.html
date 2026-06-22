@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proposta de Compra — Farmácia Aroeira</title>
+<title>Proposta de Compra — Farmácias Connect</title>
 <style>
   :root {
     --verde: #0F6E56;
@@ -200,7 +200,7 @@
 <header>
   <div>
     <h1>Proposta de Compra</h1>
-    <div class="meta">Farmácia Aroeira · dados actualizados diariamente às 22h</div>
+    <div class="meta">Farmácias Connect · dados actualizados diariamente às 22h</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
     <button class="btn btn-secondary" onclick="guardarProposta()" id="btn-guardar" style="display:none;font-size:12px;padding:5px 12px">💾 Guardar</button>
@@ -211,6 +211,12 @@
 </header>
 
 <div class="toolbar">
+  <div class="toolbar-group">
+    <label>Farmácia</label>
+    <select id="farmacia-select" onchange="onFarmaciaChange()" style="min-width:200px">
+      <option value="">Todas</option>
+    </select>
+  </div>
   <div class="toolbar-group">
     <label>Laboratório</label>
     <select id="lab-select" onchange="onLabChange()">
@@ -318,6 +324,7 @@
     <thead>
       <tr>
         <th>Produto</th>
+        <th id="th-farmacia" style="display:none">Farmácia</th>
         <th>Prioridade</th>
         <th class="num">Stock</th>
         <th class="num">Dias</th>
@@ -361,30 +368,71 @@ async function init() {
     document.getElementById('updated-tag').textContent =
       'Actualizado: ' + upd.toLocaleDateString('pt-PT') + ' ' + upd.toLocaleTimeString('pt-PT', {hour:'2-digit',minute:'2-digit'});
 
-    // Preencher laboratórios
-    const labs = allData.laboratorios || [];
-    const labMap = {};
-    labs.forEach(l => {
-      const ent = l.ENT_RESP_COMERC || l['ENT_RESP_COMERC'];
-      if (ent && !labMap[ent]) labMap[ent] = true;
-    });
-    if (labs.length === 0) {
-      (allData.produtos || []).forEach(p => {
-        const ent = p.ENT_RESP_COMERC;
-        if (ent) labMap[ent] = true;
-      });
-    }
-    const sel = document.getElementById('lab-select');
-    Object.keys(labMap).sort().forEach(lab => {
+    // Preencher farmácias
+    const farmacias = allData.farmacias || [...new Set((allData.produtos||[]).map(p=>p.FARMACIA).filter(Boolean))].sort();
+    const farmSel = document.getElementById('farmacia-select');
+    farmacias.forEach(f => {
       const opt = document.createElement('option');
-      opt.value = lab;
-      opt.textContent = lab;
-      sel.appendChild(opt);
+      opt.value = f; opt.textContent = f;
+      farmSel.appendChild(opt);
     });
+
+    // Preencher laboratórios (todas as farmácias inicialmente)
+    popularLabs('');
+
     document.getElementById('loading').style.display = 'none';
     document.getElementById('empty').style.display = 'block';
   } catch(e) {
     document.getElementById('loading').textContent = 'Erro a carregar dados: ' + e.message;
+  }
+}
+
+function getProdutosFarmacia() {
+  const farm = document.getElementById('farmacia-select').value;
+  return (allData.produtos || []).filter(p => !farm || p.FARMACIA === farm);
+}
+
+function popularLabs(farmacia) {
+  const produtos = (allData.produtos || []).filter(p => !farmacia || p.FARMACIA === farmacia);
+  const labMap = {};
+  produtos.forEach(p => { if (p.ENT_RESP_COMERC) labMap[p.ENT_RESP_COMERC] = true; });
+  const sel = document.getElementById('lab-select');
+  const valActual = sel.value;
+  sel.innerHTML = '<option value="">Seleccionar laboratório...</option>';
+  Object.keys(labMap).sort().forEach(lab => {
+    const opt = document.createElement('option');
+    opt.value = lab; opt.textContent = lab;
+    sel.appendChild(opt);
+  });
+  if (valActual && labMap[valActual]) sel.value = valActual;
+}
+
+function onFarmaciaChange() {
+  const farm = document.getElementById('farmacia-select').value;
+  const labActual = document.getElementById('lab-select').value;
+  popularLabs(farm);
+  // Tenta manter o laboratório seleccionado se existir na nova farmácia
+  if (labActual) {
+    const labSel = document.getElementById('lab-select');
+    const existe = [...labSel.options].some(o => o.value === labActual);
+    if (existe) {
+      labSel.value = labActual;
+      onLabChange(); // actualiza marcas/categorias para a nova farmácia
+      if (propostaActual.length) aplicar(); // regenera se já havia proposta activa
+    } else {
+      // Lab não existe nesta farmácia — limpa só os dependentes, mantém pesquisa/CNP
+      ['marca-select','cat-select','subcat-select'].forEach(id => {
+        document.getElementById(id).innerHTML = '<option value="">Todas</option>';
+        document.getElementById(id).disabled = true;
+      });
+      propostaActual = [];
+      document.getElementById('tabela').style.display = 'none';
+      document.getElementById('footer').style.display = 'none';
+      document.getElementById('status-bar').style.display = 'none';
+      document.getElementById('kpi-panel').style.display = 'none';
+      document.getElementById('empty').style.display = 'block';
+      document.getElementById('empty').textContent = 'Laboratório não disponível nesta farmácia. Seleccione outro.';
+    }
   }
 }
 
@@ -403,7 +451,7 @@ function onLabChange() {
 
   if (!lab || !allData) return;
 
-  const produtosLab = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
+  const produtosLab = getProdutosFarmacia().filter(p => p.ENT_RESP_COMERC === lab);
 
   const marcas = [...new Set(produtosLab.map(p => p.MARCA).filter(Boolean))].sort();
   if (marcas.length > 0) {
@@ -436,7 +484,7 @@ function onMarcaChange() {
   subcatSel.innerHTML = '<option value="">Todas</option>';
   subcatSel.disabled = true;
 
-  const produtosFiltrados = (allData.produtos || []).filter(p => {
+  const produtosFiltrados = getProdutosFarmacia().filter(p => {
     if (p.ENT_RESP_COMERC !== lab) return false;
     if (marca && p.MARCA !== marca) return false;
     return true;
@@ -462,7 +510,7 @@ function onCatChange() {
 
   if (!cat || !allData) return;
 
-  const produtosFiltrados = (allData.produtos || []).filter(p => {
+  const produtosFiltrados = getProdutosFarmacia().filter(p => {
     if (p.ENT_RESP_COMERC !== lab) return false;
     if (marca && p.MARCA !== marca) return false;
     if (p.CATEGORIA_DESIGNACAO !== cat) return false;
@@ -514,7 +562,7 @@ function aplicar() {
   const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
   const mesesEpoca = mesesRestantesEpoca();
 
-  const produtos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
+  const produtos = getProdutosFarmacia().filter(p => p.ENT_RESP_COMERC === lab);
 
   const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
 
@@ -625,12 +673,17 @@ function renderTabela() {
       ? `<td class="num" style="${vQt > 0 ? 'color:var(--verde);font-weight:600' : 'color:var(--cinza-escuro)'}">${vQt > 0 ? vQt : '—'}</td>`
       : '';
 
+    const farmaciaCell = mostrarFarmacia
+      ? `<td style="font-size:11px;color:var(--cinza-escuro);white-space:nowrap">${(p.FARMACIA||'').replace('Farmácia ','')}</td>`
+      : '';
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="produto">
         <div class="nome">${p.DESIGNACAO || ''}</div>
         <div class="cod">${p.COD_PRD || ''}</div>
       </td>
+      ${farmaciaCell}
       <td><span class="prioridade ${prClass}">${prLabel}</span></td>
       <td class="num">${p.stock}</td>
       <td class="num">${diasStr}</td>
@@ -647,6 +700,8 @@ function renderTabela() {
     tbody.appendChild(tr);
   });
 
+  const mostrarFarmaciaTh = !document.getElementById('farmacia-select').value;
+  document.getElementById('th-farmacia').style.display = mostrarFarmaciaTh ? '' : 'none';
   document.getElementById('th-vendedor').style.display = Object.keys(vendedorMap).length > 0 ? '' : 'none';
   document.getElementById('tabela').style.display = rows.length ? 'table' : 'none';
   document.getElementById('empty').style.display = rows.length ? 'none' : 'block';
@@ -727,7 +782,7 @@ function exportarAnalise() {
   const temVendedor = Object.keys(vendedorMap).length > 0;
 
   const header = [
-    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','DIAS','MEDIA_6M','CUSTO_UNIT','PVP_SIVA','TOTAL_CUSTO','MARGEM_PCT',
+    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','DIAS','MEDIA_6M','CUSTO_UNIT','PVP_SIVA','MARGEM_PCT',
     ...colsVendas
   ];
   if (temVendedor) header.push('V_QT_VENDEDOR');
@@ -739,7 +794,7 @@ function exportarAnalise() {
     const linha = [
       p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`, `"${p.MARCA || ''}"`, `"${p.CATEGORIA_DESIGNACAO || ''}"`,
       p.stock, diasVal, p.media6m.toFixed(2),
-      p.pcus.toFixed(2), parseFloat(p.PVP_PROD || 0).toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
+      p.pcus.toFixed(2), parseFloat(p.PVP_PROD || 0).toFixed(2), p.margem.toFixed(1)+'%',
       ...vendasMensais
     ];
     if (temVendedor) {
@@ -960,6 +1015,9 @@ function carregarProposta(input) {
   input.value = '';
 }
 
+document.getElementById('farmacia-select').addEventListener('change', () => {
+  onFarmaciaChange();
+});
 document.getElementById('filtro-prioridade').addEventListener('change', () => {
   if (propostaActual.length) renderTabela();
 });
