@@ -588,122 +588,122 @@ function isSazonal(p) {
   return CATEGORIAS_SAZONAIS.some(c => cat.includes(c));
 }
 
+function calcularPropostaPorFarm(dadosFarm, cobertura, mesesEpoca) {
+  // Calcula proposta para os dados de uma farmácia específica (ou agregado)
+  const v = Array.from({length:18}, (_, i) => parseFloat(dadosFarm[`V${i}`] || 0));
+  const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
+  const stock = parseFloat(dadosFarm.STK_FARMACIA || 0);
+  const cat = (dadosFarm.CATEGORIA_DESIGNACAO || '').toLowerCase();
+  const saz = CATEGORIAS_SAZONAIS.some(c => cat.includes(c));
+
+  let proposta, mediaBase, sazonal = false;
+  if (saz && mesesEpoca > 0) {
+    const baseSazonal = v[10] + v[11] + v[12];
+    if (baseSazonal > 0) {
+      const mediaEpoca = baseSazonal / 3;
+      proposta = Math.max(0, Math.round(mediaEpoca * mesesEpoca - stock));
+      mediaBase = mediaEpoca; sazonal = true;
+    } else if (media6m > 0) {
+      proposta = Math.max(0, Math.round(media6m * mesesEpoca - stock));
+      mediaBase = media6m; sazonal = true;
+    } else { proposta = 0; mediaBase = 0; }
+  } else {
+    proposta = Math.max(0, Math.round(media6m * cobertura - stock));
+    mediaBase = media6m;
+  }
+  return { v, media6m, mediaBase, stock, proposta, sazonal };
+}
+
 function aplicar() {
   const lab = document.getElementById('lab-select').value;
   if (!lab || !allData) return;
   const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
   const mesesEpoca = mesesRestantesEpoca();
-  const farm = document.getElementById('farmacia-select').value;
 
-  // Universo completo do laboratório (todas as farmácias) — define quais produtos existem e a ordem
+  // Lista de todas as farmácias disponíveis no JSON
+  const todasFarmacias = allData.farmacias || [...new Set((allData.produtos||[]).map(p=>p.FARMACIA).filter(Boolean))];
+
+  // Universo completo do laboratório (todas as farmácias)
   const todosOsProdutos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
 
-  // Agregar por COD_PRD para obter universo único e ordem consistente
-  const agregadoTodos = {};
+  // Agrupar por COD_PRD → por FARMACIA
+  const porCod = {};
   todosOsProdutos.forEach(p => {
     const cod = p.COD_PRD;
-    if (!agregadoTodos[cod]) {
-      agregadoTodos[cod] = { ...p, _stk_todas: p.STK_FARMACIA || 0 };
-      for (let i = 0; i < 18; i++) agregadoTodos[cod][`_v${i}_todas`] = p[`V${i}`] || 0;
-    } else {
-      const a = agregadoTodos[cod];
-      a._stk_todas += (p.STK_FARMACIA || 0);
-      for (let i = 0; i < 18; i++) a[`_v${i}_todas`] += (p[`V${i}`] || 0);
+    if (!porCod[cod]) porCod[cod] = { base: p, porFarm: {} };
+    porCod[cod].porFarm[p.FARMACIA] = p;
+    // Acumular agregado "Todas"
+    if (!porCod[cod]._todas) {
+      porCod[cod]._todas = { ...p, STK_FARMACIA: 0, VENDAS_YTD: 0, MARGEM_YTD: 0,
+        VENDAS_ANO_ANT_YTD: 0, VENDAS_MES_ANT: 0, MARGEM_MES_ANT: 0,
+        VENDAS_ANO_ANT_MES_ANT: 0, VALOR_QUEBRAS: 0 };
+      for (let i = 0; i < 18; i++) porCod[cod]._todas[`V${i}`] = 0;
     }
+    const t = porCod[cod]._todas;
+    t.STK_FARMACIA += (p.STK_FARMACIA || 0);
+    t.VENDAS_YTD += (p.VENDAS_YTD || 0);
+    t.MARGEM_YTD += (p.MARGEM_YTD || 0);
+    t.VENDAS_ANO_ANT_YTD += (p.VENDAS_ANO_ANT_YTD || 0);
+    t.VENDAS_MES_ANT += (p.VENDAS_MES_ANT || 0);
+    t.MARGEM_MES_ANT += (p.MARGEM_MES_ANT || 0);
+    t.VENDAS_ANO_ANT_MES_ANT += (p.VENDAS_ANO_ANT_MES_ANT || 0);
+    t.VALOR_QUEBRAS += (p.VALOR_QUEBRAS || 0);
+    for (let i = 0; i < 18; i++) t[`V${i}`] += (p[`V${i}`] || 0);
   });
 
-  // Se farmácia específica — construir mapa de valores dessa farmácia por COD_PRD
-  const valoresFarm = {};
-  if (farm) {
-    todosOsProdutos.filter(p => p.FARMACIA === farm).forEach(p => {
-      valoresFarm[p.COD_PRD] = p;
-    });
-  }
-
-  const ordem = {rutura:0, urgente:1, comprar:2, ok:3};
-
-  // Ordem global: baseada na média agregada de todas as farmácias (não muda ao trocar farmácia)
-  const mediaGlobal = cod => {
-    const a = agregadoTodos[cod];
-    return [0,1,2,3,4,5].reduce((s, i) => s + (a[`_v${i}_todas`] || 0), 0) / 6;
+  // Ordem global: média agregada de todas as farmácias, calculada uma vez
+  const mediaGlobalCod = cod => {
+    const t = porCod[cod]._todas;
+    if (!t) return 0;
+    return [0,1,2,3,4,5].reduce((s,i) => s + (t[`V${i}`]||0), 0) / 6;
   };
 
-  const codsPorOrdem = Object.keys(agregadoTodos).sort((a, b) => mediaGlobal(b) - mediaGlobal(a));
+  const codsPorOrdem = Object.keys(porCod).sort((a, b) => mediaGlobalCod(b) - mediaGlobalCod(a));
 
   propostaActual = codsPorOrdem.map(cod => {
-    // Usar valores da farmácia seleccionada se existir, senão zeros
-    const base = agregadoTodos[cod];
-    const pFarm = farm ? (valoresFarm[cod] || null) : null;
+    const entry = porCod[cod];
+    const base = entry.base;
+    const pcus = parseFloat(base.PCUSMED_PROD || 0);
+    const pvp  = parseFloat(base.PVP_PROD || 0);
 
-    // Campos estáticos do produto (iguais em todas as farmácias)
-    const p = { ...base };
+    // Calcular proposta para cada farmácia individualmente
+    const propostas = {};
+    todasFarmacias.forEach(f => {
+      const dadosFarm = entry.porFarm[f] || { ...base, STK_FARMACIA: 0, ...Object.fromEntries(Array.from({length:18},(_,i)=>[`V${i}`,0])) };
+      const calc = calcularPropostaPorFarm(dadosFarm, cobertura, mesesEpoca);
+      propostas[f] = {
+        proposta: calc.proposta,
+        proposta_edit: calc.proposta_edit !== undefined ? calc.proposta_edit : calc.proposta,
+        stock: calc.stock,
+        v: calc.v,
+        media6m: calc.mediaBase,
+        sazonal: calc.sazonal,
+        prioridade: calcPrioridade(calc.stock, calc.mediaBase),
+        dias: calcDias(calc.stock, calc.mediaBase),
+        dados: dadosFarm,
+      };
+    });
 
-    // Valores de stock e vendas: da farmácia específica ou agregados
-    if (farm && pFarm) {
-      p.STK_FARMACIA = pFarm.STK_FARMACIA || 0;
-      for (let i = 0; i < 18; i++) p[`V${i}`] = pFarm[`V${i}`] || 0;
-      p.VENDAS_YTD = pFarm.VENDAS_YTD || 0;
-      p.MARGEM_YTD = pFarm.MARGEM_YTD || 0;
-      p.VENDAS_ANO_ANT_YTD = pFarm.VENDAS_ANO_ANT_YTD || 0;
-      p.VENDAS_MES_ANT = pFarm.VENDAS_MES_ANT || 0;
-      p.MARGEM_MES_ANT = pFarm.MARGEM_MES_ANT || 0;
-      p.VENDAS_ANO_ANT_MES_ANT = pFarm.VENDAS_ANO_ANT_MES_ANT || 0;
-      p.VALOR_QUEBRAS = pFarm.VALOR_QUEBRAS || 0;
-      p.PCUSMED_PROD = pFarm.PCUSMED_PROD || base.PCUSMED_PROD || 0;
-      p.PVP_PROD = pFarm.PVP_PROD || base.PVP_PROD || 0;
-    } else if (farm && !pFarm) {
-      // Produto não existe nesta farmácia — zeros mas mantém na lista
-      p.STK_FARMACIA = 0;
-      for (let i = 0; i < 18; i++) p[`V${i}`] = 0;
-      p.VENDAS_YTD = 0; p.MARGEM_YTD = 0; p.VENDAS_ANO_ANT_YTD = 0;
-      p.VENDAS_MES_ANT = 0; p.MARGEM_MES_ANT = 0; p.VENDAS_ANO_ANT_MES_ANT = 0;
-      p.VALOR_QUEBRAS = 0;
-    } else {
-      // "Todas" — usar agregado
-      p.STK_FARMACIA = base._stk_todas;
-      for (let i = 0; i < 18; i++) p[`V${i}`] = base[`_v${i}_todas`] || 0;
-      p.VENDAS_YTD = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VENDAS_YTD||0), 0);
-      p.MARGEM_YTD = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.MARGEM_YTD||0), 0);
-      p.VENDAS_ANO_ANT_YTD = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VENDAS_ANO_ANT_YTD||0), 0);
-      p.VENDAS_MES_ANT = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VENDAS_MES_ANT||0), 0);
-      p.MARGEM_MES_ANT = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.MARGEM_MES_ANT||0), 0);
-      p.VENDAS_ANO_ANT_MES_ANT = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VENDAS_ANO_ANT_MES_ANT||0), 0);
-      p.VALOR_QUEBRAS = todosOsProdutos.filter(x => x.COD_PRD === cod).reduce((s,x) => s + (x.VALOR_QUEBRAS||0), 0);
-    }
+    // Calcular também para "Todas" (agregado)
+    const calcTodas = calcularPropostaPorFarm(entry._todas, cobertura, mesesEpoca);
+    propostas[''] = {
+      proposta: calcTodas.proposta,
+      proposta_edit: calcTodas.proposta,
+      stock: calcTodas.stock,
+      v: calcTodas.v,
+      media6m: calcTodas.mediaBase,
+      sazonal: calcTodas.sazonal,
+      prioridade: calcPrioridade(calcTodas.stock, calcTodas.mediaBase),
+      dias: calcDias(calcTodas.stock, calcTodas.mediaBase),
+      dados: entry._todas,
+    };
 
-    const v = Array.from({length:18}, (_, i) => parseFloat(p[`V${i}`] || 0));
-    const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
-    const stock = parseFloat(p.STK_FARMACIA || 0);
-    const pcus = parseFloat(p.PCUSMED_PROD || 0);
-    const pvp = parseFloat(p.PVP_PROD || 0);
     const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) :
-      (parseFloat(p.MARGEM_YTD||0) > 0 && parseFloat(p.VENDAS_YTD||0) > 0 ?
-        parseFloat(p.MARGEM_YTD)/parseFloat(p.VENDAS_YTD)*100 : 0);
+      (parseFloat(base.MARGEM_YTD||0) > 0 && parseFloat(base.VENDAS_YTD||0) > 0 ?
+        parseFloat(base.MARGEM_YTD)/parseFloat(base.VENDAS_YTD)*100 : 0);
 
-    let proposta, mediaBase, sazonal = false;
-    if (isSazonal(p) && mesesEpoca > 0) {
-      const baseSazonal = v[10] + v[11] + v[12];
-      if (baseSazonal > 0) {
-        const mediaEpoca = baseSazonal / 3;
-        proposta = Math.max(0, Math.round(mediaEpoca * mesesEpoca - stock));
-        mediaBase = mediaEpoca; sazonal = true;
-      } else if (media6m > 0) {
-        proposta = Math.max(0, Math.round(media6m * mesesEpoca - stock));
-        mediaBase = media6m; sazonal = true;
-      } else { proposta = 0; mediaBase = 0; }
-    } else {
-      proposta = Math.max(0, Math.round(media6m * cobertura - stock));
-      mediaBase = media6m;
-    }
-
-    const prioridade = calcPrioridade(stock, mediaBase);
-    const dias = calcDias(stock, mediaBase);
-    const mediaGlobalProd = mediaGlobal(cod);
-    return { ...p, v, media6m: mediaBase, mediaGlobal: mediaGlobalProd, stock, pcus, margem, proposta, proposta_edit: proposta, prioridade, dias, sazonal };
+    return { ...base, COD_PRD: cod, pcus, pvp, margem, propostas, mediaGlobal: mediaGlobalCod(cod) };
   });
-
-  // Ordenar sempre pela média GLOBAL (todas as farmácias), não pela média da farmácia seleccionada
-  propostaActual.sort((a,b) => ordem[a.prioridade]-ordem[b.prioridade] || b.mediaGlobal-a.mediaGlobal);
 
   document.getElementById('btn-guardar').style.display = 'inline-block';
   document.getElementById('btn-vendedor').style.display = 'inline-block';
@@ -713,12 +713,16 @@ function aplicar() {
 function renderTabela() {
   if (!propostaActual.length) return;
 
+  const farm = document.getElementById('farmacia-select').value;
   const filtro = document.getElementById('filtro-prioridade').value;
   const marca = document.getElementById('marca-select').value;
   const cat = document.getElementById('cat-select').value;
   const subcat = document.getElementById('subcat-select').value;
   const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
   const cnp = document.getElementById('pesquisa-cnp').value.trim();
+
+  // Helper: obter dados da farmácia activa para um produto
+  const getFarmData = p => p.propostas[farm] || p.propostas[''];
 
   let rows = propostaActual;
 
@@ -729,16 +733,16 @@ function renderTabela() {
   if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
   if (cnp) rows = rows.filter(r => String(r.COD_PRD || '').includes(cnp));
 
-  // Filtro prioridade
-  if (filtro === 'rutura') rows = rows.filter(r => r.prioridade === 'rutura');
-  if (filtro === 'urgente_comprar') rows = rows.filter(r => ['rutura','urgente','comprar'].includes(r.prioridade));
-  if (filtro === 'com_proposta') rows = rows.filter(r => r.proposta_edit > 0);
+  // Filtro prioridade — usa dados da farmácia activa
+  if (filtro === 'rutura') rows = rows.filter(r => getFarmData(r).prioridade === 'rutura');
+  if (filtro === 'urgente_comprar') rows = rows.filter(r => ['rutura','urgente','comprar'].includes(getFarmData(r).prioridade));
+  if (filtro === 'com_proposta') rows = rows.filter(r => getFarmData(r).proposta_edit > 0);
   if (filtro === 'com_vendedor') rows = rows.filter(r => vendedorMap[parseInt(r.COD_PRD)] > 0);
   if (filtro === 'sem_vendedor') rows = rows.filter(r => !vendedorMap[parseInt(r.COD_PRD)]);
 
-  const cntR = propostaActual.filter(r=>r.prioridade==='rutura').length;
-  const cntU = propostaActual.filter(r=>r.prioridade==='urgente').length;
-  const cntC = propostaActual.filter(r=>r.prioridade==='comprar').length;
+  const cntR = propostaActual.filter(r => getFarmData(r).prioridade === 'rutura').length;
+  const cntU = propostaActual.filter(r => getFarmData(r).prioridade === 'urgente').length;
+  const cntC = propostaActual.filter(r => getFarmData(r).prioridade === 'comprar').length;
   document.getElementById('cnt-rutura').textContent = `● ${cntR} RUTURA`;
   document.getElementById('cnt-urgente').textContent = `● ${cntU} URGENTE`;
   document.getElementById('cnt-comprar').textContent = `● ${cntC} COMPRAR`;
@@ -747,29 +751,28 @@ function renderTabela() {
 
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
-  const mostrarFarmacia = !document.getElementById('farmacia-select').value;
+  const mostrarFarmacia = !farm;
 
-  rows.forEach((p, idx) => {
-    const maxV = Math.max(...p.v.slice(0,18), 0.1);
-    // V0=Jun26, V1=Mai26, V2=Abr26, V3=Mar26, V4=Fev26, V5=Jan26,
-    // V6=Dez25, V7=Nov25, V8=Out25, V9=Set25, V10=Ago25, V11=Jul25,
-    // V12=Jun25, V13=Mai25, V14=Abr25, V15=Mar25, V16=Fev25, V17=Jan25
+  rows.forEach((p) => {
+    const fd = getFarmData(p); // dados da farmácia activa
+    const v = fd.v || Array(18).fill(0);
+    const maxV = Math.max(...v, 0.1);
     const meses = ['Jun','Mai','Abr','Mar','Fev','Jan','Dez','Nov','Out','Set','Ago','Jul','Jun','Mai','Abr','Mar','Fev','Jan'];
-    const barras = p.v.slice(0,18).map((vv, i) => {
+    const barras = v.slice(0,18).map((vv, i) => {
       const h = Math.round(vv/maxV*22)+2;
       const label = vv > 0 ? `<span class="bar-num">${Math.round(vv)}</span>` : '';
-      const isSazonalBar = p.sazonal && (i === 10 || i === 11 || i === 12);
+      const isSazonalBar = fd.sazonal && (i === 10 || i === 11 || i === 12);
       const barClass = i === 0 ? 'bar current' : isSazonalBar ? 'bar sazonal' : 'bar';
       return `<div class="bar-wrap" title="${meses[i]}: ${vv.toFixed(1)} un"><div class="${barClass}" style="height:${h}px"></div>${label}</div>`;
     }).reverse().join('');
 
-    const prLabel = {rutura:'RUTURA',urgente:'URGENTE',comprar:'COMPRAR',ok:'OK'}[p.prioridade];
-    const prClass = `p-${p.prioridade}`;
+    const prLabel = {rutura:'RUTURA',urgente:'URGENTE',comprar:'COMPRAR',ok:'OK'}[fd.prioridade] || 'OK';
+    const prClass = `p-${fd.prioridade || 'ok'}`;
     const margemClass = p.margem >= 30 ? 'margem-ok' : 'margem-low';
-    const diasStr = typeof p.dias === 'number' ? p.dias + 'd' : p.dias;
+    const diasStr = typeof fd.dias === 'number' ? fd.dias + 'd' : fd.dias;
 
-    const cnp = parseInt(p.COD_PRD);
-    const vQt = vendedorMap[cnp];
+    const cnpInt = parseInt(p.COD_PRD);
+    const vQt = vendedorMap[cnpInt];
     const vCell = Object.keys(vendedorMap).length > 0
       ? `<td class="num" style="${vQt > 0 ? 'color:var(--verde);font-weight:600' : 'color:var(--cinza-escuro)'}">${vQt > 0 ? vQt : '—'}</td>`
       : '';
@@ -786,22 +789,22 @@ function renderTabela() {
       </td>
       ${farmaciaCell}
       <td><span class="prioridade ${prClass}">${prLabel}</span></td>
-      <td class="num">${p.stock}</td>
+      <td class="num">${fd.stock}</td>
       <td class="num">${diasStr}</td>
-      <td class="num">${p.media6m.toFixed(1)}${p.sazonal ? ' ☀️' : ''}</td>
+      <td class="num">${fd.media6m.toFixed(1)}${fd.sazonal ? ' ☀️' : ''}</td>
       <td><div class="vendas-bar">${barras}</div></td>
       <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
-      <td class="num">${p.proposta}</td>
-      <td class="num"><input class="qt-input" type="number" min="0" value="${p.proposta_edit}" data-idx="${propostaActual.indexOf(p)}" onchange="updateQt(this)"></td>
+      <td class="num">${fd.proposta}</td>
+      <td class="num"><input class="qt-input" type="number" min="0" value="${fd.proposta_edit}" data-cod="${p.COD_PRD}" data-farm="${farm}" onchange="updateQt(this)"></td>
       <td class="num">${p.pcus.toFixed(2)} €</td>
-      <td class="num">${parseFloat(p.PVP_PROD || 0).toFixed(2)} €</td>
-      <td class="num total-cell">${(p.proposta_edit * p.pcus).toFixed(2)} €</td>
+      <td class="num">${p.pvp.toFixed(2)} €</td>
+      <td class="num total-cell">${(fd.proposta_edit * p.pcus).toFixed(2)} €</td>
       ${vCell}
     `;
     tbody.appendChild(tr);
   });
 
-  const mostrarFarmaciaTh = !document.getElementById('farmacia-select').value;
+  const mostrarFarmaciaTh = !farm;
   document.getElementById('th-farmacia').style.display = mostrarFarmaciaTh ? '' : 'none';
   document.getElementById('th-vendedor').style.display = Object.keys(vendedorMap).length > 0 ? '' : 'none';
   document.getElementById('tabela').style.display = rows.length ? 'table' : 'none';
@@ -813,40 +816,48 @@ function renderTabela() {
 }
 
 function updateQt(input) {
-  const idx = parseInt(input.dataset.idx);
+  const cod = input.dataset.cod;
+  const farmInput = input.dataset.farm;
   const val = Math.max(0, parseInt(input.value) || 0);
-  propostaActual[idx].proposta_edit = val;
-  input.classList.toggle('modified', val !== propostaActual[idx].proposta);
+  const p = propostaActual.find(x => x.COD_PRD === cod);
+  if (!p) return;
+  const fd = p.propostas[farmInput] || p.propostas[''];
+  const original = fd.proposta;
+  fd.proposta_edit = val;
+  input.classList.toggle('modified', val !== original);
   const tr = input.closest('tr');
-  tr.querySelector('.total-cell').textContent = (val * propostaActual[idx].pcus).toFixed(2) + ' €';
+  tr.querySelector('.total-cell').textContent = (val * p.pcus).toFixed(2) + ' €';
   updateFooter();
   updateKPIsLight();
 }
 
 function updateFooter() {
-  const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
-  const total = comProposta.reduce((s, p) => s + p.proposta_edit * p.pcus, 0);
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s, p) => s + getFd(p).proposta_edit * p.pcus, 0);
   document.getElementById('footer-refs').textContent = comProposta.length + ' referências com quantidade';
   document.getElementById('footer-total').textContent = 'Total Custo s/IVA: ' + total.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
 }
 
 function exportarCSV() {
-  const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
-  // V0=Jun26 ... V17=Jan25 (mais recente primeiro); cabeçalhos com o mês/ano correspondente
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
   const mesesLabel = ['Jun26','Mai26','Abr26','Mar26','Fev26','Jan26','Dez25','Nov25','Out25','Set25','Ago25','Jul25','Jun25','Mai25','Abr25','Mar25','Fev25','Jan25'];
   const colsVendas = mesesLabel.map(m => 'V_' + m);
-
   const linhas = [[
     'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','MEDIA_6M','PROPOSTA','CUSTO_UNIT','PVP_SIVA','TOTAL_CUSTO','MARGEM_PCT',
     ...colsVendas
   ].join(';')];
-
   comProposta.forEach(p => {
-    const vendasMensais = mesesLabel.map((_, i) => (p.v[i] || 0).toFixed(1));
+    const fd = getFd(p);
+    const v = fd.v || Array(18).fill(0);
+    const vendasMensais = mesesLabel.map((_, i) => (v[i] || 0).toFixed(1));
     linhas.push([
       p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`, `"${p.MARCA || ''}"`, `"${p.CATEGORIA_DESIGNACAO || ''}"`,
-      p.stock, p.media6m.toFixed(2), p.proposta_edit,
-      p.pcus.toFixed(2), parseFloat(p.PVP_PROD || 0).toFixed(2), (p.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
+      fd.stock, fd.media6m.toFixed(2), fd.proposta_edit,
+      p.pcus.toFixed(2), p.pvp.toFixed(2), (fd.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
       ...vendasMensais
     ].join(';'));
   });
@@ -876,35 +887,29 @@ function getFilteredRowsForExport() {
 
 function exportarAnalise() {
   if (!propostaActual.length) return;
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
   const rows = getFilteredRowsForExport();
-
   const mesesLabel = ['Jun26','Mai26','Abr26','Mar26','Fev26','Jan26','Dez25','Nov25','Out25','Set25','Ago25','Jul25','Jun25','Mai25','Abr25','Mar25','Fev25','Jan25'];
   const colsVendas = mesesLabel.map(m => 'V_' + m);
   const temVendedor = Object.keys(vendedorMap).length > 0;
-
-  const header = [
-    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','DIAS','MEDIA_6M','CUSTO_UNIT','PVP_SIVA','MARGEM_PCT',
-    ...colsVendas
-  ];
+  const header = ['COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','DIAS','MEDIA_6M','CUSTO_UNIT','PVP_SIVA','MARGEM_PCT',...colsVendas];
   if (temVendedor) header.push('V_QT_VENDEDOR');
   const linhas = [header.join(';')];
-
   rows.forEach(p => {
-    const vendasMensais = mesesLabel.map((_, i) => (p.v[i] || 0).toFixed(1));
-    const diasVal = typeof p.dias === 'number' ? p.dias : '';
+    const fd = getFd(p);
+    const v = fd.v || Array(18).fill(0);
+    const vendasMensais = mesesLabel.map((_, i) => (v[i] || 0).toFixed(1));
+    const diasVal = typeof fd.dias === 'number' ? fd.dias : '';
     const linha = [
       p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`, `"${p.MARCA || ''}"`, `"${p.CATEGORIA_DESIGNACAO || ''}"`,
-      p.stock, diasVal, p.media6m.toFixed(2),
-      p.pcus.toFixed(2), parseFloat(p.PVP_PROD || 0).toFixed(2), p.margem.toFixed(1)+'%',
+      fd.stock, diasVal, fd.media6m.toFixed(2),
+      p.pcus.toFixed(2), p.pvp.toFixed(2), p.margem.toFixed(1)+'%',
       ...vendasMensais
     ];
-    if (temVendedor) {
-      const vQt = vendedorMap[parseInt(p.COD_PRD)] || 0;
-      linha.push(vQt);
-    }
+    if (temVendedor) linha.push(vendedorMap[parseInt(p.COD_PRD)] || 0);
     linhas.push(linha.join(';'));
   });
-
   const blob = new Blob(['\ufeff'+linhas.join('\n')], {type:'text/csv;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -914,11 +919,15 @@ function exportarAnalise() {
 
 function copiarResumo() {
   const lab = document.getElementById('lab-select').value;
-  const comProposta = propostaActual.filter(p => p.proposta_edit > 0);
-  const total = comProposta.reduce((s,p) => s + p.proposta_edit * p.pcus, 0);
-  const linhas = [`Proposta de Compra — ${lab}`, `Data: ${new Date().toLocaleDateString('pt-PT')}`, ''];
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  const farmLabel = farm || 'Todas as Farmácias';
+  const linhas = [`Proposta de Compra — ${lab} (${farmLabel})`, `Data: ${new Date().toLocaleDateString('pt-PT')}`, ''];
   comProposta.forEach(p => {
-    linhas.push(`${p.proposta_edit}x ${p.DESIGNACAO} (${p.COD_PRD}) — ${(p.proposta_edit*p.pcus).toFixed(2)}€ custo`);
+    const fd = getFd(p);
+    linhas.push(`${fd.proposta_edit}x ${p.DESIGNACAO} (${p.COD_PRD}) — ${(fd.proposta_edit*p.pcus).toFixed(2)}€ custo`);
   });
   linhas.push('');
   linhas.push(`Total Custo s/IVA: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})}€`);
@@ -1025,13 +1034,14 @@ function fmt(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:0, max
 function fmtEur(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 
 function updateKPIs(rows) {
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
   const fechado = modoKpi === 'fechado';
 
-  const campoVendas  = fechado ? 'VENDAS_MES_ANT'       : 'VENDAS_YTD';
-  const campoMargem  = fechado ? 'MARGEM_MES_ANT'       : 'MARGEM_YTD';
+  const campoVendas  = fechado ? 'VENDAS_MES_ANT'         : 'VENDAS_YTD';
+  const campoMargem  = fechado ? 'MARGEM_MES_ANT'         : 'MARGEM_YTD';
   const campoAntYTD  = fechado ? 'VENDAS_ANO_ANT_MES_ANT' : 'VENDAS_ANO_ANT_YTD';
 
-  // Calcular label do período para mostrar no KPI
   const agora = new Date();
   const mesAnterior = new Date(agora.getFullYear(), agora.getMonth() - 1, 1);
   const nomeMes = mesAnterior.toLocaleString('pt-PT', {month:'short'}).replace('.','');
@@ -1039,10 +1049,10 @@ function updateKPIs(rows) {
     ? `Jan→${nomeMes} (fechado)`
     : `Jan→${agora.toLocaleString('pt-PT', {month:'short'}).replace('.','').replace('.','')} YTD`;
 
-  const vendasYtd = rows.reduce((s,p) => s + parseFloat(p[campoVendas] || 0), 0);
-  const margemYtd = rows.reduce((s,p) => s + parseFloat(p[campoMargem] || 0), 0);
-  const margemPct = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
-  const vendasAnoAnt = rows.reduce((s,p) => s + parseFloat(p[campoAntYTD] || 0), 0);
+  const vendasYtd  = rows.reduce((s,p) => s + parseFloat(getFd(p).dados?.[campoVendas] || 0), 0);
+  const margemYtd  = rows.reduce((s,p) => s + parseFloat(getFd(p).dados?.[campoMargem] || 0), 0);
+  const margemPct  = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
+  const vendasAnoAnt = rows.reduce((s,p) => s + parseFloat(getFd(p).dados?.[campoAntYTD] || 0), 0);
   const cresc = vendasAnoAnt > 0 ? ((vendasYtd - vendasAnoAnt) / vendasAnoAnt * 100) : null;
 
   const refsActivas = rows.filter(p => [0,1,2,3,4,5].some(i => (p.v[i]||0) > 0)).length;
@@ -1081,15 +1091,14 @@ function updateKPIs(rows) {
 
 
 function updateKPIsLight() {
-  // Actualiza só os KPIs que dependem das quantidades editadas
-  const propostaCusto = propostaActual.reduce((s, p) => s + p.proposta_edit * parseFloat(p.PCUSMED_PROD || 0), 0);
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const propostaCusto = propostaActual.reduce((s, p) => s + getFd(p).proposta_edit * p.pcus, 0);
   document.getElementById('kpi-proposta-custo').textContent = fmtEur(propostaCusto);
-
-  // Proposta vendedor
   if (Object.keys(vendedorMap).length > 0) {
     const vendedorCusto = propostaActual.reduce((s, p) => {
       const vQt = vendedorMap[parseInt(p.COD_PRD)] || 0;
-      return s + vQt * parseFloat(p.PCUSMED_PROD || 0);
+      return s + vQt * p.pcus;
     }, 0);
     document.getElementById('kpi-proposta-vendedor').textContent = fmtEur(vendedorCusto);
     document.getElementById('kpi-card-vendedor').style.display = '';
@@ -1101,12 +1110,14 @@ function updateKPIsLight() {
 function guardarProposta() {
   const lab = document.getElementById('lab-select').value;
   if (!lab || !propostaActual.length) return;
-  const dados = {
-    lab,
-    cobertura: document.getElementById('cobertura').value,
-    data: new Date().toISOString(),
-    quantidades: propostaActual.map(p => ({ cod: p.COD_PRD, qt: p.proposta_edit }))
-  };
+  // Guardar propostas de todas as farmácias num único ficheiro
+  const quantidades = propostaActual.map(p => ({
+    cod: p.COD_PRD,
+    propostas: Object.fromEntries(
+      Object.entries(p.propostas).map(([f, fd]) => [f, fd.proposta_edit])
+    )
+  }));
+  const dados = { lab, cobertura: document.getElementById('cobertura').value, data: new Date().toISOString(), quantidades };
   const blob = new Blob([JSON.stringify(dados, null, 2)], {type: 'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -1129,9 +1140,14 @@ function carregarProposta(input) {
       aplicar();
       setTimeout(() => {
         const qtMap = {};
-        dados.quantidades.forEach(q => qtMap[q.cod] = q.qt);
+        dados.quantidades.forEach(q => { qtMap[q.cod] = q.propostas || {}; });
         propostaActual.forEach(p => {
-          if (qtMap[p.COD_PRD] !== undefined) p.proposta_edit = qtMap[p.COD_PRD];
+          const qt = qtMap[p.COD_PRD];
+          if (qt) {
+            Object.entries(qt).forEach(([f, val]) => {
+              if (p.propostas[f]) p.propostas[f].proposta_edit = val;
+            });
+          }
         });
         renderTabela();
         updateFooter();
