@@ -1,0 +1,1818 @@
+{
+  "gerado_em": "2026-06-24T22:46:50",
+  "ano": 2026,
+  "farmacias": {
+    "aroeira": {
+      "nome": "Farmácia Aroeira",
+      "objetivos": {
+        "margem": 597000,
+        "otc": 236000,
+        "saude": 584000,
+        "rent_gen": 4.45
+      },
+      "kpis": {
+        "vendas_otc": 98475.29,
+        "vendas_saude": 652591.46,
+        "margem_bruta": 264202.12,
+        "atendimentos": 23935
+      },
+      "colaboradores": [
+        {
+          "cod": 109,
+          "nome": "Alina Stoica",
+          "vendas_ytd": 160926.25,
+          "atend_ytd": 3757,
+          "ticket_medio": 42.83,
+          "cresc_vs_ant": 53.2,
+          "rent_genericos": 4.48,
+          "taxa_sauda": 57.2,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 17020.03,
+              "atend": 456,
+              "ticket": 37.32
+            },
+            {
+              "mes": 2,
+              "vendas": 14018.04,
+              "atend": 358,
+              "ticket": 39.16
+            },
+            {
+              "mes": 3,
+              "vendas": 30531.19,
+              "atend": 710,
+              "ticket": 43.0
+            },
+            {
+              "mes": 4,
+              "vendas": 35315.21,
+              "atend": 804,
+              "ticket": 43.92
+            },
+            {
+              "mes": 5,
+              "vendas": 36976.04,
+              "atend": 757,
+              "ticket": 48.85
+            },
+            {
+              "mes": 6,
+              "vendas": 27065.74,
+              "atend": 672,
+              "ticket": 40.28
+            }
+          ],
+          "mix": {
+            "Alopatia": 79.3,
+            "Homeopatia": 0.0,
+            "OUTROS": 0.7,
+            "Parafarmácia": 19.1,
+            "Veterinária": 0.9
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 310,
+              "rent_media": 4.48
+            },
+            "2": {
+              "unidades": 193,
+              "rent_media": 4.01
+            },
+            "3": {
+              "unidades": 443,
+              "rent_media": 4.62
+            },
+            "4": {
+              "unidades": 518,
+              "rent_media": 4.38
+            },
+            "5": {
+              "unidades": 456,
+              "rent_media": 4.53
+            },
+            "6": {
+              "unidades": 348,
+              "rent_media": 4.66
+            }
+          },
+          "sauda_mensal": {
+            "1": 264,
+            "2": 211,
+            "3": 400,
+            "4": 466,
+            "5": 439,
+            "6": 369
+          }
+        },
+        {
+          "cod": 133,
+          "nome": "CAROLINA PEREIRA ALVES",
+          "vendas_ytd": 100198.49,
+          "atend_ytd": 2499,
+          "ticket_medio": 40.1,
+          "cresc_vs_ant": null,
+          "rent_genericos": 4.51,
+          "taxa_sauda": 54.9,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 26305.25,
+              "atend": 710,
+              "ticket": 37.05
+            },
+            {
+              "mes": 2,
+              "vendas": 26381.51,
+              "atend": 581,
+              "ticket": 45.41
+            },
+            {
+              "mes": 3,
+              "vendas": 28847.63,
+              "atend": 714,
+              "ticket": 40.4
+            },
+            {
+              "mes": 4,
+              "vendas": 18664.1,
+              "atend": 494,
+              "ticket": 37.78
+            },
+            {
+              "mes": 5,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 6,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            }
+          ],
+          "mix": {
+            "Alopatia": 76.2,
+            "OUTROS": 0.8,
+            "Parafarmácia": 22.2,
+            "Veterinária": 0.8
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 440,
+              "rent_media": 4.35
+            },
+            "2": {
+              "unidades": 428,
+              "rent_media": 4.54
+            },
+            "3": {
+              "unidades": 482,
+              "rent_media": 4.49
+            },
+            "4": {
+              "unidades": 295,
+              "rent_media": 4.74
+            }
+          },
+          "sauda_mensal": {
+            "1": 381,
+            "2": 332,
+            "3": 379,
+            "4": 279
+          }
+        },
+        {
+          "cod": 85,
+          "nome": "Claudia Coelho",
+          "vendas_ytd": 49835.32,
+          "atend_ytd": 1226,
+          "ticket_medio": 40.65,
+          "cresc_vs_ant": -60.1,
+          "rent_genericos": 4.3,
+          "taxa_sauda": 55.9,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 22143.69,
+              "atend": 520,
+              "ticket": 42.58
+            },
+            {
+              "mes": 2,
+              "vendas": 22014.8,
+              "atend": 567,
+              "ticket": 38.83
+            },
+            {
+              "mes": 3,
+              "vendas": 5676.83,
+              "atend": 139,
+              "ticket": 40.84
+            },
+            {
+              "mes": 4,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 5,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 6,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            }
+          ],
+          "mix": {
+            "Alopatia": 77.4,
+            "OUTROS": 1.6,
+            "Parafarmácia": 19.6,
+            "Veterinária": 1.4
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 321,
+              "rent_media": 4.63
+            },
+            "2": {
+              "unidades": 359,
+              "rent_media": 4.08
+            },
+            "3": {
+              "unidades": 91,
+              "rent_media": 3.98
+            }
+          },
+          "sauda_mensal": {
+            "1": 276,
+            "2": 331,
+            "3": 78
+          }
+        },
+        {
+          "cod": 121,
+          "nome": "DUARTE HOMEM",
+          "vendas_ytd": 159105.7,
+          "atend_ytd": 3844,
+          "ticket_medio": 41.39,
+          "cresc_vs_ant": 35.3,
+          "rent_genericos": 4.34,
+          "taxa_sauda": 49.1,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 26550.29,
+              "atend": 600,
+              "ticket": 44.25
+            },
+            {
+              "mes": 2,
+              "vendas": 22947.04,
+              "atend": 581,
+              "ticket": 39.5
+            },
+            {
+              "mes": 3,
+              "vendas": 27265.5,
+              "atend": 618,
+              "ticket": 44.12
+            },
+            {
+              "mes": 4,
+              "vendas": 26930.15,
+              "atend": 704,
+              "ticket": 38.25
+            },
+            {
+              "mes": 5,
+              "vendas": 32708.78,
+              "atend": 830,
+              "ticket": 39.41
+            },
+            {
+              "mes": 6,
+              "vendas": 22703.94,
+              "atend": 511,
+              "ticket": 44.43
+            }
+          ],
+          "mix": {
+            "Alopatia": 77.2,
+            "OUTROS": 0.9,
+            "Parafarmácia": 21.4,
+            "Veterinária": 0.5
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 369,
+              "rent_media": 4.32
+            },
+            "2": {
+              "unidades": 333,
+              "rent_media": 4.52
+            },
+            "3": {
+              "unidades": 416,
+              "rent_media": 4.63
+            },
+            "4": {
+              "unidades": 367,
+              "rent_media": 4.35
+            },
+            "5": {
+              "unidades": 412,
+              "rent_media": 4.11
+            },
+            "6": {
+              "unidades": 344,
+              "rent_media": 4.11
+            }
+          },
+          "sauda_mensal": {
+            "1": 266,
+            "2": 280,
+            "3": 318,
+            "4": 337,
+            "5": 439,
+            "6": 248
+          }
+        },
+        {
+          "cod": 132,
+          "nome": "JESSICA SOUSA",
+          "vendas_ytd": 196761.81,
+          "atend_ytd": 4639,
+          "ticket_medio": 42.41,
+          "cresc_vs_ant": 753.3,
+          "rent_genericos": 4.46,
+          "taxa_sauda": 54.0,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 34422.3,
+              "atend": 816,
+              "ticket": 42.18
+            },
+            {
+              "mes": 2,
+              "vendas": 29308.24,
+              "atend": 721,
+              "ticket": 40.65
+            },
+            {
+              "mes": 3,
+              "vendas": 35304.14,
+              "atend": 857,
+              "ticket": 41.2
+            },
+            {
+              "mes": 4,
+              "vendas": 28217.52,
+              "atend": 622,
+              "ticket": 45.37
+            },
+            {
+              "mes": 5,
+              "vendas": 40160.15,
+              "atend": 904,
+              "ticket": 44.42
+            },
+            {
+              "mes": 6,
+              "vendas": 29349.46,
+              "atend": 719,
+              "ticket": 40.82
+            }
+          ],
+          "mix": {
+            "Alopatia": 78.7,
+            "Homeopatia": 0.0,
+            "OUTROS": 0.6,
+            "Parafarmácia": 19.8,
+            "Veterinária": 0.8
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 633,
+              "rent_media": 4.05
+            },
+            "2": {
+              "unidades": 459,
+              "rent_media": 4.46
+            },
+            "3": {
+              "unidades": 564,
+              "rent_media": 4.42
+            },
+            "4": {
+              "unidades": 371,
+              "rent_media": 4.58
+            },
+            "5": {
+              "unidades": 623,
+              "rent_media": 4.85
+            },
+            "6": {
+              "unidades": 427,
+              "rent_media": 4.47
+            }
+          },
+          "sauda_mensal": {
+            "1": 457,
+            "2": 411,
+            "3": 463,
+            "4": 318,
+            "5": 482,
+            "6": 375
+          }
+        },
+        {
+          "cod": 125,
+          "nome": "Joao Pedro Garção Meireles",
+          "vendas_ytd": 90873.69,
+          "atend_ytd": 2363,
+          "ticket_medio": 38.46,
+          "cresc_vs_ant": -18.9,
+          "rent_genericos": 4.12,
+          "taxa_sauda": 57.4,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 17691.79,
+              "atend": 453,
+              "ticket": 39.05
+            },
+            {
+              "mes": 2,
+              "vendas": 20250.93,
+              "atend": 537,
+              "ticket": 37.71
+            },
+            {
+              "mes": 3,
+              "vendas": 28234.77,
+              "atend": 733,
+              "ticket": 38.52
+            },
+            {
+              "mes": 4,
+              "vendas": 24696.2,
+              "atend": 640,
+              "ticket": 38.59
+            },
+            {
+              "mes": 5,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 6,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            }
+          ],
+          "mix": {
+            "Alopatia": 75.9,
+            "OUTROS": 0.8,
+            "Parafarmácia": 22.4,
+            "Veterinária": 0.9
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 246,
+              "rent_media": 4.12
+            },
+            "2": {
+              "unidades": 309,
+              "rent_media": 4.04
+            },
+            "3": {
+              "unidades": 445,
+              "rent_media": 3.96
+            },
+            "4": {
+              "unidades": 364,
+              "rent_media": 4.39
+            }
+          },
+          "sauda_mensal": {
+            "1": 261,
+            "2": 292,
+            "3": 417,
+            "4": 387
+          }
+        },
+        {
+          "cod": 140,
+          "nome": "Leo Souza",
+          "vendas_ytd": 66165.13,
+          "atend_ytd": 1648,
+          "ticket_medio": 40.15,
+          "cresc_vs_ant": null,
+          "rent_genericos": 4.31,
+          "taxa_sauda": 54.4,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 2,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 3,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 4,
+              "vendas": 2418.3,
+              "atend": 39,
+              "ticket": 62.01
+            },
+            {
+              "mes": 5,
+              "vendas": 31925.76,
+              "atend": 813,
+              "ticket": 39.27
+            },
+            {
+              "mes": 6,
+              "vendas": 31821.07,
+              "atend": 796,
+              "ticket": 39.98
+            }
+          ],
+          "mix": {
+            "Alopatia": 74.4,
+            "OUTROS": 0.6,
+            "Parafarmácia": 24.1,
+            "Veterinária": 0.8
+          },
+          "genericos_mensal": {
+            "4": {
+              "unidades": 27,
+              "rent_media": 4.89
+            },
+            "5": {
+              "unidades": 504,
+              "rent_media": 4.26
+            },
+            "6": {
+              "unidades": 490,
+              "rent_media": 4.33
+            }
+          },
+          "sauda_mensal": {
+            "4": 25,
+            "5": 443,
+            "6": 428
+          }
+        },
+        {
+          "cod": 130,
+          "nome": "MATILDE SOARES",
+          "vendas_ytd": 87164.27,
+          "atend_ytd": 2325,
+          "ticket_medio": 37.49,
+          "cresc_vs_ant": -41.7,
+          "rent_genericos": 4.46,
+          "taxa_sauda": 56.7,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 17037.77,
+              "atend": 457,
+              "ticket": 37.28
+            },
+            {
+              "mes": 2,
+              "vendas": 9175.18,
+              "atend": 259,
+              "ticket": 35.43
+            },
+            {
+              "mes": 3,
+              "vendas": 11788.25,
+              "atend": 355,
+              "ticket": 33.21
+            },
+            {
+              "mes": 4,
+              "vendas": 23995.07,
+              "atend": 612,
+              "ticket": 39.21
+            },
+            {
+              "mes": 5,
+              "vendas": 11057.26,
+              "atend": 330,
+              "ticket": 33.51
+            },
+            {
+              "mes": 6,
+              "vendas": 14110.74,
+              "atend": 312,
+              "ticket": 45.23
+            }
+          ],
+          "mix": {
+            "Alopatia": 75.4,
+            "OUTROS": 0.7,
+            "Parafarmácia": 22.4,
+            "Veterinária": 1.5
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 273,
+              "rent_media": 4.13
+            },
+            "2": {
+              "unidades": 194,
+              "rent_media": 4.5
+            },
+            "3": {
+              "unidades": 211,
+              "rent_media": 4.62
+            },
+            "4": {
+              "unidades": 380,
+              "rent_media": 4.46
+            },
+            "5": {
+              "unidades": 206,
+              "rent_media": 4.76
+            },
+            "6": {
+              "unidades": 186,
+              "rent_media": 4.41
+            }
+          },
+          "sauda_mensal": {
+            "1": 275,
+            "2": 143,
+            "3": 206,
+            "4": 357,
+            "5": 169,
+            "6": 169
+          }
+        },
+        {
+          "cod": 127,
+          "nome": "Raquel Zambujo Ferreira",
+          "vendas_ytd": 18388.57,
+          "atend_ytd": 553,
+          "ticket_medio": 33.25,
+          "cresc_vs_ant": -64.1,
+          "rent_genericos": 4.48,
+          "taxa_sauda": 46.1,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 7366.15,
+              "atend": 192,
+              "ticket": 38.37
+            },
+            {
+              "mes": 2,
+              "vendas": 3687.8,
+              "atend": 120,
+              "ticket": 30.73
+            },
+            {
+              "mes": 3,
+              "vendas": 7334.62,
+              "atend": 241,
+              "ticket": 30.43
+            },
+            {
+              "mes": 4,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 5,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 6,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            }
+          ],
+          "mix": {
+            "Alopatia": 76.7,
+            "OUTROS": 0.2,
+            "Parafarmácia": 21.6,
+            "Veterinária": 1.5
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 136,
+              "rent_media": 4.7
+            },
+            "2": {
+              "unidades": 42,
+              "rent_media": 4.52
+            },
+            "3": {
+              "unidades": 154,
+              "rent_media": 4.29
+            }
+          },
+          "sauda_mensal": {
+            "1": 86,
+            "2": 49,
+            "3": 120
+          }
+        },
+        {
+          "cod": 107,
+          "nome": "TATIANA CAETANO",
+          "vendas_ytd": 33268.06,
+          "atend_ytd": 806,
+          "ticket_medio": 41.28,
+          "cresc_vs_ant": 192.5,
+          "rent_genericos": 3.8,
+          "taxa_sauda": 54.5,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 3695.42,
+              "atend": 58,
+              "ticket": 63.71
+            },
+            {
+              "mes": 2,
+              "vendas": 2322.82,
+              "atend": 61,
+              "ticket": 38.08
+            },
+            {
+              "mes": 3,
+              "vendas": 1511.02,
+              "atend": 44,
+              "ticket": 34.34
+            },
+            {
+              "mes": 4,
+              "vendas": 6466.39,
+              "atend": 155,
+              "ticket": 41.72
+            },
+            {
+              "mes": 5,
+              "vendas": 14640.33,
+              "atend": 370,
+              "ticket": 39.57
+            },
+            {
+              "mes": 6,
+              "vendas": 4632.08,
+              "atend": 118,
+              "ticket": 39.25
+            }
+          ],
+          "mix": {
+            "Alopatia": 71.2,
+            "Homeopatia": 3.6,
+            "OUTROS": 6.6,
+            "Parafarmácia": 18.0,
+            "Veterinária": 0.6
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 40,
+              "rent_media": 4.12
+            },
+            "2": {
+              "unidades": 20,
+              "rent_media": 4.85
+            },
+            "3": {
+              "unidades": 20,
+              "rent_media": 2.56
+            },
+            "4": {
+              "unidades": 105,
+              "rent_media": 3.8
+            },
+            "5": {
+              "unidades": 222,
+              "rent_media": 3.73
+            },
+            "6": {
+              "unidades": 54,
+              "rent_media": 3.92
+            }
+          },
+          "sauda_mensal": {
+            "1": 32,
+            "2": 31,
+            "3": 23,
+            "4": 89,
+            "5": 206,
+            "6": 58
+          }
+        }
+      ]
+    },
+    "diasbrito": {
+      "nome": "Farmácia Dias e Brito",
+      "objetivos": {
+        "margem": 400000,
+        "otc": 150000,
+        "saude": 380000,
+        "rent_gen": 4.45
+      },
+      "kpis": {
+        "vendas_otc": 87405.33,
+        "vendas_saude": 496157.95,
+        "margem_bruta": 235992.87,
+        "atendimentos": 20260
+      },
+      "colaboradores": [
+        {
+          "cod": 41,
+          "nome": "ANABELA",
+          "vendas_ytd": 130533.78,
+          "atend_ytd": 4125,
+          "ticket_medio": 31.64,
+          "cresc_vs_ant": 5.4,
+          "rent_genericos": 4.8,
+          "taxa_sauda": 62.9,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 22364.85,
+              "atend": 809,
+              "ticket": 27.65
+            },
+            {
+              "mes": 2,
+              "vendas": 21379.51,
+              "atend": 671,
+              "ticket": 31.86
+            },
+            {
+              "mes": 3,
+              "vendas": 24520.46,
+              "atend": 720,
+              "ticket": 34.06
+            },
+            {
+              "mes": 4,
+              "vendas": 25476.11,
+              "atend": 742,
+              "ticket": 34.33
+            },
+            {
+              "mes": 5,
+              "vendas": 17070.51,
+              "atend": 573,
+              "ticket": 29.79
+            },
+            {
+              "mes": 6,
+              "vendas": 19722.34,
+              "atend": 610,
+              "ticket": 32.33
+            }
+          ],
+          "mix": {
+            "Alopatia": 83.9,
+            "OUTROS": 0.2,
+            "Parafarmácia": 15.5,
+            "Veterinária": 0.4
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 671,
+              "rent_media": 4.66
+            },
+            "2": {
+              "unidades": 637,
+              "rent_media": 4.93
+            },
+            "3": {
+              "unidades": 690,
+              "rent_media": 4.82
+            },
+            "4": {
+              "unidades": 651,
+              "rent_media": 4.98
+            },
+            "5": {
+              "unidades": 478,
+              "rent_media": 4.76
+            },
+            "6": {
+              "unidades": 504,
+              "rent_media": 4.59
+            }
+          },
+          "sauda_mensal": {
+            "1": 487,
+            "2": 426,
+            "3": 450,
+            "4": 460,
+            "5": 379,
+            "6": 392
+          }
+        },
+        {
+          "cod": 64,
+          "nome": "Gonçalo",
+          "vendas_ytd": 133777.95,
+          "atend_ytd": 3923,
+          "ticket_medio": 34.1,
+          "cresc_vs_ant": -22.0,
+          "rent_genericos": 4.93,
+          "taxa_sauda": 61.1,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 29739.81,
+              "atend": 891,
+              "ticket": 33.38
+            },
+            {
+              "mes": 2,
+              "vendas": 26536.44,
+              "atend": 775,
+              "ticket": 34.24
+            },
+            {
+              "mes": 3,
+              "vendas": 27845.18,
+              "atend": 828,
+              "ticket": 33.63
+            },
+            {
+              "mes": 4,
+              "vendas": 29402.03,
+              "atend": 841,
+              "ticket": 34.96
+            },
+            {
+              "mes": 5,
+              "vendas": 8585.86,
+              "atend": 239,
+              "ticket": 35.92
+            },
+            {
+              "mes": 6,
+              "vendas": 11668.63,
+              "atend": 349,
+              "ticket": 33.43
+            }
+          ],
+          "mix": {
+            "Alopatia": 82.9,
+            "OUTROS": 0.3,
+            "Parafarmácia": 16.5,
+            "Veterinária": 0.3
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 876,
+              "rent_media": 4.98
+            },
+            "2": {
+              "unidades": 757,
+              "rent_media": 4.93
+            },
+            "3": {
+              "unidades": 797,
+              "rent_media": 4.64
+            },
+            "4": {
+              "unidades": 775,
+              "rent_media": 5.07
+            },
+            "5": {
+              "unidades": 216,
+              "rent_media": 5.3
+            },
+            "6": {
+              "unidades": 382,
+              "rent_media": 4.95
+            }
+          },
+          "sauda_mensal": {
+            "1": 544,
+            "2": 480,
+            "3": 494,
+            "4": 506,
+            "5": 145,
+            "6": 226
+          }
+        },
+        {
+          "cod": 82,
+          "nome": "Marcelo Araújo",
+          "vendas_ytd": 141722.92,
+          "atend_ytd": 4180,
+          "ticket_medio": 33.91,
+          "cresc_vs_ant": null,
+          "rent_genericos": 4.99,
+          "taxa_sauda": 61.8,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 21012.8,
+              "atend": 647,
+              "ticket": 32.48
+            },
+            {
+              "mes": 2,
+              "vendas": 20876.12,
+              "atend": 717,
+              "ticket": 29.12
+            },
+            {
+              "mes": 3,
+              "vendas": 24416.72,
+              "atend": 728,
+              "ticket": 33.54
+            },
+            {
+              "mes": 4,
+              "vendas": 27479.31,
+              "atend": 742,
+              "ticket": 37.03
+            },
+            {
+              "mes": 5,
+              "vendas": 32181.07,
+              "atend": 863,
+              "ticket": 37.29
+            },
+            {
+              "mes": 6,
+              "vendas": 15756.9,
+              "atend": 483,
+              "ticket": 32.62
+            }
+          ],
+          "mix": {
+            "Alopatia": 85.4,
+            "OUTROS": 0.2,
+            "Parafarmácia": 14.1,
+            "Veterinária": 0.3
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 650,
+              "rent_media": 4.89
+            },
+            "2": {
+              "unidades": 579,
+              "rent_media": 5.06
+            },
+            "3": {
+              "unidades": 674,
+              "rent_media": 5.12
+            },
+            "4": {
+              "unidades": 733,
+              "rent_media": 4.74
+            },
+            "5": {
+              "unidades": 834,
+              "rent_media": 4.95
+            },
+            "6": {
+              "unidades": 415,
+              "rent_media": 5.35
+            }
+          },
+          "sauda_mensal": {
+            "1": 426,
+            "2": 431,
+            "3": 464,
+            "4": 466,
+            "5": 538,
+            "6": 260
+          }
+        },
+        {
+          "cod": 46,
+          "nome": "Maria Inês Vicente",
+          "vendas_ytd": 106167.46,
+          "atend_ytd": 2759,
+          "ticket_medio": 38.48,
+          "cresc_vs_ant": -20.5,
+          "rent_genericos": 5.08,
+          "taxa_sauda": 66.2,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 14792.78,
+              "atend": 355,
+              "ticket": 41.67
+            },
+            {
+              "mes": 2,
+              "vendas": 11402.31,
+              "atend": 387,
+              "ticket": 29.46
+            },
+            {
+              "mes": 3,
+              "vendas": 17486.19,
+              "atend": 461,
+              "ticket": 37.93
+            },
+            {
+              "mes": 4,
+              "vendas": 16225.32,
+              "atend": 413,
+              "ticket": 39.29
+            },
+            {
+              "mes": 5,
+              "vendas": 24858.52,
+              "atend": 667,
+              "ticket": 37.27
+            },
+            {
+              "mes": 6,
+              "vendas": 21402.34,
+              "atend": 476,
+              "ticket": 44.96
+            }
+          ],
+          "mix": {
+            "Alopatia": 83.6,
+            "OUTROS": 1.2,
+            "Parafarmácia": 15.1,
+            "Veterinária": 0.1
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 422,
+              "rent_media": 4.96
+            },
+            "2": {
+              "unidades": 354,
+              "rent_media": 4.9
+            },
+            "3": {
+              "unidades": 491,
+              "rent_media": 5.5
+            },
+            "4": {
+              "unidades": 466,
+              "rent_media": 4.87
+            },
+            "5": {
+              "unidades": 690,
+              "rent_media": 5.06
+            },
+            "6": {
+              "unidades": 528,
+              "rent_media": 5.11
+            }
+          },
+          "sauda_mensal": {
+            "1": 244,
+            "2": 249,
+            "3": 288,
+            "4": 296,
+            "5": 441,
+            "6": 309
+          }
+        },
+        {
+          "cod": 80,
+          "nome": "Sara Almeida",
+          "vendas_ytd": 98927.78,
+          "atend_ytd": 3122,
+          "ticket_medio": 31.69,
+          "cresc_vs_ant": null,
+          "rent_genericos": 4.99,
+          "taxa_sauda": 62.6,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 16297.53,
+              "atend": 531,
+              "ticket": 30.69
+            },
+            {
+              "mes": 2,
+              "vendas": 8416.82,
+              "atend": 268,
+              "ticket": 31.41
+            },
+            {
+              "mes": 3,
+              "vendas": 19429.01,
+              "atend": 621,
+              "ticket": 31.29
+            },
+            {
+              "mes": 4,
+              "vendas": 16003.53,
+              "atend": 517,
+              "ticket": 30.95
+            },
+            {
+              "mes": 5,
+              "vendas": 22885.13,
+              "atend": 698,
+              "ticket": 32.79
+            },
+            {
+              "mes": 6,
+              "vendas": 15895.76,
+              "atend": 487,
+              "ticket": 32.64
+            }
+          ],
+          "mix": {
+            "Alopatia": 83.7,
+            "OUTROS": 0.4,
+            "Parafarmácia": 15.6,
+            "Veterinária": 0.3
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 523,
+              "rent_media": 4.84
+            },
+            "2": {
+              "unidades": 237,
+              "rent_media": 4.89
+            },
+            "3": {
+              "unidades": 549,
+              "rent_media": 5.37
+            },
+            "4": {
+              "unidades": 417,
+              "rent_media": 4.63
+            },
+            "5": {
+              "unidades": 628,
+              "rent_media": 4.98
+            },
+            "6": {
+              "unidades": 464,
+              "rent_media": 5.11
+            }
+          },
+          "sauda_mensal": {
+            "1": 340,
+            "2": 176,
+            "3": 385,
+            "4": 312,
+            "5": 433,
+            "6": 308
+          }
+        },
+        {
+          "cod": 4,
+          "nome": "VERA",
+          "vendas_ytd": 85739.92,
+          "atend_ytd": 2151,
+          "ticket_medio": 39.86,
+          "cresc_vs_ant": -9.4,
+          "rent_genericos": 5.01,
+          "taxa_sauda": 66.5,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 21424.74,
+              "atend": 537,
+              "ticket": 39.9
+            },
+            {
+              "mes": 2,
+              "vendas": 16997.48,
+              "atend": 424,
+              "ticket": 40.09
+            },
+            {
+              "mes": 3,
+              "vendas": 6847.89,
+              "atend": 224,
+              "ticket": 30.57
+            },
+            {
+              "mes": 4,
+              "vendas": 9873.68,
+              "atend": 237,
+              "ticket": 41.66
+            },
+            {
+              "mes": 5,
+              "vendas": 16672.22,
+              "atend": 441,
+              "ticket": 37.81
+            },
+            {
+              "mes": 6,
+              "vendas": 13923.91,
+              "atend": 288,
+              "ticket": 48.35
+            }
+          ],
+          "mix": {
+            "Alopatia": 82.5,
+            "OUTROS": 0.3,
+            "Parafarmácia": 16.8,
+            "Veterinária": 0.4
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 508,
+              "rent_media": 5.01
+            },
+            "2": {
+              "unidades": 428,
+              "rent_media": 4.82
+            },
+            "3": {
+              "unidades": 198,
+              "rent_media": 4.6
+            },
+            "4": {
+              "unidades": 243,
+              "rent_media": 5.28
+            },
+            "5": {
+              "unidades": 395,
+              "rent_media": 5.26
+            },
+            "6": {
+              "unidades": 320,
+              "rent_media": 5.02
+            }
+          },
+          "sauda_mensal": {
+            "1": 348,
+            "2": 303,
+            "3": 136,
+            "4": 152,
+            "5": 287,
+            "6": 204
+          }
+        }
+      ]
+    },
+    "universitaria": {
+      "nome": "Farmácia Cidade Universitária",
+      "objetivos": {
+        "margem": 300000,
+        "otc": 110000,
+        "saude": 280000,
+        "rent_gen": 4.45
+      },
+      "kpis": {
+        "vendas_otc": 33334.22,
+        "vendas_saude": 169103.92,
+        "margem_bruta": 65770.9,
+        "atendimentos": 8450
+      },
+      "colaboradores": [
+        {
+          "cod": 35,
+          "nome": "CLAUDIA LOURENÇO",
+          "vendas_ytd": 17522.73,
+          "atend_ytd": 565,
+          "ticket_medio": 31.01,
+          "cresc_vs_ant": null,
+          "rent_genericos": 4.0,
+          "taxa_sauda": 13.8,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 1126.3,
+              "atend": 43,
+              "ticket": 26.19
+            },
+            {
+              "mes": 2,
+              "vendas": 3301.81,
+              "atend": 135,
+              "ticket": 24.46
+            },
+            {
+              "mes": 3,
+              "vendas": 1677.88,
+              "atend": 71,
+              "ticket": 23.63
+            },
+            {
+              "mes": 4,
+              "vendas": 3918.51,
+              "atend": 119,
+              "ticket": 32.93
+            },
+            {
+              "mes": 5,
+              "vendas": 1796.26,
+              "atend": 57,
+              "ticket": 31.51
+            },
+            {
+              "mes": 6,
+              "vendas": 5701.97,
+              "atend": 140,
+              "ticket": 40.73
+            }
+          ],
+          "mix": {
+            "Alopatia": 80.5,
+            "OUTROS": 0.4,
+            "Parafarmácia": 18.7,
+            "Veterinária": 0.4
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 17,
+              "rent_media": 4.82
+            },
+            "2": {
+              "unidades": 94,
+              "rent_media": 4.0
+            },
+            "3": {
+              "unidades": 28,
+              "rent_media": 3.44
+            },
+            "4": {
+              "unidades": 84,
+              "rent_media": 4.0
+            },
+            "5": {
+              "unidades": 28,
+              "rent_media": 3.16
+            },
+            "6": {
+              "unidades": 85,
+              "rent_media": 4.3
+            }
+          },
+          "sauda_mensal": {
+            "1": 3,
+            "2": 23,
+            "3": 7,
+            "4": 19,
+            "5": 7,
+            "6": 19
+          }
+        },
+        {
+          "cod": 37,
+          "nome": "MARIA CECILIA SOARES CAVALCANTE",
+          "vendas_ytd": 44864.04,
+          "atend_ytd": 1612,
+          "ticket_medio": 27.83,
+          "cresc_vs_ant": null,
+          "rent_genericos": 3.96,
+          "taxa_sauda": 11.2,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 14976.09,
+              "atend": 549,
+              "ticket": 27.28
+            },
+            {
+              "mes": 2,
+              "vendas": 14269.16,
+              "atend": 513,
+              "ticket": 27.82
+            },
+            {
+              "mes": 3,
+              "vendas": 15618.79,
+              "atend": 550,
+              "ticket": 28.4
+            },
+            {
+              "mes": 4,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 5,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 6,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            }
+          ],
+          "mix": {
+            "Alopatia": 82.3,
+            "OUTROS": 0.0,
+            "Parafarmácia": 17.1,
+            "Veterinária": 0.6
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 353,
+              "rent_media": 3.98
+            },
+            "2": {
+              "unidades": 313,
+              "rent_media": 4.03
+            },
+            "3": {
+              "unidades": 323,
+              "rent_media": 3.88
+            }
+          },
+          "sauda_mensal": {
+            "1": 61,
+            "2": 67,
+            "3": 53
+          }
+        },
+        {
+          "cod": 43,
+          "nome": "Magda Andrade Silva",
+          "vendas_ytd": 44324.6,
+          "atend_ytd": 1562,
+          "ticket_medio": 28.38,
+          "cresc_vs_ant": null,
+          "rent_genericos": 3.97,
+          "taxa_sauda": 10.4,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 2,
+              "vendas": 0,
+              "atend": 0,
+              "ticket": 0
+            },
+            {
+              "mes": 3,
+              "vendas": 969.51,
+              "atend": 20,
+              "ticket": 48.48
+            },
+            {
+              "mes": 4,
+              "vendas": 15788.05,
+              "atend": 602,
+              "ticket": 26.23
+            },
+            {
+              "mes": 5,
+              "vendas": 16263.25,
+              "atend": 556,
+              "ticket": 29.25
+            },
+            {
+              "mes": 6,
+              "vendas": 11303.79,
+              "atend": 384,
+              "ticket": 29.44
+            }
+          ],
+          "mix": {
+            "Alopatia": 81.5,
+            "OUTROS": 0.1,
+            "Parafarmácia": 18.2,
+            "Veterinária": 0.2
+          },
+          "genericos_mensal": {
+            "3": {
+              "unidades": 14,
+              "rent_media": 5.16
+            },
+            "4": {
+              "unidades": 335,
+              "rent_media": 4.06
+            },
+            "5": {
+              "unidades": 275,
+              "rent_media": 3.56
+            },
+            "6": {
+              "unidades": 270,
+              "rent_media": 4.2
+            }
+          },
+          "sauda_mensal": {
+            "3": 1,
+            "4": 49,
+            "5": 58,
+            "6": 54
+          }
+        },
+        {
+          "cod": 38,
+          "nome": "SUSANA LAURINDA LOURENÇO GONÇALVES",
+          "vendas_ytd": 70998.51,
+          "atend_ytd": 2487,
+          "ticket_medio": 28.55,
+          "cresc_vs_ant": null,
+          "rent_genericos": 4.1,
+          "taxa_sauda": 11.0,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 11780.49,
+              "atend": 448,
+              "ticket": 26.3
+            },
+            {
+              "mes": 2,
+              "vendas": 8083.03,
+              "atend": 363,
+              "ticket": 22.27
+            },
+            {
+              "mes": 3,
+              "vendas": 15776.64,
+              "atend": 543,
+              "ticket": 29.05
+            },
+            {
+              "mes": 4,
+              "vendas": 10833.81,
+              "atend": 295,
+              "ticket": 36.72
+            },
+            {
+              "mes": 5,
+              "vendas": 11303.51,
+              "atend": 459,
+              "ticket": 24.63
+            },
+            {
+              "mes": 6,
+              "vendas": 13221.03,
+              "atend": 379,
+              "ticket": 34.88
+            }
+          ],
+          "mix": {
+            "Alopatia": 81.4,
+            "OUTROS": 0.1,
+            "Parafarmácia": 18.2,
+            "Veterinária": 0.2
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 254,
+              "rent_media": 4.28
+            },
+            "2": {
+              "unidades": 219,
+              "rent_media": 3.98
+            },
+            "3": {
+              "unidades": 315,
+              "rent_media": 3.84
+            },
+            "4": {
+              "unidades": 165,
+              "rent_media": 4.21
+            },
+            "5": {
+              "unidades": 269,
+              "rent_media": 4.36
+            },
+            "6": {
+              "unidades": 247,
+              "rent_media": 3.98
+            }
+          },
+          "sauda_mensal": {
+            "1": 45,
+            "2": 54,
+            "3": 64,
+            "4": 20,
+            "5": 43,
+            "6": 48
+          }
+        },
+        {
+          "cod": 6,
+          "nome": "Teresa Rita Barata de Matos Amaro Lopes",
+          "vendas_ytd": 63461.71,
+          "atend_ytd": 2090,
+          "ticket_medio": 30.36,
+          "cresc_vs_ant": 121.6,
+          "rent_genericos": 4.18,
+          "taxa_sauda": 20.3,
+          "mensal": [
+            {
+              "mes": 1,
+              "vendas": 10667.46,
+              "atend": 395,
+              "ticket": 27.01
+            },
+            {
+              "mes": 2,
+              "vendas": 9348.69,
+              "atend": 308,
+              "ticket": 30.35
+            },
+            {
+              "mes": 3,
+              "vendas": 12335.1,
+              "atend": 440,
+              "ticket": 28.03
+            },
+            {
+              "mes": 4,
+              "vendas": 15141.4,
+              "atend": 481,
+              "ticket": 31.48
+            },
+            {
+              "mes": 5,
+              "vendas": 15934.02,
+              "atend": 464,
+              "ticket": 34.34
+            },
+            {
+              "mes": 6,
+              "vendas": 35.04,
+              "atend": 2,
+              "ticket": 17.52
+            }
+          ],
+          "mix": {
+            "Alopatia": 85.3,
+            "OUTROS": 0.2,
+            "Parafarmácia": 14.2,
+            "Veterinária": 0.3
+          },
+          "genericos_mensal": {
+            "1": {
+              "unidades": 261,
+              "rent_media": 3.77
+            },
+            "2": {
+              "unidades": 173,
+              "rent_media": 5.11
+            },
+            "3": {
+              "unidades": 295,
+              "rent_media": 4.15
+            },
+            "4": {
+              "unidades": 383,
+              "rent_media": 4.02
+            },
+            "5": {
+              "unidades": 281,
+              "rent_media": 4.23
+            },
+            "6": {
+              "unidades": 4,
+              "rent_media": 4.0
+            }
+          },
+          "sauda_mensal": {
+            "1": 81,
+            "2": 48,
+            "3": 89,
+            "4": 109,
+            "5": 97,
+            "6": 1
+          }
+        }
+      ]
+    }
+  }
+}
