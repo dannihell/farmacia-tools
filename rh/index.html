@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farmácias Connect · Equipa</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f7f6f3; --white: #fff; --ink: #1a1a1a; --ink2: #444; --ink3: #888; --ink4: #bbb;
+  --line: #e8e6e1; --green: #1a7a4a; --green-lt: #e8f5ee; --green-mid: #2ea865;
+  --amber: #b45309; --amber-lt: #fef3c7; --red: #b91c1c; --red-lt: #fee2e2;
+  --blue: #1d4ed8; --blue-lt: #eff6ff; --r: 10px;
+}
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); min-height:100vh; font-size:14px; }
+
+/* HEADER */
+.header {
+  background:var(--white); border-bottom:1px solid var(--line);
+  padding:0 32px; height:56px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:100;
+}
+.brand { font-size:15px; font-weight:700; letter-spacing:-0.3px; }
+.brand span { color:var(--green); }
+.header-center { display:flex; align-items:center; gap:8px; }
+.header-right { display:flex; align-items:center; gap:12px; }
+.divider-v { width:1px; height:20px; background:var(--line); margin:0 8px; }
+.period-badge { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink3); }
+
+/* FARMÁCIA SELECTOR */
+.farm-selector { display:flex; gap:2px; background:var(--bg); border-radius:8px; padding:3px; }
+.farm-btn {
+  padding:5px 14px; border-radius:6px; border:none; background:transparent;
+  font-family:'Inter',sans-serif; font-size:12px; font-weight:500; color:var(--ink3); cursor:pointer; transition:all 0.15s;
+}
+.farm-btn.active { background:var(--white); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.08); }
+
+/* MODE SWITCHER */
+.mode-switcher { display:flex; gap:2px; background:var(--bg); border-radius:8px; padding:3px; }
+.mode-btn {
+  padding:5px 14px; border-radius:6px; border:none; background:transparent;
+  font-family:'Inter',sans-serif; font-size:12px; font-weight:500; color:var(--ink3); cursor:pointer; transition:all 0.15s;
+}
+.mode-btn.active { background:var(--white); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.08); }
+
+/* LOADING */
+.loading {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:60vh; gap:16px; color:var(--ink3);
+}
+.spinner {
+  width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--green);
+  border-radius:50%; animation:spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* LAYOUT */
+.page { padding:28px 32px; max-width:1280px; margin:0 auto; }
+.note { font-size:11px; color:var(--ink4); font-family:'JetBrains Mono',monospace; margin-bottom:20px; }
+.sec-label { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink3); margin-bottom:14px; }
+
+/* FATOR */
+.fator-block {
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r);
+  padding:24px 28px; display:flex; align-items:center; gap:32px; margin-bottom:24px;
+}
+.fator-num { font-size:56px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--green); line-height:1; }
+.fator-info { flex:1; }
+.fator-title { font-size:13px; font-weight:600; margin-bottom:4px; }
+.fator-sub { font-size:12px; color:var(--ink3); line-height:1.6; }
+.fator-next { background:var(--green-lt); border:1px solid #a7f3d0; border-radius:8px; padding:12px 20px; text-align:center; }
+.fator-next-label { font-size:10px; color:var(--green); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.fator-next-val { font-size:18px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--green); }
+
+/* KPI GRID */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+.kpi-card { background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; }
+.kpi-label { font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--ink3); margin-bottom:10px; }
+.kpi-val { font-size:22px; font-weight:700; font-family:'JetBrains Mono',monospace; line-height:1; margin-bottom:6px; }
+.kpi-obj { font-size:11px; color:var(--ink3); margin-bottom:8px; }
+.progress-track { height:4px; background:var(--line); border-radius:99px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:99px; transition:width 0.8s cubic-bezier(.4,0,.2,1); }
+.kpi-pct-row { display:flex; justify-content:space-between; align-items:center; margin-top:6px; }
+.kpi-pct { font-size:12px; font-weight:600; font-family:'JetBrains Mono',monospace; }
+.pct-green { color:var(--green); } .pct-amber { color:var(--amber); } .pct-red { color:var(--red); }
+
+/* STATS ROW */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+.stat-box { background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; }
+.stat-label { font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--ink3); margin-bottom:6px; }
+.stat-val { font-size:24px; font-weight:700; font-family:'JetBrains Mono',monospace; line-height:1; }
+.stat-trend { font-size:11px; margin-top:4px; font-family:'JetBrains Mono',monospace; color:var(--ink3); }
+.trend-up { color:var(--green); } .trend-dn { color:var(--red); }
+
+/* BAR CHART */
+.bar-chart { display:flex; align-items:flex-end; gap:6px; }
+.bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.bar-fill { width:100%; border-radius:4px 4px 0 0; min-height:4px; }
+.bar-month { font-size:9px; color:var(--ink4); font-family:'JetBrains Mono',monospace; }
+.bar-val { font-size:9px; color:var(--ink3); }
+
+/* COLAB */
+.colab-row { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+.colab-btn {
+  display:flex; align-items:center; gap:8px; padding:8px 16px; border-radius:99px;
+  border:1.5px solid var(--line); background:var(--white); font-family:'Inter',sans-serif;
+  font-size:13px; font-weight:500; color:var(--ink2); cursor:pointer; transition:all 0.15s;
+}
+.colab-btn:hover { border-color:var(--ink3); }
+.colab-btn.active { background:var(--ink); border-color:var(--ink); color:var(--white); }
+.colab-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+/* COLAB GRID */
+.colab-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+.colab-card { background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:20px; }
+.colab-card-title { font-size:11px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--ink3); margin-bottom:16px; }
+
+/* OBJ */
+.obj-rows { display:flex; flex-direction:column; gap:14px; }
+.obj-row-item { display:flex; flex-direction:column; gap:6px; }
+.obj-header { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+.obj-name { font-size:12px; font-weight:500; line-height:1.4; }
+.obj-badge { font-size:10px; font-weight:600; padding:2px 8px; border-radius:4px; white-space:nowrap; font-family:'JetBrains Mono',monospace; }
+.badge-green { background:var(--green-lt); color:var(--green); }
+.badge-amber { background:var(--amber-lt); color:var(--amber); }
+.badge-red { background:var(--red-lt); color:var(--red); }
+.obj-sub { font-size:11px; color:var(--ink3); }
+
+/* VS GRID */
+.vs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.vs-card { background:var(--bg); border-radius:8px; padding:12px 14px; }
+.vs-label { font-size:10px; color:var(--ink3); font-weight:500; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.8px; }
+.vs-bars { display:flex; gap:6px; align-items:flex-end; height:48px; }
+.vs-b { flex:1; border-radius:3px 3px 0 0; }
+.vs-legend { display:flex; gap:8px; margin-top:6px; }
+.vs-leg-item { display:flex; align-items:center; gap:4px; font-size:9px; color:var(--ink3); }
+.vs-leg-dot { width:6px; height:6px; border-radius:1px; }
+
+/* EMPTY STATE */
+.empty { text-align:center; padding:40px; color:var(--ink3); font-size:13px; }
+.view { display:none; }
+.view.active { display:block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="brand">Farmácias <span>Connect</span></div>
+    <div class="divider-v"></div>
+    <div class="farm-selector" id="farm-selector">
+      <button class="farm-btn active" onclick="setFarmacia('aroeira',this)">Aroeira</button>
+      <button class="farm-btn" onclick="setFarmacia('diasbrito',this)">Dias e Brito</button>
+      <button class="farm-btn" onclick="setFarmacia('universitaria',this)">Universitária</button>
+    </div>
+  </div>
+  <div class="header-right">
+    <div id="period-badge" class="period-badge" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3)"></div>
+    <div class="divider-v"></div>
+    <div class="mode-switcher">
+      <button class="mode-btn active" onclick="setMode('equipa',this)">Equipa</button>
+      <button class="mode-btn" onclick="setMode('individual',this)">Individual</button>
+    </div>
+  </div>
+</div>
+
+<div id="loading" class="loading">
+  <div class="spinner"></div>
+  <div>A carregar dados...</div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="page">
+    <div id="data-note" class="note"></div>
+
+    <!-- VISTA EQUIPA -->
+    <div id="view-equipa" class="view active">
+
+      <div class="sec-label">Prémio 2026</div>
+      <div class="fator-block">
+        <div class="fator-num" id="fator-num">—</div>
+        <div class="fator-info">
+          <div class="fator-title">Fator atual estimado</div>
+          <div class="fator-sub" id="fator-sub"></div>
+        </div>
+        <div class="fator-next" id="fator-next" style="display:none">
+          <div class="fator-next-label">Para fator seguinte</div>
+          <div class="fator-next-val" id="fator-next-val"></div>
+          <div style="font-size:11px;color:var(--green);margin-top:2px">de margem em H2</div>
+        </div>
+      </div>
+
+      <div class="sec-label">Objetivos Farmácia · Acumulado YTD</div>
+      <div class="kpi-grid" id="kpi-grid"></div>
+
+      <div class="sec-label">Equipa · Resumo YTD</div>
+      <div class="stats-row" id="equipa-stats"></div>
+
+      <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:24px">
+        <div class="colab-card-title">Vendas Mensais Equipa (€k sem IVA)</div>
+        <div id="equipa-chart" class="bar-chart" style="height:120px"></div>
+      </div>
+
+    </div>
+
+    <!-- VISTA INDIVIDUAL -->
+    <div id="view-individual" class="view">
+      <div class="sec-label">Selecionar colaborador/a</div>
+      <div class="colab-row" id="colab-row"></div>
+      <div id="colab-name-header" style="font-size:20px;font-weight:700;margin-bottom:16px;letter-spacing:-0.3px"></div>
+      <div class="stats-row" id="colab-stats"></div>
+      <div class="colab-grid" id="colab-grid-top"></div>
+      <div class="colab-grid" id="colab-grid-bot"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── CONSTANTES ───────────────────────────────────────────────────────────────
+const DATA_URL = 'https://raw.githubusercontent.com/dannihell/farmacia-tools/main/data/rh_farmacias.json';
+
+const MESES_LABELS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const COLAB_COLORS = ['#1d4ed8','#7c3aed','#b45309','#0f766e','#be123c','#0369a1','#065f46'];
+
+// KPIs globais por farmácia (objetivos anuais 2026)
+const OBJETIVOS = {
+  aroeira:      { margem: 597000, otc: 236000, saude: 584000, rent_gen: 4.45 },
+  diasbrito:    { margem: 400000, otc: 150000, saude: 380000, rent_gen: 4.45 },
+  universitaria:{ margem: 300000, otc: 110000, saude: 280000, rent_gen: 4.45 },
+};
+
+// Objetivos individuais por colaborador (nome em minúsculas sem acentos)
+// Configura conforme necessário — ficam como placeholder se não definidos
+const OBJ_INDIVIDUAL = {
+  aroeira: {
+    duarte:  [{ label:'Suplementos crescer ≥ 1%', pct: null, status:'amber', sub:'calculado automaticamente' }],
+    matilde: [{ label:'Devoluções por erro — baseline Q3', pct: null, status:'amber', sub:'Período de medição' }],
+    alina:   [{ label:'Dermofarmácia crescer ≥ 1%', pct: null, status:'amber', sub:'calculado automaticamente' }],
+    jessica: [{ label:'Resp. Genéricos · rent. ≥ 4,45€/emb', pct: null, status:'amber', sub:'calculado automaticamente' }],
+    tatiana: [{ label:'Organização de loja · sem incidências', pct: 90, status:'green', sub:'Avaliação trimestral Q2' }],
+  }
+};
+
+// ── ESTADO ───────────────────────────────────────────────────────────────────
+let dados       = null;
+let farmAtual   = 'aroeira';
+let modoAtual   = 'equipa';
+let colabAtual  = null;
+
+// ── UTILS ────────────────────────────────────────────────────────────────────
+const fmt  = (n, dec=0) => (n||0).toLocaleString('pt-PT',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+const fmtE = (n, dec=0) => '€' + fmt(n, dec);
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'_');
+
+function calcFator(margem) {
+  if (!margem) return { fator:'—', cresc: null };
+  // Estima crescimento YTD anualizado
+  const hoje = new Date();
+  const diasAno = 365;
+  const diasDecorridos = Math.floor((hoje - new Date(hoje.getFullYear(),0,1)) / 86400000) + 1;
+  const margemAnual = (margem / diasDecorridos) * diasAno;
+  const ref = 573000; // margem 2025 Aroeira (ajustar por farmácia)
+  const crescPct = ((margemAnual - ref) / ref) * 100;
+  let fator = '0,7';
+  if (crescPct >= 6) fator = '1,2';
+  else if (crescPct >= 5) fator = '1,1';
+  else if (crescPct >= 4) fator = '1,0';
+  else if (crescPct >= 3) fator = '0,9';
+  else if (crescPct >= 2) fator = '0,8';
+  return { fator, crescPct: Math.round(crescPct * 10) / 10, margemAnual };
+}
+
+function pctColor(pct, esperado=50) {
+  if (pct >= esperado) return 'var(--green)';
+  if (pct >= esperado * 0.85) return 'var(--amber)';
+  return 'var(--red)';
+}
+function pctClass(pct, esp=50) {
+  return pct >= esp ? 'pct-green' : pct >= esp * 0.85 ? 'pct-amber' : 'pct-red';
+}
+
+// ── DADOS FICTÍCIOS ───────────────────────────────────────────────────────────
+function gerarColabMock(nome, vendas_base, atend_base, rent, sauda, cresc, mix) {
+  const mensal = [1,2,3,4,5,6].map(mes => ({
+    mes, 
+    vendas: Math.round(vendas_base * (0.85 + Math.random()*0.3)),
+    atend:  Math.round(atend_base  * (0.85 + Math.random()*0.3)),
+    ticket: Math.round((vendas_base / atend_base) * (0.9 + Math.random()*0.2) * 10) / 10
+  }));
+  const vendas_ytd = mensal.reduce((a,m) => a + m.vendas, 0);
+  const atend_ytd  = mensal.reduce((a,m) => a + m.atend,  0);
+  const gen_mensal = {};
+  [1,2,3,4,5,6].forEach(m => {
+    gen_mensal[m] = { unidades: Math.round(atend_base * 0.4), rent_media: rent + (Math.random()-0.5)*0.3 };
+  });
+  return {
+    cod: Math.floor(Math.random()*900)+100,
+    nome,
+    vendas_ytd,
+    atend_ytd,
+    ticket_medio: Math.round(vendas_ytd/atend_ytd*10)/10,
+    cresc_vs_ant: cresc,
+    rent_genericos: rent,
+    taxa_sauda: sauda,
+    mensal,
+    mix,
+    genericos_mensal: Object.fromEntries(Object.entries(gen_mensal).map(([k,v]) => [k,v])),
+    sauda_mensal: Object.fromEntries([1,2,3,4,5,6].map(m => [m, Math.round(atend_base*sauda/100)])),
+  };
+}
+
+const MOCK_DATA = {
+  gerado_em: new Date().toISOString(),
+  ano: 2026,
+  farmacias: {
+    aroeira: {
+      nome: "Aroeira",
+      kpis: { margem_bruta: 291000, vendas_otc: 99000, vendas_saude: 268000, atendimentos: 2752 },
+      colaboradores: [
+        gerarColabMock("Duarte Silva",    6800, 102, 4.51, 58, -6.8, { MNSRM:26, SAUDE:33, MEDICAMENTOS:28, OUTROS:13 }),
+        gerarColabMock("Matilde Soares",  5200,  87, 4.38, 51,  5.7, { MNSRM:23, SAUDE:31, MEDICAMENTOS:29, OUTROS:17 }),
+        gerarColabMock("Alina Pereira",   7400, 117, 4.29, 56, -4.5, { MNSRM:24, SAUDE:41, MEDICAMENTOS:21, OUTROS:14 }),
+        gerarColabMock("Jéssica Costa",   4900,  81, 4.62, 52, -4.5, { MNSRM:21, SAUDE:28, MEDICAMENTOS:37, OUTROS:14 }),
+        gerarColabMock("Tatiana Lopes",   4500,  74, 4.44, 52, -5.0, { MNSRM:22, SAUDE:30, MEDICAMENTOS:28, OUTROS:20 }),
+      ]
+    },
+    diasbrito: {
+      nome: "Dias e Brito",
+      kpis: { margem_bruta: 198000, vendas_otc: 71000, vendas_saude: 182000, atendimentos: 2104 },
+      colaboradores: [
+        gerarColabMock("Ana Ferreira",    6200,  98, 4.48, 53,  2.1, { MNSRM:28, SAUDE:30, MEDICAMENTOS:27, OUTROS:15 }),
+        gerarColabMock("Carlos Mendes",   5800,  92, 4.35, 49, -1.8, { MNSRM:25, SAUDE:32, MEDICAMENTOS:30, OUTROS:13 }),
+        gerarColabMock("Sofia Rodrigues", 5100,  82, 4.52, 55,  3.4, { MNSRM:22, SAUDE:35, MEDICAMENTOS:29, OUTROS:14 }),
+        gerarColabMock("Vera Aguiar",     4800,  79, 4.41, 50, -0.9, { MNSRM:24, SAUDE:31, MEDICAMENTOS:28, OUTROS:17 }),
+      ]
+    },
+    universitaria: {
+      nome: "Cidade Universitária",
+      kpis: { margem_bruta: 142000, vendas_otc: 52000, vendas_saude: 131000, atendimentos: 1687 },
+      colaboradores: [
+        gerarColabMock("Ricardo Nunes",   5400,  88, 4.39, 47,  1.2, { MNSRM:31, SAUDE:27, MEDICAMENTOS:30, OUTROS:12 }),
+        gerarColabMock("Marta Oliveira",  4700,  76, 4.58, 54,  4.1, { MNSRM:26, SAUDE:29, MEDICAMENTOS:32, OUTROS:13 }),
+        gerarColabMock("Paulo Santos",    4200,  68, 4.33, 45, -2.3, { MNSRM:29, SAUDE:28, MEDICAMENTOS:28, OUTROS:15 }),
+      ]
+    }
+  }
+};
+
+// ── CARREGAR DADOS ───────────────────────────────────────────────────────────
+async function carregarDados() {
+  // Tentar carregar do GitHub; se falhar, usar dados fictícios
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    dados = await r.json();
+    const gerado = new Date(dados.gerado_em);
+    document.getElementById('data-note').textContent =
+      `Dados atualizados: ${gerado.toLocaleString('pt-PT')} · Oracle live`;
+  } catch(e) {
+    dados = MOCK_DATA;
+    document.getElementById('data-note').textContent =
+      `⚠ Dados de exemplo · Execute fetch_rh_analysis.py para dados reais`;
+  }
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  renderFarmacia(farmAtual);
+}
+
+// ── RENDER FARMÁCIA ──────────────────────────────────────────────────────────
+function renderFarmacia(fkey) {
+  const fd = dados?.farmacias?.[fkey];
+  if (!fd || fd.erro) {
+    document.getElementById('kpi-grid').innerHTML =
+      `<div class="empty" style="grid-column:1/-1">Dados não disponíveis para ${fd?.nome||fkey}</div>`;
+    return;
+  }
+
+  const kpis = fd.kpis || {};
+  const obj  = OBJETIVOS[fkey] || OBJETIVOS.aroeira;
+  const colabs = fd.colaboradores || [];
+
+  // Period badge
+  const hoje = new Date();
+  document.getElementById('period-badge').textContent =
+    `JAN–${MESES_LABELS[hoje.getMonth()].toUpperCase()} ${dados.ano}`;
+
+  // FATOR
+  const { fator, crescPct, margemAnual } = calcFator(kpis.margem_bruta);
+  document.getElementById('fator-num').textContent = fator;
+  document.getElementById('fator-sub').innerHTML =
+    `Margem bruta acumulada: <strong>${fmtE(kpis.margem_bruta)}</strong> · ` +
+    `Crescimento estimado: <strong>${crescPct > 0 ? '+' : ''}${crescPct || '—'}%</strong><br>` +
+    `Condição base: margem ≥ ${fmtE(obj.margem)} no final do ano · Prémio = 1 salário × fator × avaliação`;
+
+  // KPI GRID
+  const mesAtual = hoje.getMonth() + 1;
+  const esp = Math.round((mesAtual / 12) * 100);
+  const kpiDefs = [
+    { label:'Margem Bruta',    val: fmtE(kpis.margem_bruta), obj: fmtE(obj.margem),    atual: kpis.margem_bruta,    meta: obj.margem },
+    { label:'MNSRM · OTC',     val: fmtE(kpis.vendas_otc),   obj: fmtE(obj.otc),       atual: kpis.vendas_otc,      meta: obj.otc },
+    { label:'Produtos de Saúde',val: fmtE(kpis.vendas_saude), obj: fmtE(obj.saude),     atual: kpis.vendas_saude,    meta: obj.saude },
+    { label:'Rent. Genéricos',  val: (calcRentGlobal(colabs)?.toFixed(2)||'—')+'€',
+      obj: `≥ ${obj.rent_gen.toFixed(2)}€/emb`,
+      atual: calcRentGlobal(colabs), meta: obj.rent_gen, isRent: true },
+  ];
+  document.getElementById('kpi-grid').innerHTML = kpiDefs.map(k => {
+    const pct = k.meta > 0 ? Math.round((k.atual / k.meta) * 100) : 0;
+    const col = pctColor(pct, k.isRent ? 99 : esp);
+    const cls = pctClass(pct, k.isRent ? 99 : esp);
+    return `<div class="kpi-card">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-val" style="color:${col}">${k.val}</div>
+      <div class="kpi-obj">objetivo anual: ${k.obj}</div>
+      <div class="progress-track"><div class="progress-fill" style="width:${Math.min(pct,100)}%;background:${col}"></div></div>
+      <div class="kpi-pct-row">
+        <div class="kpi-pct ${cls}">${pct}%</div>
+        <div style="font-size:10px;color:var(--ink3)">esperado: ${k.isRent?'100':esp}%</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // EQUIPA STATS
+  const totalVendas = colabs.reduce((a,c) => a + (c.vendas_ytd||0), 0);
+  const totalAtend  = colabs.reduce((a,c) => a + (c.atend_ytd||0), 0);
+  const ticketMedio = totalAtend > 0 ? totalVendas / totalAtend : 0;
+  const taxaSauda   = calcTaxaSaudaMedia(colabs);
+
+  document.getElementById('equipa-stats').innerHTML = `
+    <div class="stat-box"><div class="stat-label">Vendas totais</div><div class="stat-val">${fmtE(Math.round(totalVendas/1000))}k</div><div class="stat-trend">sem IVA · YTD</div></div>
+    <div class="stat-box"><div class="stat-label">Atendimentos</div><div class="stat-val">${fmt(totalAtend)}</div><div class="stat-trend">YTD ${dados.ano}</div></div>
+    <div class="stat-box"><div class="stat-label">Ticket Médio</div><div class="stat-val">${fmtE(ticketMedio,1)}</div><div class="stat-trend">por atendimento</div></div>
+    <div class="stat-box"><div class="stat-label">Taxa SAÚDA</div><div class="stat-val">${taxaSauda !== null ? taxaSauda+'%' : '—'}</div><div class="stat-trend">atend. com cartão</div></div>
+  `;
+
+  // CHART EQUIPA
+  const mensalEquipa = calcMensalEquipa(colabs);
+  const maxV = Math.max(...mensalEquipa.map(m => m.vendas), 1);
+  document.getElementById('equipa-chart').innerHTML = mensalEquipa.map((m,i) => {
+    const h = Math.max(Math.round((m.vendas / maxV) * 100), 4);
+    const isLast = i === mensalEquipa.length - 1;
+    return `<div class="bar-col">
+      <div class="bar-val" style="font-size:9px;color:var(--ink3)">${(m.vendas/1000).toFixed(1)}</div>
+      <div class="bar-fill" style="height:${h}px;background:${isLast?'var(--green-mid)':'#d1fae5'}"></div>
+      <div class="bar-month" style="${isLast?'color:var(--green);font-weight:600':''}">${MESES_LABELS[m.mes-1]}</div>
+    </div>`;
+  }).join('');
+
+  // INDIVIDUAL — seletor colaboradores
+  const cores = COLAB_COLORS;
+  document.getElementById('colab-row').innerHTML = colabs.map((c,i) =>
+    `<button class="colab-btn ${i===0?'active':''}" onclick="selectColab(this,'${slug(c.nome)}')">
+      <div class="colab-dot" style="background:${cores[i%cores.length]}"></div>${c.nome.split(' ')[0]}
+    </button>`
+  ).join('');
+
+  // Seleciona primeiro colaborador por defeito
+  if (colabs.length > 0) {
+    colabAtual = slug(colabs[0].nome);
+    renderColab(fkey, colabAtual);
+  }
+}
+
+// ── CALCULOS AUXILIARES ───────────────────────────────────────────────────────
+function calcRentGlobal(colabs) {
+  const vals = colabs.map(c => c.rent_genericos).filter(v => v !== null && v > 0);
+  return vals.length > 0 ? vals.reduce((a,b) => a+b, 0) / vals.length : null;
+}
+
+function calcTaxaSaudaMedia(colabs) {
+  const vals = colabs.map(c => c.taxa_sauda).filter(v => v !== null);
+  if (!vals.length) return null;
+  return Math.round(vals.reduce((a,b) => a+b, 0) / vals.length);
+}
+
+function calcMensalEquipa(colabs) {
+  const mapa = {};
+  for (const c of colabs) {
+    for (const m of (c.mensal || [])) {
+      if (!mapa[m.mes]) mapa[m.mes] = { mes: m.mes, vendas: 0, atend: 0 };
+      mapa[m.mes].vendas += m.vendas || 0;
+      mapa[m.mes].atend  += m.atend  || 0;
+    }
+  }
+  return Object.values(mapa).sort((a,b) => a.mes - b.mes);
+}
+
+function calcMediaEquipa(colabs, campo) {
+  const vals = colabs.map(c => c[campo]).filter(v => v !== null && v !== undefined);
+  return vals.length > 0 ? vals.reduce((a,b) => a+b, 0) / vals.length : 0;
+}
+
+// ── RENDER COLABORADOR ────────────────────────────────────────────────────────
+function selectColab(btn, nome) {
+  document.querySelectorAll('.colab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  colabAtual = nome;
+  renderColab(farmAtual, nome);
+}
+
+function renderColab(fkey, colabSlug) {
+  const fd     = dados?.farmacias?.[fkey];
+  const colabs = fd?.colaboradores || [];
+  const colab  = colabs.find(c => slug(c.nome) === colabSlug);
+  if (!colab) return;
+
+  const idx = colabs.indexOf(colab);
+  const cor = COLAB_COLORS[idx % COLAB_COLORS.length];
+  const nome = colab.nome.split(' ')[0];
+  const mediaTicket = calcMediaEquipa(colabs, 'ticket_medio');
+  const mediaSauda  = calcTaxaSaudaMedia(colabs);
+  const hoje = new Date();
+
+  document.getElementById('colab-name-header').innerHTML =
+    `${nome} <span style="font-size:13px;font-weight:400;color:var(--ink3)">· ${MESES_LABELS[hoje.getMonth()]} ${dados.ano}</span>`;
+
+  const mesAtual = colab.mensal?.slice(-1)[0] || {};
+  const trendClass = (colab.cresc_vs_ant||0) >= 0 ? 'trend-up' : 'trend-dn';
+  const trendSym   = (colab.cresc_vs_ant||0) >= 0 ? '▲' : '▼';
+
+  document.getElementById('colab-stats').innerHTML = `
+    <div class="stat-box">
+      <div class="stat-label">Vendas YTD</div>
+      <div class="stat-val">${fmtE(Math.round((colab.vendas_ytd||0)/1000))}k</div>
+      <div class="stat-trend ${trendClass}">${trendSym} ${Math.abs(colab.cresc_vs_ant||0).toFixed(1)}% vs ${dados.ano-1}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Atendimentos YTD</div>
+      <div class="stat-val">${fmt(colab.atend_ytd||0)}</div>
+      <div class="stat-trend">YTD ${dados.ano}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Ticket Médio</div>
+      <div class="stat-val">${fmtE(colab.ticket_medio||0,1)}</div>
+      <div class="stat-trend">vs média equipa: ${fmtE(mediaTicket,1)}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Taxa SAÚDA</div>
+      <div class="stat-val">${colab.taxa_sauda !== null ? colab.taxa_sauda+'%' : '—'}</div>
+      <div class="stat-trend">vs média: ${mediaSauda !== null ? mediaSauda+'%' : '—'}</div>
+    </div>
+  `;
+
+  // Gráfico + mix
+  const mensal = colab.mensal || [];
+  const maxV   = Math.max(...mensal.map(m => m.vendas), 1);
+  const chartHTML = `
+    <div class="colab-card">
+      <div class="colab-card-title">Vendas mensais (€k sem IVA)</div>
+      <div class="bar-chart" style="height:100px">${mensal.map((m,i) => {
+        const h = Math.max(Math.round((m.vendas / maxV) * 86), 4);
+        const isLast = i === mensal.length - 1;
+        return `<div class="bar-col">
+          <div class="bar-val">${(m.vendas/1000).toFixed(1)}</div>
+          <div class="bar-fill" style="height:${h}px;background:${isLast?cor:cor+'44'}"></div>
+          <div class="bar-month" style="${isLast?'color:'+cor+';font-weight:600':''}">${MESES_LABELS[m.mes-1]}</div>
+        </div>`;
+      }).join('')}</div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between">
+        <div style="font-size:11px;color:var(--ink3)">Acumulado YTD</div>
+        <div style="font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace">${fmtE(colab.vendas_ytd||0)}</div>
+      </div>
+    </div>`;
+
+  // Mix vs média
+  const mix = colab.mix || {};
+  const mixMedia = {};
+  const catCores = { 'MNSRM':'#1d4ed8','SAUDE':'#0f766e','MEDICAMENTOS':'#7c3aed','OUTROS':'#9ca3af' };
+  for (const c2 of colabs) {
+    for (const [cat,pct] of Object.entries(c2.mix||{})) {
+      mixMedia[cat] = (mixMedia[cat]||0) + pct;
+    }
+  }
+  for (const cat in mixMedia) mixMedia[cat] = Math.round(mixMedia[cat] / colabs.length);
+
+  const cats = Object.keys({...mix,...mixMedia}).slice(0,4);
+  const mixHTML = `
+    <div class="colab-card">
+      <div class="colab-card-title">Mix de categorias vs média equipa</div>
+      <div class="vs-grid">${cats.map(cat => {
+        const cv = mix[cat]||0, mv = mixMedia[cat]||0;
+        const max = Math.max(cv,mv,1);
+        const ch  = Math.round((cv/max)*40), mh = Math.round((mv/max)*40);
+        const catCor = catCores[cat] || cor;
+        return `<div class="vs-card">
+          <div class="vs-label">${cat}</div>
+          <div class="vs-bars">
+            <div class="vs-b" style="height:${ch}px;background:${catCor}"></div>
+            <div class="vs-b" style="height:${mh}px;background:#e5e7eb"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            <div style="font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;color:${catCor}">${cv}%</div>
+            <div style="font-size:11px;color:var(--ink3);font-family:'JetBrains Mono',monospace">${mv}%</div>
+          </div>
+          <div class="vs-legend">
+            <div class="vs-leg-item"><div class="vs-leg-dot" style="background:${catCor}"></div>Esta</div>
+            <div class="vs-leg-item"><div class="vs-leg-dot" style="background:#e5e7eb"></div>Média</div>
+          </div>
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+
+  document.getElementById('colab-grid-top').innerHTML = chartHTML + mixHTML;
+
+  // Objetivos individuais
+  const farmObjs = OBJ_INDIVIDUAL[fkey] || {};
+  const nomeKey  = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const objList  = farmObjs[nomeKey] || [{ label:'Objetivo individual não configurado', pct:null, status:'amber', sub:'Definir em OBJ_INDIVIDUAL no código' }];
+  const objColors = { green:'var(--green)', amber:'var(--amber)', red:'var(--red)' };
+  const objLabels = { green:'✓ Atingido', amber:'Em curso', red:'Atenção' };
+
+  const objHTML = `
+    <div class="colab-card">
+      <div class="colab-card-title">Objetivo individual 2026</div>
+      <div class="obj-rows">${objList.map(o => `
+        <div class="obj-row-item">
+          <div class="obj-header">
+            <div class="obj-name">${o.label}</div>
+            <div class="obj-badge badge-${o.status}">${objLabels[o.status]}</div>
+          </div>
+          ${o.pct !== null ? `<div class="progress-track"><div class="progress-fill" style="width:${Math.min(o.pct,100)}%;background:${objColors[o.status]}"></div></div>` : ''}
+          <div class="obj-sub">${o.sub}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+
+  // Rentabilidade genéricos
+  const rent      = colab.rent_genericos;
+  const obj2026   = (OBJETIVOS[fkey]||OBJETIVOS.aroeira).rent_gen;
+  const rentPct   = rent ? Math.min((rent/obj2026)*100,102) : 0;
+  const rentOk    = rent >= obj2026;
+  const genMensal = colab.genericos_mensal || {};
+  const mesesGen  = Object.entries(genMensal).sort((a,b)=>+a[0]-+b[0]).slice(-6);
+  const maxRent   = Math.max(...mesesGen.map(([,v]) => v.rent_media), obj2026, 1);
+
+  const rentHTML = `
+    <div class="colab-card">
+      <div class="colab-card-title">Rentabilidade de Genéricos</div>
+      <div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:16px">
+        <div>
+          <div style="font-size:11px;color:var(--ink3);margin-bottom:4px">Valor YTD</div>
+          <div style="font-size:36px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${rentOk?'var(--green)':'var(--amber)'}">${rent?rent.toFixed(2)+'€':'—'}</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:2px">/embalagem</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:11px;color:var(--ink3);margin-bottom:6px">vs objetivo ≥ ${obj2026.toFixed(2)}€</div>
+          <div class="progress-track" style="height:8px">
+            <div class="progress-fill" style="width:${rentPct}%;background:${rentOk?'var(--green)':'var(--amber)'}"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            <div style="font-size:10px;color:${rentOk?'var(--green)':'var(--amber)'};font-weight:600">${rentOk?'✓ Objetivo atingido':'Em progresso'}</div>
+            <div style="font-size:10px;color:var(--ink3);font-family:'JetBrains Mono',monospace">obj: ${obj2026.toFixed(2)}€</div>
+          </div>
+        </div>
+      </div>
+      ${mesesGen.length > 0 ? `
+      <div style="margin-top:8px;padding-top:12px;border-top:1px solid var(--line)">
+        <div style="font-size:10px;color:var(--ink3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Histórico mensal</div>
+        <div style="display:flex;gap:6px;align-items:flex-end;height:48px">
+          ${mesesGen.map(([mes,v]) => {
+            const h = Math.max(Math.round((v.rent_media/maxRent)*44), 4);
+            const ok2 = v.rent_media >= obj2026;
+            return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+              <div style="font-size:9px;font-family:'JetBrains Mono',monospace;color:${ok2?'var(--green)':'var(--amber)'}">${v.rent_media.toFixed(2)}</div>
+              <div style="height:${h}px;width:100%;border-radius:3px 3px 0 0;background:${ok2?cor:cor+'88'}"></div>
+              <div style="font-size:8px;color:var(--ink4)">${MESES_LABELS[+mes-1]?.charAt(0)||mes}</div>
+            </div>`;
+          }).join('')}
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
+          <div style="flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--green) 0,var(--green) 4px,transparent 4px,transparent 8px)"></div>
+          <div style="font-size:10px;color:var(--green);font-family:'JetBrains Mono',monospace;white-space:nowrap">${obj2026.toFixed(2)}€ obj</div>
+        </div>
+      </div>` : ''}
+    </div>`;
+
+  document.getElementById('colab-grid-bot').innerHTML = objHTML + rentHTML;
+}
+
+// ── CONTROLOS ─────────────────────────────────────────────────────────────────
+function setFarmacia(fkey, btn) {
+  farmAtual = fkey;
+  document.querySelectorAll('.farm-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (dados) renderFarmacia(fkey);
+}
+
+function setMode(mode, btn) {
+  modoAtual = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + mode).classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+carregarDados();
+</script>
+</body>
+</html>
