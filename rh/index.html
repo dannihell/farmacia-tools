@@ -197,7 +197,7 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); m
       <div class="sec-label">Equipa · Resumo YTD</div>
       <div class="stats-row" id="equipa-stats"></div>
 
-      <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:24px">
+      <div id="equipa-chart-wrap" style="background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:24px">
         <div class="colab-card-title">Vendas Mensais Equipa (€k sem IVA)</div>
         <div id="equipa-chart" class="bar-chart" style="height:120px"></div>
       </div>
@@ -423,16 +423,51 @@ function renderFarmacia(fkey) {
 
   // EQUIPA STATS
   const totalVendas = colabs.reduce((a,c) => a + (c.vendas_ytd||0), 0);
+  const totalMargem = colabs.reduce((a,c) => a + (c.margem_ytd||0), 0);
   const totalAtend  = colabs.reduce((a,c) => a + (c.atend_ytd||0), 0);
   const ticketMedio = totalAtend > 0 ? totalVendas / totalAtend : 0;
+  const margemAtend = totalAtend > 0 ? totalMargem / totalAtend : 0;
   const taxaSauda   = calcTaxaSaudaMedia(colabs);
+  const sp          = fd.sauda_programa || {};
 
   document.getElementById('equipa-stats').innerHTML = `
+    <div class="stat-box"><div class="stat-label">Margem Bruta</div><div class="stat-val">${fmtE(Math.round(totalMargem/1000))}k</div><div class="stat-trend">sem IVA · YTD</div></div>
     <div class="stat-box"><div class="stat-label">Vendas totais</div><div class="stat-val">${fmtE(Math.round(totalVendas/1000))}k</div><div class="stat-trend">sem IVA · YTD</div></div>
-    <div class="stat-box"><div class="stat-label">Atendimentos</div><div class="stat-val">${fmt(totalAtend)}</div><div class="stat-trend">YTD ${dados.ano}</div></div>
     <div class="stat-box"><div class="stat-label">Ticket Médio</div><div class="stat-val">${fmtE(ticketMedio,1)}</div><div class="stat-trend">por atendimento</div></div>
     <div class="stat-box"><div class="stat-label">Taxa SAÚDA</div><div class="stat-val">${taxaSauda !== null ? taxaSauda+'%' : '—'}</div><div class="stat-trend">atend. com cartão</div></div>
   `;
+
+  // SAÚDA PROGRAMA
+  const saudaHTML = sp.valor_atribuido ? `
+    <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:24px">
+      <div class="sec-label">Programa SAÚDA · ${dados.ano}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <div class="stat-box">
+          <div class="stat-label">Valor Atribuído</div>
+          <div class="stat-val" style="font-size:20px">${fmtE(sp.valor_atribuido,2)}</div>
+          <div class="stat-trend">pontos + bónus</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Vales SAÚDA Utilizados</div>
+          <div class="stat-val" style="font-size:20px">${fmtE(sp.rebat_vales_sauda,2)}</div>
+          <div class="stat-trend">rebatidos pelos clientes</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Vales Indústria</div>
+          <div class="stat-val" style="font-size:20px">${fmtE(sp.rebat_vales_ind,2)}</div>
+          <div class="stat-trend">rebatidos pelos clientes</div>
+        </div>
+        <div class="stat-box" style="border-color:${sp.saldo_aprox <= 3600 ? 'var(--green)' : 'var(--amber)'}">
+          <div class="stat-label">Saldo Aprox.</div>
+          <div class="stat-val" style="font-size:20px;color:${sp.saldo_aprox <= 3600 ? 'var(--green)' : 'var(--amber)'}">${fmtE(sp.saldo_aprox,2)}</div>
+          <div class="stat-trend">obj: ≤ €3.600 · ${sp.saldo_aprox <= 3600 ? '✓ OK' : '⚠ acima'}</div>
+        </div>
+      </div>
+    </div>` : '';
+
+  // Inserir SAÚDA antes do gráfico
+  const chartEl = document.getElementById('equipa-chart-wrap');
+  if (chartEl) chartEl.insertAdjacentHTML('beforebegin', saudaHTML);
 
   // CHART EQUIPA
   const mensalEquipa = calcMensalEquipa(colabs);
@@ -508,10 +543,7 @@ function renderColab(fkey, colabSlug) {
   const idx = colabs.indexOf(colab);
   const cor = COLAB_COLORS[idx % COLAB_COLORS.length];
   const nome = colab.nome.split(' ')[0];
-  const mediaTicket = calcMediaEquipa(colabs, 'ticket_medio');
-  const mediaSauda  = calcTaxaSaudaMedia(colabs);
   const hoje = new Date();
-
   document.getElementById('colab-name-header').innerHTML =
     `${nome} <span style="font-size:13px;font-weight:400;color:var(--ink3)">· ${MESES_LABELS[hoje.getMonth()]} ${dados.ano}</span>`;
 
@@ -519,16 +551,20 @@ function renderColab(fkey, colabSlug) {
   const trendClass = (colab.cresc_vs_ant||0) >= 0 ? 'trend-up' : 'trend-dn';
   const trendSym   = (colab.cresc_vs_ant||0) >= 0 ? '▲' : '▼';
 
+  const mediaTicket  = calcMediaEquipa(colabs, 'ticket_medio');
+  const mediaSauda   = calcTaxaSaudaMedia(colabs);
+  const mediaMargemA = calcMediaEquipa(colabs, 'margem_atend');
+
   document.getElementById('colab-stats').innerHTML = `
     <div class="stat-box">
-      <div class="stat-label">Vendas YTD</div>
-      <div class="stat-val">${fmtE(Math.round((colab.vendas_ytd||0)/1000))}k</div>
+      <div class="stat-label">Margem YTD</div>
+      <div class="stat-val">${fmtE(Math.round((colab.margem_ytd||0)/1000))}k</div>
       <div class="stat-trend ${trendClass}">${trendSym} ${Math.abs(colab.cresc_vs_ant||0).toFixed(1)}% vs ${dados.ano-1}</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">Atendimentos YTD</div>
-      <div class="stat-val">${fmt(colab.atend_ytd||0)}</div>
-      <div class="stat-trend">YTD ${dados.ano}</div>
+      <div class="stat-label">Margem/Atend.</div>
+      <div class="stat-val">${fmtE(colab.margem_atend||0,2)}</div>
+      <div class="stat-trend">vs média: ${fmtE(mediaMargemA,2)}</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Ticket Médio</div>
