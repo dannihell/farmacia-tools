@@ -203,6 +203,7 @@
     <div class="meta">Farmácias Connect · dados actualizados diariamente às 22h</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
+    <button class="btn btn-secondary" onclick="abrirDrawerLabs()" style="font-size:12px;padding:5px 12px;background:#fdf0e8;border:1px solid #C4621A;color:#C4621A">🚨 Laboratórios</button>
     <button class="btn btn-secondary" onclick="guardarProposta()" id="btn-guardar" style="display:none;font-size:12px;padding:5px 12px">💾 Guardar</button>
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
@@ -283,6 +284,70 @@
 </div>
 
 <div id="modal-vendedor" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;padding:24px"></div>
+
+<!-- Drawer: Laboratórios por urgência -->
+<div id="drawer-labs" style="display:none;position:fixed;top:0;right:0;bottom:0;width:680px;max-width:95vw;background:white;z-index:200;box-shadow:-4px 0 24px rgba(0,0,0,0.15);flex-direction:column">
+  <div style="padding:16px 20px;border-bottom:1px solid var(--cinza);display:flex;align-items:center;justify-content:space-between;background:var(--verde);color:white">
+    <div>
+      <div style="font-weight:700;font-size:15px">🚨 Urgência</div>
+      <div id="drawer-labs-farm" style="font-size:11px;opacity:0.8;margin-top:2px"></div>
+    </div>
+    <button onclick="fecharDrawerLabs()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:18px;cursor:pointer;border-radius:6px;padding:4px 10px">✕</button>
+  </div>
+  <div style="display:flex;border-bottom:1px solid var(--cinza);background:#f8f8f6">
+    <button id="tab-labs" onclick="setDrawerTab('labs')" style="padding:8px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;color:var(--verde);border-bottom:2px solid var(--verde);background:white;font-family:inherit">Laboratórios</button>
+    <button id="tab-cats" onclick="setDrawerTab('cats')" style="padding:8px 20px;border:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--cinza-escuro);border-bottom:2px solid transparent;background:transparent;font-family:inherit">Categorias</button>
+  </div>
+  <!-- Tab: Laboratórios -->
+  <div id="tab-content-labs" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+    <div style="padding:10px 20px;border-bottom:1px solid var(--cinza);display:flex;gap:16px;font-size:12px;color:var(--cinza-escuro)">
+      <span>Ordenar por:</span>
+      <button onclick="ordenarDrawer('rutura_valor')" id="ord-rutura_valor" class="btn btn-secondary" style="font-size:11px;padding:3px 10px;background:#fde8e8;color:var(--rutura);border-color:var(--rutura)">Valor em Rutura ↓</button>
+      <button onclick="ordenarDrawer('rutura_refs')" id="ord-rutura_refs" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Refs em Rutura</button>
+      <button onclick="ordenarDrawer('vendas')" id="ord-vendas" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Vendas YTD</button>
+      <button onclick="ordenarDrawer('margem')" id="ord-margem" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Margem YTD</button>
+    </div>
+    <div style="overflow-y:auto;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#f8f8f6;position:sticky;top:0">
+            <th style="padding:8px 12px;text-align:left;font-weight:600;color:var(--cinza-escuro);border-bottom:1px solid var(--cinza)">Laboratório</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Valor Rutura/mês</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Refs Rutura</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--urgente);border-bottom:1px solid var(--cinza)">Refs Urgente</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Vendas YTD</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Margem %</th>
+          </tr>
+        </thead>
+        <tbody id="drawer-labs-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab: Categorias -->
+  <div id="tab-content-cats" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <div style="padding:10px 20px;border-bottom:1px solid var(--cinza);display:flex;gap:16px;font-size:12px;color:var(--cinza-escuro)">
+      <span>Ordenar por:</span>
+      <button onclick="ordenarDrawerCats('rutura_valor')" id="cord-rutura_valor" class="btn btn-secondary" style="font-size:11px;padding:3px 10px;background:#fde8e8;color:var(--rutura);border-color:var(--rutura)">Valor em Rutura ↓</button>
+      <button onclick="ordenarDrawerCats('cresc')" id="cord-cresc" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Crescimento</button>
+      <button onclick="ordenarDrawerCats('vendas')" id="cord-vendas" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Vendas YTD</button>
+    </div>
+    <div style="overflow-y:auto;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#f8f8f6;position:sticky;top:0">
+            <th style="padding:8px 12px;text-align:left;font-weight:600;color:var(--cinza-escuro);border-bottom:1px solid var(--cinza)">Subcategoria</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Valor Rutura/mês</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Refs Rutura</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Vendas YTD</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Cresc. Hom.</th>
+          </tr>
+        </thead>
+        <tbody id="drawer-cats-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 <div id="kpi-panel" style="display:none;padding:12px 24px;background:#fff;border-bottom:1px solid var(--cinza);display:none">
   <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
@@ -1181,7 +1246,197 @@ document.getElementById('pesquisa-cnp').addEventListener('input', () => {
   if (propostaActual.length) renderTabela();
 });
 
+let drawerOrdem = 'rutura_valor';
+let drawerCatsOrdem = 'rutura_valor';
+let drawerLabsData = [];
+let drawerCatsData = [];
+
+function setDrawerTab(tab) {
+  document.getElementById('tab-content-labs').style.display = tab === 'labs' ? 'flex' : 'none';
+  document.getElementById('tab-content-cats').style.display = tab === 'cats' ? 'flex' : 'none';
+  document.getElementById('tab-labs').style.borderBottom = tab === 'labs' ? '2px solid var(--verde)' : '2px solid transparent';
+  document.getElementById('tab-labs').style.color = tab === 'labs' ? 'var(--verde)' : 'var(--cinza-escuro)';
+  document.getElementById('tab-labs').style.background = tab === 'labs' ? 'white' : 'transparent';
+  document.getElementById('tab-cats').style.borderBottom = tab === 'cats' ? '2px solid var(--verde)' : '2px solid transparent';
+  document.getElementById('tab-cats').style.color = tab === 'cats' ? 'var(--verde)' : 'var(--cinza-escuro)';
+  document.getElementById('tab-cats').style.background = tab === 'cats' ? 'white' : 'transparent';
+}
+
+function abrirDrawerLabs() {
+  if (!allData) return;
+  const farm = document.getElementById('farmacia-select').value;
+  const farmLabel = farm || 'Todas as Farmácias';
+  document.getElementById('drawer-labs-farm').textContent = farmLabel;
+
+  // Agregar por laboratório
+  const labs = {};
+  (allData.produtos || []).forEach(p => {
+    if (farm && p.FARMACIA !== farm) return;
+    const lab = p.ENT_RESP_COMERC;
+    if (!lab) return;
+    if (!labs[lab]) labs[lab] = { nome: lab, rutura_valor: 0, rutura_refs: 0, urgente_refs: 0, vendas: 0, margem: 0 };
+    const l = labs[lab];
+    const media6m = [0,1,2,3,4,5].reduce((s,i) => s + (parseFloat(p[`V${i}`]||0)), 0) / 6;
+    const stock = parseFloat(p.STK_FARMACIA || 0);
+    const pvp = parseFloat(p.PVP_PROD || 0);
+    const prioridade = calcPrioridade(stock, media6m);
+    if (prioridade === 'rutura') {
+      l.rutura_refs++;
+      l.rutura_valor += media6m * pvp; // valor mensal estimado de vendas perdidas
+    }
+    if (prioridade === 'urgente') l.urgente_refs++;
+    l.vendas += parseFloat(p.VENDAS_YTD || 0);
+    l.margem += parseFloat(p.MARGEM_YTD || 0);
+  });
+
+  // Agregar por subcategoria (MERCADO_DESIGNACAO)
+  const cats = {};
+  (allData.produtos || []).forEach(p => {
+    if (farm && p.FARMACIA !== farm) return;
+    const cat = p.MERCADO_DESIGNACAO || p.CATEGORIA_DESIGNACAO || '(sem categoria)';
+    if (!cats[cat]) cats[cat] = { nome: cat, rutura_valor: 0, rutura_refs: 0, vendas: 0, vendas_ant: 0 };
+    const c = cats[cat];
+    const media6m = [0,1,2,3,4,5].reduce((s,i) => s + (parseFloat(p[`V${i}`]||0)), 0) / 6;
+    const stock = parseFloat(p.STK_FARMACIA || 0);
+    const pvp = parseFloat(p.PVP_PROD || 0);
+    if (calcPrioridade(stock, media6m) === 'rutura') {
+      c.rutura_refs++;
+      c.rutura_valor += media6m * pvp;
+    }
+    c.vendas += parseFloat(p.VENDAS_YTD || 0);
+    c.vendas_ant += parseFloat(p.VENDAS_ANO_ANT_YTD || 0);
+  });
+  drawerLabsData = Object.values(labs);
+  renderDrawerLabs(drawerLabsData);
+  document.getElementById('drawer-labs').style.display = 'flex';
+  setDrawerTab('labs');
+}
+
+function fecharDrawerLabs() {
+  document.getElementById('drawer-labs').style.display = 'none';
+}
+
+function ordenarDrawer(campo) {
+  drawerOrdem = campo;
+  // Reset botões
+  ['rutura_valor','rutura_refs','vendas','margem'].forEach(c => {
+    const btn = document.getElementById('ord-' + c);
+    if (btn) { btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }
+  });
+  const btn = document.getElementById('ord-' + campo);
+  if (btn) { btn.style.background = '#e8f7f1'; btn.style.color = 'var(--verde)'; btn.style.borderColor = 'var(--verde)'; }
+  // Re-renderizar com os dados actuais
+  const rows = [...document.getElementById('drawer-labs-tbody').querySelectorAll('tr')].map(tr => ({
+    nome: tr.dataset.nome,
+    rutura_valor: parseFloat(tr.dataset.ruturaValor),
+    rutura_refs: parseInt(tr.dataset.ruturaRefs),
+    urgente_refs: parseInt(tr.dataset.urgenteRefs),
+    vendas: parseFloat(tr.dataset.vendas),
+    margem: parseFloat(tr.dataset.margem),
+  }));
+  renderDrawerLabs(rows);
+}
+
+function renderDrawerLabs(labs) {
+  labs.sort((a,b) => {
+    if (drawerOrdem === 'rutura_valor') return b.rutura_valor - a.rutura_valor;
+    if (drawerOrdem === 'rutura_refs') return b.rutura_refs - a.rutura_refs;
+    if (drawerOrdem === 'vendas') return b.vendas - a.vendas;
+    if (drawerOrdem === 'margem') return (b.vendas > 0 ? b.margem/b.vendas : 0) - (a.vendas > 0 ? a.margem/a.vendas : 0);
+    return 0;
+  });
+
+  const tbody = document.getElementById('drawer-labs-tbody');
+  tbody.innerHTML = '';
+  labs.forEach(l => {
+    const margemPct = l.vendas > 0 ? (l.margem / l.vendas * 100) : 0;
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #f0f0ee';
+    tr.dataset.nome = l.nome;
+    tr.dataset.ruturaValor = l.rutura_valor;
+    tr.dataset.ruturaRefs = l.rutura_refs;
+    tr.dataset.urgenteRefs = l.urgente_refs;
+    tr.dataset.vendas = l.vendas;
+    tr.dataset.margem = l.margem;
+    tr.innerHTML = `
+      <td style="padding:7px 12px;cursor:pointer;color:var(--verde);font-weight:500" onclick="selecionarLabDoDrawer('${l.nome.replace(/'/g,"\\'")}')">
+        ${l.nome}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${l.rutura_valor > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'};font-weight:${l.rutura_valor > 0 ? '600' : '400'}">
+        ${l.rutura_valor > 0 ? fmtEur(l.rutura_valor) : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${l.rutura_refs > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'}">
+        ${l.rutura_refs > 0 ? l.rutura_refs : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${l.urgente_refs > 0 ? 'var(--urgente)' : 'var(--cinza-escuro)'}">
+        ${l.urgente_refs > 0 ? l.urgente_refs : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right">${fmtEur(l.vendas)}</td>
+      <td style="padding:7px 12px;text-align:right;color:${margemPct >= 30 ? 'var(--comprar)' : 'var(--urgente)'}">${margemPct.toFixed(1)}%</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function ordenarDrawerCats(campo) {
+  drawerCatsOrdem = campo;
+  ['rutura_valor','cresc','vendas'].forEach(c => {
+    const btn = document.getElementById('cord-' + c);
+    if (btn) { btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }
+  });
+  const btn = document.getElementById('cord-' + campo);
+  if (btn) { btn.style.background = '#e8f7f1'; btn.style.color = 'var(--verde)'; btn.style.borderColor = 'var(--verde)'; }
+  renderDrawerCats(drawerCatsData);
+}
+
+function renderDrawerCats(cats) {
+  const sorted = [...cats].sort((a,b) => {
+    if (drawerCatsOrdem === 'rutura_valor') return b.rutura_valor - a.rutura_valor;
+    if (drawerCatsOrdem === 'vendas') return b.vendas - a.vendas;
+    if (drawerCatsOrdem === 'cresc') {
+      const ca = a.vendas_ant > 0 ? (a.vendas - a.vendas_ant)/a.vendas_ant : 0;
+      const cb = b.vendas_ant > 0 ? (b.vendas - b.vendas_ant)/b.vendas_ant : 0;
+      return cb - ca;
+    }
+    return 0;
+  });
+  const tbody = document.getElementById('drawer-cats-tbody');
+  tbody.innerHTML = '';
+  sorted.forEach(c => {
+    const cresc = c.vendas_ant > 0 ? ((c.vendas - c.vendas_ant) / c.vendas_ant * 100) : null;
+    const crescStr = cresc !== null
+      ? `<span style="color:${cresc >= 0 ? 'var(--comprar)' : 'var(--rutura)'};font-weight:600">${cresc >= 0 ? '+' : ''}${cresc.toFixed(1)}%</span>`
+      : '—';
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #f0f0ee';
+    tr.innerHTML = `
+      <td style="padding:7px 12px;font-weight:500">${c.nome}</td>
+      <td style="padding:7px 12px;text-align:right;color:${c.rutura_valor > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'};font-weight:${c.rutura_valor > 0 ? '600' : '400'}">
+        ${c.rutura_valor > 0 ? fmtEur(c.rutura_valor) : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${c.rutura_refs > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'}">
+        ${c.rutura_refs > 0 ? c.rutura_refs : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right">${fmtEur(c.vendas)}</td>
+      <td style="padding:7px 12px;text-align:right">${crescStr}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function selecionarLabDoDrawer(nome) {
+  const labSel = document.getElementById('lab-select');
+  const opt = [...labSel.options].find(o => o.value === nome);
+  if (opt) {
+    labSel.value = nome;
+    onLabChange();
+    aplicar();
+  }
+  fecharDrawerLabs();
+}
+
 init();
+
 </script>
 </body>
 </html>
