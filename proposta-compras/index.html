@@ -1316,8 +1316,10 @@ function abrirDrawerLabs() {
     c.vendas += parseFloat(p.VENDAS_YTD || 0);
     c.vendas_ant += parseFloat(p.VENDAS_ANO_ANT_YTD || 0);
   });
+  drawerCatsData = Object.values(cats);
   drawerLabsData = Object.values(labs);
   renderDrawerLabs(drawerLabsData);
+  renderDrawerCats(drawerCatsData);
   document.getElementById('drawer-labs').style.display = 'flex';
   setDrawerTab('labs');
 }
