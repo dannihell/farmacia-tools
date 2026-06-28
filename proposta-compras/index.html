@@ -208,6 +208,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.5</span>
   </div>
 </header>
 
@@ -406,6 +407,7 @@
         <th class="num">Dias</th>
         <th class="num">Méd/Base</th>
         <th>Vendas (18m)</th>
+        <th class="num">Ult.Compra</th>
         <th class="num">Margem</th>
         <th class="num">Proposta</th>
         <th class="num">Editar</th>
@@ -768,9 +770,9 @@ function aplicar() {
       dados: entry._todas,
     };
 
-    const margem = pvp > 0 ? ((pvp - pcus) / pvp * 100) :
-      (parseFloat(base.MARGEM_YTD||0) > 0 && parseFloat(base.VENDAS_YTD||0) > 0 ?
-        parseFloat(base.MARGEM_YTD)/parseFloat(base.VENDAS_YTD)*100 : 0);
+    const _mYtd = parseFloat(base.MARGEM_YTD || 0);
+    const _vYtd = parseFloat(base.VENDAS_YTD || 0);
+    const margem = _vYtd > 0 ? (_mYtd / _vYtd * 100) : (pvp > 0 ? ((pvp - pcus) / pvp * 100) : 0);
 
     return { ...base, COD_PRD: cod, pcus, pvp, margem, propostas, mediaGlobal: mediaGlobalCod(cod) };
   });
@@ -825,6 +827,7 @@ function renderTabela() {
 
   rows.forEach((p) => {
     const fd = getFarmData(p); // dados da farmácia activa
+    const q = Array.from({length:18}, (_, i) => parseFloat(p[`Q${i}`] || 0));
     const v = fd.v || Array(18).fill(0);
     const maxV = Math.max(...v, 0.1);
     const meses = ['Jun','Mai','Abr','Mar','Fev','Jan','Dez','Nov','Out','Set','Ago','Jul','Jun','Mai','Abr','Mar','Fev','Jan'];
@@ -832,14 +835,20 @@ function renderTabela() {
       const h = Math.round(vv/maxV*22)+2;
       const label = vv > 0 ? `<span class="bar-num">${Math.round(vv)}</span>` : '';
       const isSazonalBar = fd.sazonal && (i === 10 || i === 11 || i === 12);
+      const temQuebra = q[i] > 0;
       const barClass = i === 0 ? 'bar current' : isSazonalBar ? 'bar sazonal' : 'bar';
-      return `<div class="bar-wrap" title="${meses[i]}: ${vv.toFixed(1)} un"><div class="${barClass}" style="height:${h}px"></div>${label}</div>`;
+      const quebraIcon = temQuebra ? `<span style="font-size:7px;color:#A32D2D;line-height:1" title="Quebra: ${q[i].toFixed(2)}€">⚠</span>` : '';
+      return `<div class="bar-wrap" title="${meses[i]}: ${vv.toFixed(1)} un${temQuebra ? ' | Quebra: '+q[i].toFixed(2)+'€' : ''}"><div class="${barClass}" style="height:${h}px"></div>${label}${quebraIcon}</div>`;
     }).reverse().join('');
 
     const prLabel = {rutura:'RUTURA',urgente:'URGENTE',comprar:'COMPRAR',ok:'OK'}[fd.prioridade] || 'OK';
     const prClass = `p-${fd.prioridade || 'ok'}`;
     const margemClass = p.margem >= 30 ? 'margem-ok' : 'margem-low';
     const diasStr = typeof fd.dias === 'number' ? fd.dias + 'd' : fd.dias;
+
+    // DUC — data última compra
+    const duc = p.DUC || fd.dados?.DUC || '';
+    const ducStr = duc ? duc.substring(0,7) : '—'; // mostra YYYY-MM
 
     const cnpInt = parseInt(p.COD_PRD);
     const vQt = vendedorMap[cnpInt];
@@ -863,6 +872,7 @@ function renderTabela() {
       <td class="num">${diasStr}</td>
       <td class="num">${fd.media6m.toFixed(1)}${fd.sazonal ? ' ☀️' : ''}</td>
       <td><div class="vendas-bar">${barras}</div></td>
+      <td class="num" style="font-size:11px;color:var(--cinza-escuro)">${ducStr}</td>
       <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
       <td class="num">${fd.proposta}</td>
       <td class="num"><input class="qt-input" type="number" min="0" value="${fd.proposta_edit}" data-cod="${p.COD_PRD}" data-farm="${farm}" onchange="updateQt(this)"></td>
