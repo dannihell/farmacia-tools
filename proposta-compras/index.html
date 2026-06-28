@@ -232,13 +232,13 @@
     </select>
   </div>
   <div class="toolbar-group">
-    <label>Categoria</label>
+    <label>Mercado</label>
     <select id="cat-select" onchange="onCatChange()" disabled>
       <option value="">Todas</option>
     </select>
   </div>
   <div class="toolbar-group">
-    <label>Subcategoria</label>
+    <label>Categoria</label>
     <select id="subcat-select" disabled>
       <option value="">Todas</option>
     </select>
@@ -337,7 +337,7 @@
       <table style="width:100%;border-collapse:collapse;font-size:12px">
         <thead>
           <tr style="background:#f8f8f6;position:sticky;top:0">
-            <th style="padding:8px 12px;text-align:left;font-weight:600;color:var(--cinza-escuro);border-bottom:1px solid var(--cinza)">Subcategoria</th>
+            <th style="padding:8px 12px;text-align:left;font-weight:600;color:var(--cinza-escuro);border-bottom:1px solid var(--cinza)">Categoria</th>
             <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Valor Rutura/mês</th>
             <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Refs Rutura</th>
             <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Vendas YTD</th>
@@ -1303,7 +1303,7 @@ function abrirDrawerLabs() {
   const cats = {};
   (allData.produtos || []).forEach(p => {
     if (farm && p.FARMACIA !== farm) return;
-    const cat = p.MERCADO_DESIGNACAO || p.CATEGORIA_DESIGNACAO || '(sem categoria)';
+    const cat = p.CATEGORIA_DESIGNACAO || p.MERCADO_DESIGNACAO || '(sem categoria)';
     if (!cats[cat]) cats[cat] = { nome: cat, rutura_valor: 0, rutura_refs: 0, vendas: 0, vendas_ant: 0 };
     const c = cats[cat];
     const media6m = [0,1,2,3,4,5].reduce((s,i) => s + (parseFloat(p[`V${i}`]||0)), 0) / 6;
