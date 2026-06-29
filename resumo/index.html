@@ -28,6 +28,7 @@
   .hero-kpi{background:#fff;border:1px solid #E8E5DE;border-radius:8px;padding:12px 14px}
   .hero-label{font-size:10px;color:#9A9790;margin-bottom:4px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.4px}
   .hero-val{font-size:32px;font-weight:600;line-height:1;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+  @media(max-width:480px){.hero-val{font-size:22px;letter-spacing:-0.5px}.hero-delta{font-size:11px}.hero-sub{font-size:10px}.hero-kpi{padding:10px 10px}.sec-val{font-size:15px}.detail-grid{grid-template-columns:repeat(3,1fr) !important}.detail-grid-4{grid-template-columns:repeat(2,1fr)}}
   .hero-val.green{color:#0A6644}.hero-val.red{color:#8B1A1A}
   .hero-delta{font-size:13px;font-weight:600;margin-top:6px;font-family:'JetBrains Mono',monospace}
   .hero-delta.pos{color:#0A6644}.hero-delta.neg{color:#8B1A1A}.hero-delta.neu{color:#9A9790}
@@ -41,7 +42,7 @@
   .sec-sub{font-size:9px;color:#C8C5BE;margin-top:2px;font-family:'JetBrains Mono',monospace}
   .detail-block{background:#F0EDE6;border-radius:6px;padding:8px 10px;margin-bottom:6px}
   .detail-title{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:#B0ADA6;font-family:'JetBrains Mono',monospace;margin-bottom:6px}
-  .detail-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+  .detail-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
   .detail-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
   .det{background:#FAF9F6;border-radius:4px;padding:5px 6px}
   .det-label{font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -82,7 +83,7 @@
       <div class="hdr-title">Farmácias Connect</div>
       <div class="hdr-sub">Resumo Diário · Segunda, 29 Jun 2026</div>
     </div>
-    <div class="hdr-meta">Gerado 18h41<br>Oracle 18h41</div>
+    <div class="hdr-meta">19h11</div>
   </div>
   <div class="body">
     
@@ -93,23 +94,23 @@
         <span class="farm-name">Charneca de Caparica</span>
       </div>
 
-      <!-- L1: hero -->
+      <!-- L1: MTD hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val red">42.477€</div>
-          <div class="hero-delta neg">↓ -5.8% vs LY</div>
+          <div class="hero-val red">42.639€</div>
+          <div class="hero-delta neg">↓ -5.4% vs LY</div>
           <div class="hero-sub">LY mesmo período: 45.082€</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">160.418€</div>
-          <div class="hero-delta neg">↓ -0.2% vs LY</div>
+          <div class="hero-val">161.032€</div>
+          <div class="hero-delta pos">↑ +0.2% vs LY</div>
           <div class="hero-sub">LY mesmo período: 160.678€</div>
         </div>
       </div>
 
-      <!-- L2: secondary -->
+      <!-- L2: YTD secondary -->
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
@@ -119,68 +120,54 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">1.012.555€</div>
-          <div class="sec-delta pos">↑ +7.8% vs LY</div>
+          <div class="sec-val">1.013.169€</div>
+          <div class="sec-delta pos">↑ +7.9% vs LY</div>
           <div class="sec-sub">LY 939.178€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">273.529€</div>
-          <div class="sec-delta neg">↓ -2.6% vs LY</div>
+          <div class="sec-val">273.690€</div>
+          <div class="sec-delta neg">↓ -2.5% vs LY</div>
           <div class="sec-sub">LY 280.691€</div>
         </div>
       </div>
 
-      <!-- L3: detail -->
+      <!-- L3: Hoje detail -->
       <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-title">Hoje vs média diária MTD · sem ident. nem reservas</div>
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">4.649€</div>
-            <div class="det-delta neg">↓ -15.9%</div>
+            <div class="det-val">5.264€</div>
+            <div class="det-delta neg">↓ -5.2%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem €</div>
-            <div class="det-val">1.474€</div>
-            <div class="det-delta pos">↑ +0.7%</div>
+            <div class="det-val">1.636€</div>
+            <div class="det-delta pos">↑ +11.3%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem %</div>
-            <div class="det-val">31,7%</div>
-            <div class="det-delta pos">↑ +5.2pp</div>
+            <div class="det-val">31,1%</div>
+            <div class="det-delta pos">↑ +4.6pp</div>
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">114</div>
-            <div class="det-delta neg">↓ -13.5%</div>
+            <div class="det-val">123</div>
+            <div class="det-delta neg">↓ -6.9%</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">40,78€</div>
-            <div class="det-delta neg">↓ -2.8%</div>
+            <div class="det-val">42,79€</div>
+            <div class="det-delta pos">↑ +1.8%</div>
           </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">—</div>
-            <div class="det-delta neu">% vendas</div>
-          </div>
+
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">52,0%</div>
-            <div class="det-delta neu">% atend. c/ cartão</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">27,0%</div>
-            <div class="det-delta neu">LY 29,9%</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
+          <div class="det" style="grid-column: span 4">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">193.406€</span>
+              <span class="stock-now">192.974€</span>
               
             </div>
           </div>
@@ -194,23 +181,23 @@
         <span class="farm-name">Amadora</span>
       </div>
 
-      <!-- L1: hero -->
+      <!-- L1: MTD hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">38.572€</div>
-          <div class="hero-delta pos">↑ +16.1% vs LY</div>
+          <div class="hero-val green">38.662€</div>
+          <div class="hero-delta pos">↑ +16.4% vs LY</div>
           <div class="hero-sub">LY mesmo período: 33.214€</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">117.002€</div>
-          <div class="hero-delta pos">↑ +19.9% vs LY</div>
+          <div class="hero-val">117.263€</div>
+          <div class="hero-delta pos">↑ +20.2% vs LY</div>
           <div class="hero-sub">LY mesmo período: 97.590€</div>
         </div>
       </div>
 
-      <!-- L2: secondary -->
+      <!-- L2: YTD secondary -->
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
@@ -220,68 +207,54 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">716.212€</div>
+          <div class="sec-val">716.473€</div>
           <div class="sec-delta pos">↑ +8.5% vs LY</div>
           <div class="sec-sub">LY 660.123€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">242.671€</div>
+          <div class="sec-val">242.761€</div>
           <div class="sec-delta pos">↑ +4.2% vs LY</div>
           <div class="sec-sub">LY 232.908€</div>
         </div>
       </div>
 
-      <!-- L3: detail -->
+      <!-- L3: Hoje detail -->
       <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-title">Hoje vs média diária MTD · sem ident. nem reservas</div>
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">4.790€</div>
-            <div class="det-delta neg">↓ -5.8%</div>
+            <div class="det-val">5.051€</div>
+            <div class="det-delta neg">↓ -0.9%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem €</div>
-            <div class="det-val">1.596€</div>
-            <div class="det-delta neg">↓ -4.9%</div>
+            <div class="det-val">1.686€</div>
+            <div class="det-delta pos">↑ +0.3%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem %</div>
-            <div class="det-val">33,3%</div>
-            <div class="det-delta pos">↑ +0.3pp</div>
+            <div class="det-val">33,4%</div>
+            <div class="det-delta pos">↑ +0.4pp</div>
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">126</div>
-            <div class="det-delta neg">↓ -9.2%</div>
+            <div class="det-val">135</div>
+            <div class="det-delta neg">↓ -3.0%</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">38,02€</div>
-            <div class="det-delta pos">↑ +3.7%</div>
+            <div class="det-val">37,42€</div>
+            <div class="det-delta pos">↑ +2.1%</div>
           </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">—</div>
-            <div class="det-delta neu">% vendas</div>
-          </div>
+
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">63,0%</div>
-            <div class="det-delta neu">% atend. c/ cartão</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">33,9%</div>
-            <div class="det-delta neu">LY 35,3%</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
+          <div class="det" style="grid-column: span 4">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">83.089€</span>
+              <span class="stock-now">82.933€</span>
               
             </div>
           </div>
@@ -295,23 +268,23 @@
         <span class="farm-name">Lisboa</span>
       </div>
 
-      <!-- L1: hero -->
+      <!-- L1: MTD hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">9.952€</div>
-          <div class="hero-delta pos">↑ +33.6% vs LY</div>
+          <div class="hero-val green">9.956€</div>
+          <div class="hero-delta pos">↑ +33.7% vs LY</div>
           <div class="hero-sub">LY mesmo período: 7.449€</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">40.720€</div>
-          <div class="hero-delta pos">↑ +100.9% vs LY</div>
+          <div class="hero-val">40.736€</div>
+          <div class="hero-delta pos">↑ +101.0% vs LY</div>
           <div class="hero-sub">LY mesmo período: 20.271€</div>
         </div>
       </div>
 
-      <!-- L2: secondary -->
+      <!-- L2: YTD secondary -->
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
@@ -321,31 +294,31 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">252.584€</div>
+          <div class="sec-val">252.601€</div>
           <div class="sec-delta pos">↑ +55.6% vs LY</div>
           <div class="sec-sub">LY 162.346€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">67.676€</div>
+          <div class="sec-val">67.680€</div>
           <div class="sec-delta pos">↑ +16.5% vs LY</div>
           <div class="sec-sub">LY 58.087€</div>
         </div>
       </div>
 
-      <!-- L3: detail -->
+      <!-- L3: Hoje detail -->
       <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-title">Hoje vs média diária MTD · sem ident. nem reservas</div>
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">1.660€</div>
-            <div class="det-delta neg">↓ -10.3%</div>
+            <div class="det-val">1.677€</div>
+            <div class="det-delta neg">↓ -9.5%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem €</div>
-            <div class="det-val">363€</div>
-            <div class="det-delta neg">↓ -19.7%</div>
+            <div class="det-val">367€</div>
+            <div class="det-delta neg">↓ -18.8%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem %</div>
@@ -354,35 +327,21 @@
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">43</div>
-            <div class="det-delta neg">↓ -25.0%</div>
+            <div class="det-val">45</div>
+            <div class="det-delta neg">↓ -21.6%</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">38,61€</div>
-            <div class="det-delta pos">↑ +19.6%</div>
+            <div class="det-val">37,26€</div>
+            <div class="det-delta pos">↑ +15.5%</div>
           </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">—</div>
-            <div class="det-delta neu">% vendas</div>
-          </div>
+
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">13,2%</div>
-            <div class="det-delta neu">% atend. c/ cartão</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">26,8%</div>
-            <div class="det-delta neu">LY 35,8%</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
+          <div class="det" style="grid-column: span 4">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">72.962€</span>
+              <span class="stock-now">72.949€</span>
               
             </div>
           </div>
@@ -396,23 +355,23 @@
         <span class="farm-name">Lisboa</span>
       </div>
 
-      <!-- L1: hero -->
+      <!-- L1: MTD hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">72.673€</div>
-          <div class="hero-delta pos">↑ +5.9% vs LY</div>
+          <div class="hero-val green">72.782€</div>
+          <div class="hero-delta pos">↑ +6.1% vs LY</div>
           <div class="hero-sub">LY mesmo período: 68.592€</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">317.018€</div>
-          <div class="hero-delta pos">↑ +15.7% vs LY</div>
+          <div class="hero-val">317.380€</div>
+          <div class="hero-delta pos">↑ +15.9% vs LY</div>
           <div class="hero-sub">LY mesmo período: 273.931€</div>
         </div>
       </div>
 
-      <!-- L2: secondary -->
+      <!-- L2: YTD secondary -->
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
@@ -422,68 +381,54 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">2.107.427€</div>
+          <div class="sec-val">2.107.790€</div>
           <div class="sec-delta pos">↑ +17.5% vs LY</div>
           <div class="sec-sub">LY 1.793.363€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">484.083€</div>
-          <div class="sec-delta pos">↑ +1.9% vs LY</div>
+          <div class="sec-val">484.192€</div>
+          <div class="sec-delta pos">↑ +2.0% vs LY</div>
           <div class="sec-sub">LY 474.916€</div>
         </div>
       </div>
 
-      <!-- L3: detail -->
+      <!-- L3: Hoje detail -->
       <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-title">Hoje vs média diária MTD · sem ident. nem reservas</div>
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">10.347€</div>
-            <div class="det-delta neg">↓ -15.1%</div>
+            <div class="det-val">10.709€</div>
+            <div class="det-delta neg">↓ -12.3%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem €</div>
-            <div class="det-val">2.036€</div>
-            <div class="det-delta neg">↓ -27.1%</div>
+            <div class="det-val">2.145€</div>
+            <div class="det-delta neg">↓ -23.4%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem %</div>
-            <div class="det-val">19,7%</div>
-            <div class="det-delta neg">↓ -3.2pp</div>
+            <div class="det-val">20,0%</div>
+            <div class="det-delta neg">↓ -2.9pp</div>
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">165</div>
-            <div class="det-delta neg">↓ -26.1%</div>
+            <div class="det-val">176</div>
+            <div class="det-delta neg">↓ -21.4%</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">62,71€</div>
-            <div class="det-delta pos">↑ +14.9%</div>
+            <div class="det-val">60,85€</div>
+            <div class="det-delta pos">↑ +11.6%</div>
           </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">—</div>
-            <div class="det-delta neu">% vendas</div>
-          </div>
+
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">40,4%</div>
-            <div class="det-delta neu">% atend. c/ cartão</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">23,0%</div>
-            <div class="det-delta neu">LY 26,5%</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
+          <div class="det" style="grid-column: span 4">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">322.763€</span>
+              <span class="stock-now">322.510€</span>
               
             </div>
           </div>
@@ -497,23 +442,23 @@
         <span class="farm-name">Lisboa</span>
       </div>
 
-      <!-- L1: hero -->
+      <!-- L1: MTD hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">53.828€</div>
-          <div class="hero-delta pos">↑ +15.2% vs LY</div>
+          <div class="hero-val green">53.896€</div>
+          <div class="hero-delta pos">↑ +15.3% vs LY</div>
           <div class="hero-sub">LY mesmo período: 46.724€</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">182.181€</div>
-          <div class="hero-delta pos">↑ +13.1% vs LY</div>
+          <div class="hero-val">182.545€</div>
+          <div class="hero-delta pos">↑ +13.4% vs LY</div>
           <div class="hero-sub">LY mesmo período: 161.038€</div>
         </div>
       </div>
 
-      <!-- L2: secondary -->
+      <!-- L2: YTD secondary -->
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
@@ -523,68 +468,54 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">1.157.894€</div>
+          <div class="sec-val">1.158.258€</div>
           <div class="sec-delta pos">↑ +13.1% vs LY</div>
           <div class="sec-sub">LY 1.023.937€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">345.471€</div>
-          <div class="sec-delta pos">↑ +13.5% vs LY</div>
+          <div class="sec-val">345.539€</div>
+          <div class="sec-delta pos">↑ +13.6% vs LY</div>
           <div class="sec-sub">LY 304.271€</div>
         </div>
       </div>
 
-      <!-- L3: detail -->
+      <!-- L3: Hoje detail -->
       <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-title">Hoje vs média diária MTD · sem ident. nem reservas</div>
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">7.269€</div>
-            <div class="det-delta pos">↑ +3.7%</div>
+            <div class="det-val">7.633€</div>
+            <div class="det-delta pos">↑ +8.7%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem €</div>
-            <div class="det-val">2.139€</div>
-            <div class="det-delta pos">↑ +3.3%</div>
+            <div class="det-val">2.206€</div>
+            <div class="det-delta pos">↑ +6.4%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem %</div>
-            <div class="det-val">29,4%</div>
-            <div class="det-delta neg">↓ -0.1pp</div>
+            <div class="det-val">28,9%</div>
+            <div class="det-delta neg">↓ -0.6pp</div>
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">173</div>
-            <div class="det-delta neg">↓ -13.7%</div>
+            <div class="det-val">184</div>
+            <div class="det-delta neg">↓ -8.5%</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">42,02€</div>
-            <div class="det-delta pos">↑ +20.3%</div>
+            <div class="det-val">41,48€</div>
+            <div class="det-delta pos">↑ +18.8%</div>
           </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">—</div>
-            <div class="det-delta neu">% vendas</div>
-          </div>
+
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">6,2%</div>
-            <div class="det-delta neu">% atend. c/ cartão</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">29,8%</div>
-            <div class="det-delta neu">LY 29,7%</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
+          <div class="det" style="grid-column: span 4">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">209.591€</span>
+              <span class="stock-now">209.299€</span>
               
             </div>
           </div>
@@ -598,23 +529,23 @@
         <span class="farm-name">Oeiras</span>
       </div>
 
-      <!-- L1: hero -->
+      <!-- L1: MTD hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">46.483€</div>
-          <div class="hero-delta pos">↑ +12.0% vs LY</div>
+          <div class="hero-val green">46.586€</div>
+          <div class="hero-delta pos">↑ +12.3% vs LY</div>
           <div class="hero-sub">LY mesmo período: 41.500€</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">151.463€</div>
-          <div class="hero-delta pos">↑ +12.4% vs LY</div>
+          <div class="hero-val">151.872€</div>
+          <div class="hero-delta pos">↑ +12.7% vs LY</div>
           <div class="hero-sub">LY mesmo período: 134.702€</div>
         </div>
       </div>
 
-      <!-- L2: secondary -->
+      <!-- L2: YTD secondary -->
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
@@ -624,68 +555,54 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">955.711€</div>
+          <div class="sec-val">956.121€</div>
           <div class="sec-delta pos">↑ +5.8% vs LY</div>
           <div class="sec-sub">LY 903.319€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">296.066€</div>
+          <div class="sec-val">296.168€</div>
           <div class="sec-delta neg">↓ -1.0% vs LY</div>
           <div class="sec-sub">LY 299.015€</div>
         </div>
       </div>
 
-      <!-- L3: detail -->
+      <!-- L3: Hoje detail -->
       <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-title">Hoje vs média diária MTD · sem ident. nem reservas</div>
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">6.381€</div>
-            <div class="det-delta neg">↓ -3.1%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Margem €</div>
-            <div class="det-val">2.078€</div>
+            <div class="det-val">6.791€</div>
             <div class="det-delta pos">↑ +2.8%</div>
           </div>
           <div class="det">
+            <div class="det-label">Margem €</div>
+            <div class="det-val">2.180€</div>
+            <div class="det-delta pos">↑ +7.6%</div>
+          </div>
+          <div class="det">
             <div class="det-label">Margem %</div>
-            <div class="det-val">32,6%</div>
-            <div class="det-delta pos">↑ +1.9pp</div>
+            <div class="det-val">32,1%</div>
+            <div class="det-delta pos">↑ +1.4pp</div>
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">145</div>
-            <div class="det-delta neg">↓ -3.9%</div>
+            <div class="det-val">155</div>
+            <div class="det-delta pos">↑ +2.4%</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">44,01€</div>
-            <div class="det-delta pos">↑ +0.9%</div>
+            <div class="det-val">43,81€</div>
+            <div class="det-delta pos">↑ +0.4%</div>
           </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">—</div>
-            <div class="det-delta neu">% vendas</div>
-          </div>
+
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">39,9%</div>
-            <div class="det-delta neu">% atend. c/ cartão</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">31,0%</div>
-            <div class="det-delta neu">LY 33,1%</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
+          <div class="det" style="grid-column: span 4">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">137.679€</span>
+              <span class="stock-now">137.568€</span>
               
             </div>
           </div>
@@ -699,23 +616,23 @@
         <span class="farm-name">Cascais</span>
       </div>
 
-      <!-- L1: hero -->
+      <!-- L1: MTD hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val red">74.120€</div>
-          <div class="hero-delta neg">↓ -2.7% vs LY</div>
+          <div class="hero-val red">74.200€</div>
+          <div class="hero-delta neg">↓ -2.6% vs LY</div>
           <div class="hero-sub">LY mesmo período: 76.176€</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">246.328€</div>
-          <div class="hero-delta pos">↑ +1.4% vs LY</div>
+          <div class="hero-val">246.619€</div>
+          <div class="hero-delta pos">↑ +1.6% vs LY</div>
           <div class="hero-sub">LY mesmo período: 242.811€</div>
         </div>
       </div>
 
-      <!-- L2: secondary -->
+      <!-- L2: YTD secondary -->
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
@@ -725,68 +642,54 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">1.562.272€</div>
+          <div class="sec-val">1.562.563€</div>
           <div class="sec-delta pos">↑ +4.8% vs LY</div>
           <div class="sec-sub">LY 1.490.690€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">477.337€</div>
-          <div class="sec-delta neg">↓ -1.0% vs LY</div>
+          <div class="sec-val">477.416€</div>
+          <div class="sec-delta neg">↓ -0.9% vs LY</div>
           <div class="sec-sub">LY 481.991€</div>
         </div>
       </div>
 
-      <!-- L3: detail -->
+      <!-- L3: Hoje detail -->
       <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-title">Hoje vs média diária MTD · sem ident. nem reservas</div>
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">8.090€</div>
-            <div class="det-delta neg">↓ -4.8%</div>
+            <div class="det-val">8.380€</div>
+            <div class="det-delta neg">↓ -1.5%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem €</div>
-            <div class="det-val">2.467€</div>
-            <div class="det-delta neg">↓ -3.5%</div>
+            <div class="det-val">2.547€</div>
+            <div class="det-delta neg">↓ -0.5%</div>
           </div>
           <div class="det">
             <div class="det-label">Margem %</div>
-            <div class="det-val">30,5%</div>
-            <div class="det-delta pos">↑ +0.4pp</div>
+            <div class="det-val">30,4%</div>
+            <div class="det-delta pos">↑ +0.3pp</div>
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">214</div>
-            <div class="det-delta neg">↓ -2.7%</div>
+            <div class="det-val">220</div>
+            <div class="det-delta neg">↓ -0.0%</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">37,80€</div>
-            <div class="det-delta neg">↓ -2.2%</div>
+            <div class="det-val">38,09€</div>
+            <div class="det-delta neg">↓ -1.4%</div>
           </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">—</div>
-            <div class="det-delta neu">% vendas</div>
-          </div>
+
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">51,5%</div>
-            <div class="det-delta neu">% atend. c/ cartão</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">30,6%</div>
-            <div class="det-delta neu">LY 32,3%</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
+          <div class="det" style="grid-column: span 4">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">257.444€</span>
+              <span class="stock-now">257.193€</span>
               
             </div>
           </div>
@@ -810,58 +713,58 @@
         <tbody>
           <tr>
             <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-k" style="font-size:9px">CAS</span></td>
-            <td style="color:#8B1A1A;font-weight:600">74.120€</td>
-            <td>246.328€</td>
+            <td style="color:#8B1A1A;font-weight:600">74.200€</td>
+            <td>246.619€</td>
             <td>30,1%</td>
-            <td class="rd pos">↑ +1.4%</td>
+            <td class="rd pos">↑ +1.6%</td>
             <td class="rd pos">↑ +4.8%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
-            <td style="color:#0A6644;font-weight:600">72.673€</td>
-            <td>317.018€</td>
+            <td style="color:#0A6644;font-weight:600">72.782€</td>
+            <td>317.380€</td>
             <td>22,9%</td>
-            <td class="rd pos">↑ +15.7%</td>
+            <td class="rd pos">↑ +15.9%</td>
             <td class="rd pos">↑ +17.5%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-p" style="font-size:9px">POR</span></td>
-            <td style="color:#0A6644;font-weight:600">53.828€</td>
-            <td>182.181€</td>
+            <td style="color:#0A6644;font-weight:600">53.896€</td>
+            <td>182.545€</td>
             <td>29,5%</td>
-            <td class="rd pos">↑ +13.1%</td>
+            <td class="rd pos">↑ +13.4%</td>
             <td class="rd pos">↑ +13.1%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-4">4</span><span class="farm-pill pill-t" style="font-size:9px">TUL</span></td>
-            <td style="color:#0A6644;font-weight:600">46.483€</td>
-            <td>151.463€</td>
+            <td style="color:#0A6644;font-weight:600">46.586€</td>
+            <td>151.872€</td>
             <td>30,7%</td>
-            <td class="rd pos">↑ +12.4%</td>
+            <td class="rd pos">↑ +12.7%</td>
             <td class="rd pos">↑ +5.8%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-5">5</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
-            <td style="color:#8B1A1A;font-weight:600">42.477€</td>
-            <td>160.418€</td>
+            <td style="color:#8B1A1A;font-weight:600">42.639€</td>
+            <td>161.032€</td>
             <td>26,5%</td>
-            <td class="rd neg">↓ -0.2%</td>
-            <td class="rd pos">↑ +7.8%</td>
+            <td class="rd pos">↑ +0.2%</td>
+            <td class="rd pos">↑ +7.9%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-6">6</span><span class="farm-pill pill-b" style="font-size:9px">D&B</span></td>
-            <td style="color:#0A6644;font-weight:600">38.572€</td>
-            <td>117.002€</td>
+            <td style="color:#0A6644;font-weight:600">38.662€</td>
+            <td>117.263€</td>
             <td>33,0%</td>
-            <td class="rd pos">↑ +19.9%</td>
+            <td class="rd pos">↑ +20.2%</td>
             <td class="rd pos">↑ +8.5%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-7">7</span><span class="farm-pill pill-c" style="font-size:9px">CU</span></td>
-            <td style="color:#0A6644;font-weight:600">9.952€</td>
-            <td>40.720€</td>
+            <td style="color:#0A6644;font-weight:600">9.956€</td>
+            <td>40.736€</td>
             <td>24,4%</td>
-            <td class="rd pos">↑ +100.9%</td>
+            <td class="rd pos">↑ +101.0%</td>
             <td class="rd pos">↑ +55.6%</td>
           </tr></tbody>
       </table>
@@ -869,18 +772,15 @@
     
     <div class="sec-divider">Alertas</div>
     <div class="alerts-block">
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Aroeira — 507 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Dias e Brito — 540 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Cidade Universitária — 300 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto dos Moinhos — 473 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Porfírio — 477 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 655 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 546 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Aroeira — 512 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Dias e Brito — 543 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Cidade Universitária — 301 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto dos Moinhos — 478 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Porfírio — 478 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 659 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 551 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
     </div>
-    <div class="footer">
-      Oracle EXPORTA · SIFV_VENDAS + SIFV_PRODUTOS + ANF_USER.SIFT_RESERVAS<br>
-      Aroeira 10.18.196.1 · DiasBrito 10.23.149.1 · CidadeUniv 10.25.64.1 · AltoMoinhos 10.21.70.1 · Porfirio 10.25.68.1 · Tulipas 10.25.205.1 · Castelhana 10.22.136.1
-    </div>
+    <div class="footer">Farmácias Connect · Resumo Diário · 19h11</div>
   </div>
 </div>
 </body>
