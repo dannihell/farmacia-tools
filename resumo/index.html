@@ -1,396 +1,375 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Farmácias Connect — Resumo Diário</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+"""
+daily_email.py — Farmácias Connect
+Gera e envia o resumo diário de KPIs para cada destinatário configurado.
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+Corre à noite (ex: 22h) via Task Scheduler no PC da Aroeira.
+Lê credenciais de farmacias_config.json na mesma pasta.
 
-  body {
-    background: #F2F0EB;
-    font-family: 'Inter', sans-serif;
-    color: #1A1A18;
-    padding: 24px 16px;
-  }
+Dependências:
+    pip install oracledb --break-system-packages
 
-  .email-wrap { max-width: 640px; margin: 0 auto; }
+Oracle Instant Client deve estar em C:\oracle\instantclient\instantclient_23_0
+"""
 
-  /* HEADER */
-  .hdr {
-    background: #0D5E48;
-    border-radius: 10px 10px 0 0;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .hdr-title { color: #fff; font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
-  .hdr-sub { color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
-  .hdr-meta { text-align: right; color: rgba(255,255,255,0.7); font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.6; }
+import oracledb
+import json
+import os
+import smtplib
+import traceback
+import base64
+import urllib.request
+from datetime import date, datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from pathlib import Path
 
-  /* BODY */
-  .body {
-    background: #fff;
-    border: 1px solid #E2DFD8;
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 16px;
-  }
+# ── Config ────────────────────────────────────────────────────────────────────
 
-  /* SECTION DIVIDER */
-  .sec-divider {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #B0ADA6;
-    font-family: 'JetBrains Mono', monospace;
-    margin: 14px 0 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .sec-divider::after { content: ''; flex: 1; height: 1px; background: #E8E5DE; }
+SCRIPT_DIR   = Path(__file__).parent
+CONFIG_FILE  = SCRIPT_DIR / "farmacias_config.json"
+HIST_STOCK   = SCRIPT_DIR / "historico_stock.json"
+INSTANT_CLIENT = r"C:\oracle\instantclient\instantclient_23_0"
 
-  /* FARM BLOCK */
-  .farm-block {
-    background: #F8F7F4;
-    border: 1px solid #E8E5DE;
-    border-radius: 8px;
-    padding: 13px 14px;
-    margin-bottom: 10px;
-  }
+# Cores por farmácia (pill CSS)
+PILL_COLORS = {
+    "Aroeira":     ("pill-a", "ARO"),
+    "DiasBrito":   ("pill-b", "D&B"),
+    "CidadeUniv":  ("pill-c", "CU"),
+    "AltoMoinhos": ("pill-m", "AM"),
+    "Porfirio":    ("pill-p", "POR"),
+    "Tulipas":     ("pill-t", "TUL"),
+    "Castelhana":  ("pill-k", "CAS"),
+}
 
-  .farm-header {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 14px;
-  }
-  .farm-pill {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .pill-a { background: #D6EFE6; color: #0A4A35; }
-  .pill-b { background: #D6E5F5; color: #0C3A6B; }
-  .pill-c { background: #EDE9E0; color: #3D3A30; }
-  .pill-m { background: #EAD9F5; color: #3D1260; }
-  .farm-name { font-size: 12px; font-weight: 600; color: #3A3A36; }
+# ── Oracle helpers ─────────────────────────────────────────────────────────────
 
-  /* ── LEVEL 1 — hero numbers ── */
-  .hero-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .hero-kpi {
-    background: #fff;
-    border: 1px solid #E8E5DE;
-    border-radius: 8px;
-    padding: 12px 14px;
-  }
-  .hero-label {
-    font-size: 10px;
-    color: #9A9790;
-    margin-bottom: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  .hero-val {
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -1px;
-    font-variant-numeric: tabular-nums;
-  }
-  .hero-val.green { color: #0A6644; }
-  .hero-val.red   { color: #8B1A1A; }
-  .hero-delta {
-    font-size: 13px;
-    font-weight: 600;
-    margin-top: 6px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .hero-delta.pos { color: #0A6644; }
-  .hero-delta.neg { color: #8B1A1A; }
-  .hero-delta.neu { color: #9A9790; }
-  .hero-sub {
-    font-size: 11px;
-    color: #B0ADA6;
-    margin-top: 2px;
-    font-family: 'JetBrains Mono', monospace;
-  }
+def get_connection(farm: dict):
+    """Cria ligação Oracle para uma farmácia."""
+    dsn = oracledb.makedsn(farm["host"], farm["port"], sid=farm["sid"])
+    return oracledb.connect(user=farm["user"], password=farm["password"], dsn=dsn)
 
-  /* ── LEVEL 2 — secondary numbers ── */
-  .secondary-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  .sec-kpi {
-    background: #fff;
-    border: 1px solid #E8E5DE;
-    border-radius: 6px;
-    padding: 8px 10px;
-  }
-  .sec-label {
-    font-size: 9px;
-    color: #9A9790;
-    margin-bottom: 3px;
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  .sec-val {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1A1A18;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.4px;
-  }
-  .sec-delta {
-    font-size: 11px;
-    font-weight: 500;
-    margin-top: 3px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .sec-delta.pos { color: #0A6644; }
-  .sec-delta.neg { color: #8B1A1A; }
-  .sec-delta.neu { color: #9A9790; }
-  .sec-sub {
-    font-size: 9px;
-    color: #C8C5BE;
-    margin-top: 2px;
-    font-family: 'JetBrains Mono', monospace;
-  }
 
-  /* ── LEVEL 3 — detail numbers ── */
-  .detail-block {
-    background: #F0EDE6;
-    border-radius: 6px;
-    padding: 8px 10px;
-    margin-bottom: 6px;
-  }
-  .detail-title {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #B0ADA6;
-    font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 6px;
-  }
-  .detail-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 4px;
-  }
-  .detail-grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
-  }
-  .det {
-    background: #FAF9F6;
-    border-radius: 4px;
-    padding: 5px 6px;
-  }
-  .det-label {
-    font-size: 8px;
-    color: #C8C5BE;
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .det-val {
-    font-size: 12px;
-    font-weight: 500;
-    color: #6B6860;
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
-  }
-  .det-delta {
-    font-size: 9px;
-    margin-top: 2px;
-    font-family: 'JetBrains Mono', monospace;
-    color: #B0ADA6;
-  }
-  .det-delta.pos { color: #3A8C68; }
-  .det-delta.neg { color: #A05050; }
+def query_one(conn, sql: str) -> dict:
+    """Executa query e devolve primeira linha como dict."""
+    with conn.cursor() as cur:
+        cur.execute(sql)
+        cols = [c[0] for c in cur.description]
+        row  = cur.fetchone()
+        return dict(zip(cols, row)) if row else {}
 
-  /* stock inline */
-  .stock-inline {
-    display: flex;
-    align-items: baseline;
-    gap: 5px;
-    flex-wrap: wrap;
-    padding: 6px 8px;
-    background: #FAF9F6;
-    border-radius: 4px;
-    margin-top: 4px;
-  }
-  .stock-lbl { font-size: 8px; color: #C8C5BE; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.3px; }
-  .stock-now { font-size: 12px; font-weight: 500; color: #6B6860; font-variant-numeric: tabular-nums; }
-  .stock-hist { font-size: 9px; color: #C8C5BE; font-family: 'JetBrains Mono', monospace; }
-  .stock-sep { color: #E0DDD6; font-size: 9px; }
 
-  /* RANKING */
-  .ranking-block {
-    background: #F8F7F4;
-    border: 1px solid #E8E5DE;
-    border-radius: 8px;
-    padding: 13px 14px;
-    margin-bottom: 10px;
-  }
-  .rank-table { width: 100%; border-collapse: collapse; }
-  .rank-table th {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #9A9790;
-    font-family: 'JetBrains Mono', monospace;
-    text-align: right;
-    padding: 0 6px 7px;
-    border-bottom: 1px solid #E8E5DE;
-  }
-  .rank-table th:first-child { text-align: left; }
-  .rank-table td {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 8px 6px;
-    text-align: right;
-    border-bottom: 1px solid #F0EDE6;
-    font-variant-numeric: tabular-nums;
-    color: #1A1A18;
-  }
-  .rank-table td:first-child { text-align: left; }
-  .rank-table tr:last-child td { border-bottom: none; }
-  .rank-pos {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    font-size: 10px;
-    font-weight: 700;
-    margin-right: 5px;
-    font-family: 'JetBrains Mono', monospace;
-    flex-shrink: 0;
-  }
-  .rank-1 { background: #0D5E48; color: #fff; }
-  .rank-2 { background: #D6EFE6; color: #0A4A35; }
-  .rank-3 { background: #EDE9E0; color: #3D3A30; }
-  .rank-4 { background: #F0EDE6; color: #9A9790; }
-  .rd { font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
-  .rd.pos { color: #0A6644; }
-  .rd.neg { color: #8B1A1A; }
-  .rd.neu { color: #9A9790; }
+def query_all(conn, sql: str) -> list[dict]:
+    """Executa query e devolve todas as linhas como lista de dicts."""
+    with conn.cursor() as cur:
+        cur.execute(sql)
+        cols = [c[0] for c in cur.description]
+        return [dict(zip(cols, row)) for row in cur.fetchall()]
 
-  /* BANK */
-  .bank-block {
-    background: #F8F7F4;
-    border: 1px solid #E8E5DE;
-    border-radius: 8px;
-    padding: 13px 14px;
-    margin-bottom: 10px;
-  }
-  .bank-rows { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
-  .bank-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 7px 9px;
-    background: #fff;
-    border: 1px solid #E8E5DE;
-    border-radius: 6px;
-    gap: 8px;
-  }
-  .bank-name { font-size: 11px; font-weight: 600; color: #3A3A36; display: flex; align-items: center; gap: 6px; }
-  .bank-vals { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .bank-now { font-size: 14px; font-weight: 600; color: #0A6644; font-variant-numeric: tabular-nums; letter-spacing: -0.3px; }
-  .bank-hist { font-size: 10px; color: #B0ADA6; font-family: 'JetBrains Mono', monospace; }
 
-  /* ALERTS */
-  .alerts-block { margin-bottom: 10px; }
-  .alert {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 6px;
-    font-size: 11px;
-    line-height: 1.45;
-    margin-bottom: 6px;
-    border-left: 3px solid transparent;
-  }
-  .alert:last-child { margin-bottom: 0; }
-  .alert.danger { background: #FDF0F0; border-left-color: #C0392B; color: #5A1010; }
-  .alert.warn   { background: #FDF6EC; border-left-color: #D4860A; color: #5A3A08; }
-  .alert-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+# ── SQL ────────────────────────────────────────────────────────────────────────
 
-  .footer {
-    font-size: 9px;
-    color: #B0ADA6;
-    text-align: center;
-    padding-top: 12px;
-    margin-top: 4px;
-    border-top: 1px solid #E8E5DE;
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 1.7;
-  }
-</style>
-</head>
-<body>
-<div class="email-wrap">
+SQL_HOJE = """
+SELECT
+    ROUND(SUM(VALOR_VENDA_SIVA), 2)                                          AS VENDAS_HOJE,
+    ROUND(SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO), 2)             AS MARGEM_HOJE_EUR,
+    ROUND(
+        CASE WHEN SUM(VALOR_VENDA_SIVA) > 0
+        THEN (SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO))
+             / SUM(VALOR_VENDA_SIVA) * 100
+        ELSE 0 END, 1)                                                        AS MARGEM_HOJE_PCT,
+    COUNT(DISTINCT NUM_ATENDIMENTO)                                            AS ATENDIMENTOS_HOJE,
+    ROUND(SUM(VALOR_VENDA_SIVA) / NULLIF(COUNT(DISTINCT NUM_ATENDIMENTO), 0), 2) AS TICKET_HOJE,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN NR_CARTAO_FID IS NOT NULL THEN NUM_ATENDIMENTO END)
+        / NULLIF(COUNT(DISTINCT NUM_ATENDIMENTO), 0) * 100, 1)              AS IDENT_HOJE_PCT
+FROM EXPORTA.SIFV_VENDAS
+WHERE DT >= TRUNC(SYSDATE)
+  AND DT < TRUNC(SYSDATE) + 1
+"""
 
-  <div class="hdr">
-    <div>
-      <div class="hdr-title">Farmácias Connect</div>
-      <div class="hdr-sub">Resumo Diário · 24 Jun 2026</div>
-    </div>
-    <div class="hdr-meta">Gerado 22h00<br>Oracle 21h58 · Books 21h55</div>
-  </div>
+SQL_MTD = """
+SELECT
+    ROUND(SUM(VALOR_VENDA_SIVA), 2)                                          AS VENDAS_MTD,
+    ROUND(SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO), 2)             AS MARGEM_MTD_EUR,
+    ROUND(
+        CASE WHEN SUM(VALOR_VENDA_SIVA) > 0
+        THEN (SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO))
+             / SUM(VALOR_VENDA_SIVA) * 100
+        ELSE 0 END, 1)                                                        AS MARGEM_MTD_PCT,
+    COUNT(DISTINCT NUM_ATENDIMENTO)                                            AS ATEND_MTD,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN NR_CARTAO_FID IS NOT NULL THEN NUM_ATENDIMENTO END)
+        / NULLIF(COUNT(DISTINCT NUM_ATENDIMENTO), 0) * 100, 1)              AS IDENT_MTD_PCT,
+    COUNT(DISTINCT TRUNC(DT))                                                 AS DIAS_MTD
+FROM EXPORTA.SIFV_VENDAS
+WHERE DT >= TRUNC(SYSDATE, 'MM')
+  AND DT < TRUNC(SYSDATE) + 1
+"""
 
-  <div class="body">
+SQL_MTD_LY = """
+SELECT
+    ROUND(SUM(VALOR_VENDA_SIVA), 2)                                          AS VENDAS_MTD_LY,
+    ROUND(SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO), 2)             AS MARGEM_MTD_LY_EUR,
+    ROUND(
+        CASE WHEN SUM(VALOR_VENDA_SIVA) > 0
+        THEN (SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO))
+             / SUM(VALOR_VENDA_SIVA) * 100
+        ELSE 0 END, 1)                                                        AS MARGEM_MTD_LY_PCT
+FROM EXPORTA.SIFV_VENDAS
+WHERE DT >= ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -12)
+  AND DT < ADD_MONTHS(TRUNC(SYSDATE), -12) + 1
+"""
 
-    <!-- ══ AROEIRA ══ -->
-    <div class="sec-divider">Farmácia Aroeira</div>
+SQL_YTD = """
+SELECT
+    ROUND(SUM(VALOR_VENDA_SIVA), 2)                                          AS VENDAS_YTD,
+    ROUND(SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO), 2)             AS MARGEM_YTD_EUR,
+    ROUND(
+        CASE WHEN SUM(VALOR_VENDA_SIVA) > 0
+        THEN (SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO))
+             / SUM(VALOR_VENDA_SIVA) * 100
+        ELSE 0 END, 1)                                                        AS MARGEM_YTD_PCT
+FROM EXPORTA.SIFV_VENDAS
+WHERE DT >= TRUNC(SYSDATE, 'YYYY')
+  AND DT < TRUNC(SYSDATE) + 1
+"""
+
+SQL_YTD_LY = """
+SELECT
+    ROUND(SUM(VALOR_VENDA_SIVA), 2)                                          AS VENDAS_YTD_LY,
+    ROUND(SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO), 2)             AS MARGEM_YTD_LY_EUR,
+    ROUND(
+        CASE WHEN SUM(VALOR_VENDA_SIVA) > 0
+        THEN (SUM(VALOR_VENDA_SIVA) - SUM(QT * PRECO_MED_CUSTO))
+             / SUM(VALOR_VENDA_SIVA) * 100
+        ELSE 0 END, 1)                                                        AS MARGEM_YTD_LY_PCT
+FROM EXPORTA.SIFV_VENDAS
+WHERE DT >= ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), -12)
+  AND DT <  ADD_MONTHS(TRUNC(SYSDATE), -12) + 1
+"""
+
+SQL_STOCK = """
+SELECT ROUND(SUM(STK_FARMACIA * PCUSMED_PROD), 2) AS STOCK_CUSTO
+FROM EXPORTA.SIFV_PRODUTOS
+WHERE STK_FARMACIA > 0
+  AND PCUSMED_PROD > 0
+"""
+
+SQL_RUPTURAS = """
+SELECT COUNT(DISTINCT p.CODIGO) AS RUPTURAS
+FROM EXPORTA.SIFV_PRODUTOS p
+WHERE p.STK_FARMACIA = 0
+  AND EXISTS (
+    SELECT 1 FROM EXPORTA.SIFV_VENDAS v
+    WHERE v.COD_PRD = p.CODIGO
+      AND v.DT >= TRUNC(SYSDATE) - 30
+  )
+"""
+
+SQL_VALIDADES = """
+SELECT COUNT(*) AS LOTES_CRITICOS, ROUND(SUM(p.STK_FARMACIA * p.PCUSMED_PROD), 2) AS VALOR_CRITICO
+FROM EXPORTA.SIFV_PRODUTOS p
+WHERE p.STK_FARMACIA > 0
+  AND p.DT_VALIDADE IS NOT NULL
+  AND LENGTH(TRIM(p.DT_VALIDADE)) = 10
+  AND REGEXP_LIKE(p.DT_VALIDADE, '^[0-9]{2}-[0-9]{2}-[0-9]{4}$')
+  AND TO_DATE(p.DT_VALIDADE, 'DD-MM-YYYY') BETWEEN TRUNC(SYSDATE) AND TRUNC(SYSDATE) + 60
+"""
+
+SQL_RESERVAS_PESO = """
+SELECT
+    ROUND(
+        NVL((
+            SELECT SUM(l.QT * l.PVP)
+            FROM ANF_USER.SIFT_RESERVAS_LIN l
+            JOIN ANF_USER.SIFT_RESERVAS r ON r.IDT = l.RESERVAS_ID
+            WHERE TRUNC(r.DT_CRIACAO) = TRUNC(SYSDATE)
+              AND r.APAGADO = 'N'
+        ), 0)
+        / NULLIF((
+            SELECT SUM(VALOR_VENDA_SIVA)
+            FROM EXPORTA.SIFV_VENDAS
+            WHERE DT >= TRUNC(SYSDATE)
+              AND DT < TRUNC(SYSDATE) + 1
+                ), 0) * 100
+    , 1) AS PESO_RESERVAS_PCT
+FROM DUAL
+"""
+
+
+# ── Formatação ─────────────────────────────────────────────────────────────────
+
+def fmt_eur(v, decimals=0) -> str:
+    if v is None: return "—"
+    if abs(v) >= 1000:
+        return f"{v:,.{decimals}f}€".replace(",", "X").replace(".", ",").replace("X", ".")
+    return f"{v:.{decimals}f}€".replace(".", ",")
+
+def fmt_pct(v) -> str:
+    if v is None: return "—"
+    return f"{v:.1f}%".replace(".", ",")
+
+def fmt_int(v) -> str:
+    if v is None: return "—"
+    return f"{int(v):,}".replace(",", ".")
+
+def delta_pct(atual, anterior) -> tuple[str, str]:
+    """Devolve (texto_delta, classe_css)"""
+    if not atual or not anterior or anterior == 0:
+        return "—", "neu"
+    d = (atual - anterior) / abs(anterior) * 100
+    arrow = "↑" if d >= 0 else "↓"
+    cls   = "pos" if d >= 0 else "neg"
+    return f"{arrow} {'+' if d >= 0 else ''}{d:.1f}%", cls
+
+def delta_pp(atual, anterior) -> tuple[str, str]:
+    """Delta em pontos percentuais"""
+    if atual is None or anterior is None:
+        return "—", "neu"
+    d = atual - anterior
+    arrow = "↑" if d >= 0 else "↓"
+    cls   = "pos" if d >= 0 else "neg"
+    return f"{arrow} {'+' if d >= 0 else ''}{d:.1f}pp", cls
+
+
+# ── Histórico de stock ─────────────────────────────────────────────────────────
+
+def load_historico() -> dict:
+    if HIST_STOCK.exists():
+        return json.loads(HIST_STOCK.read_text(encoding="utf-8"))
+    return {}
+
+def save_historico(hist: dict):
+    HIST_STOCK.write_text(json.dumps(hist, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def get_stock_hist(hist: dict, farm_id: str) -> str:
+    """Devolve string 'Mar 46,1k · Abr 44,8k · Mai 47,3k' com os últimos 3 fins de mês."""
+    entries = hist.get(farm_id, {})
+    # ordenar por data desc, pegar últimos 3
+    meses = sorted(entries.keys(), reverse=True)[:3]
+    meses = list(reversed(meses))  # cronológico
+    parts = []
+    MESES_PT = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
+    for m in meses:
+        try:
+            d = datetime.strptime(m, "%Y-%m")
+            nome = MESES_PT[d.month - 1]
+            val  = entries[m]
+            parts.append(f"{nome} {val/1000:.1f}k".replace(".", ","))
+        except Exception:
+            pass
+    return " · ".join(parts) if parts else "—"
+
+def update_historico_if_eom(hist: dict, farm_id: str, stock_val: float):
+    """Guarda stock no histórico se hoje for o último dia do mês."""
+    hoje = date.today()
+    amanha = date(hoje.year + (hoje.month // 12), (hoje.month % 12) + 1, 1) if hoje.month < 12 \
+             else date(hoje.year + 1, 1, 1)
+    if (amanha - hoje).days == 1:
+        key = hoje.strftime("%Y-%m")
+        if farm_id not in hist:
+            hist[farm_id] = {}
+        hist[farm_id][key] = stock_val
+
+
+# ── Recolha de dados por farmácia ─────────────────────────────────────────────
+
+def fetch_farm_data(farm: dict) -> dict:
+    """Liga ao Oracle da farmácia e recolhe todos os KPIs."""
+    print(f"  → {farm['nome']} ({farm['host']})...")
+    try:
+        conn = get_connection(farm)
+        d = {}
+        for label, sql in [
+            ("HOJE",      SQL_HOJE),
+            ("MTD",       SQL_MTD),
+            ("MTD_LY",    SQL_MTD_LY),
+            ("YTD",       SQL_YTD),
+            ("YTD_LY",    SQL_YTD_LY),
+            ("STOCK",     SQL_STOCK),
+            ("RUPTURAS",  SQL_RUPTURAS),
+            ("VALIDADES", SQL_VALIDADES),
+            # ("RESERVAS",  SQL_RESERVAS_PESO),  # requer ANF_USER — a activar depois
+        ]:
+            try:
+                d.update(query_one(conn, sql))
+            except Exception as eq:
+                print(f"    aviso query {label}: {eq}")
+        conn.close()
+        d["ok"] = True
+    except Exception as e:
+        print(f"    ERRO: {e}")
+        d = {"ok": False, "erro": str(e)}
+    return d
+
+
+# ── Geração do bloco HTML por farmácia ────────────────────────────────────────
+
+def farm_block_html(farm: dict, d: dict, hist: dict) -> str:
+    fid   = farm["id"]
+    nome  = farm["nome"]
+    local = farm.get("localidade", "")
+    pill_cls, pill_txt = PILL_COLORS.get(fid, ("pill-a", fid[:3].upper()))
+
+    if not d.get("ok"):
+        return f"""
+    <div class="sec-divider">{nome}</div>
+    <div class="farm-block" style="color:#8B1A1A;font-size:12px;padding:14px">
+      ⚠ Sem dados — erro de ligação Oracle: {d.get('erro','desconhecido')}
+    </div>"""
+
+    # deltas
+    d_margem_mtd,   cls_margem_mtd   = delta_pct(d.get("MARGEM_MTD_EUR"),    d.get("MARGEM_MTD_LY_EUR"))
+    d_vendas_mtd,   cls_vendas_mtd   = delta_pct(d.get("VENDAS_MTD"),        d.get("VENDAS_MTD_LY"))
+    d_mg_pct_mtd,   cls_mg_pct_mtd   = delta_pp (d.get("MARGEM_MTD_PCT"),    d.get("MARGEM_MTD_LY_PCT"))
+    d_vendas_ytd,   cls_vendas_ytd   = delta_pct(d.get("VENDAS_YTD"),        d.get("VENDAS_YTD_LY"))
+    d_margem_ytd,   cls_margem_ytd   = delta_pct(d.get("MARGEM_YTD_EUR"),    d.get("MARGEM_YTD_LY_EUR"))
+
+    # médias diárias MTD para comparar com hoje
+    dias = d.get("DIAS_MTD") or 1
+    media_vendas  = (d.get("VENDAS_MTD") or 0) / dias
+    media_margem  = (d.get("MARGEM_MTD_EUR") or 0) / dias
+    media_mg_pct  = d.get("MARGEM_MTD_PCT") or 0
+    media_atend   = (d.get("ATEND_MTD") or 0) / dias
+    media_ticket  = (d.get("VENDAS_MTD") or 0) / max(d.get("ATEND_MTD") or 1, 1)
+
+    d_v_hoje,  cls_v_hoje  = delta_pct(d.get("VENDAS_HOJE"),    media_vendas)
+    d_m_hoje,  cls_m_hoje  = delta_pct(d.get("MARGEM_HOJE_EUR"), media_margem)
+    d_mp_hoje, cls_mp_hoje = delta_pp (d.get("MARGEM_HOJE_PCT"), media_mg_pct)
+    d_a_hoje,  cls_a_hoje  = delta_pct(d.get("ATENDIMENTOS_HOJE"), media_atend)
+    d_t_hoje,  cls_t_hoje  = delta_pct(d.get("TICKET_HOJE"),    media_ticket)
+
+    # cor hero margem
+    cls_hero_mg = "green" if (d.get("MARGEM_MTD_EUR") or 0) >= (d.get("MARGEM_MTD_LY_EUR") or 0) else "red"
+
+    # stock histórico
+    stock_val = d.get("STOCK_CUSTO") or 0
+    update_historico_if_eom(hist, fid, stock_val)
+    stock_hist_str = get_stock_hist(hist, fid)
+
+    reservas_str = "—"  # a activar depois
+
+    return f"""
+    <div class="sec-divider">{nome}</div>
     <div class="farm-block">
       <div class="farm-header">
-        <span class="farm-pill pill-a">ARO</span>
-        <span class="farm-name">Charneca de Caparica</span>
+        <span class="farm-pill {pill_cls}">{pill_txt}</span>
+        <span class="farm-name">{local}</span>
       </div>
 
       <!-- L1: hero -->
       <div class="hero-row">
         <div class="hero-kpi">
           <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">10.390€</div>
-          <div class="hero-delta pos">↑ +14,1% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 9.108€</div>
+          <div class="hero-val {cls_hero_mg}">{fmt_eur(d.get('MARGEM_MTD_EUR'))}</div>
+          <div class="hero-delta {cls_margem_mtd}">{d_margem_mtd} vs LY</div>
+          <div class="hero-sub">LY mesmo período: {fmt_eur(d.get('MARGEM_MTD_LY_EUR'))}</div>
         </div>
         <div class="hero-kpi">
           <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">28.410€</div>
-          <div class="hero-delta pos">↑ +12,4% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 25.270€</div>
+          <div class="hero-val">{fmt_eur(d.get('VENDAS_MTD'))}</div>
+          <div class="hero-delta {cls_vendas_mtd}">{d_vendas_mtd} vs LY</div>
+          <div class="hero-sub">LY mesmo período: {fmt_eur(d.get('VENDAS_MTD_LY'))}</div>
         </div>
       </div>
 
@@ -398,21 +377,21 @@
       <div class="secondary-row">
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">36,6%</div>
-          <div class="sec-delta pos">↑ +0,7pp vs LY</div>
-          <div class="sec-sub">LY 35,9%</div>
+          <div class="sec-val">{fmt_pct(d.get('MARGEM_MTD_PCT'))}</div>
+          <div class="sec-delta {cls_mg_pct_mtd}">{d_mg_pct_mtd} vs LY</div>
+          <div class="sec-sub">LY {fmt_pct(d.get('MARGEM_MTD_LY_PCT'))}</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">162.400€</div>
-          <div class="sec-delta pos">↑ +9,8% vs LY</div>
-          <div class="sec-sub">LY 147.900€</div>
+          <div class="sec-val">{fmt_eur(d.get('VENDAS_YTD'))}</div>
+          <div class="sec-delta {cls_vendas_ytd}">{d_vendas_ytd} vs LY</div>
+          <div class="sec-sub">LY {fmt_eur(d.get('VENDAS_YTD_LY'))}</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">58.820€</div>
-          <div class="sec-delta pos">↑ +11,2% vs LY</div>
-          <div class="sec-sub">LY 52.890€</div>
+          <div class="sec-val">{fmt_eur(d.get('MARGEM_YTD_EUR'))}</div>
+          <div class="sec-delta {cls_margem_ytd}">{d_margem_ytd} vs LY</div>
+          <div class="sec-sub">LY {fmt_eur(d.get('MARGEM_YTD_LY_EUR'))}</div>
         </div>
       </div>
 
@@ -422,378 +401,82 @@
         <div class="detail-grid">
           <div class="det">
             <div class="det-label">Vendas</div>
-            <div class="det-val">1.320€</div>
-            <div class="det-delta pos">↑ +11,8%</div>
+            <div class="det-val">{fmt_eur(d.get('VENDAS_HOJE'))}</div>
+            <div class="det-delta {cls_v_hoje}">{d_v_hoje}</div>
           </div>
           <div class="det">
             <div class="det-label">Margem €</div>
-            <div class="det-val">490€</div>
-            <div class="det-delta pos">↑ +13,6%</div>
+            <div class="det-val">{fmt_eur(d.get('MARGEM_HOJE_EUR'))}</div>
+            <div class="det-delta {cls_m_hoje}">{d_m_hoje}</div>
           </div>
           <div class="det">
             <div class="det-label">Margem %</div>
-            <div class="det-val">37,1%</div>
-            <div class="det-delta pos">↑ +0,5pp</div>
+            <div class="det-val">{fmt_pct(d.get('MARGEM_HOJE_PCT'))}</div>
+            <div class="det-delta {cls_mp_hoje}">{d_mp_hoje}</div>
           </div>
           <div class="det">
             <div class="det-label">Atend.</div>
-            <div class="det-val">52</div>
-            <div class="det-delta pos">↑ +8,3%</div>
+            <div class="det-val">{fmt_int(d.get('ATENDIMENTOS_HOJE'))}</div>
+            <div class="det-delta {cls_a_hoje}">{d_a_hoje}</div>
           </div>
           <div class="det">
             <div class="det-label">Ticket</div>
-            <div class="det-val">25,4€</div>
-            <div class="det-delta pos">↑ +3,2%</div>
+            <div class="det-val">{fmt_eur(d.get('TICKET_HOJE'), 2)}</div>
+            <div class="det-delta {cls_t_hoje}">{d_t_hoje}</div>
           </div>
           <div class="det">
             <div class="det-label">Reservas</div>
-            <div class="det-val">8,4%</div>
-            <div class="det-delta pos">↑ +1,2pp</div>
+            <div class="det-val">{reservas_str}</div>
+            <div class="det-delta neu">% vendas</div>
           </div>
         </div>
         <div class="detail-grid-4" style="margin-top:4px">
           <div class="det">
             <div class="det-label">Ident. MTD</div>
-            <div class="det-val">84,2%</div>
-            <div class="det-delta pos">↑ +2,1pp LY</div>
+            <div class="det-val">{fmt_pct(d.get('IDENT_MTD_PCT'))}</div>
+            <div class="det-delta neu">% atend. c/ cartão</div>
           </div>
           <div class="det">
             <div class="det-label">Mg% YTD</div>
-            <div class="det-val">36,2%</div>
-            <div class="det-delta pos">↑ +0,4pp LY</div>
+            <div class="det-val">{fmt_pct(d.get('MARGEM_YTD_PCT'))}</div>
+            <div class="det-delta neu">LY {fmt_pct(d.get('MARGEM_YTD_LY_PCT'))}</div>
           </div>
           <div class="det" style="grid-column: span 2">
             <div class="det-label">Stock custo</div>
             <div class="stock-inline">
-              <span class="stock-now">48.200€</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mar 46,1k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Abr 44,8k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mai 47,3k</span>
+              <span class="stock-now">{fmt_eur(stock_val)}</span>
+              {"<span class='stock-sep'>·</span><span class='stock-hist'>" + stock_hist_str + "</span>" if stock_hist_str != "—" else ""}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div>"""
 
-    <!-- ══ DIAS E BRITO ══ -->
-    <div class="sec-divider">Farmácia Dias e Brito</div>
-    <div class="farm-block">
-      <div class="farm-header">
-        <span class="farm-pill pill-b">D&amp;B</span>
-        <span class="farm-name">Amadora</span>
-      </div>
 
-      <div class="hero-row">
-        <div class="hero-kpi">
-          <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">7.440€</div>
-          <div class="hero-delta pos">↑ +4,8% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 7.100€</div>
-        </div>
-        <div class="hero-kpi">
-          <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">22.180€</div>
-          <div class="hero-delta pos">↑ +5,1% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 21.100€</div>
-        </div>
-      </div>
+# ── Ranking ────────────────────────────────────────────────────────────────────
 
-      <div class="secondary-row">
-        <div class="sec-kpi">
-          <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">33,5%</div>
-          <div class="sec-delta neg">↓ −0,1pp vs LY</div>
-          <div class="sec-sub">LY 33,6%</div>
-        </div>
-        <div class="sec-kpi">
-          <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">128.300€</div>
-          <div class="sec-delta pos">↑ +4,2% vs LY</div>
-          <div class="sec-sub">LY 123.100€</div>
-        </div>
-        <div class="sec-kpi">
-          <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">42.980€</div>
-          <div class="sec-delta pos">↑ +3,9% vs LY</div>
-          <div class="sec-sub">LY 41.370€</div>
-        </div>
-      </div>
+def ranking_html(farms: list, dados: dict) -> str:
+    validos = [(f, dados[f["id"]]) for f in farms if dados.get(f["id"], {}).get("ok")]
+    validos.sort(key=lambda x: x[1].get("MARGEM_MTD_EUR") or 0, reverse=True)
 
-      <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
-        <div class="detail-grid">
-          <div class="det">
-            <div class="det-label">Vendas</div>
-            <div class="det-val">880€</div>
-            <div class="det-delta neg">↓ −5,4%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Margem €</div>
-            <div class="det-val">288€</div>
-            <div class="det-delta neg">↓ −7,1%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Margem %</div>
-            <div class="det-val">32,7%</div>
-            <div class="det-delta neg">↓ −0,8pp</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Atend.</div>
-            <div class="det-val">61</div>
-            <div class="det-delta neg">↓ −3,2%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Ticket</div>
-            <div class="det-val">14,4€</div>
-            <div class="det-delta neg">↓ −2,0%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">5,1%</div>
-            <div class="det-delta neu">— +0,1pp</div>
-          </div>
-        </div>
-        <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">71,3%</div>
-            <div class="det-delta pos">↑ +1,4pp LY</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">33,5%</div>
-            <div class="det-delta neg">↓ −0,1pp LY</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
-            <div class="det-label">Stock custo</div>
-            <div class="stock-inline">
-              <span class="stock-now">31.400€</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mar 29,8k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Abr 32,1k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mai 30,6k</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    rows = ""
+    rank_cls = ["rank-1", "rank-2", "rank-3", "rank-4", "rank-5", "rank-6", "rank-7"]
+    for i, (f, d) in enumerate(validos):
+        pill_cls, pill_txt = PILL_COLORS.get(f["id"], ("pill-a", f["id"][:3].upper()))
+        d_mtd, cls_mtd = delta_pct(d.get("VENDAS_MTD"), d.get("VENDAS_MTD_LY"))
+        d_ytd, cls_ytd = delta_pct(d.get("VENDAS_YTD"), d.get("VENDAS_YTD_LY"))
+        mg_color = "#0A6644" if (d.get("MARGEM_MTD_EUR") or 0) >= (d.get("MARGEM_MTD_LY_EUR") or 0) else "#8B1A1A"
+        rows += f"""
+          <tr>
+            <td><span class="rank-pos {rank_cls[i]}">{i+1}</span><span class="farm-pill {pill_cls}" style="font-size:9px">{pill_txt}</span></td>
+            <td style="color:{mg_color};font-weight:600">{fmt_eur(d.get('MARGEM_MTD_EUR'))}</td>
+            <td>{fmt_eur(d.get('VENDAS_MTD'))}</td>
+            <td>{fmt_pct(d.get('MARGEM_MTD_PCT'))}</td>
+            <td class="rd {cls_mtd}">{d_mtd}</td>
+            <td class="rd {cls_ytd}">{d_ytd}</td>
+          </tr>"""
 
-    <!-- ══ CIDADE UNIVERSITÁRIA ══ -->
-    <div class="sec-divider">Farmácia Cidade Universitária</div>
-    <div class="farm-block">
-      <div class="farm-header">
-        <span class="farm-pill pill-c">CU</span>
-        <span class="farm-name">Lisboa</span>
-      </div>
-
-      <div class="hero-row">
-        <div class="hero-kpi">
-          <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val red">6.710€</div>
-          <div class="hero-delta neg">↓ −2,8% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 6.902€</div>
-        </div>
-        <div class="hero-kpi">
-          <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">17.820€</div>
-          <div class="hero-delta neg">↓ −3,2% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 18.410€</div>
-        </div>
-      </div>
-
-      <div class="secondary-row">
-        <div class="sec-kpi">
-          <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">37,7%</div>
-          <div class="sec-delta pos">↑ +0,2pp vs LY</div>
-          <div class="sec-sub">LY 37,5%</div>
-        </div>
-        <div class="sec-kpi">
-          <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">104.600€</div>
-          <div class="sec-delta neg">↓ −1,8% vs LY</div>
-          <div class="sec-sub">LY 106.500€</div>
-        </div>
-        <div class="sec-kpi">
-          <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">39.480€</div>
-          <div class="sec-delta neg">↓ −1,4% vs LY</div>
-          <div class="sec-sub">LY 40.040€</div>
-        </div>
-      </div>
-
-      <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
-        <div class="detail-grid">
-          <div class="det">
-            <div class="det-label">Vendas</div>
-            <div class="det-val">720€</div>
-            <div class="det-delta neu">— −1,4%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Margem €</div>
-            <div class="det-val">274€</div>
-            <div class="det-delta neu">— −1,8%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Margem %</div>
-            <div class="det-val">38,1%</div>
-            <div class="det-delta pos">↑ +0,3pp</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Atend.</div>
-            <div class="det-val">49</div>
-            <div class="det-delta neu">— −2,0%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Ticket</div>
-            <div class="det-val">14,7€</div>
-            <div class="det-delta pos">↑ +0,7%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">4,8%</div>
-            <div class="det-delta neg">↓ −0,6pp</div>
-          </div>
-        </div>
-        <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">68,9%</div>
-            <div class="det-delta neg">↓ −1,2pp LY</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">37,7%</div>
-            <div class="det-delta pos">↑ +0,2pp LY</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
-            <div class="det-label">Stock custo</div>
-            <div class="stock-inline">
-              <span class="stock-now">24.900€</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mar 26,2k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Abr 25,8k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mai 24,1k</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ ALTO DOS MOINHOS ══ -->
-    <div class="sec-divider">Farmácia Alto dos Moinhos</div>
-    <div class="farm-block">
-      <div class="farm-header">
-        <span class="farm-pill pill-m">AM</span>
-        <span class="farm-name">Lisboa</span>
-      </div>
-
-      <div class="hero-row">
-        <div class="hero-kpi">
-          <div class="hero-label">Margem € MTD</div>
-          <div class="hero-val green">9.340€</div>
-          <div class="hero-delta pos">↑ +9,4% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 8.540€</div>
-        </div>
-        <div class="hero-kpi">
-          <div class="hero-label">Vendas MTD</div>
-          <div class="hero-val">25.680€</div>
-          <div class="hero-delta pos">↑ +8,9% vs LY</div>
-          <div class="hero-sub">LY mesmo período: 23.580€</div>
-        </div>
-      </div>
-
-      <div class="secondary-row">
-        <div class="sec-kpi">
-          <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">36,4%</div>
-          <div class="sec-delta pos">↑ +0,2pp vs LY</div>
-          <div class="sec-sub">LY 36,2%</div>
-        </div>
-        <div class="sec-kpi">
-          <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">148.200€</div>
-          <div class="sec-delta pos">↑ +7,6% vs LY</div>
-          <div class="sec-sub">LY 137.700€</div>
-        </div>
-        <div class="sec-kpi">
-          <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">53.950€</div>
-          <div class="sec-delta pos">↑ +8,1% vs LY</div>
-          <div class="sec-sub">LY 49.900€</div>
-        </div>
-      </div>
-
-      <div class="detail-block">
-        <div class="detail-title">Hoje vs média diária MTD</div>
-        <div class="detail-grid">
-          <div class="det">
-            <div class="det-label">Vendas</div>
-            <div class="det-val">1.140€</div>
-            <div class="det-delta pos">↑ +6,5%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Margem €</div>
-            <div class="det-val">418€</div>
-            <div class="det-delta pos">↑ +7,2%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Margem %</div>
-            <div class="det-val">36,7%</div>
-            <div class="det-delta pos">↑ +0,3pp</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Atend.</div>
-            <div class="det-val">58</div>
-            <div class="det-delta pos">↑ +5,5%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Ticket</div>
-            <div class="det-val">19,7€</div>
-            <div class="det-delta pos">↑ +1,0%</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Reservas</div>
-            <div class="det-val">6,9%</div>
-            <div class="det-delta pos">↑ +0,8pp</div>
-          </div>
-        </div>
-        <div class="detail-grid-4" style="margin-top:4px">
-          <div class="det">
-            <div class="det-label">Ident. MTD</div>
-            <div class="det-val">76,8%</div>
-            <div class="det-delta pos">↑ +3,2pp LY</div>
-          </div>
-          <div class="det">
-            <div class="det-label">Mg% YTD</div>
-            <div class="det-val">36,4%</div>
-            <div class="det-delta pos">↑ +0,2pp LY</div>
-          </div>
-          <div class="det" style="grid-column: span 2">
-            <div class="det-label">Stock custo</div>
-            <div class="stock-inline">
-              <span class="stock-now">38.600€</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mar 37,4k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Abr 39,1k</span>
-              <span class="stock-sep">·</span>
-              <span class="stock-hist">Mai 38,0k</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ RANKING ══ -->
+    return f"""
     <div class="sec-divider">Ranking interno MTD</div>
     <div class="ranking-block">
       <table class="rank-table">
@@ -807,101 +490,279 @@
             <th>Cresc. YTD</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
-            <td style="color:#0A6644;font-weight:600">10.390€</td>
-            <td>28.410€</td>
-            <td>36,6%</td>
-            <td class="rd pos">↑ +12,4%</td>
-            <td class="rd pos">↑ +9,8%</td>
-          </tr>
-          <tr>
-            <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
-            <td style="color:#0A6644;font-weight:600">9.340€</td>
-            <td>25.680€</td>
-            <td>36,4%</td>
-            <td class="rd pos">↑ +8,9%</td>
-            <td class="rd pos">↑ +7,6%</td>
-          </tr>
-          <tr>
-            <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-b" style="font-size:9px">D&amp;B</span></td>
-            <td style="color:#0A6644;font-weight:600">7.440€</td>
-            <td>22.180€</td>
-            <td>33,5%</td>
-            <td class="rd pos">↑ +5,1%</td>
-            <td class="rd pos">↑ +4,2%</td>
-          </tr>
-          <tr>
-            <td><span class="rank-pos rank-4">4</span><span class="farm-pill pill-c" style="font-size:9px">CU</span></td>
-            <td style="color:#8B1A1A;font-weight:600">6.710€</td>
-            <td>17.820€</td>
-            <td>37,7%</td>
-            <td class="rd neg">↓ −3,2%</td>
-            <td class="rd neg">↓ −1,8%</td>
-          </tr>
-        </tbody>
+        <tbody>{rows}</tbody>
       </table>
-    </div>
+    </div>"""
 
-    <!-- ══ TESOURARIA ══ -->
-    <div class="sec-divider">Tesouraria · Zoho Books</div>
-    <div class="bank-block">
-      <div class="bank-rows">
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-a">ARO</span> Aroeira</div>
-          <div class="bank-vals">
-            <span class="bank-now">12.340€</span>
-            <span class="bank-hist">Mar 8,1k · Abr 11,2k · Mai 9,8k</span>
-          </div>
-        </div>
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-b">D&amp;B</span> Dias e Brito</div>
-          <div class="bank-vals">
-            <span class="bank-now">8.710€</span>
-            <span class="bank-hist">Mar 6,4k · Abr 7,9k · Mai 8,2k</span>
-          </div>
-        </div>
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-c">CU</span> Cidade Univ.</div>
-          <div class="bank-vals">
-            <span class="bank-now">5.980€</span>
-            <span class="bank-hist">Mar 4,8k · Abr 5,1k · Mai 6,3k</span>
-          </div>
-        </div>
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-m">AM</span> Alto dos Moinhos</div>
-          <div class="bank-vals">
-            <span class="bank-now">9.450€</span>
-            <span class="bank-hist">Mar 7,2k · Abr 8,6k · Mai 9,0k</span>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- ══ ALERTAS ══ -->
-    <div class="sec-divider">Alertas</div>
-    <div class="alerts-block">
-      <div class="alert danger">
-        <span class="alert-icon">⚠</span>
-        <span><strong>Aroeira — 7 rupturas com rotação ativa.</strong> Impacto estimado ~180€/dia não faturados.</span>
-      </div>
-      <div class="alert warn">
-        <span class="alert-icon">↘</span>
-        <span><strong>Cidade Univ. — 4.ª semana consecutiva abaixo do LY.</strong> Tráfego e identificação de clientes a cair.</span>
-      </div>
-      <div class="alert warn">
-        <span class="alert-icon">📦</span>
-        <span><strong>28 lotes a vencer em &lt;60 dias</strong> no grupo (valor ~420€). ARO 14 · D&amp;B 6 · CU 3 · AM 5.</span>
-      </div>
-    </div>
+# ── Alertas ────────────────────────────────────────────────────────────────────
 
+def alertas_html(farms: list, dados: dict) -> str:
+    alertas = []
+    for f in farms:
+        d = dados.get(f["id"], {})
+        if not d.get("ok"):
+            continue
+        nome_curto = f["id"]
+        rupt = d.get("RUPTURAS") or 0
+        if rupt > 0:
+            alertas.append(("danger", f"<strong>{f['nome']} — {rupt} ruptura{'s' if rupt > 1 else ''} com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias."))
+        lotes = d.get("LOTES_CRITICOS") or 0
+        val_lotes = d.get("VALOR_CRITICO") or 0
+        if lotes > 0:
+            alertas.append(("warn", f"<strong>{f['nome']} — {lotes} lote{'s' if lotes > 1 else ''} a vencer em &lt;60 dias</strong> (valor ~{fmt_eur(val_lotes)})."))
+
+    if not alertas:
+        return ""
+
+    html = '\n    <div class="sec-divider">Alertas</div>\n    <div class="alerts-block">'
+    for cls, msg in alertas:
+        icon = "⚠" if cls == "danger" else ""
+        html += f'\n      <div class="alert {cls}"><span class="alert-icon">{icon}</span><span>{msg}</span></div>'
+    html += "\n    </div>"
+    return html
+
+
+# ── Template HTML completo ─────────────────────────────────────────────────────
+
+CSS = """
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#F2F0EB;font-family:'Inter',sans-serif;color:#1A1A18;padding:24px 16px}
+  .email-wrap{max-width:640px;margin:0 auto}
+  .hdr{background:#0D5E48;border-radius:10px 10px 0 0;padding:16px 20px;display:flex;justify-content:space-between;align-items:flex-start}
+  .hdr-title{color:#fff;font-size:14px;font-weight:600;letter-spacing:-0.2px}
+  .hdr-sub{color:rgba(255,255,255,0.6);font-size:11px;margin-top:2px;font-family:'JetBrains Mono',monospace}
+  .hdr-meta{text-align:right;color:rgba(255,255,255,0.7);font-size:11px;font-family:'JetBrains Mono',monospace;line-height:1.6}
+  .body{background:#fff;border:1px solid #E2DFD8;border-top:none;border-radius:0 0 10px 10px;padding:16px}
+  .sec-divider{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:#B0ADA6;font-family:'JetBrains Mono',monospace;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+  .sec-divider::after{content:'';flex:1;height:1px;background:#E8E5DE}
+  .farm-block{background:#F8F7F4;border:1px solid #E8E5DE;border-radius:8px;padding:13px 14px;margin-bottom:10px}
+  .farm-header{display:flex;align-items:center;gap:7px;margin-bottom:14px}
+  .farm-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:0.3px;font-family:'JetBrains Mono',monospace}
+  .pill-a{background:#D6EFE6;color:#0A4A35}.pill-b{background:#D6E5F5;color:#0C3A6B}
+  .pill-c{background:#EDE9E0;color:#3D3A30}.pill-m{background:#EAD9F5;color:#3D1260}
+  .pill-p{background:#FFE8D6;color:#6B2D00}.pill-t{background:#D6F0F5;color:#0A3A4A}
+  .pill-k{background:#F5D6E8;color:#5A0A35}
+  .farm-name{font-size:12px;font-weight:600;color:#3A3A36}
+  .hero-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+  .hero-kpi{background:#fff;border:1px solid #E8E5DE;border-radius:8px;padding:12px 14px}
+  .hero-label{font-size:10px;color:#9A9790;margin-bottom:4px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.4px}
+  .hero-val{font-size:32px;font-weight:600;line-height:1;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+  .hero-val.green{color:#0A6644}.hero-val.red{color:#8B1A1A}
+  .hero-delta{font-size:13px;font-weight:600;margin-top:6px;font-family:'JetBrains Mono',monospace}
+  .hero-delta.pos{color:#0A6644}.hero-delta.neg{color:#8B1A1A}.hero-delta.neu{color:#9A9790}
+  .hero-sub{font-size:11px;color:#B0ADA6;margin-top:2px;font-family:'JetBrains Mono',monospace}
+  .secondary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+  .sec-kpi{background:#fff;border:1px solid #E8E5DE;border-radius:6px;padding:8px 10px}
+  .sec-label{font-size:9px;color:#9A9790;margin-bottom:3px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.4px}
+  .sec-val{font-size:18px;font-weight:600;color:#1A1A18;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-0.4px}
+  .sec-delta{font-size:11px;font-weight:500;margin-top:3px;font-family:'JetBrains Mono',monospace}
+  .sec-delta.pos{color:#0A6644}.sec-delta.neg{color:#8B1A1A}.sec-delta.neu{color:#9A9790}
+  .sec-sub{font-size:9px;color:#C8C5BE;margin-top:2px;font-family:'JetBrains Mono',monospace}
+  .detail-block{background:#F0EDE6;border-radius:6px;padding:8px 10px;margin-bottom:6px}
+  .detail-title{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:#B0ADA6;font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+  .detail-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+  .detail-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .det{background:#FAF9F6;border-radius:4px;padding:5px 6px}
+  .det-label{font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .det-val{font-size:12px;font-weight:500;color:#6B6860;font-variant-numeric:tabular-nums;line-height:1}
+  .det-delta{font-size:9px;margin-top:2px;font-family:'JetBrains Mono',monospace;color:#B0ADA6}
+  .det-delta.pos{color:#3A8C68}.det-delta.neg{color:#A05050}
+  .stock-inline{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;padding:6px 8px;background:#FAF9F6;border-radius:4px;margin-top:4px}
+  .stock-now{font-size:12px;font-weight:500;color:#6B6860;font-variant-numeric:tabular-nums}
+  .stock-hist{font-size:9px;color:#C8C5BE;font-family:'JetBrains Mono',monospace}
+  .stock-sep{color:#E0DDD6;font-size:9px}
+  .ranking-block{background:#F8F7F4;border:1px solid #E8E5DE;border-radius:8px;padding:13px 14px;margin-bottom:10px}
+  .rank-table{width:100%;border-collapse:collapse}
+  .rank-table th{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:#9A9790;font-family:'JetBrains Mono',monospace;text-align:right;padding:0 6px 7px;border-bottom:1px solid #E8E5DE}
+  .rank-table th:first-child{text-align:left}
+  .rank-table td{font-size:12px;font-weight:500;padding:8px 6px;text-align:right;border-bottom:1px solid #F0EDE6;font-variant-numeric:tabular-nums;color:#1A1A18}
+  .rank-table td:first-child{text-align:left}
+  .rank-table tr:last-child td{border-bottom:none}
+  .rank-pos{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:700;margin-right:5px;font-family:'JetBrains Mono',monospace}
+  .rank-1{background:#0D5E48;color:#fff}.rank-2{background:#D6EFE6;color:#0A4A35}
+  .rank-3{background:#EDE9E0;color:#3D3A30}.rank-4{background:#F0EDE6;color:#9A9790}
+  .rank-5{background:#F5F3EF;color:#B0ADA6}.rank-6{background:#F8F7F4;color:#C8C5BE}
+  .rank-7{background:#FAF9F6;color:#D0CEC8}
+  .rd{font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500}
+  .rd.pos{color:#0A6644}.rd.neg{color:#8B1A1A}.rd.neu{color:#9A9790}
+  .alerts-block{margin-bottom:10px}
+  .alert{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:6px;font-size:11px;line-height:1.45;margin-bottom:6px;border-left:3px solid transparent}
+  .alert:last-child{margin-bottom:0}
+  .alert.danger{background:#FDF0F0;border-left-color:#C0392B;color:#5A1010}
+  .alert.warn{background:#FDF6EC;border-left-color:#D4860A;color:#5A3A08}
+  .alert-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+  .footer{font-size:9px;color:#B0ADA6;text-align:center;padding-top:12px;margin-top:4px;border-top:1px solid #E8E5DE;font-family:'JetBrains Mono',monospace;line-height:1.7}
+"""
+
+def build_html(farms_visiveis: list, dados: dict, hist: dict) -> str:
+    hoje = datetime.now()
+    DIAS_PT  = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"]
+    MESES_PT = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
+    data_str = f"{DIAS_PT[hoje.weekday()]}, {hoje.day} {MESES_PT[hoje.month-1]} {hoje.year}"
+    hora_str = hoje.strftime("%Hh%M")
+
+    blocos = "".join(farm_block_html(f, dados.get(f["id"], {"ok": False, "erro": "sem dados"}), hist)
+                     for f in farms_visiveis)
+
+    rank_html = ranking_html(farms_visiveis, dados) if len(farms_visiveis) > 1 else ""
+    alt_html  = alertas_html(farms_visiveis, dados)
+    ips = " · ".join(f"{f['id']} {f['host']}" for f in farms_visiveis)
+
+    return f"""<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Farmácias Connect — Resumo Diário</title>
+<style>{CSS}</style>
+</head>
+<body>
+<div class="email-wrap">
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Farmácias Connect</div>
+      <div class="hdr-sub">Resumo Diário · {data_str}</div>
+    </div>
+    <div class="hdr-meta">Gerado {hora_str}<br>Oracle {hora_str}</div>
+  </div>
+  <div class="body">
+    {blocos}
+    {rank_html}
+    {alt_html}
     <div class="footer">
-      Oracle EXPORTA · SIFV_VENDAS + SIFV_PRODUTOS + ANF_USER.SIFT_RESERVAS · Zoho Books API<br>
-      ARO 10.18.196.1 · D&amp;B 10.23.149.1 · CU 10.25.64.1 · AM —
+      Oracle EXPORTA · SIFV_VENDAS + SIFV_PRODUTOS + ANF_USER.SIFT_RESERVAS<br>
+      {ips}
     </div>
-
   </div>
 </div>
 </body>
-</html>
+</html>"""
+
+
+# ── Envio de email ─────────────────────────────────────────────────────────────
+
+def send_email(cfg_email: dict, destinatario: dict, html: str):
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"Farmácias Connect — Resumo {datetime.now().strftime('%d %b %Y')}"
+    msg["From"]    = cfg_email["from"]
+    msg["To"]      = destinatario["email"]
+    msg.attach(MIMEText(html, "html", "utf-8"))
+
+    with smtplib.SMTP(cfg_email["smtp_host"], cfg_email["smtp_port"]) as s:
+        s.starttls()
+        s.login(cfg_email["smtp_user"], cfg_email["smtp_password"])
+        s.sendmail(cfg_email["from"], [destinatario["email"]], msg.as_string())
+    print(f"  → Email enviado para {destinatario['email']}")
+
+
+
+# ── Publicar no GitHub Pages ───────────────────────────────────────────────────
+
+def publish_to_github(html: str, cfg: dict):
+    """Publica o HTML em dannihell/farmacia-tools/daily/index.html via GitHub API."""
+    token = cfg.get("github_token")
+    if not token:
+        print("  ⚠ github_token não encontrado no config — a saltar publicação.")
+        return
+
+    repo    = "dannihell/farmacia-tools"
+    path_gh = "daily/index.html"
+    api_url = f"https://api.github.com/repos/{repo}/contents/{path_gh}"
+
+    # verificar se ficheiro já existe (precisamos do SHA para update)
+    sha = None
+    try:
+        req = urllib.request.Request(api_url, headers={
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28"
+        })
+        with urllib.request.urlopen(req, timeout=30) as r:
+            sha = json.loads(r.read())["sha"]
+    except urllib.error.HTTPError as e:
+        if e.code != 404:
+            print(f"  ⚠ Erro ao verificar ficheiro GitHub: {e}")
+
+    # fazer upload
+    payload = {
+        "message": f"daily email {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+        "content": base64.b64encode(html.encode("utf-8")).decode("ascii"),
+    }
+    if sha:
+        payload["sha"] = sha
+
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(api_url, data=data, method="PUT", headers={
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "X-GitHub-Api-Version": "2022-11-28"
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            print(f"  → Publicado em https://dannihell.github.io/farmacia-tools/daily/")
+    except Exception as e:
+        print(f"  ⚠ Erro ao publicar no GitHub: {e}")
+
+# ── Main ───────────────────────────────────────────────────────────────────────
+
+def main():
+    print(f"\n{'='*60}")
+    print(f"daily_email.py — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"{'='*60}")
+
+    # inicializar Oracle thick mode
+    oracledb.init_oracle_client(lib_dir=INSTANT_CLIENT)
+
+    # carregar config
+    cfg = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
+    farms_cfg = cfg["farmacias"]
+    farm_by_id = {f["id"]: f for f in farms_cfg}
+
+    # carregar histórico stock
+    hist = load_historico()
+
+    # recolher dados de todas as farmácias
+    print("\n[1/3] A recolher dados Oracle...")
+    dados = {}
+    for farm in farms_cfg:
+        dados[farm["id"]] = fetch_farm_data(farm)
+
+    # guardar histórico stock atualizado
+    save_historico(hist)
+
+    # gerar e guardar HTML de debug (todas as farmácias)
+    print("\n[2/3] A gerar HTML...")
+    html_debug = build_html(farms_cfg, dados, hist)
+    debug_path = SCRIPT_DIR / f"daily_email_preview_{datetime.now().strftime('%Y%m%d')}.html"
+    debug_path.write_text(html_debug, encoding="utf-8")
+    print(f"  → Preview guardado: {debug_path}")
+
+    # publicar no GitHub Pages
+    print("\n[2b/3] A publicar no GitHub Pages...")
+    publish_to_github(html_debug, cfg)
+
+    # enviar emails
+    print("\n[3/3] A enviar emails...")
+    cfg_email = cfg.get("email", {})
+    if not cfg_email.get("smtp_host"):
+        print("  ⚠ SMTP não configurado — a saltar envio. Verifica o email no farmacias_config.json.")
+        return
+
+    for dest in cfg.get("destinatarios", []):
+        farms_dest = [farm_by_id[fid] for fid in dest["farmacias"] if fid in farm_by_id]
+        if not farms_dest:
+            continue
+        html = build_html(farms_dest, dados, hist)
+        try:
+            send_email(cfg_email, dest, html)
+        except Exception as e:
+            print(f"  ERRO ao enviar para {dest['email']}: {e}")
+            traceback.print_exc()
+
+    print("\nConcluído.")
+
+if __name__ == "__main__":
+    main()
