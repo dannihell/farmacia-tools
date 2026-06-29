@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farmácias Connect — Resumo Diário</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #F2F0EB;
+    font-family: 'Inter', sans-serif;
+    color: #1A1A18;
+    padding: 24px 16px;
+  }
+
+  .email-wrap { max-width: 640px; margin: 0 auto; }
+
+  /* HEADER */
+  .hdr {
+    background: #0D5E48;
+    border-radius: 10px 10px 0 0;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .hdr-title { color: #fff; font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
+  .hdr-sub { color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+  .hdr-meta { text-align: right; color: rgba(255,255,255,0.7); font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.6; }
+
+  /* BODY */
+  .body {
+    background: #fff;
+    border: 1px solid #E2DFD8;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 16px;
+  }
+
+  /* SECTION DIVIDER */
+  .sec-divider {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #B0ADA6;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 14px 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-divider::after { content: ''; flex: 1; height: 1px; background: #E8E5DE; }
+
+  /* FARM BLOCK */
+  .farm-block {
+    background: #F8F7F4;
+    border: 1px solid #E8E5DE;
+    border-radius: 8px;
+    padding: 13px 14px;
+    margin-bottom: 10px;
+  }
+
+  .farm-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+  .farm-pill {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .pill-a { background: #D6EFE6; color: #0A4A35; }
+  .pill-b { background: #D6E5F5; color: #0C3A6B; }
+  .pill-c { background: #EDE9E0; color: #3D3A30; }
+  .pill-m { background: #EAD9F5; color: #3D1260; }
+  .farm-name { font-size: 12px; font-weight: 600; color: #3A3A36; }
+
+  /* ── LEVEL 1 — hero numbers ── */
+  .hero-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .hero-kpi {
+    background: #fff;
+    border: 1px solid #E8E5DE;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .hero-label {
+    font-size: 10px;
+    color: #9A9790;
+    margin-bottom: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .hero-val {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -1px;
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-val.green { color: #0A6644; }
+  .hero-val.red   { color: #8B1A1A; }
+  .hero-delta {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .hero-delta.pos { color: #0A6644; }
+  .hero-delta.neg { color: #8B1A1A; }
+  .hero-delta.neu { color: #9A9790; }
+  .hero-sub {
+    font-size: 11px;
+    color: #B0ADA6;
+    margin-top: 2px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── LEVEL 2 — secondary numbers ── */
+  .secondary-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .sec-kpi {
+    background: #fff;
+    border: 1px solid #E8E5DE;
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .sec-label {
+    font-size: 9px;
+    color: #9A9790;
+    margin-bottom: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .sec-val {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1A1A18;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.4px;
+  }
+  .sec-delta {
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .sec-delta.pos { color: #0A6644; }
+  .sec-delta.neg { color: #8B1A1A; }
+  .sec-delta.neu { color: #9A9790; }
+  .sec-sub {
+    font-size: 9px;
+    color: #C8C5BE;
+    margin-top: 2px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── LEVEL 3 — detail numbers ── */
+  .detail-block {
+    background: #F0EDE6;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+  }
+  .detail-title {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #B0ADA6;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 6px;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+  }
+  .detail-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+  .det {
+    background: #FAF9F6;
+    border-radius: 4px;
+    padding: 5px 6px;
+  }
+  .det-label {
+    font-size: 8px;
+    color: #C8C5BE;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .det-val {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6B6860;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .det-delta {
+    font-size: 9px;
+    margin-top: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #B0ADA6;
+  }
+  .det-delta.pos { color: #3A8C68; }
+  .det-delta.neg { color: #A05050; }
+
+  /* stock inline */
+  .stock-inline {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    flex-wrap: wrap;
+    padding: 6px 8px;
+    background: #FAF9F6;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+  .stock-lbl { font-size: 8px; color: #C8C5BE; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.3px; }
+  .stock-now { font-size: 12px; font-weight: 500; color: #6B6860; font-variant-numeric: tabular-nums; }
+  .stock-hist { font-size: 9px; color: #C8C5BE; font-family: 'JetBrains Mono', monospace; }
+  .stock-sep { color: #E0DDD6; font-size: 9px; }
+
+  /* RANKING */
+  .ranking-block {
+    background: #F8F7F4;
+    border: 1px solid #E8E5DE;
+    border-radius: 8px;
+    padding: 13px 14px;
+    margin-bottom: 10px;
+  }
+  .rank-table { width: 100%; border-collapse: collapse; }
+  .rank-table th {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #9A9790;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: right;
+    padding: 0 6px 7px;
+    border-bottom: 1px solid #E8E5DE;
+  }
+  .rank-table th:first-child { text-align: left; }
+  .rank-table td {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 6px;
+    text-align: right;
+    border-bottom: 1px solid #F0EDE6;
+    font-variant-numeric: tabular-nums;
+    color: #1A1A18;
+  }
+  .rank-table td:first-child { text-align: left; }
+  .rank-table tr:last-child td { border-bottom: none; }
+  .rank-pos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    margin-right: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+  .rank-1 { background: #0D5E48; color: #fff; }
+  .rank-2 { background: #D6EFE6; color: #0A4A35; }
+  .rank-3 { background: #EDE9E0; color: #3D3A30; }
+  .rank-4 { background: #F0EDE6; color: #9A9790; }
+  .rd { font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .rd.pos { color: #0A6644; }
+  .rd.neg { color: #8B1A1A; }
+  .rd.neu { color: #9A9790; }
+
+  /* BANK */
+  .bank-block {
+    background: #F8F7F4;
+    border: 1px solid #E8E5DE;
+    border-radius: 8px;
+    padding: 13px 14px;
+    margin-bottom: 10px;
+  }
+  .bank-rows { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+  .bank-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 7px 9px;
+    background: #fff;
+    border: 1px solid #E8E5DE;
+    border-radius: 6px;
+    gap: 8px;
+  }
+  .bank-name { font-size: 11px; font-weight: 600; color: #3A3A36; display: flex; align-items: center; gap: 6px; }
+  .bank-vals { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .bank-now { font-size: 14px; font-weight: 600; color: #0A6644; font-variant-numeric: tabular-nums; letter-spacing: -0.3px; }
+  .bank-hist { font-size: 10px; color: #B0ADA6; font-family: 'JetBrains Mono', monospace; }
+
+  /* ALERTS */
+  .alerts-block { margin-bottom: 10px; }
+  .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.45;
+    margin-bottom: 6px;
+    border-left: 3px solid transparent;
+  }
+  .alert:last-child { margin-bottom: 0; }
+  .alert.danger { background: #FDF0F0; border-left-color: #C0392B; color: #5A1010; }
+  .alert.warn   { background: #FDF6EC; border-left-color: #D4860A; color: #5A3A08; }
+  .alert-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+  .footer {
+    font-size: 9px;
+    color: #B0ADA6;
+    text-align: center;
+    padding-top: 12px;
+    margin-top: 4px;
+    border-top: 1px solid #E8E5DE;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+<div class="email-wrap">
+
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Farmácias Connect</div>
+      <div class="hdr-sub">Resumo Diário · 24 Jun 2026</div>
+    </div>
+    <div class="hdr-meta">Gerado 22h00<br>Oracle 21h58 · Books 21h55</div>
+  </div>
+
+  <div class="body">
+
+    <!-- ══ AROEIRA ══ -->
+    <div class="sec-divider">Farmácia Aroeira</div>
+    <div class="farm-block">
+      <div class="farm-header">
+        <span class="farm-pill pill-a">ARO</span>
+        <span class="farm-name">Charneca de Caparica</span>
+      </div>
+
+      <!-- L1: hero -->
+      <div class="hero-row">
+        <div class="hero-kpi">
+          <div class="hero-label">Margem € MTD</div>
+          <div class="hero-val green">10.390€</div>
+          <div class="hero-delta pos">↑ +14,1% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 9.108€</div>
+        </div>
+        <div class="hero-kpi">
+          <div class="hero-label">Vendas MTD</div>
+          <div class="hero-val">28.410€</div>
+          <div class="hero-delta pos">↑ +12,4% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 25.270€</div>
+        </div>
+      </div>
+
+      <!-- L2: secondary -->
+      <div class="secondary-row">
+        <div class="sec-kpi">
+          <div class="sec-label">Margem % MTD</div>
+          <div class="sec-val">36,6%</div>
+          <div class="sec-delta pos">↑ +0,7pp vs LY</div>
+          <div class="sec-sub">LY 35,9%</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Vendas YTD</div>
+          <div class="sec-val">162.400€</div>
+          <div class="sec-delta pos">↑ +9,8% vs LY</div>
+          <div class="sec-sub">LY 147.900€</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Margem € YTD</div>
+          <div class="sec-val">58.820€</div>
+          <div class="sec-delta pos">↑ +11,2% vs LY</div>
+          <div class="sec-sub">LY 52.890€</div>
+        </div>
+      </div>
+
+      <!-- L3: detail -->
+      <div class="detail-block">
+        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-grid">
+          <div class="det">
+            <div class="det-label">Vendas</div>
+            <div class="det-val">1.320€</div>
+            <div class="det-delta pos">↑ +11,8%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem €</div>
+            <div class="det-val">490€</div>
+            <div class="det-delta pos">↑ +13,6%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem %</div>
+            <div class="det-val">37,1%</div>
+            <div class="det-delta pos">↑ +0,5pp</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Atend.</div>
+            <div class="det-val">52</div>
+            <div class="det-delta pos">↑ +8,3%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Ticket</div>
+            <div class="det-val">25,4€</div>
+            <div class="det-delta pos">↑ +3,2%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Reservas</div>
+            <div class="det-val">8,4%</div>
+            <div class="det-delta pos">↑ +1,2pp</div>
+          </div>
+        </div>
+        <div class="detail-grid-4" style="margin-top:4px">
+          <div class="det">
+            <div class="det-label">Ident. MTD</div>
+            <div class="det-val">84,2%</div>
+            <div class="det-delta pos">↑ +2,1pp LY</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Mg% YTD</div>
+            <div class="det-val">36,2%</div>
+            <div class="det-delta pos">↑ +0,4pp LY</div>
+          </div>
+          <div class="det" style="grid-column: span 2">
+            <div class="det-label">Stock custo</div>
+            <div class="stock-inline">
+              <span class="stock-now">48.200€</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mar 46,1k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Abr 44,8k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mai 47,3k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DIAS E BRITO ══ -->
+    <div class="sec-divider">Farmácia Dias e Brito</div>
+    <div class="farm-block">
+      <div class="farm-header">
+        <span class="farm-pill pill-b">D&amp;B</span>
+        <span class="farm-name">Amadora</span>
+      </div>
+
+      <div class="hero-row">
+        <div class="hero-kpi">
+          <div class="hero-label">Margem € MTD</div>
+          <div class="hero-val green">7.440€</div>
+          <div class="hero-delta pos">↑ +4,8% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 7.100€</div>
+        </div>
+        <div class="hero-kpi">
+          <div class="hero-label">Vendas MTD</div>
+          <div class="hero-val">22.180€</div>
+          <div class="hero-delta pos">↑ +5,1% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 21.100€</div>
+        </div>
+      </div>
+
+      <div class="secondary-row">
+        <div class="sec-kpi">
+          <div class="sec-label">Margem % MTD</div>
+          <div class="sec-val">33,5%</div>
+          <div class="sec-delta neg">↓ −0,1pp vs LY</div>
+          <div class="sec-sub">LY 33,6%</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Vendas YTD</div>
+          <div class="sec-val">128.300€</div>
+          <div class="sec-delta pos">↑ +4,2% vs LY</div>
+          <div class="sec-sub">LY 123.100€</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Margem € YTD</div>
+          <div class="sec-val">42.980€</div>
+          <div class="sec-delta pos">↑ +3,9% vs LY</div>
+          <div class="sec-sub">LY 41.370€</div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-grid">
+          <div class="det">
+            <div class="det-label">Vendas</div>
+            <div class="det-val">880€</div>
+            <div class="det-delta neg">↓ −5,4%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem €</div>
+            <div class="det-val">288€</div>
+            <div class="det-delta neg">↓ −7,1%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem %</div>
+            <div class="det-val">32,7%</div>
+            <div class="det-delta neg">↓ −0,8pp</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Atend.</div>
+            <div class="det-val">61</div>
+            <div class="det-delta neg">↓ −3,2%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Ticket</div>
+            <div class="det-val">14,4€</div>
+            <div class="det-delta neg">↓ −2,0%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Reservas</div>
+            <div class="det-val">5,1%</div>
+            <div class="det-delta neu">— +0,1pp</div>
+          </div>
+        </div>
+        <div class="detail-grid-4" style="margin-top:4px">
+          <div class="det">
+            <div class="det-label">Ident. MTD</div>
+            <div class="det-val">71,3%</div>
+            <div class="det-delta pos">↑ +1,4pp LY</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Mg% YTD</div>
+            <div class="det-val">33,5%</div>
+            <div class="det-delta neg">↓ −0,1pp LY</div>
+          </div>
+          <div class="det" style="grid-column: span 2">
+            <div class="det-label">Stock custo</div>
+            <div class="stock-inline">
+              <span class="stock-now">31.400€</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mar 29,8k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Abr 32,1k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mai 30,6k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CIDADE UNIVERSITÁRIA ══ -->
+    <div class="sec-divider">Farmácia Cidade Universitária</div>
+    <div class="farm-block">
+      <div class="farm-header">
+        <span class="farm-pill pill-c">CU</span>
+        <span class="farm-name">Lisboa</span>
+      </div>
+
+      <div class="hero-row">
+        <div class="hero-kpi">
+          <div class="hero-label">Margem € MTD</div>
+          <div class="hero-val red">6.710€</div>
+          <div class="hero-delta neg">↓ −2,8% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 6.902€</div>
+        </div>
+        <div class="hero-kpi">
+          <div class="hero-label">Vendas MTD</div>
+          <div class="hero-val">17.820€</div>
+          <div class="hero-delta neg">↓ −3,2% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 18.410€</div>
+        </div>
+      </div>
+
+      <div class="secondary-row">
+        <div class="sec-kpi">
+          <div class="sec-label">Margem % MTD</div>
+          <div class="sec-val">37,7%</div>
+          <div class="sec-delta pos">↑ +0,2pp vs LY</div>
+          <div class="sec-sub">LY 37,5%</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Vendas YTD</div>
+          <div class="sec-val">104.600€</div>
+          <div class="sec-delta neg">↓ −1,8% vs LY</div>
+          <div class="sec-sub">LY 106.500€</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Margem € YTD</div>
+          <div class="sec-val">39.480€</div>
+          <div class="sec-delta neg">↓ −1,4% vs LY</div>
+          <div class="sec-sub">LY 40.040€</div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-grid">
+          <div class="det">
+            <div class="det-label">Vendas</div>
+            <div class="det-val">720€</div>
+            <div class="det-delta neu">— −1,4%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem €</div>
+            <div class="det-val">274€</div>
+            <div class="det-delta neu">— −1,8%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem %</div>
+            <div class="det-val">38,1%</div>
+            <div class="det-delta pos">↑ +0,3pp</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Atend.</div>
+            <div class="det-val">49</div>
+            <div class="det-delta neu">— −2,0%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Ticket</div>
+            <div class="det-val">14,7€</div>
+            <div class="det-delta pos">↑ +0,7%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Reservas</div>
+            <div class="det-val">4,8%</div>
+            <div class="det-delta neg">↓ −0,6pp</div>
+          </div>
+        </div>
+        <div class="detail-grid-4" style="margin-top:4px">
+          <div class="det">
+            <div class="det-label">Ident. MTD</div>
+            <div class="det-val">68,9%</div>
+            <div class="det-delta neg">↓ −1,2pp LY</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Mg% YTD</div>
+            <div class="det-val">37,7%</div>
+            <div class="det-delta pos">↑ +0,2pp LY</div>
+          </div>
+          <div class="det" style="grid-column: span 2">
+            <div class="det-label">Stock custo</div>
+            <div class="stock-inline">
+              <span class="stock-now">24.900€</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mar 26,2k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Abr 25,8k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mai 24,1k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ALTO DOS MOINHOS ══ -->
+    <div class="sec-divider">Farmácia Alto dos Moinhos</div>
+    <div class="farm-block">
+      <div class="farm-header">
+        <span class="farm-pill pill-m">AM</span>
+        <span class="farm-name">Lisboa</span>
+      </div>
+
+      <div class="hero-row">
+        <div class="hero-kpi">
+          <div class="hero-label">Margem € MTD</div>
+          <div class="hero-val green">9.340€</div>
+          <div class="hero-delta pos">↑ +9,4% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 8.540€</div>
+        </div>
+        <div class="hero-kpi">
+          <div class="hero-label">Vendas MTD</div>
+          <div class="hero-val">25.680€</div>
+          <div class="hero-delta pos">↑ +8,9% vs LY</div>
+          <div class="hero-sub">LY mesmo período: 23.580€</div>
+        </div>
+      </div>
+
+      <div class="secondary-row">
+        <div class="sec-kpi">
+          <div class="sec-label">Margem % MTD</div>
+          <div class="sec-val">36,4%</div>
+          <div class="sec-delta pos">↑ +0,2pp vs LY</div>
+          <div class="sec-sub">LY 36,2%</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Vendas YTD</div>
+          <div class="sec-val">148.200€</div>
+          <div class="sec-delta pos">↑ +7,6% vs LY</div>
+          <div class="sec-sub">LY 137.700€</div>
+        </div>
+        <div class="sec-kpi">
+          <div class="sec-label">Margem € YTD</div>
+          <div class="sec-val">53.950€</div>
+          <div class="sec-delta pos">↑ +8,1% vs LY</div>
+          <div class="sec-sub">LY 49.900€</div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-title">Hoje vs média diária MTD</div>
+        <div class="detail-grid">
+          <div class="det">
+            <div class="det-label">Vendas</div>
+            <div class="det-val">1.140€</div>
+            <div class="det-delta pos">↑ +6,5%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem €</div>
+            <div class="det-val">418€</div>
+            <div class="det-delta pos">↑ +7,2%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Margem %</div>
+            <div class="det-val">36,7%</div>
+            <div class="det-delta pos">↑ +0,3pp</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Atend.</div>
+            <div class="det-val">58</div>
+            <div class="det-delta pos">↑ +5,5%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Ticket</div>
+            <div class="det-val">19,7€</div>
+            <div class="det-delta pos">↑ +1,0%</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Reservas</div>
+            <div class="det-val">6,9%</div>
+            <div class="det-delta pos">↑ +0,8pp</div>
+          </div>
+        </div>
+        <div class="detail-grid-4" style="margin-top:4px">
+          <div class="det">
+            <div class="det-label">Ident. MTD</div>
+            <div class="det-val">76,8%</div>
+            <div class="det-delta pos">↑ +3,2pp LY</div>
+          </div>
+          <div class="det">
+            <div class="det-label">Mg% YTD</div>
+            <div class="det-val">36,4%</div>
+            <div class="det-delta pos">↑ +0,2pp LY</div>
+          </div>
+          <div class="det" style="grid-column: span 2">
+            <div class="det-label">Stock custo</div>
+            <div class="stock-inline">
+              <span class="stock-now">38.600€</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mar 37,4k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Abr 39,1k</span>
+              <span class="stock-sep">·</span>
+              <span class="stock-hist">Mai 38,0k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ RANKING ══ -->
+    <div class="sec-divider">Ranking interno MTD</div>
+    <div class="ranking-block">
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th style="text-align:left">Farmácia</th>
+            <th>Margem € MTD</th>
+            <th>Vendas MTD</th>
+            <th>Mg %</th>
+            <th>Cresc. MTD</th>
+            <th>Cresc. YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
+            <td style="color:#0A6644;font-weight:600">10.390€</td>
+            <td>28.410€</td>
+            <td>36,6%</td>
+            <td class="rd pos">↑ +12,4%</td>
+            <td class="rd pos">↑ +9,8%</td>
+          </tr>
+          <tr>
+            <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
+            <td style="color:#0A6644;font-weight:600">9.340€</td>
+            <td>25.680€</td>
+            <td>36,4%</td>
+            <td class="rd pos">↑ +8,9%</td>
+            <td class="rd pos">↑ +7,6%</td>
+          </tr>
+          <tr>
+            <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-b" style="font-size:9px">D&amp;B</span></td>
+            <td style="color:#0A6644;font-weight:600">7.440€</td>
+            <td>22.180€</td>
+            <td>33,5%</td>
+            <td class="rd pos">↑ +5,1%</td>
+            <td class="rd pos">↑ +4,2%</td>
+          </tr>
+          <tr>
+            <td><span class="rank-pos rank-4">4</span><span class="farm-pill pill-c" style="font-size:9px">CU</span></td>
+            <td style="color:#8B1A1A;font-weight:600">6.710€</td>
+            <td>17.820€</td>
+            <td>37,7%</td>
+            <td class="rd neg">↓ −3,2%</td>
+            <td class="rd neg">↓ −1,8%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══ TESOURARIA ══ -->
+    <div class="sec-divider">Tesouraria · Zoho Books</div>
+    <div class="bank-block">
+      <div class="bank-rows">
+        <div class="bank-row">
+          <div class="bank-name"><span class="farm-pill pill-a">ARO</span> Aroeira</div>
+          <div class="bank-vals">
+            <span class="bank-now">12.340€</span>
+            <span class="bank-hist">Mar 8,1k · Abr 11,2k · Mai 9,8k</span>
+          </div>
+        </div>
+        <div class="bank-row">
+          <div class="bank-name"><span class="farm-pill pill-b">D&amp;B</span> Dias e Brito</div>
+          <div class="bank-vals">
+            <span class="bank-now">8.710€</span>
+            <span class="bank-hist">Mar 6,4k · Abr 7,9k · Mai 8,2k</span>
+          </div>
+        </div>
+        <div class="bank-row">
+          <div class="bank-name"><span class="farm-pill pill-c">CU</span> Cidade Univ.</div>
+          <div class="bank-vals">
+            <span class="bank-now">5.980€</span>
+            <span class="bank-hist">Mar 4,8k · Abr 5,1k · Mai 6,3k</span>
+          </div>
+        </div>
+        <div class="bank-row">
+          <div class="bank-name"><span class="farm-pill pill-m">AM</span> Alto dos Moinhos</div>
+          <div class="bank-vals">
+            <span class="bank-now">9.450€</span>
+            <span class="bank-hist">Mar 7,2k · Abr 8,6k · Mai 9,0k</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ALERTAS ══ -->
+    <div class="sec-divider">Alertas</div>
+    <div class="alerts-block">
+      <div class="alert danger">
+        <span class="alert-icon">⚠</span>
+        <span><strong>Aroeira — 7 rupturas com rotação ativa.</strong> Impacto estimado ~180€/dia não faturados.</span>
+      </div>
+      <div class="alert warn">
+        <span class="alert-icon">↘</span>
+        <span><strong>Cidade Univ. — 4.ª semana consecutiva abaixo do LY.</strong> Tráfego e identificação de clientes a cair.</span>
+      </div>
+      <div class="alert warn">
+        <span class="alert-icon">📦</span>
+        <span><strong>28 lotes a vencer em &lt;60 dias</strong> no grupo (valor ~420€). ARO 14 · D&amp;B 6 · CU 3 · AM 5.</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      Oracle EXPORTA · SIFV_VENDAS + SIFV_PRODUTOS + ANF_USER.SIFT_RESERVAS · Zoho Books API<br>
+      ARO 10.18.196.1 · D&amp;B 10.23.149.1 · CU 10.25.64.1 · AM —
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
