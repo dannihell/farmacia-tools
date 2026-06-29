@@ -1,119 +1,344 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Farmácias Connect — Ferramentas</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F0; min-height: 100vh; display: flex; flex-direction: column; color: #1A1A18; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Farmácias Connect · Ferramentas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PALETA · derivada da cruz verde de farmácia (verde profundo,
+   não o néon clínico) + branco clínico frio + tinta carvão.
+   ============================================================ */
+:root{
+  --ink:#13241D;
+  --green:#1F6B4A;
+  --green-deep:#16503A;
+  --green-bright:#2FA06C;
+  --surface:#EEF3F0;
+  --card:#FFFFFF;
+  --line:#DCE5E0;
+  --muted:#5E6F68;
+  --danger:#C2412E;
+  --radius:18px;
+  --shadow:0 1px 2px rgba(19,36,29,.04), 0 8px 24px rgba(19,36,29,.06);
+  --font-display:"Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-ui:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font-ui);
+  color:var(--ink);
+  background:
+    radial-gradient(120% 80% at 50% -10%, #F5F8F6 0%, var(--surface) 55%) fixed;
+  min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important}
+}
 
-    header { background: #fff; border-bottom: 1px solid #E8E8E4; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-icon { width: 32px; height: 32px; background: #0B5E47; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 16px; }
-    .logo-text .top { font-size: 10px; font-weight: 700; color: #0B5E47; letter-spacing: 0.12em; text-transform: uppercase; }
-    .logo-text .bottom { font-size: 14px; font-weight: 800; color: #2C2C2A; letter-spacing: -0.01em; }
-    .user-info { font-size: 12px; color: #6B6B65; display: flex; align-items: center; gap: 8px; }
-    .auth-btn { padding: 7px 14px; border-radius: 7px; border: 1.5px solid #E8E8E4; background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; color: #6B6B65; font-family: inherit; transition: all 0.2s; }
-    .auth-btn:hover { border-color: #0B5E47; color: #0B5E47; }
-    .auth-btn.login { background: #0B5E47; color: #fff; border-color: #0B5E47; }
-    .auth-btn.login:hover { background: #16A57A; }
+/* ---------- MARCA · quatro nós ligados = quatro farmácias + rede,
+              dispostos em cruz a evocar a cruz de farmácia ---------- */
+.mark{display:block}
+.mark .node{fill:var(--green)}
+.mark .core{fill:var(--green-bright)}
+.mark .link{stroke:var(--green);stroke-width:6;stroke-linecap:round;opacity:.45}
 
-    main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; }
-    .greeting { text-align: center; margin-bottom: 32px; }
-    .greeting h1 { font-size: 28px; font-weight: 800; color: #2C2C2A; letter-spacing: -0.02em; }
-    .greeting p { font-size: 14px; color: #6B6B65; margin-top: 6px; }
+/* ============================  GATE  ============================ */
+.gate{
+  min-height:100dvh;display:grid;place-items:center;padding:24px;
+}
+.gate-card{
+  width:100%;max-width:360px;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:38px 28px 30px;text-align:center;
+}
+.gate-mark{width:64px;height:64px;margin:0 auto 20px}
+.gate-mark .pulse{animation:pulse 3.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.gate h1{
+  font-family:var(--font-display);font-weight:800;font-size:21px;
+  letter-spacing:-.02em;margin:0 0 4px;
+}
+.gate .sub{color:var(--muted);font-size:13.5px;margin:0 0 26px}
+.pin-field{position:relative}
+.pin-field input{
+  width:100%;font-family:var(--font-display);font-weight:700;
+  font-size:26px;letter-spacing:.5em;text-align:center;text-indent:.5em;
+  padding:16px 14px;border:1.5px solid var(--line);border-radius:14px;
+  background:#FAFCFB;color:var(--ink);outline:none;transition:border-color .15s;
+}
+.pin-field input::placeholder{letter-spacing:.4em;color:#B9C7C0;font-weight:500}
+.pin-field input:focus{border-color:var(--green-bright)}
+.gate.shake .gate-card{animation:shake .42s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}
+  40%,80%{transform:translateX(7px)}
+}
+.gate-btn{
+  margin-top:14px;width:100%;border:0;cursor:pointer;
+  font-family:var(--font-ui);font-weight:600;font-size:15.5px;
+  color:#fff;background:var(--green-deep);padding:15px;border-radius:13px;
+  transition:background .15s, transform .05s;
+}
+.gate-btn:hover{background:var(--green)}
+.gate-btn:active{transform:scale(.99)}
+.gate-err{
+  color:var(--danger);font-size:13px;height:18px;margin-top:12px;
+  opacity:0;transition:opacity .15s;
+}
+.gate-err.show{opacity:1}
 
-    .apps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 600px; }
-    .app-card { background: #fff; border: 2px solid #E8E8E4; border-radius: 16px; padding: 28px 24px; cursor: pointer; text-align: left; text-decoration: none; color: inherit; transition: all 0.2s; display: block; }
-    .app-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-    .app-icon { font-size: 36px; margin-bottom: 14px; }
-    .app-title { font-size: 15px; font-weight: 800; color: #2C2C2A; margin-bottom: 6px; }
-    .app-desc { font-size: 12px; color: #6B6B65; line-height: 1.5; margin-bottom: 14px; }
-    .app-user { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+/* ============================  APP  ============================ */
+.app{display:none;max-width:980px;margin:0 auto;padding:28px 20px 64px}
+.app.visible{display:block;animation:rise .4s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-    .auth-notice { margin-top: 24px; padding: 14px 20px; background: #E8F5F0; border-radius: 10px; font-size: 12px; color: #0B5E47; font-weight: 600; text-align: center; max-width: 600px; width: 100%; }
+.top{display:flex;align-items:center;gap:14px;margin:8px 2px 4px}
+.top .brand-mark{width:42px;height:42px;flex:none}
+.brand-text{line-height:1.1}
+.brand-text .name{
+  font-family:var(--font-display);font-weight:800;font-size:20px;
+  letter-spacing:-.02em;
+}
+.brand-text .tag{color:var(--muted);font-size:12.5px;margin-top:2px}
+.signout{
+  margin-left:auto;border:1px solid var(--line);background:var(--card);
+  color:var(--muted);font-family:var(--font-ui);font-size:12.5px;font-weight:500;
+  padding:8px 12px;border-radius:10px;cursor:pointer;transition:color .15s,border-color .15s;
+}
+.signout:hover{color:var(--ink);border-color:#C6D3CD}
 
-    footer { text-align: center; padding: 16px; font-size: 11px; color: #bbb; }
-  </style>
+.lede{
+  font-family:var(--font-display);font-weight:500;font-size:clamp(24px,5vw,33px);
+  letter-spacing:-.02em;line-height:1.12;margin:26px 2px 22px;max-width:18ch;
+}
+.lede em{font-style:normal;color:var(--green)}
+
+.group-label{
+  display:flex;align-items:center;gap:10px;margin:28px 2px 12px;
+  color:var(--muted);font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+}
+.group-label::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.grid{display:grid;grid-template-columns:1fr;gap:13px}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+
+.tool{
+  display:flex;align-items:flex-start;gap:15px;text-decoration:none;color:inherit;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 18px;box-shadow:var(--shadow);
+  transition:transform .14s, border-color .14s, box-shadow .14s;
+}
+.tool:hover{transform:translateY(-2px);border-color:#C0D2CA;
+  box-shadow:0 2px 4px rgba(19,36,29,.05),0 14px 30px rgba(19,36,29,.09)}
+.tool:focus-visible{outline:2.5px solid var(--green-bright);outline-offset:2px}
+.tool .ic{
+  width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;
+  background:#E9F2EC;color:var(--green-deep);
+}
+.tool .ic svg{width:22px;height:22px}
+.tool .body{min-width:0;flex:1}
+.tool .t-name{
+  font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:7px;
+}
+.tool .t-name .arrow{color:var(--muted);transition:transform .14s}
+.tool:hover .t-name .arrow{transform:translate(2px,-2px);color:var(--green)}
+.tool .t-desc{color:var(--muted);font-size:13px;margin-top:3px;line-height:1.4}
+.tool .pharm{
+  display:inline-block;margin-top:9px;font-size:11px;font-weight:600;
+  color:var(--green-deep);background:#E9F2EC;padding:3px 9px;border-radius:999px;
+}
+.tool.todo{opacity:.62}
+.tool.todo .pharm{background:#F3E9DE;color:#8A5A2B}
+
+.foot{margin-top:36px;color:#9AABA4;font-size:11.5px;text-align:center;line-height:1.5}
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <div class="logo-icon">F</div>
-      <div class="logo-text">
-        <div class="top">Farmácias</div>
-        <div class="bottom">Connect</div>
-      </div>
+
+<!-- =================  ECRÃ DE ENTRADA (PIN)  ================= -->
+<section class="gate" id="gate">
+  <div class="gate-card">
+    <svg class="mark gate-mark" viewBox="0 0 100 100" aria-hidden="true">
+      <line class="link pulse" x1="50" y1="50" x2="50" y2="16"/>
+      <line class="link pulse" x1="50" y1="50" x2="50" y2="84" style="animation-delay:.4s"/>
+      <line class="link pulse" x1="50" y1="50" x2="16" y2="50" style="animation-delay:.8s"/>
+      <line class="link pulse" x1="50" y1="50" x2="84" y2="50" style="animation-delay:1.2s"/>
+      <circle class="node" cx="50" cy="14" r="9"/>
+      <circle class="node" cx="50" cy="86" r="9"/>
+      <circle class="node" cx="14" cy="50" r="9"/>
+      <circle class="node" cx="86" cy="50" r="9"/>
+      <circle class="core" cx="50" cy="50" r="11"/>
+    </svg>
+    <h1>Farmácias Connect</h1>
+    <p class="sub">Ferramentas internas do grupo</p>
+    <div class="pin-field">
+      <input id="pin" type="password" inputmode="numeric" autocomplete="off"
+             placeholder="• • • •" aria-label="Código de acesso">
     </div>
-    <div class="user-info">
-      <span id="auth-status">Não autenticado</span>
-      <button class="auth-btn login" id="auth-btn" onclick="handleAuth()">Ligar ao Zoho</button>
+    <button class="gate-btn" id="enter">Entrar</button>
+    <div class="gate-err" id="err">Código incorreto</div>
+  </div>
+</section>
+
+<!-- =================  PORTAL  ================= -->
+<main class="app" id="app">
+  <header class="top">
+    <svg class="mark brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+      <line class="link" x1="50" y1="50" x2="50" y2="16"/>
+      <line class="link" x1="50" y1="50" x2="50" y2="84"/>
+      <line class="link" x1="50" y1="50" x2="16" y2="50"/>
+      <line class="link" x1="50" y1="50" x2="84" y2="50"/>
+      <circle class="node" cx="50" cy="14" r="9"/>
+      <circle class="node" cx="50" cy="86" r="9"/>
+      <circle class="node" cx="14" cy="50" r="9"/>
+      <circle class="node" cx="86" cy="50" r="9"/>
+      <circle class="core" cx="50" cy="50" r="11"/>
+    </svg>
+    <div class="brand-text">
+      <div class="name">Farmácias Connect</div>
+      <div class="tag">Aroeira · Dias e Brito · Cidade Universitária · Alto dos Moinhos</div>
     </div>
+    <button class="signout" id="signout">Sair</button>
   </header>
 
-  <main>
-    <div class="greeting">
-      <h1>Bom dia 👋</h1>
-      <p>Seleciona a ferramenta que precisas</p>
-    </div>
+  <p class="lede">As ferramentas do grupo, <em>num só sítio</em>.</p>
 
-    <div class="apps">
-      <a href="proposta-compras/index.html" class="app-card" style="--accent: #0B5E47">
-        <div class="app-icon">🛒</div>
-        <div class="app-title">Proposta de Encomenda</div>
-        <div class="app-desc">Análise de marca e sugestão automática de compra para reunião com delegado</div>
-        <div class="app-user">Daniel · Matilde</div>
-      </a>
-      <a href="contagem-stocks/index.html" class="app-card" style="--accent: #C4952A">
-        <div class="app-icon">📦</div>
-        <div class="app-title">Contagem de Stocks</div>
-        <div class="app-desc">Contagem física com scanner de CNP, validades e sincronização com Google Sheets</div>
-        <div class="app-user">Tatiana · Backoffice</div>
-      </a>
-    </div>
+  <div id="cards"></div>
 
-    <div class="auth-notice" id="auth-notice" style="display:none">
-      ⚠️ Liga ao Zoho Analytics para aceder aos dados em tempo real
-    </div>
-  </main>
+  <p class="foot">Acesso reservado · Farmácias Connect</p>
+</main>
 
-  <footer>
-    Dados: AROEIRA_BRAND_ANALYSIS · Atualizado diariamente às 21h
-  </footer>
+<script>
+/* ╔══════════════════════════════════════════════════════════════╗
+   ║  CONFIGURAÇÃO — edita só este bloco                          ║
+   ║                                                              ║
+   ║  1) PIN: muda os 4 dígitos abaixo para o teu código.        ║
+   ║  2) FINANCEIRO: confirma/ajusta o nome do ficheiro (href).  ║
+   ║                                                              ║
+   ║  Nota: este PIN trava o acesso casual ao portal, mas NÃO é  ║
+   ║  segurança real — quem souber os URLs das apps entra na     ║
+   ║  mesma. Para proteção a sério: Cloudflare Access.           ║
+   ╚══════════════════════════════════════════════════════════════╝ */
 
-  <script src="shared/zoho-auth.js"></script>
-  <script>
-    function checkAuth() {
-      const token = ZohoAuth.getToken();
-      const btn = document.getElementById("auth-btn");
-      const status = document.getElementById("auth-status");
-      const notice = document.getElementById("auth-notice");
+const PIN = "0000";   // <-- ALTERA AQUI
 
-      if (token) {
-        status.textContent = "Zoho conectado ✓";
-        btn.textContent = "Desligar";
-        btn.classList.remove("login");
-        notice.style.display = "none";
-      } else {
-        status.textContent = "Não autenticado";
-        btn.textContent = "Ligar ao Zoho";
-        btn.classList.add("login");
-        notice.style.display = "block";
+const TOOLS = [
+  {
+    group: "Análise & decisão",
+    items: [
+      {
+        name: "Proposta de Compras",
+        desc: "Calcular propostas de encomenda por farmácia",
+        href: "./proposta-compras/",
+        pharm: "4 farmácias",
+        icon: "cart"
+      },
+      {
+        name: "Dashboard RH",
+        desc: "Margens, atendimentos e programa SAÚDA",
+        href: "./rh/",   // dashboard RH (pasta com index.html próprio)
+        pharm: "Grupo",
+        icon: "people"
+      },
+      {
+        name: "Dashboard Financeiro",
+        desc: "Mapa de exploração e indicadores financeiros",
+        href: "./financeiro/",   // publica em financeiro/index.html para ativar
+        pharm: "Por publicar",
+        icon: "chart",
+        todo: true               // <-- muda para false quando publicares o ficheiro
       }
-    }
-
-    function handleAuth() {
-      if (ZohoAuth.isAuthenticated()) {
-        ZohoAuth.clearToken();
-        checkAuth();
-      } else {
-        sessionStorage.setItem("zoho_redirect", "/farmacia-tools/index.html");
-        ZohoAuth.login();
+    ]
+  },
+  {
+    group: "Operações",
+    items: [
+      {
+        name: "Contagem de Stock",
+        desc: "Contar e enviar pedidos de reposição",
+        href: "https://dannihell.github.io/farmacia-contagem/",
+        pharm: "Seletor de farmácia",
+        icon: "scan"
       }
-    }
+      // Quando os "tempos mortos" estiverem prontos, acrescenta aqui.
+    ]
+  }
+];
 
-    checkAuth();
-  </script>
+/* ── ícones ── */
+const ICONS = {
+  cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.3 12.2a1.6 1.6 0 0 0 1.6 1.3h8.8a1.6 1.6 0 0 0 1.6-1.2L21 7H6"/></svg>',
+  people:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6"/><path d="M18 20a6 6 0 0 0-3-5.2"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M8 14l3.2-3.4 2.6 2.2L19 7"/></svg>',
+  scan:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M4 12h16"/></svg>'
+};
+
+/* ── render dos cartões ── */
+function renderCards(){
+  const wrap = document.getElementById("cards");
+  wrap.innerHTML = TOOLS.map(g => `
+    <div class="group-label">${g.group}</div>
+    <div class="grid">
+      ${g.items.map(t => {
+        const arrow = t.todo ? "" :
+          `<svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+             <path d="M7 17 17 7M9 7h8v8"/></svg>`;
+        const inner = `
+          <span class="ic">${ICONS[t.icon]||""}</span>
+          <span class="body">
+            <span class="t-name">${t.name}${arrow}</span>
+            <span class="t-desc">${t.desc}</span>
+            <span class="pharm">${t.pharm}</span>
+          </span>`;
+        return t.todo
+          ? `<div class="tool todo" aria-disabled="true">${inner}</div>`
+          : `<a class="tool" href="${t.href}" target="_blank" rel="noopener">${inner}</a>`;
+      }).join("")}
+    </div>`).join("");
+}
+
+/* ── gate (com persistência de sessão tolerante a falhas) ── */
+const KEY = "fc_unlocked";
+function safeGet(){ try{ return sessionStorage.getItem(KEY)==="1"; }catch(e){ return false; } }
+function safeSet(v){ try{ v?sessionStorage.setItem(KEY,"1"):sessionStorage.removeItem(KEY); }catch(e){} }
+
+function unlock(){
+  document.getElementById("gate").style.display="none";
+  const app=document.getElementById("app");
+  app.classList.add("visible");
+  renderCards();
+}
+function tryEnter(){
+  const val=document.getElementById("pin").value.trim();
+  if(val===PIN){ safeSet(true); unlock(); }
+  else{
+    const gate=document.getElementById("gate");
+    document.getElementById("err").classList.add("show");
+    gate.classList.add("shake");
+    setTimeout(()=>gate.classList.remove("shake"),440);
+    const inp=document.getElementById("pin"); inp.value=""; inp.focus();
+  }
+}
+
+document.getElementById("enter").addEventListener("click", tryEnter);
+document.getElementById("pin").addEventListener("keydown", e=>{
+  document.getElementById("err").classList.remove("show");
+  if(e.key==="Enter") tryEnter();
+});
+document.getElementById("signout").addEventListener("click", ()=>{
+  safeSet(false); location.reload();
+});
+
+if(safeGet()){ unlock(); }
+else{ document.getElementById("pin").focus(); }
+</script>
 </body>
 </html>
