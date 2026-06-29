@@ -192,6 +192,35 @@
   .kpi-neg { color: var(--rutura); }
 
   .tag-updated { font-size: 11px; color: var(--cinza-escuro); }
+
+  @media (max-width: 600px) {
+    header { padding: 10px 12px; flex-wrap: wrap; gap: 6px; }
+    header h1 { font-size: 13px; }
+    header .meta { display: none; }
+    header > div:last-child { gap: 6px; flex-wrap: wrap; }
+    header .btn { font-size: 11px; padding: 4px 8px; }
+
+    .toolbar { padding: 8px 12px; gap: 8px; }
+    .toolbar-group { width: 100%; }
+    .toolbar-group label { min-width: 80px; font-size: 11px; }
+    .toolbar-group select,
+    .toolbar-group input[type=text] { flex: 1; min-width: 0; font-size: 13px; }
+    select { min-width: 0; }
+
+    #kpi-panel { padding: 8px 12px; }
+    #kpi-panel > div { gap: 8px; }
+    .kpi-card { min-width: calc(50% - 4px); padding: 8px 10px; flex: 1; }
+    .kpi-value { font-size: 15px; }
+    .kpi-label { font-size: 10px; }
+
+    .footer-bar { padding: 8px 12px; gap: 8px; flex-wrap: wrap; }
+    .footer-info { font-size: 11px; width: 100%; }
+    .footer-total { font-size: 12px; }
+    .footer-actions { margin-left: 0; width: 100%; justify-content: flex-end; }
+    .footer-actions .btn { font-size: 11px; padding: 6px 10px; }
+
+    #drawer-labs { width: 100%; max-width: 100vw; }
+  }
 </style>
 </head>
 <body>
