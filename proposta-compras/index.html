@@ -193,7 +193,7 @@
 
   .tag-updated { font-size: 11px; color: var(--cinza-escuro); }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     header { padding: 10px 12px; flex-wrap: wrap; gap: 6px; }
     header h1 { font-size: 13px; }
     header .meta { display: none; }
@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.7</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.8</span>
   </div>
 </header>
 
@@ -1083,7 +1083,7 @@ function copiarResumo() {
   navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
 }
 
-function isMobile() { return window.innerWidth <= 600; }
+function isMobile() { return window.innerWidth <= 768; }
 
 function colapsarToolbar() {
   if (!isMobile()) return;
