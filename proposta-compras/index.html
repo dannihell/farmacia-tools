@@ -207,6 +207,39 @@
     .toolbar-group input[type=text] { flex: 1; min-width: 0; font-size: 13px; }
     select { min-width: 0; }
 
+    .toolbar.collapsed { display: none; }
+    #toolbar-resumo { display: none; }
+    #toolbar-resumo.visible {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: white;
+      border-bottom: 1px solid var(--cinza);
+      font-size: 12px;
+      color: var(--cinza-escuro);
+      gap: 8px;
+    }
+    #toolbar-resumo .resumo-texto {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+      color: var(--texto);
+    }
+    #toolbar-resumo .btn-editar {
+      flex-shrink: 0;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--cinza);
+      background: white;
+      font-size: 11px;
+      cursor: pointer;
+      color: var(--verde);
+      font-weight: 600;
+    }
+
     #kpi-panel { padding: 8px 12px; }
     #kpi-panel > div { gap: 8px; }
     .kpi-card { min-width: calc(50% - 4px); padding: 8px 10px; flex: 1; }
@@ -237,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.5</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.7</span>
   </div>
 </header>
 
@@ -303,6 +336,12 @@
     </button>
   </div>
   <button class="btn btn-primary" onclick="aplicar()">Gerar proposta</button>
+</div>
+
+<!-- Resumo de filtros em mobile (aparece depois de gerar proposta) -->
+<div id="toolbar-resumo">
+  <span class="resumo-texto" id="toolbar-resumo-texto"></span>
+  <button class="btn-editar" onclick="expandirToolbar()">✏️ Filtros</button>
 </div>
 
 <div class="status-bar" id="status-bar" style="display:none">
@@ -809,6 +848,7 @@ function aplicar() {
   document.getElementById('btn-guardar').style.display = 'inline-block';
   document.getElementById('btn-vendedor').style.display = 'inline-block';
   renderTabela();
+  colapsarToolbar();
 }
 
 function renderTabela() {
@@ -1043,7 +1083,26 @@ function copiarResumo() {
   navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
 }
 
-let modoKpi = 'ytd'; // 'ytd' ou 'fechado'
+function isMobile() { return window.innerWidth <= 600; }
+
+function colapsarToolbar() {
+  if (!isMobile()) return;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const lab = document.getElementById('lab-select').value || '—';
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  let resumo = farm + ' · ' + lab.substring(0, 25);
+  if (marca) resumo += ' · ' + marca.substring(0, 15);
+  if (cat) resumo += ' · ' + cat.substring(0, 15);
+  document.getElementById('toolbar-resumo-texto').textContent = resumo;
+  document.querySelector('.toolbar').classList.add('collapsed');
+  document.getElementById('toolbar-resumo').classList.add('visible');
+}
+
+function expandirToolbar() {
+  document.querySelector('.toolbar').classList.remove('collapsed');
+  document.getElementById('toolbar-resumo').classList.remove('visible');
+}
 
 function setModoKpi(modo) {
   modoKpi = modo;
