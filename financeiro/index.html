@@ -3,868 +3,557 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Farmácias Connect — Resumo Diário</title>
+<title>Dashboard Financeiro — Farmácias Connect</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root {
+    --bg:#f6f6f4;--surface:#fff;--border:#e8e8e4;--border-lt:#f2f2ef;
+    --text:#1a1a1a;--text-dim:#888;--text-mid:#555;
+    --green:#2d6a35;--green-lt:#e8f2e9;
+    --amber:#b45309;--amber-lt:#fef3c7;
+    --red:#b91c1c;--red-lt:#fee2e2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13px}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  header{background:#fff;border-bottom:1px solid var(--border);padding:15px 32px;display:flex;align-items:center;justify-content:space-between}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo-mark{width:30px;height:30px;background:var(--green);border-radius:7px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700}
+  .logo-text .name{font-size:14px;font-weight:600;letter-spacing:-.01em}
+  .logo-text .sub{font-size:11px;color:var(--text-dim);margin-top:1px}
+  .header-right{display:flex;align-items:center;gap:10px}
+  .pill{background:var(--green);color:#fff;font-size:11px;font-weight:600;padding:4px 13px;border-radius:20px}
+  .meta{font-size:11px;color:var(--text-dim)}
 
-  body {
-    background: #F2F0EB;
-    font-family: 'Inter', sans-serif;
-    color: #1A1A18;
-    padding: 24px 16px;
-  }
+  .tab-bar{background:#fff;border-bottom:1px solid var(--border);padding:0 32px;display:flex}
+  .tab{padding:12px 20px;font-size:12px;font-weight:500;color:var(--text-dim);border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;transition:.15s}
+  .tab:hover{color:var(--text)}
+  .tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:600}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
 
-  .email-wrap { max-width: 640px; margin: 0 auto; }
+  main{padding:24px 32px}
 
-  /* HEADER */
-  .hdr {
-    background: #0D5E48;
-    border-radius: 10px 10px 0 0;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .hdr-title { color: #fff; font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
-  .hdr-sub { color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
-  .hdr-meta { text-align: right; color: rgba(255,255,255,0.7); font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.6; }
+  .alert{border-radius:8px;padding:10px 14px;margin-bottom:20px;font-size:12px;line-height:1.5;display:flex;gap:8px;align-items:flex-start}
+  .alert.amber{background:var(--amber-lt);border:1px solid #fcd34d;color:var(--amber)}
+  .alert.green{background:var(--green-lt);border:1px solid #bbf7d0;color:#166534}
+  .alert strong{font-weight:600}
 
-  /* BODY */
-  .body {
-    background: #fff;
-    border: 1px solid #E2DFD8;
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 16px;
-  }
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+  .kpi{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+  .kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:8px}
+  .kpi-value{font-size:20px;font-weight:600;color:var(--text);letter-spacing:-.02em;line-height:1}
+  .kpi-value.dim{font-size:14px;color:var(--text-dim);font-weight:400}
+  .kpi-delta{margin-top:6px;font-size:11px;color:var(--text-dim)}
+  .kpi-bar{height:2px;background:var(--border);border-radius:2px;margin-top:10px;overflow:hidden}
+  .kpi-bar-fill{height:100%;border-radius:2px;background:var(--green)}
+  .kpi-bar-fill.warn{background:var(--amber)}
 
-  /* SECTION DIVIDER */
-  .sec-divider {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #B0ADA6;
-    font-family: 'JetBrains Mono', monospace;
-    margin: 14px 0 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .sec-divider::after { content: ''; flex: 1; height: 1px; background: #E8E5DE; }
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .grid3{display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:16px}
+  .col-stack{display:flex;flex-direction:column;gap:16px}
 
-  /* FARM BLOCK */
-  .farm-block {
-    background: #F8F7F4;
-    border: 1px solid #E8E5DE;
-    border-radius: 8px;
-    padding: 13px 14px;
-    margin-bottom: 10px;
-  }
+  .card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
+  .card:last-child{margin-bottom:0}
+  .card-header{padding:13px 18px;border-bottom:1px solid var(--border-lt);display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-dim)}
+  .card-sub{font-size:10px;color:var(--text-dim)}
+  .card-body{padding:18px;overflow-x:auto}
 
-  .farm-header {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 11px;
-  }
-  .farm-pill {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .pill-a { background: #D6EFE6; color: #0A4A35; }
-  .pill-b { background: #D6E5F5; color: #0C3A6B; }
-  .pill-c { background: #EDE9E0; color: #3D3A30; }
-  .pill-m { background: #EAD9F5; color: #3D1260; }
+  /* Monthly exploration table */
+  .mt{width:100%;border-collapse:collapse;font-size:11px;min-width:700px}
+  .mt th{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);padding:0 8px 8px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap}
+  .mt th:first-child{text-align:left;min-width:220px;padding-left:0}
+  .mt td{padding:5px 8px;color:var(--text-mid);text-align:right;border-bottom:1px solid var(--border-lt);white-space:nowrap;font-size:11px}
+  .mt td:first-child{text-align:left;padding-left:0}
+  .mt tr:hover td{background:#fafaf8}
 
-  .farm-name { font-size: 12px; font-weight: 600; color: #3A3A36; letter-spacing: -0.1px; }
+  /* Row types */
+  .mt .l1 td:first-child{color:var(--text);font-weight:600;font-size:12px}
+  .mt .l2 td:first-child{color:var(--text);padding-left:14px}
+  .mt .l3 td:first-child{color:var(--text-mid);padding-left:28px;font-size:10px}
+  .mt .sh td{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);padding-top:14px;padding-bottom:4px;border-bottom:none;background:none;padding-left:0}
+  .mt .tr td{font-weight:700;color:var(--text);border-top:1px solid var(--border);border-bottom:none;padding-top:8px;padding-bottom:8px;background:#fafaf8;font-size:12px}
+  .mt .tr td:first-child{padding-left:0}
+  .mt .rr td{font-weight:700;font-size:12px;border-top:2px solid var(--green);padding-top:9px;padding-bottom:9px}
+  .mt .rr.pos td{color:var(--green);background:var(--green-lt)}
+  .mt .rr.neg td{color:var(--red);background:var(--red-lt)}
+  .mt .rr.mix td{color:var(--text);background:#fafaf8}
+  .mt .rr td:first-child{padding-left:0}
+  .mt .dim td{color:var(--text-dim)}
+  .mt .dim td:first-child{color:var(--text-dim);font-style:italic}
 
-  .sec-label {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #9A9790;
-    margin-bottom: 7px;
-    font-family: 'JetBrains Mono', monospace;
-  }
+  .pos-v{color:var(--green)!important}
+  .neg-v{color:var(--red)!important}
+  .wa-v{color:var(--amber)!important}
+  .nu{color:var(--text-dim)!important;font-weight:400!important}
+  .tot-col{border-left:1px solid var(--border)!important;font-weight:600!important}
 
-  /* KPI GRIDS */
-  .grid6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-bottom: 9px; }
-  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .badge{display:inline-block;font-size:9px;font-weight:600;padding:1px 6px;border-radius:20px;margin-left:4px;vertical-align:middle}
+  .badge.warn{background:var(--amber-lt);color:var(--amber)}
 
-  .kpi {
-    background: #fff;
-    border: 1px solid #E8E5DE;
-    border-radius: 6px;
-    padding: 7px 8px;
-  }
-  .kpi-label {
-    font-size: 9px;
-    color: #9A9790;
-    margin-bottom: 3px;
-    font-family: 'JetBrains Mono', monospace;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .kpi-val {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1A1A18;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.4px;
-  }
-  .kpi-val.green { color: #0A6644; }
-  .kpi-val.red   { color: #8B1A1A; }
+  .note{margin-top:12px;padding:10px 14px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border);font-size:11px;color:var(--text-dim);line-height:1.6}
+  .note.warn{border-left-color:var(--amber)}
+  .note.ok{border-left-color:var(--green)}
 
-  .kpi-delta {
-    font-size: 10px;
-    margin-top: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 500;
-  }
-  .kpi-delta.pos { color: #0A6644; }
-  .kpi-delta.neg { color: #8B1A1A; }
-  .kpi-delta.neu { color: #9A9790; }
-  .kpi-sub { font-size: 9px; color: #B0ADA6; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+  .chart-wrap{height:195px;position:relative}
 
-  .divider { height: 1px; background: #E8E5DE; margin: 10px 0; }
-
-  /* STOCK ROW */
-  .stock-row {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-top: 9px;
-    padding: 7px 9px;
-    background: #fff;
-    border: 1px solid #E8E5DE;
-    border-radius: 6px;
-  }
-  .stock-label { font-size: 9px; color: #9A9790; font-family: 'JetBrains Mono', monospace; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
-  .stock-now { font-size: 14px; font-weight: 600; color: #1A1A18; font-variant-numeric: tabular-nums; letter-spacing: -0.4px; }
-  .stock-hist { font-size: 10px; color: #B0ADA6; font-family: 'JetBrains Mono', monospace; }
-  .stock-sep { color: #D8D5CE; font-size: 10px; }
-
-  /* RANKING */
-  .ranking-block {
-    background: #F8F7F4;
-    border: 1px solid #E8E5DE;
-    border-radius: 8px;
-    padding: 13px 14px;
-    margin-bottom: 10px;
-  }
-  .rank-table { width: 100%; border-collapse: collapse; }
-  .rank-table th {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #9A9790;
-    font-family: 'JetBrains Mono', monospace;
-    text-align: right;
-    padding: 0 6px 6px;
-    border-bottom: 1px solid #E8E5DE;
-  }
-  .rank-table th:first-child { text-align: left; }
-  .rank-table td {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 7px 6px;
-    text-align: right;
-    border-bottom: 1px solid #F0EDE6;
-    font-variant-numeric: tabular-nums;
-    color: #1A1A18;
-  }
-  .rank-table td:first-child { text-align: left; }
-  .rank-table tr:last-child td { border-bottom: none; }
-  .rank-pos {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    font-size: 10px;
-    font-weight: 700;
-    margin-right: 6px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .rank-1 { background: #0D5E48; color: #fff; }
-  .rank-2 { background: #D6EFE6; color: #0A4A35; }
-  .rank-3 { background: #EDE9E0; color: #3D3A30; }
-  .rank-4 { background: #F0EDE6; color: #9A9790; }
-  .rank-delta { font-size: 10px; font-family: 'JetBrains Mono', monospace; }
-  .rank-delta.pos { color: #0A6644; }
-  .rank-delta.neg { color: #8B1A1A; }
-  .rank-delta.neu { color: #9A9790; }
-
-  /* BANK */
-  .bank-block {
-    background: #F8F7F4;
-    border: 1px solid #E8E5DE;
-    border-radius: 8px;
-    padding: 13px 14px;
-    margin-bottom: 10px;
-  }
-  .bank-rows { display: flex; flex-direction: column; gap: 6px; margin-top: 9px; }
-  .bank-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 7px 9px;
-    background: #fff;
-    border: 1px solid #E8E5DE;
-    border-radius: 6px;
-    gap: 8px;
-  }
-  .bank-name { font-size: 11px; font-weight: 600; color: #3A3A36; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-  .bank-vals { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .bank-now { font-size: 14px; font-weight: 600; color: #0A6644; font-variant-numeric: tabular-nums; letter-spacing: -0.4px; }
-  .bank-hist { font-size: 10px; color: #B0ADA6; font-family: 'JetBrains Mono', monospace; }
-
-  /* ALERTS */
-  .alerts-block { margin-bottom: 10px; }
-  .alert {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 6px;
-    font-size: 11px;
-    line-height: 1.45;
-    margin-bottom: 6px;
-    border-left: 3px solid transparent;
-  }
-  .alert:last-child { margin-bottom: 0; }
-  .alert.danger { background: #FDF0F0; border-left-color: #C0392B; color: #5A1010; }
-  .alert.warn   { background: #FDF6EC; border-left-color: #D4860A; color: #5A3A08; }
-  .alert-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
-
-  .footer {
-    font-size: 9px;
-    color: #B0ADA6;
-    text-align: center;
-    padding-top: 12px;
-    margin-top: 4px;
-    border-top: 1px solid #E8E5DE;
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 1.7;
-  }
+  footer{padding:13px 32px;border-top:1px solid var(--border);background:#fff;font-size:10px;color:var(--text-dim);display:flex;justify-content:space-between;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="email-wrap">
 
-  <div class="hdr">
-    <div>
-      <div class="hdr-title">Farmácias Connect</div>
-      <div class="hdr-sub">Resumo Diário · 24 Jun 2026</div>
+<header>
+  <div class="logo">
+    <div class="logo-mark">FC</div>
+    <div class="logo-text">
+      <div class="name">Farmácias Connect</div>
+      <div class="sub">Dashboard Financeiro</div>
     </div>
-    <div class="hdr-meta">Gerado 22h00<br>Oracle 21h58 · Books 21h55</div>
+  </div>
+  <div class="header-right">
+    <span class="meta">Mapa de Exploração Mensal · TOConline · 25 Jun 2026</span>
+    <span class="pill">YTD Jan–Mai 2026</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="switchTab('aroeira',this)">Farmácia Aroeira</button>
+  <button class="tab" onclick="switchTab('cidade',this)">Cidade Universitária</button>
+</div>
+
+<!-- ══ AROEIRA ══ -->
+<div id="tab-aroeira" class="tab-panel active">
+<main>
+  <div class="alert amber">
+    ⚠ <strong>CMV e salários Jan–Abr pendentes de lançamento pelo TOC.</strong> Resultado de exploração parcial. Comparativo 2025 indisponível — TOConline iniciado em Jan 2026.
   </div>
 
-  <div class="body">
-
-    <!-- ── AROEIRA ── -->
-    <div class="sec-divider">Farmácia Aroeira</div>
-    <div class="farm-block">
-      <div class="farm-header">
-        <span class="farm-pill pill-a">ARO</span>
-        <span class="farm-name">Charneca de Caparica</span>
-      </div>
-
-      <div class="sec-label">Hoje vs média diária MTD</div>
-      <div class="grid6">
-        <div class="kpi">
-          <div class="kpi-label">Vendas</div>
-          <div class="kpi-val">1.320€</div>
-          <div class="kpi-delta pos">↑ +11,8%</div>
-          <div class="kpi-sub">méd. 1.181€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem €</div>
-          <div class="kpi-val green">490€</div>
-          <div class="kpi-delta pos">↑ +13,6%</div>
-          <div class="kpi-sub">méd. 431€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem %</div>
-          <div class="kpi-val">37,1%</div>
-          <div class="kpi-delta pos">↑ +0,5pp</div>
-          <div class="kpi-sub">méd. 36,6%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Atend.</div>
-          <div class="kpi-val">52</div>
-          <div class="kpi-delta pos">↑ +8,3%</div>
-          <div class="kpi-sub">méd. 48</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ticket méd.</div>
-          <div class="kpi-val">25,4€</div>
-          <div class="kpi-delta pos">↑ +3,2%</div>
-          <div class="kpi-sub">méd. 24,6€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Reservas %</div>
-          <div class="kpi-val">8,4%</div>
-          <div class="kpi-delta pos">↑ +1,2pp</div>
-          <div class="kpi-sub">méd. 7,2%</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="sec-label">MTD vs LY MTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas MTD</div>
-          <div class="kpi-val">28.410€</div>
-          <div class="kpi-delta pos">↑ +12,4%</div>
-          <div class="kpi-sub">LY 25.270€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € MTD</div>
-          <div class="kpi-val green">10.390€</div>
-          <div class="kpi-delta pos">↑ +14,1%</div>
-          <div class="kpi-sub">LY 9.108€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % MTD</div>
-          <div class="kpi-val">36,6%</div>
-          <div class="kpi-delta pos">↑ +0,7pp</div>
-          <div class="kpi-sub">LY 35,9%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. clientes</div>
-          <div class="kpi-val">84,2%</div>
-          <div class="kpi-delta pos">↑ +2,1pp</div>
-          <div class="kpi-sub">LY 82,1%</div>
-        </div>
-      </div>
-
-
-      <div class="divider"></div>
-      <div class="sec-label">YTD vs LY YTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas YTD</div>
-          <div class="kpi-val">162.400€</div>
-          <div class="kpi-delta pos">↑ +9,8%</div>
-          <div class="kpi-sub">LY 147.900€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € YTD</div>
-          <div class="kpi-val green">58.820€</div>
-          <div class="kpi-delta pos">↑ +11,2%</div>
-          <div class="kpi-sub">LY 52.890€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % YTD</div>
-          <div class="kpi-val">36,2%</div>
-          <div class="kpi-delta pos">↑ +0,4pp</div>
-          <div class="kpi-sub">LY 35,8%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. YTD</div>
-          <div class="kpi-val">83,1%</div>
-          <div class="kpi-delta pos">↑ +1,8pp</div>
-          <div class="kpi-sub">LY 81,3%</div>
-        </div>
-      </div>
-
-      <div class="stock-row">
-        <span class="stock-label">Stock custo</span>
-        <span class="stock-now">48.200€</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mar 46,1k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Abr 44,8k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mai 47,3k</span>
-      </div>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Vendas Líquidas</div>
+      <div class="kpi-value">792.651€</div>
+      <div class="kpi-delta">brutas 817.962€ · devol. -25.311€</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%"></div></div>
     </div>
-
-    <!-- ── DIAS E BRITO ── -->
-    <div class="sec-divider">Farmácia Dias e Brito</div>
-    <div class="farm-block">
-      <div class="farm-header">
-        <span class="farm-pill pill-b">D&amp;B</span>
-        <span class="farm-name">Amadora</span>
-      </div>
-
-      <div class="sec-label">Hoje vs média diária MTD</div>
-      <div class="grid6">
-        <div class="kpi">
-          <div class="kpi-label">Vendas</div>
-          <div class="kpi-val">880€</div>
-          <div class="kpi-delta neg">↓ −5,4%</div>
-          <div class="kpi-sub">méd. 930€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem €</div>
-          <div class="kpi-val red">288€</div>
-          <div class="kpi-delta neg">↓ −7,1%</div>
-          <div class="kpi-sub">méd. 310€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem %</div>
-          <div class="kpi-val">32,7%</div>
-          <div class="kpi-delta neg">↓ −0,8pp</div>
-          <div class="kpi-sub">méd. 33,5%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Atend.</div>
-          <div class="kpi-val">61</div>
-          <div class="kpi-delta neg">↓ −3,2%</div>
-          <div class="kpi-sub">méd. 63</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ticket méd.</div>
-          <div class="kpi-val">14,4€</div>
-          <div class="kpi-delta neg">↓ −2,0%</div>
-          <div class="kpi-sub">méd. 14,7€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Reservas %</div>
-          <div class="kpi-val">5,1%</div>
-          <div class="kpi-delta neu">— +0,1pp</div>
-          <div class="kpi-sub">méd. 5,0%</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="sec-label">MTD vs LY MTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas MTD</div>
-          <div class="kpi-val">22.180€</div>
-          <div class="kpi-delta pos">↑ +5,1%</div>
-          <div class="kpi-sub">LY 21.100€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € MTD</div>
-          <div class="kpi-val green">7.440€</div>
-          <div class="kpi-delta pos">↑ +4,8%</div>
-          <div class="kpi-sub">LY 7.100€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % MTD</div>
-          <div class="kpi-val">33,5%</div>
-          <div class="kpi-delta neg">↓ −0,1pp</div>
-          <div class="kpi-sub">LY 33,6%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. clientes</div>
-          <div class="kpi-val">71,3%</div>
-          <div class="kpi-delta pos">↑ +1,4pp</div>
-          <div class="kpi-sub">LY 69,9%</div>
-        </div>
-      </div>
-
-
-      <div class="divider"></div>
-      <div class="sec-label">YTD vs LY YTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas YTD</div>
-          <div class="kpi-val">128.300€</div>
-          <div class="kpi-delta pos">↑ +4,2%</div>
-          <div class="kpi-sub">LY 123.100€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € YTD</div>
-          <div class="kpi-val green">42.980€</div>
-          <div class="kpi-delta pos">↑ +3,9%</div>
-          <div class="kpi-sub">LY 41.370€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % YTD</div>
-          <div class="kpi-val">33,5%</div>
-          <div class="kpi-delta neg">↓ −0,1pp</div>
-          <div class="kpi-sub">LY 33,6%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. YTD</div>
-          <div class="kpi-val">70,4%</div>
-          <div class="kpi-delta pos">↑ +1,1pp</div>
-          <div class="kpi-sub">LY 69,3%</div>
-        </div>
-      </div>
-
-      <div class="stock-row">
-        <span class="stock-label">Stock custo</span>
-        <span class="stock-now">31.400€</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mar 29,8k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Abr 32,1k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mai 30,6k</span>
-      </div>
+    <div class="kpi">
+      <div class="kpi-label">Total Rendimentos</div>
+      <div class="kpi-value">798.753€</div>
+      <div class="kpi-delta">incl. serviços 5.956€</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%"></div></div>
     </div>
-
-    <!-- ── CIDADE UNIVERSITÁRIA ── -->
-    <div class="sec-divider">Farmácia Cidade Universitária</div>
-    <div class="farm-block">
-      <div class="farm-header">
-        <span class="farm-pill pill-c">CU</span>
-        <span class="farm-name">Lisboa</span>
-      </div>
-
-      <div class="sec-label">Hoje vs média diária MTD</div>
-      <div class="grid6">
-        <div class="kpi">
-          <div class="kpi-label">Vendas</div>
-          <div class="kpi-val">720€</div>
-          <div class="kpi-delta neu">— −1,4%</div>
-          <div class="kpi-sub">méd. 730€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem €</div>
-          <div class="kpi-val">274€</div>
-          <div class="kpi-delta neu">— −1,8%</div>
-          <div class="kpi-sub">méd. 279€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem %</div>
-          <div class="kpi-val">38,1%</div>
-          <div class="kpi-delta pos">↑ +0,3pp</div>
-          <div class="kpi-sub">méd. 37,8%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Atend.</div>
-          <div class="kpi-val">49</div>
-          <div class="kpi-delta neu">— −2,0%</div>
-          <div class="kpi-sub">méd. 50</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ticket méd.</div>
-          <div class="kpi-val">14,7€</div>
-          <div class="kpi-delta pos">↑ +0,7%</div>
-          <div class="kpi-sub">méd. 14,6€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Reservas %</div>
-          <div class="kpi-val">4,8%</div>
-          <div class="kpi-delta neg">↓ −0,6pp</div>
-          <div class="kpi-sub">méd. 5,4%</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="sec-label">MTD vs LY MTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas MTD</div>
-          <div class="kpi-val">17.820€</div>
-          <div class="kpi-delta neg">↓ −3,2%</div>
-          <div class="kpi-sub">LY 18.410€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € MTD</div>
-          <div class="kpi-val red">6.710€</div>
-          <div class="kpi-delta neg">↓ −2,8%</div>
-          <div class="kpi-sub">LY 6.902€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % MTD</div>
-          <div class="kpi-val">37,7%</div>
-          <div class="kpi-delta pos">↑ +0,2pp</div>
-          <div class="kpi-sub">LY 37,5%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. clientes</div>
-          <div class="kpi-val">68,9%</div>
-          <div class="kpi-delta neg">↓ −1,2pp</div>
-          <div class="kpi-sub">LY 70,1%</div>
-        </div>
-      </div>
-
-
-      <div class="divider"></div>
-      <div class="sec-label">YTD vs LY YTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas YTD</div>
-          <div class="kpi-val">104.600€</div>
-          <div class="kpi-delta neg">↓ −1,8%</div>
-          <div class="kpi-sub">LY 106.500€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € YTD</div>
-          <div class="kpi-val red">39.480€</div>
-          <div class="kpi-delta neg">↓ −1,4%</div>
-          <div class="kpi-sub">LY 40.040€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % YTD</div>
-          <div class="kpi-val">37,7%</div>
-          <div class="kpi-delta pos">↑ +0,2pp</div>
-          <div class="kpi-sub">LY 37,5%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. YTD</div>
-          <div class="kpi-val">69,2%</div>
-          <div class="kpi-delta neg">↓ −0,9pp</div>
-          <div class="kpi-sub">LY 70,1%</div>
-        </div>
-      </div>
-
-      <div class="stock-row">
-        <span class="stock-label">Stock custo</span>
-        <span class="stock-now">24.900€</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mar 26,2k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Abr 25,8k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mai 24,1k</span>
-      </div>
+    <div class="kpi">
+      <div class="kpi-label">FSE Total</div>
+      <div class="kpi-value">51.981€</div>
+      <div class="kpi-delta" style="color:var(--green)">6,5% das vendas · dentro do ref.</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:65%"></div></div>
     </div>
-
-    <!-- ── ALTO DOS MOINHOS ── -->
-    <div class="sec-divider">Farmácia Alto dos Moinhos</div>
-    <div class="farm-block">
-      <div class="farm-header">
-        <span class="farm-pill pill-m">AM</span>
-        <span class="farm-name">Lisboa</span>
-      </div>
-
-      <div class="sec-label">Hoje vs média diária MTD</div>
-      <div class="grid6">
-        <div class="kpi">
-          <div class="kpi-label">Vendas</div>
-          <div class="kpi-val">1.140€</div>
-          <div class="kpi-delta pos">↑ +6,5%</div>
-          <div class="kpi-sub">méd. 1.070€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem €</div>
-          <div class="kpi-val green">418€</div>
-          <div class="kpi-delta pos">↑ +7,2%</div>
-          <div class="kpi-sub">méd. 390€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem %</div>
-          <div class="kpi-val">36,7%</div>
-          <div class="kpi-delta pos">↑ +0,3pp</div>
-          <div class="kpi-sub">méd. 36,4%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Atend.</div>
-          <div class="kpi-val">58</div>
-          <div class="kpi-delta pos">↑ +5,5%</div>
-          <div class="kpi-sub">méd. 55</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ticket méd.</div>
-          <div class="kpi-val">19,7€</div>
-          <div class="kpi-delta pos">↑ +1,0%</div>
-          <div class="kpi-sub">méd. 19,5€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Reservas %</div>
-          <div class="kpi-val">6,9%</div>
-          <div class="kpi-delta pos">↑ +0,8pp</div>
-          <div class="kpi-sub">méd. 6,1%</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="sec-label">MTD vs LY MTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas MTD</div>
-          <div class="kpi-val">25.680€</div>
-          <div class="kpi-delta pos">↑ +8,9%</div>
-          <div class="kpi-sub">LY 23.580€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € MTD</div>
-          <div class="kpi-val green">9.340€</div>
-          <div class="kpi-delta pos">↑ +9,4%</div>
-          <div class="kpi-sub">LY 8.540€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % MTD</div>
-          <div class="kpi-val">36,4%</div>
-          <div class="kpi-delta pos">↑ +0,2pp</div>
-          <div class="kpi-sub">LY 36,2%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. clientes</div>
-          <div class="kpi-val">76,8%</div>
-          <div class="kpi-delta pos">↑ +3,2pp</div>
-          <div class="kpi-sub">LY 73,6%</div>
-        </div>
-      </div>
-
-
-      <div class="divider"></div>
-      <div class="sec-label">YTD vs LY YTD</div>
-      <div class="grid4">
-        <div class="kpi">
-          <div class="kpi-label">Vendas YTD</div>
-          <div class="kpi-val">148.200€</div>
-          <div class="kpi-delta pos">↑ +7,6%</div>
-          <div class="kpi-sub">LY 137.700€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem € YTD</div>
-          <div class="kpi-val green">53.950€</div>
-          <div class="kpi-delta pos">↑ +8,1%</div>
-          <div class="kpi-sub">LY 49.900€</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Margem % YTD</div>
-          <div class="kpi-val">36,4%</div>
-          <div class="kpi-delta pos">↑ +0,2pp</div>
-          <div class="kpi-sub">LY 36,2%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Ident. YTD</div>
-          <div class="kpi-val">75,9%</div>
-          <div class="kpi-delta pos">↑ +2,8pp</div>
-          <div class="kpi-sub">LY 73,1%</div>
-        </div>
-      </div>
-
-      <div class="stock-row">
-        <span class="stock-label">Stock custo</span>
-        <span class="stock-now">38.600€</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mar 37,4k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Abr 39,1k</span>
-        <span class="stock-sep">·</span>
-        <span class="stock-hist">Mai 38,0k</span>
-      </div>
+    <div class="kpi">
+      <div class="kpi-label">Compras Líquidas</div>
+      <div class="kpi-value">721.021€</div>
+      <div class="kpi-delta">devol. compras -7.888€</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill warn" style="width:91%"></div></div>
     </div>
+    <div class="kpi">
+      <div class="kpi-label">Resultado Exploração</div>
+      <div class="kpi-value dim">Pendente</div>
+      <div class="kpi-delta" style="color:var(--amber)">aguarda CMV e salários</div>
+      <div class="kpi-bar"></div>
+    </div>
+  </div>
 
-    <!-- ── RANKING ── -->
-    <div class="sec-divider">Ranking interno MTD</div>
-    <div class="ranking-block">
-      <table class="rank-table">
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Mapa de Exploração Mensal 2026 — Detalhe Completo</span>
+      <span class="card-sub">S&R Sociedade Farmacêutica · NIF 514060751</span>
+    </div>
+    <div class="card-body">
+      <table class="mt">
         <thead>
           <tr>
-            <th style="text-align:left">Farmácia</th>
-            <th>Vendas MTD</th>
-            <th>Margem € MTD</th>
-            <th>Margem %</th>
-            <th>Cresc. MTD</th>
-            <th>Cresc. YTD</th>
-            <th>Ident. %</th>
+            <th>Rubrica</th>
+            <th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>Mai</th>
+            <th class="tot-col">YTD Mai</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
-            <td>28.410€</td>
-            <td style="color:#0A6644;font-weight:600">10.390€</td>
-            <td>36,6%</td>
-            <td class="rank-delta pos">↑ +12,4%</td>
-            <td class="rank-delta pos">↑ +9,8%</td>
-            <td>84,2%</td>
-          </tr>
-          <tr>
-            <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
-            <td>25.680€</td>
-            <td style="color:#0A6644;font-weight:600">9.340€</td>
-            <td>36,4%</td>
-            <td class="rank-delta pos">↑ +8,9%</td>
-            <td class="rank-delta pos">↑ +7,6%</td>
-            <td>76,8%</td>
-          </tr>
-          <tr>
-            <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-b" style="font-size:9px">D&amp;B</span></td>
-            <td>22.180€</td>
-            <td style="color:#0A6644;font-weight:600">7.440€</td>
-            <td>33,5%</td>
-            <td class="rank-delta pos">↑ +5,1%</td>
-            <td class="rank-delta pos">↑ +4,2%</td>
-            <td>71,3%</td>
-          </tr>
-          <tr>
-            <td><span class="rank-pos rank-4">4</span><span class="farm-pill pill-c" style="font-size:9px">CU</span></td>
-            <td>17.820€</td>
-            <td style="color:#8B1A1A;font-weight:600">6.710€</td>
-            <td>37,7%</td>
-            <td class="rank-delta neg">↓ −3,2%</td>
-            <td class="rank-delta neg">↓ −1,8%</td>
-            <td>68,9%</td>
+          <tr class="sh"><td colspan="7">Rendimentos</td></tr>
+          <tr class="l1"><td>Vendas (71)</td><td>114.312€</td><td>160.117€</td><td>170.682€</td><td>177.412€</td><td>170.128€</td><td class="tot-col">792.651€</td></tr>
+          <tr class="l2"><td>Mercadorias (711)</td><td>118.809€</td><td>165.246€</td><td>175.738€</td><td>181.566€</td><td>176.604€</td><td class="tot-col nu">817.962€</td></tr>
+          <tr class="l2"><td>Devoluções de vendas (717)</td><td class="neg-v">-4.497€</td><td class="neg-v">-5.129€</td><td class="neg-v">-5.056€</td><td class="neg-v">-4.154€</td><td class="neg-v">-6.476€</td><td class="tot-col neg-v">-25.311€</td></tr>
+          <tr class="l1"><td>Prestações de Serviços (72)</td><td>1.443€</td><td>1.159€</td><td>1.240€</td><td>961€</td><td>1.154€</td><td class="tot-col">5.956€</td></tr>
+          <tr class="l1"><td>Outros Rendimentos (78)</td><td>7€</td><td>69€</td><td>68€</td><td>3€</td><td>0€</td><td class="tot-col">146€</td></tr>
+          <tr class="l2"><td>Desc. pronto pagamento</td><td>0€</td><td>62€</td><td>60€</td><td>3€</td><td>0€</td><td class="tot-col nu">125€</td></tr>
+          <tr class="tr"><td>Total Rendimentos</td><td>115.762€</td><td>161.344€</td><td>171.990€</td><td>178.375€</td><td>171.283€</td><td class="tot-col">798.753€</td></tr>
+
+          <tr class="sh"><td colspan="7">Gastos</td></tr>
+          <tr class="l1 dim"><td>CMV (61) <span class="badge warn">pendente</span></td><td class="wa-v">—</td><td class="wa-v">—</td><td class="wa-v">—</td><td class="wa-v">—</td><td class="wa-v">—</td><td class="tot-col wa-v">—</td></tr>
+          <tr class="l1"><td>FSE (62)</td><td>13.448€</td><td>6.638€</td><td>15.807€</td><td>9.367€</td><td>3.744€</td><td class="tot-col">48.005€</td></tr>
+          <tr class="l2"><td>Serviços Especializados (622)</td><td>11.932€</td><td>5.861€</td><td>13.469€</td><td>8.117€</td><td>1.999€</td><td class="tot-col nu">43.074€</td></tr>
+          <tr class="l3"><td>Trabalhos Especializados</td><td>10.958€</td><td>5.368€</td><td>12.940€</td><td>6.523€</td><td>1.425€</td><td class="tot-col nu">37.215€</td></tr>
+          <tr class="l3"><td>Honorários</td><td>867€</td><td>493€</td><td>503€</td><td>506€</td><td>471€</td><td class="tot-col nu">4.535€</td></tr>
+          <tr class="l3"><td>Conservação e Reparação</td><td>80€</td><td>0€</td><td>0€</td><td>1.078€</td><td>0€</td><td class="tot-col nu">1.158€</td></tr>
+          <tr class="l3"><td>Publicidade</td><td>0€</td><td>0€</td><td>0€</td><td>0€</td><td>104€</td><td class="tot-col nu">104€</td></tr>
+          <tr class="l3"><td>Outros Serv. Especializados</td><td>27€</td><td>0€</td><td>27€</td><td>10€</td><td>0€</td><td class="tot-col nu">64€</td></tr>
+          <tr class="l2"><td>Materiais (623)</td><td>107€</td><td>0€</td><td>1.090€</td><td>107€</td><td>240€</td><td class="tot-col nu">1.544€</td></tr>
+          <tr class="l3"><td>Material Escritório</td><td>107€</td><td>0€</td><td>1.090€</td><td>107€</td><td>0€</td><td class="tot-col nu">1.304€</td></tr>
+          <tr class="l3"><td>Outros Materiais</td><td>0€</td><td>0€</td><td>0€</td><td>0€</td><td>240€</td><td class="tot-col nu">240€</td></tr>
+          <tr class="l2"><td>Energia e Fluidos (624)</td><td>707€</td><td>570€</td><td>628€</td><td>543€</td><td>794€</td><td class="tot-col nu">3.241€</td></tr>
+          <tr class="l3"><td>Electricidade</td><td>652€</td><td>570€</td><td>552€</td><td>525€</td><td>644€</td><td class="tot-col nu">2.943€</td></tr>
+          <tr class="l3"><td>Combustíveis</td><td>0€</td><td>0€</td><td>0€</td><td>0€</td><td>133€</td><td class="tot-col nu">133€</td></tr>
+          <tr class="l3"><td>Água</td><td>55€</td><td>0€</td><td>76€</td><td>19€</td><td>16€</td><td class="tot-col nu">165€</td></tr>
+          <tr class="l2"><td>Deslocações (625)</td><td>0€</td><td>0€</td><td>0€</td><td>51€</td><td>0€</td><td class="tot-col nu">51€</td></tr>
+          <tr class="l2"><td>Serviços Diversos (626)</td><td>702€</td><td>207€</td><td>620€</td><td>549€</td><td>607€</td><td class="tot-col nu">2.685€</td></tr>
+          <tr class="l3"><td>Limpeza e Higiene</td><td>651€</td><td>122€</td><td>484€</td><td>489€</td><td>607€</td><td class="tot-col nu">2.353€</td></tr>
+          <tr class="l3"><td>Comunicações</td><td>50€</td><td>54€</td><td>52€</td><td>52€</td><td>0€</td><td class="tot-col nu">208€</td></tr>
+          <tr class="l3"><td>Rendas e Alugueres</td><td>0€</td><td>21€</td><td>82€</td><td>0€</td><td>0€</td><td class="tot-col nu">103€</td></tr>
+          <tr class="l3"><td>Outros Serviços</td><td>0€</td><td>9€</td><td>3€</td><td>8€</td><td>0€</td><td class="tot-col nu">20€</td></tr>
+
+          <tr class="l1 dim"><td>Pessoal (63) <span class="badge warn">incompleto</span></td><td class="wa-v">192€</td><td class="wa-v">1.098€</td><td class="wa-v">192€</td><td class="wa-v">—</td><td class="wa-v">—</td><td class="tot-col wa-v">1.482€*</td></tr>
+          <tr class="l2 dim"><td>Seguros Acidente Trabalho</td><td class="nu">192€</td><td class="nu">0€</td><td class="nu">192€</td><td class="nu">—</td><td class="nu">—</td><td class="tot-col nu">385€</td></tr>
+          <tr class="l2 dim"><td>Pessoal (632) <span class="badge warn">pendente</span></td><td class="nu">0€</td><td class="nu">1.000€</td><td class="nu">0€</td><td class="nu">—</td><td class="nu">—</td><td class="tot-col nu">1.000€</td></tr>
+
+          <tr class="l1"><td>Outros Gastos (68)</td><td>1.166€</td><td>5€</td><td>42€</td><td>1.350€</td><td>30€</td><td class="tot-col">2.593€</td></tr>
+          <tr class="l2"><td>Impostos e Taxas</td><td>237€</td><td>0€</td><td>35€</td><td>37€</td><td>30€</td><td class="tot-col nu">338€</td></tr>
+          <tr class="l2"><td>Quebras (684)</td><td>0€</td><td>0€</td><td>0€</td><td>329€</td><td>0€</td><td class="tot-col nu">329€</td></tr>
+          <tr class="l2"><td>Quotizações (ANF)</td><td>923€</td><td>0€</td><td>0€</td><td>984€</td><td>0€</td><td class="tot-col nu">1.907€</td></tr>
+          <tr class="l2"><td>Outros não especificados</td><td>6€</td><td>5€</td><td>7€</td><td>0€</td><td>0€</td><td class="tot-col nu">19€</td></tr>
+
+          <tr class="tr"><td>Total Gastos (excl. CMV)</td><td>14.807€</td><td>7.741€</td><td>16.041€</td><td>10.717€</td><td>3.774€</td><td class="tot-col">53.080€</td></tr>
+
+          <tr class="sh"><td colspan="7">Compras</td></tr>
+          <tr class="l1"><td>Compras (31)</td><td>124.217€</td><td>108.292€</td><td>130.725€</td><td>135.025€</td><td>143.090€</td><td class="tot-col">641.350€</td></tr>
+          <tr class="l2"><td>Mercadorias (311)</td><td>126.166€</td><td>108.827€</td><td>133.430€</td><td>135.920€</td><td>142.132€</td><td class="tot-col nu">646.475€</td></tr>
+          <tr class="l2"><td>Mat. Consumo (312)</td><td>211€</td><td>488€</td><td>0€</td><td>0€</td><td>2.222€</td><td class="tot-col nu">2.921€</td></tr>
+          <tr class="l2"><td>Devoluções compras (317)</td><td class="pos-v">-2.160€</td><td class="pos-v">-981€</td><td class="pos-v">-2.704€</td><td class="pos-v">-669€</td><td class="pos-v">-1.263€</td><td class="tot-col pos-v">-7.777€</td></tr>
+          <tr class="l2"><td>Descontos compras (318)</td><td>0€</td><td class="pos-v">-42€</td><td>0€</td><td class="pos-v">-226€</td><td>0€</td><td class="tot-col pos-v">-268€</td></tr>
+
+          <tr class="rr mix"><td>Resultado Exploração (parcial)</td>
+            <td class="neg-v">-23.262€</td><td class="pos-v">+45.311€</td><td class="pos-v">+25.223€</td><td class="pos-v">+32.918€</td><td class="pos-v">+24.418€</td>
+            <td class="tot-col pos-v">+21.961€</td>
           </tr>
         </tbody>
       </table>
+      <div class="note warn">* Salários Jan–Abr e CMV não lançados. Resultado parcial — não reflecte o custo real de pessoal (~€110k estimado) nem a margem bruta real.</div>
     </div>
-
-    <!-- ── TESOURARIA ── -->
-    <div class="sec-divider">Tesouraria · Zoho Books</div>
-    <div class="bank-block">
-      <div class="bank-rows">
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-a">ARO</span> Aroeira</div>
-          <div class="bank-vals">
-            <span class="bank-now">12.340€</span>
-            <span class="bank-hist">Mar 8,1k · Abr 11,2k · Mai 9,8k</span>
-          </div>
-        </div>
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-b">D&amp;B</span> Dias e Brito</div>
-          <div class="bank-vals">
-            <span class="bank-now">8.710€</span>
-            <span class="bank-hist">Mar 6,4k · Abr 7,9k · Mai 8,2k</span>
-          </div>
-        </div>
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-c">CU</span> Cidade Univ.</div>
-          <div class="bank-vals">
-            <span class="bank-now">5.980€</span>
-            <span class="bank-hist">Mar 4,8k · Abr 5,1k · Mai 6,3k</span>
-          </div>
-        </div>
-        <div class="bank-row">
-          <div class="bank-name"><span class="farm-pill pill-m">AM</span> Alto dos Moinhos</div>
-          <div class="bank-vals">
-            <span class="bank-now">9.450€</span>
-            <span class="bank-hist">Mar 7,2k · Abr 8,6k · Mai 9,0k</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── ALERTAS ── -->
-    <div class="sec-divider">Alertas</div>
-    <div class="alerts-block">
-      <div class="alert danger">
-        <span class="alert-icon">⚠</span>
-        <span><strong>Aroeira — 7 rupturas com rotação ativa.</strong> Impacto estimado ~180€/dia não faturados.</span>
-      </div>
-      <div class="alert warn">
-        <span class="alert-icon">↘</span>
-        <span><strong>Cidade Univ. — 4.ª semana consecutiva abaixo do LY.</strong> Tráfego e identificação de clientes a cair.</span>
-      </div>
-      <div class="alert warn">
-        <span class="alert-icon">📦</span>
-        <span><strong>28 lotes a vencer em &lt;60 dias</strong> no grupo (valor ~420€). ARO 14 · D&amp;B 6 · CU 3 · AM 5.</span>
-      </div>
-    </div>
-
-    <div class="footer">
-      Oracle EXPORTA · SIFV_VENDAS + SIFV_PRODUTOS + ANF_USER.SIFT_RESERVAS · Zoho Books API<br>
-      ARO 10.18.196.1 · D&amp;B 10.23.149.1 · CU 10.25.64.1 · AM —
-    </div>
-
   </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Vendas Mensais 2026</span></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="ch-ar-vendas"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Compras Mensais 2026</span><span class="card-sub">líquidas de devoluções</span></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="ch-ar-compras"></canvas></div></div>
+    </div>
+  </div>
+</main>
 </div>
+
+<!-- ══ CIDADE UNIVERSITÁRIA ══ -->
+<div id="tab-cidade" class="tab-panel">
+<main>
+  <div class="alert green">
+    ✓ <strong>Dados completos com comparativo 2025.</strong> Resultado exploração +47.371€ (2026) vs -7.440€ (2025). Crescimento vendas +49,4%. Pessoal e Amortizações Abr–Mai 2026 com lançamentos pendentes.
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Vendas Líquidas</div>
+      <div class="kpi-value">211.985€</div>
+      <div class="kpi-delta"><span style="color:var(--green);font-weight:600">▲ +49,4%</span> vs 141.938€ em 2025</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%"></div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total Rendimentos</div>
+      <div class="kpi-value">211.992€</div>
+      <div class="kpi-delta"><span style="color:var(--green);font-weight:600">▲ +49,4%</span> vs 141.947€</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%"></div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total Gastos</div>
+      <div class="kpi-value">41.764€</div>
+      <div class="kpi-delta"><span style="color:var(--green);font-weight:600">▼ -55,4%</span> vs 93.730€ em 2025</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:20%"></div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Compras YTD</div>
+      <div class="kpi-value">122.857€</div>
+      <div class="kpi-delta"><span style="color:var(--amber);font-weight:600">▲ +120,7%</span> vs 55.657€ em 2025</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill warn" style="width:58%"></div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Resultado Exploração</div>
+      <div class="kpi-value" style="color:var(--green)">47.371€</div>
+      <div class="kpi-delta"><span style="color:var(--green);font-weight:600">vs -7.440€</span> em 2025</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:22%"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Mapa de Exploração Mensal — Detalhe Completo 2026 vs 2025</span>
+      <span class="card-sub">Rita Matos Lopes Amorim Unipessoal · NIF 517377098</span>
+    </div>
+    <div class="card-body">
+      <table class="mt">
+        <thead>
+          <tr>
+            <th>Rubrica</th>
+            <th>Jan 26</th><th>Jan 25</th>
+            <th>Fev 26</th><th>Fev 25</th>
+            <th>Mar 26</th><th>Mar 25</th>
+            <th>Abr 26</th><th>Abr 25</th>
+            <th>Mai 26</th><th>Mai 25</th>
+            <th class="tot-col">Tot 26</th><th>Tot 25</th><th>Var%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="sh"><td colspan="13">Rendimentos</td></tr>
+          <tr class="l1">
+            <td>Vendas (71)</td>
+            <td>39.012€</td><td class="nu">34.282€</td>
+            <td>35.131€</td><td class="nu">24.102€</td>
+            <td>46.456€</td><td class="nu">27.221€</td>
+            <td>45.995€</td><td class="nu">27.889€</td>
+            <td>45.391€</td><td class="nu">28.444€</td>
+            <td class="tot-col">211.985€</td><td class="nu">141.938€</td><td class="pos-v">+49,4%</td>
+          </tr>
+          <tr class="l2">
+            <td>Mercadorias brutas (711)</td>
+            <td>40.177€</td><td class="nu">—</td>
+            <td>36.070€</td><td class="nu">—</td>
+            <td>47.363€</td><td class="nu">—</td>
+            <td>46.997€</td><td class="nu">—</td>
+            <td>46.074€</td><td class="nu">—</td>
+            <td class="tot-col nu">216.681€</td><td class="nu">—</td><td class="nu">—</td>
+          </tr>
+          <tr class="l2">
+            <td>Devoluções vendas (717)</td>
+            <td class="neg-v">-1.165€</td><td class="nu">—</td>
+            <td class="neg-v">-940€</td><td class="nu">—</td>
+            <td class="neg-v">-907€</td><td class="nu">—</td>
+            <td class="neg-v">-1.002€</td><td class="nu">—</td>
+            <td class="neg-v">-660€</td><td class="nu">—</td>
+            <td class="tot-col neg-v">-4.674€</td><td class="nu">—</td><td class="nu">—</td>
+          </tr>
+          <tr class="l1">
+            <td>Outros Rendimentos (78)</td>
+            <td>2€</td><td class="nu">2€</td>
+            <td>2€</td><td class="nu">2€</td>
+            <td>3€</td><td class="nu">2€</td>
+            <td>0€</td><td class="nu">1€</td>
+            <td>0€</td><td class="nu">2€</td>
+            <td class="tot-col">7€</td><td class="nu">8€</td><td class="nu">—</td>
+          </tr>
+          <tr class="tr">
+            <td>Total Rendimentos</td>
+            <td>39.014€</td><td class="nu">34.284€</td>
+            <td>35.132€</td><td class="nu">24.104€</td>
+            <td>46.458€</td><td class="nu">27.223€</td>
+            <td>45.995€</td><td class="nu">27.890€</td>
+            <td>45.391€</td><td class="nu">28.445€</td>
+            <td class="tot-col">211.992€</td><td class="nu">141.947€</td><td class="pos-v">+49,4%</td>
+          </tr>
+
+          <tr class="sh"><td colspan="13">Gastos</td></tr>
+          <tr class="l1">
+            <td>FSE (62)</td>
+            <td>1.696€</td><td class="nu">5.729€</td>
+            <td>4.088€</td><td class="nu">3.527€</td>
+            <td>6.268€</td><td class="nu">3.910€</td>
+            <td>5.003€</td><td class="nu">5.776€</td>
+            <td>3.450€</td><td class="nu">5.531€</td>
+            <td class="tot-col">20.505€</td><td class="nu">24.474€</td><td class="pos-v">-16,2%</td>
+          </tr>
+          <tr class="l2">
+            <td>Serviços Especializados (622)</td>
+            <td>1.635€</td><td class="nu">—</td><td>2.330€</td><td class="nu">—</td>
+            <td>1.841€</td><td class="nu">—</td><td>1.904€</td><td class="nu">—</td>
+            <td>1.650€</td><td class="nu">—</td>
+            <td class="tot-col nu">9.361€</td><td class="nu">—</td><td class="nu">—</td>
+          </tr>
+          <tr class="l3"><td>Trabalhos Especializados</td><td>1.308€</td><td class="nu">—</td><td>2.040€</td><td class="nu">—</td><td>1.046€</td><td class="nu">—</td><td>1.267€</td><td class="nu">—</td><td>1.650€</td><td class="nu">—</td><td class="tot-col nu">7.312€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Vigilância e Segurança</td><td>125€</td><td class="nu">—</td><td>125€</td><td class="nu">—</td><td>125€</td><td class="nu">—</td><td>125€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">501€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Comissões</td><td>132€</td><td class="nu">—</td><td>155€</td><td class="nu">—</td><td>196€</td><td class="nu">—</td><td>328€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">811€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Conservação e Reparação</td><td>0€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td>264€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">264€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Outros Serv. Especializados</td><td>70€</td><td class="nu">—</td><td>10€</td><td class="nu">—</td><td>210€</td><td class="nu">—</td><td>183€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">472€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l2"><td>Energia e Fluidos (624)</td><td>331€</td><td class="nu">—</td><td>345€</td><td class="nu">—</td><td>453€</td><td class="nu">—</td><td>354€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">1.483€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Electricidade</td><td>297€</td><td class="nu">—</td><td>307€</td><td class="nu">—</td><td>422€</td><td class="nu">—</td><td>316€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">1.341€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Água</td><td>35€</td><td class="nu">—</td><td>38€</td><td class="nu">—</td><td>31€</td><td class="nu">—</td><td>38€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">142€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l2"><td>Deslocações (625)</td><td>0€</td><td class="nu">—</td><td>5€</td><td class="nu">—</td><td>312€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">317€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l2"><td>Serviços Diversos (626)</td><td class="pos-v">-271€</td><td class="nu">—</td><td>1.408€</td><td class="nu">—</td><td>3.662€</td><td class="nu">—</td><td>2.740€</td><td class="nu">—</td><td>1.800€</td><td class="nu">—</td><td class="tot-col nu">9.339€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Rendas e Alugueres</td><td>1.955€</td><td class="nu">—</td><td>1.055€</td><td class="nu">—</td><td>3.565€</td><td class="nu">—</td><td>2.103€</td><td class="nu">—</td><td>1.800€</td><td class="nu">—</td><td class="tot-col nu">10.478€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Comunicações</td><td>91€</td><td class="nu">—</td><td>91€</td><td class="nu">—</td><td>87€</td><td class="nu">—</td><td>101€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">371€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Seguros <span style="color:var(--green);font-size:10px">(reembolso Jan)</span></td><td class="pos-v">-2.330€</td><td class="nu">—</td><td>262€</td><td class="nu">—</td><td>10€</td><td class="nu">—</td><td>414€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col pos-v">-1.644€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l3"><td>Limpeza e Higiene</td><td>12€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td>122€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">134€</td><td class="nu">—</td><td class="nu">—</td></tr>
+
+          <tr class="l1">
+            <td>Pessoal (63) <span class="badge warn">Abr–Mai pend.</span></td>
+            <td>4.324€</td><td class="nu">6.571€</td>
+            <td>4.430€</td><td class="nu">6.651€</td>
+            <td>4.846€</td><td class="nu">6.072€</td>
+            <td class="wa-v">0€*</td><td class="nu">6.135€</td>
+            <td class="wa-v">0€*</td><td class="nu">6.345€</td>
+            <td class="tot-col">13.600€</td><td class="nu">31.773€</td><td class="pos-v">-57,2%</td>
+          </tr>
+          <tr class="l2"><td>Órgãos Sociais (631)</td><td>0€</td><td class="nu">—</td><td>408€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="wa-v">—</td><td class="nu">—</td><td class="wa-v">—</td><td class="nu">—</td><td class="tot-col nu">408€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l2"><td>Remunerações Pessoal (632)</td><td>3.651€</td><td class="nu">—</td><td>3.328€</td><td class="nu">—</td><td>3.316€</td><td class="nu">—</td><td class="wa-v">—</td><td class="nu">—</td><td class="wa-v">—</td><td class="nu">—</td><td class="tot-col nu">10.295€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l2"><td>Enc. Sociais (635)</td><td>673€</td><td class="nu">—</td><td>694€</td><td class="nu">—</td><td>1.530€</td><td class="nu">—</td><td class="wa-v">—</td><td class="nu">—</td><td class="wa-v">—</td><td class="nu">—</td><td class="tot-col nu">2.897€</td><td class="nu">—</td><td class="nu">—</td></tr>
+
+          <tr class="l1">
+            <td>Amortizações (64) <span class="badge warn">Mai pend.</span></td>
+            <td>1.653€</td><td class="nu">2.845€</td>
+            <td>1.653€</td><td class="nu">2.845€</td>
+            <td>1.653€</td><td class="nu">2.845€</td>
+            <td>1.653€</td><td class="nu">2.845€</td>
+            <td class="wa-v">0€*</td><td class="nu">2.845€</td>
+            <td class="tot-col">6.614€</td><td class="nu">14.224€</td><td class="pos-v">-53,5%</td>
+          </tr>
+          <tr class="l1">
+            <td>Outros Gastos (68)</td>
+            <td>248€</td><td class="nu">22.118€</td>
+            <td>257€</td><td class="nu">328€</td>
+            <td>247€</td><td class="nu">160€</td>
+            <td>293€</td><td class="nu">198€</td>
+            <td class="wa-v">0€*</td><td class="nu">194€</td>
+            <td class="tot-col">1.045€</td><td class="nu">22.999€</td><td class="pos-v">-95,5%</td>
+          </tr>
+          <tr class="l2"><td>Quotizações</td><td>230€</td><td class="nu">—</td><td>255€</td><td class="nu">—</td><td>245€</td><td class="nu">—</td><td>293€</td><td class="nu">—</td><td class="wa-v">—</td><td class="nu">—</td><td class="tot-col nu">1.024€</td><td class="nu">—</td><td class="nu">—</td></tr>
+
+          <tr class="tr">
+            <td>Total Gastos</td>
+            <td>7.921€</td><td class="nu">37.523€</td>
+            <td>10.428€</td><td class="nu">13.351€</td>
+            <td>13.015€</td><td class="nu">12.987€</td>
+            <td>6.949€</td><td class="nu">14.954€</td>
+            <td>3.450€</td><td class="nu">14.914€</td>
+            <td class="tot-col">41.764€</td><td class="nu">93.730€</td><td class="pos-v">-55,4%</td>
+          </tr>
+
+          <tr class="sh"><td colspan="13">Compras</td></tr>
+          <tr class="l1">
+            <td>Compras (31)</td>
+            <td>25.605€</td><td class="nu">22.134€</td>
+            <td>24.814€</td><td class="nu">7.081€</td>
+            <td>34.275€</td><td class="nu">14.902€</td>
+            <td>35.432€</td><td class="nu">858€</td>
+            <td>2.732€</td><td class="nu">10.681€</td>
+            <td class="tot-col">122.857€</td><td class="nu">55.657€</td><td class="neg-v">+120,7%</td>
+          </tr>
+          <tr class="l2"><td>Mercadorias (311)</td><td>25.682€</td><td class="nu">—</td><td>24.864€</td><td class="nu">—</td><td>33.229€</td><td class="nu">—</td><td>33.712€</td><td class="nu">—</td><td>2.761€</td><td class="nu">—</td><td class="tot-col nu">120.248€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l2"><td>Mat. Consumo (312)</td><td>112€</td><td class="nu">—</td><td>133€</td><td class="nu">—</td><td>1.074€</td><td class="nu">—</td><td>1.802€</td><td class="nu">—</td><td>0€</td><td class="nu">—</td><td class="tot-col nu">3.122€</td><td class="nu">—</td><td class="nu">—</td></tr>
+          <tr class="l2"><td>Devoluções compras (317)</td><td class="pos-v">-189€</td><td class="nu">—</td><td class="pos-v">-182€</td><td class="nu">—</td><td class="pos-v">-29€</td><td class="nu">—</td><td class="pos-v">-83€</td><td class="nu">—</td><td class="pos-v">-29€</td><td class="nu">—</td><td class="tot-col pos-v">-513€</td><td class="nu">—</td><td class="nu">—</td></tr>
+
+          <tr class="rr mix">
+            <td>Resultado de Exploração</td>
+            <td class="pos-v">+5.488€</td><td class="neg-v">-25.373€</td>
+            <td class="neg-v">-110€</td><td class="pos-v">+3.672€</td>
+            <td class="neg-v">-831€</td><td class="neg-v">-666€</td>
+            <td class="pos-v">+3.614€</td><td class="pos-v">+12.078€</td>
+            <td class="pos-v">+39.210€</td><td class="pos-v">+2.850€</td>
+            <td class="tot-col pos-v">+47.371€</td><td class="neg-v">-7.440€</td><td class="pos-v">n/a</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note warn">* Pessoal Abr–Mai, Amortizações Mai e Outros Gastos Mai ainda não lançados. Outros Gastos Jan 2025 inclui €22.118 de gastos extraordinários de arranque.</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Vendas Mensais 2026 vs 2025</span></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="ch-ci-vendas"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Resultado de Exploração Mensal</span></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="ch-ci-resultado"></canvas></div></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Compras Mensais 2026 vs 2025</span></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="ch-ci-compras"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">FSE 2026 — Estrutura</span><span class="card-sub">Total: 20.505€</span></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="ch-ci-fse"></canvas></div></div>
+    </div>
+  </div>
+</main>
+</div>
+
+<footer>
+  <span>Farmácias Connect · Dashboard Financeiro · Mapa de Exploração Mensal TOConline · YTD Jan–Mai 2026 · v0.9</span>
+  <span>© 2026 Otoconnect</span>
+</footer>
+
+<script>
+function switchTab(id,el){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+const meses = ['Jan','Fev','Mar','Abr','Mai'];
+const baseOpts = {
+  responsive:true,maintainAspectRatio:false,
+  plugins:{
+    legend:{labels:{color:'#888',font:{size:11,family:'Inter'},boxWidth:10,padding:10}},
+    tooltip:{backgroundColor:'#1a1a1a',borderColor:'#333',borderWidth:1,titleColor:'#fff',bodyColor:'#ccc',
+      callbacks:{label:ctx=>ctx.parsed.y!=null?` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('pt-PT')}€`:' —'}}
+  },
+  scales:{
+    x:{ticks:{color:'#aaa',font:{size:10}},grid:{color:'#f0f0ec'}},
+    y:{ticks:{color:'#aaa',font:{size:10},callback:v=>(v/1000).toFixed(0)+'k€'},grid:{color:'#f0f0ec'}}
+  }
+};
+
+new Chart(document.getElementById('ch-ar-vendas'),{type:'bar',data:{
+  labels:meses,
+  datasets:[{label:'Vendas 2026',data:[114312,160117,170682,177412,170128],backgroundColor:'#2d6a35',borderRadius:4,borderSkipped:false}]
+},options:baseOpts});
+
+new Chart(document.getElementById('ch-ar-compras'),{type:'bar',data:{
+  labels:meses,
+  datasets:[{label:'Compras 2026',data:[124217,108292,130725,135025,143090],backgroundColor:'#b45309',borderRadius:4,borderSkipped:false}]
+},options:baseOpts});
+
+new Chart(document.getElementById('ch-ci-vendas'),{type:'bar',data:{
+  labels:meses,
+  datasets:[
+    {label:'2026',data:[39012,35131,46456,45995,45391],backgroundColor:'#2d6a35',borderRadius:4,borderSkipped:false},
+    {label:'2025',data:[34284,24104,27223,27890,28445],backgroundColor:'#d1e8d3',borderRadius:4,borderSkipped:false}
+  ]
+},options:baseOpts});
+
+const res26=[5488,-110,-831,3614,39210];
+const res25=[-25373,3672,-666,12078,2850];
+new Chart(document.getElementById('ch-ci-resultado'),{type:'bar',data:{
+  labels:meses,
+  datasets:[
+    {label:'2026',data:res26,backgroundColor:res26.map(v=>v>=0?'#2d6a35':'#b91c1c'),borderRadius:4,borderSkipped:false},
+    {label:'2025',data:res25,backgroundColor:res25.map(v=>v>=0?'#d1e8d3':'#fee2e2'),borderRadius:4,borderSkipped:false}
+  ]
+},options:baseOpts});
+
+new Chart(document.getElementById('ch-ci-compras'),{type:'bar',data:{
+  labels:meses,
+  datasets:[
+    {label:'2026',data:[25605,24814,34275,35432,2732],backgroundColor:'#b45309',borderRadius:4,borderSkipped:false},
+    {label:'2025',data:[22134,7081,14902,858,10681],backgroundColor:'#fde68a',borderRadius:4,borderSkipped:false}
+  ]
+},options:baseOpts});
+
+new Chart(document.getElementById('ch-ci-fse'),{type:'doughnut',data:{
+  labels:['Rendas','Trab. Esp.','Energia','Comissões','Outros Esp.','Deslocações','Comunicações','Limpeza','C&R','Materiais'],
+  datasets:[{data:[10478,7312,1483,811,472,317,371,134,264,5],
+    backgroundColor:['#2d6a35','#4a9955','#6aad6e','#8abf8e','#a0cc9e','#b5d9ae','#c8e3be','#d8ecce','#e5f3de','#f0f8ee'],
+    borderWidth:0}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#888',font:{size:10},boxWidth:8,padding:6}}}}});
+</script>
 </body>
 </html>
