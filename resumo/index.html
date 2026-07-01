@@ -38,8 +38,11 @@
   .sec-kpi{background:#fff;border:1px solid #E8E5DE;border-radius:6px;padding:8px 10px}
   .sec-label{font-size:9px;color:#9A9790;margin-bottom:3px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.4px}
   .sec-val{font-size:16px;font-weight:600;color:#1A1A18;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-0.3px}
-  [data-cols="5"] .sec-val{font-size:13px;letter-spacing:-0.2px}
-  [data-cols="5"] .sec-kpi{min-width:0}
+  [data-cols="5"] .sec-val{font-size:12px;letter-spacing:-0.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  [data-cols="5"] .sec-kpi{min-width:0;overflow:hidden}
+  [data-cols="5"] .sec-delta{white-space:nowrap;font-size:9px;overflow:hidden;text-overflow:ellipsis}
+  [data-cols="5"] .sec-label{font-size:8px}
+  [data-cols="5"] .sec-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .sec-delta{font-size:11px;font-weight:500;margin-top:3px;font-family:'JetBrains Mono',monospace}
   .sec-delta.pos{color:#0A6644}.sec-delta.neg{color:#8B1A1A}.sec-delta.neu{color:#9A9790}
   .sec-sub{font-size:9px;color:#C8C5BE;margin-top:2px;font-family:'JetBrains Mono',monospace}
@@ -126,7 +129,7 @@
       <div class="hdr-title">Farmácias Connect</div>
       <div class="hdr-sub">Resumo Diário · Quarta, 1 Jul 2026</div>
     </div>
-    <div class="hdr-meta">18h04</div>
+    <div class="hdr-meta">18h34</div>
   </div>
   <div class="body">
     
@@ -150,67 +153,67 @@
           
           <tr>
             <td><span class="farm-pill pill-a">ARO</span></td>
-            <td>4.998€<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td><span style="color:#0A6644;font-weight:600">1.090€</span><span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>21,8%<span class="rd-delta pos">↑ +0.0pp</span></td>
-            <td>88<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>56,80€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>5.154€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">1.140€</span><span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>22,1%<span class="rd-delta pos">↑ +0.0pp</span></td>
+            <td>93<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>55,42€<span class="rd-delta neg">↓ -0.0%</span></td>
           </tr>
           <tr>
             <td><span class="farm-pill pill-b">D&B</span></td>
-            <td>3.684€<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td><span style="color:#0A6644;font-weight:600">1.548€</span><span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>42,0%<span class="rd-delta pos">↑ +0.0pp</span></td>
-            <td>117<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>31,48€<span class="rd-delta neg">↓ -0.0%</span></td>
+            <td>4.064€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">1.695€</span><span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>41,7%<span class="rd-delta pos">↑ +0.0pp</span></td>
+            <td>126<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>32,25€<span class="rd-delta neg">↓ -0.0%</span></td>
           </tr>
           <tr>
             <td><span class="farm-pill pill-c">CU</span></td>
-            <td>1.451€<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td><span style="color:#0A6644;font-weight:600">447€</span><span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>30,8%<span class="rd-delta pos">↑ +0.0pp</span></td>
-            <td>46<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>31,54€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>1.492€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">461€</span><span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>30,9%<span class="rd-delta pos">↑ +0.0pp</span></td>
+            <td>49<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>30,45€<span class="rd-delta pos">↑ +0.0%</span></td>
           </tr>
           <tr>
             <td><span class="farm-pill pill-m">AM</span></td>
-            <td>7.317€<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td><span style="color:#0A6644;font-weight:600">1.655€</span><span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>22,6%<span class="rd-delta pos">↑ +0.0pp</span></td>
-            <td>126<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>58,07€<span class="rd-delta neg">↓ -0.0%</span></td>
+            <td>8.309€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">1.925€</span><span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>23,2%<span class="rd-delta pos">↑ +0.0pp</span></td>
+            <td>137<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>60,65€<span class="rd-delta pos">↑ +0.0%</span></td>
           </tr>
           <tr>
             <td><span class="farm-pill pill-p">POR</span></td>
-            <td>5.673€<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td><span style="color:#0A6644;font-weight:600">1.788€</span><span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>31,5%<span class="rd-delta pos">↑ +0.0pp</span></td>
-            <td>166<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>34,17€<span class="rd-delta neg">↓ -0.0%</span></td>
+            <td>6.001€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">1.905€</span><span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>31,7%<span class="rd-delta pos">↑ +0.0pp</span></td>
+            <td>178<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>33,71€<span class="rd-delta neg">↓ -0.0%</span></td>
           </tr>
           <tr>
             <td><span class="farm-pill pill-t">TUL</span></td>
-            <td>5.256€<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td><span style="color:#0A6644;font-weight:600">1.383€</span><span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>26,3%<span class="rd-delta pos">↑ +0.0pp</span></td>
-            <td>114<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>46,11€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>5.373€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">1.423€</span><span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>26,5%<span class="rd-delta pos">↑ +0.0pp</span></td>
+            <td>120<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>44,77€<span class="rd-delta neg">↓ -0.0%</span></td>
           </tr>
           <tr>
             <td><span class="farm-pill pill-k">CAS</span></td>
-            <td>11.446€<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td><span style="color:#0A6644;font-weight:600">3.036€</span><span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>26,5%<span class="rd-delta pos">↑ +0.0pp</span></td>
-            <td>203<span class="rd-delta pos">↑ +0.0%</span></td>
-            <td>56,38€<span class="rd-delta neg">↓ -0.0%</span></td>
+            <td>12.505€<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">3.208€</span><span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>25,7%<span class="rd-delta pos">↑ +0.0pp</span></td>
+            <td>220<span class="rd-delta pos">↑ +0.0%</span></td>
+            <td>56,84€<span class="rd-delta neg">↓ -0.0%</span></td>
           </tr>
           <tr class="total-row">
             <td>Grupo</td>
-            <td>39.825€</td>
-            <td style="color:#0A6644">10.949€</td>
-            <td>27,5%</td>
-            <td>860</td>
-            <td>46,31€</td>
+            <td>42.898€</td>
+            <td style="color:#0A6644">11.757€</td>
+            <td>27,4%</td>
+            <td>923</td>
+            <td>46,48€</td>
           </tr>
         </tbody>
       </table>
@@ -228,32 +231,32 @@
       <div class="ytd-row" style="grid-template-columns:repeat(5,1fr)" data-cols="5">
         <div class="sec-kpi" style="min-width:0">
           <div class="sec-label">Vendas MTD</div>
-          <div class="sec-val">4.998€</div>
-          <div class="sec-delta neg">↓ -27.1% vs LY</div>
+          <div class="sec-val">5.154€</div>
+          <div class="sec-delta neg">↓ -24.8%</div>
           <div class="sec-sub">LY 6.854€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € MTD</div>
-          <div class="sec-val" style="color:#8B1A1A">1.090€</div>
-          <div class="sec-delta neg">↓ -48.7% vs LY</div>
+          <div class="sec-val" style="color:#8B1A1A">1.140€</div>
+          <div class="sec-delta neg">↓ -46.4%</div>
           <div class="sec-sub">LY 2.126€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">21,8%</div>
-          <div class="sec-delta neg">↓ -9.2pp vs LY</div>
+          <div class="sec-val">22,1%</div>
+          <div class="sec-delta neg">↓ -8.9pp</div>
           <div class="sec-sub">LY 31,0%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Mg % s/ MSRM &gt;50€</div>
-          <div class="sec-val">24,8%</div>
-          <div class="sec-delta neg">↓ -8.4pp vs LY</div>
+          <div class="sec-val">25,1%</div>
+          <div class="sec-delta neg">↓ -8.1pp</div>
           <div class="sec-sub">LY 33,2%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. MTD</div>
-          <div class="sec-val">88</div>
-          <div class="sec-delta neg">↓ -48.5% vs LY</div>
+          <div class="sec-val">93</div>
+          <div class="sec-delta neg">↓ -45.6%</div>
           <div class="sec-sub">LY 171</div>
         </div>
       </div>
@@ -265,13 +268,13 @@
       <div class="ytd-row">
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">1.026.425€</div>
-          <div class="sec-delta pos">↑ +7.8% vs LY</div>
+          <div class="sec-val">1.026.581€</div>
+          <div class="sec-delta pos">↑ +7.9% vs LY</div>
           <div class="sec-sub">LY 951.763€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">276.769€</div>
+          <div class="sec-val">276.818€</div>
           <div class="sec-delta neg">↓ -2.7% vs LY</div>
           <div class="sec-sub">LY 284.535€</div>
         </div>
@@ -283,7 +286,7 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. YTD</div>
-          <div class="sec-val">24.912</div>
+          <div class="sec-val">24.917</div>
           <div class="sec-delta neg">↓ -9.7% vs LY</div>
           <div class="sec-sub">LY 27.597</div>
         </div>
@@ -370,7 +373,7 @@
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">186.305€</span>
+        <span class="stock-now">186.221€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 190,5k · Mai 198,2k · Abr 182,7k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -387,32 +390,32 @@
       <div class="ytd-row" style="grid-template-columns:repeat(5,1fr)" data-cols="5">
         <div class="sec-kpi" style="min-width:0">
           <div class="sec-label">Vendas MTD</div>
-          <div class="sec-val">3.684€</div>
-          <div class="sec-delta neg">↓ -25.0% vs LY</div>
+          <div class="sec-val">4.064€</div>
+          <div class="sec-delta neg">↓ -17.3%</div>
           <div class="sec-sub">LY 4.913€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € MTD</div>
-          <div class="sec-val" style="color:#8B1A1A">1.548€</div>
-          <div class="sec-delta neg">↓ -2.4% vs LY</div>
+          <div class="sec-val" style="color:#0A6644">1.695€</div>
+          <div class="sec-delta pos">↑ +6.9%</div>
           <div class="sec-sub">LY 1.587€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">42,0%</div>
-          <div class="sec-delta pos">↑ +9.7pp vs LY</div>
+          <div class="sec-val">41,7%</div>
+          <div class="sec-delta pos">↑ +9.4pp</div>
           <div class="sec-sub">LY 32,3%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Mg % s/ MSRM &gt;50€</div>
-          <div class="sec-val">42,6%</div>
-          <div class="sec-delta pos">↑ +6.9pp vs LY</div>
+          <div class="sec-val">42,2%</div>
+          <div class="sec-delta pos">↑ +6.5pp</div>
           <div class="sec-sub">LY 35,7%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. MTD</div>
-          <div class="sec-val">117</div>
-          <div class="sec-delta neg">↓ -24.0% vs LY</div>
+          <div class="sec-val">126</div>
+          <div class="sec-delta neg">↓ -18.2%</div>
           <div class="sec-sub">LY 154</div>
         </div>
       </div>
@@ -424,13 +427,13 @@
       <div class="ytd-row">
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">725.224€</div>
-          <div class="sec-delta pos">↑ +8.3% vs LY</div>
+          <div class="sec-val">725.604€</div>
+          <div class="sec-delta pos">↑ +8.4% vs LY</div>
           <div class="sec-sub">LY 669.505€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">246.076€</div>
+          <div class="sec-val">246.224€</div>
           <div class="sec-delta pos">↑ +4.3% vs LY</div>
           <div class="sec-sub">LY 235.990€</div>
         </div>
@@ -442,8 +445,8 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. YTD</div>
-          <div class="sec-val">21.066</div>
-          <div class="sec-delta neg">↓ -3.9% vs LY</div>
+          <div class="sec-val">21.075</div>
+          <div class="sec-delta neg">↓ -3.8% vs LY</div>
           <div class="sec-sub">LY 21.915</div>
         </div>
       </div>
@@ -529,7 +532,7 @@
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">88.263€</span>
+        <span class="stock-now">88.034€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 81,8k · Mai 77,2k · Abr 83,1k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -546,32 +549,32 @@
       <div class="ytd-row" style="grid-template-columns:repeat(5,1fr)" data-cols="5">
         <div class="sec-kpi" style="min-width:0">
           <div class="sec-label">Vendas MTD</div>
-          <div class="sec-val">1.451€</div>
-          <div class="sec-delta neg">↓ -22.2% vs LY</div>
+          <div class="sec-val">1.492€</div>
+          <div class="sec-delta neg">↓ -20.0%</div>
           <div class="sec-sub">LY 1.864€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € MTD</div>
-          <div class="sec-val" style="color:#8B1A1A">447€</div>
-          <div class="sec-delta neg">↓ -22.7% vs LY</div>
+          <div class="sec-val" style="color:#8B1A1A">461€</div>
+          <div class="sec-delta neg">↓ -20.3%</div>
           <div class="sec-sub">LY 579€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">30,8%</div>
-          <div class="sec-delta neg">↓ -0.2pp vs LY</div>
+          <div class="sec-val">30,9%</div>
+          <div class="sec-delta neg">↓ -0.1pp</div>
           <div class="sec-sub">LY 31,0%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Mg % s/ MSRM &gt;50€</div>
-          <div class="sec-val">35,1%</div>
-          <div class="sec-delta neg">↓ -1.3pp vs LY</div>
+          <div class="sec-val">35,0%</div>
+          <div class="sec-delta neg">↓ -1.4pp</div>
           <div class="sec-sub">LY 36,4%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. MTD</div>
-          <div class="sec-val">46</div>
-          <div class="sec-delta neg">↓ -23.3% vs LY</div>
+          <div class="sec-val">49</div>
+          <div class="sec-delta neg">↓ -18.3%</div>
           <div class="sec-sub">LY 60</div>
         </div>
       </div>
@@ -583,13 +586,13 @@
       <div class="ytd-row">
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">255.955€</div>
-          <div class="sec-delta pos">↑ +54.8% vs LY</div>
+          <div class="sec-val">255.996€</div>
+          <div class="sec-delta pos">↑ +54.9% vs LY</div>
           <div class="sec-sub">LY 165.297€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">68.608€</div>
+          <div class="sec-val">68.621€</div>
           <div class="sec-delta pos">↑ +16.1% vs LY</div>
           <div class="sec-sub">LY 59.082€</div>
         </div>
@@ -601,7 +604,7 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. YTD</div>
-          <div class="sec-val">8.806</div>
+          <div class="sec-val">8.809</div>
           <div class="sec-delta pos">↑ +14.0% vs LY</div>
           <div class="sec-sub">LY 7.725</div>
         </div>
@@ -688,7 +691,7 @@
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">71.770€</span>
+        <span class="stock-now">71.744€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 74,1k · Mai 82,3k · Abr 80,0k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -705,32 +708,32 @@
       <div class="ytd-row" style="grid-template-columns:repeat(5,1fr)" data-cols="5">
         <div class="sec-kpi" style="min-width:0">
           <div class="sec-label">Vendas MTD</div>
-          <div class="sec-val">7.317€</div>
-          <div class="sec-delta neg">↓ -42.8% vs LY</div>
+          <div class="sec-val">8.309€</div>
+          <div class="sec-delta neg">↓ -35.1%</div>
           <div class="sec-sub">LY 12.793€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € MTD</div>
-          <div class="sec-val" style="color:#8B1A1A">1.655€</div>
-          <div class="sec-delta neg">↓ -50.9% vs LY</div>
+          <div class="sec-val" style="color:#8B1A1A">1.925€</div>
+          <div class="sec-delta neg">↓ -42.9%</div>
           <div class="sec-sub">LY 3.371€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">22,6%</div>
-          <div class="sec-delta neg">↓ -3.8pp vs LY</div>
+          <div class="sec-val">23,2%</div>
+          <div class="sec-delta neg">↓ -3.2pp</div>
           <div class="sec-sub">LY 26,4%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Mg % s/ MSRM &gt;50€</div>
-          <div class="sec-val">32,6%</div>
-          <div class="sec-delta pos">↑ +2.2pp vs LY</div>
+          <div class="sec-val">32,7%</div>
+          <div class="sec-delta pos">↑ +2.3pp</div>
           <div class="sec-sub">LY 30,4%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. MTD</div>
-          <div class="sec-val">126</div>
-          <div class="sec-delta neg">↓ -52.8% vs LY</div>
+          <div class="sec-val">137</div>
+          <div class="sec-delta neg">↓ -48.7%</div>
           <div class="sec-sub">LY 267</div>
         </div>
       </div>
@@ -742,13 +745,13 @@
       <div class="ytd-row">
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">2.136.983€</div>
+          <div class="sec-val">2.137.975€</div>
           <div class="sec-delta pos">↑ +17.5% vs LY</div>
           <div class="sec-sub">LY 1.819.411€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">490.078€</div>
+          <div class="sec-val">490.348€</div>
           <div class="sec-delta pos">↑ +1.8% vs LY</div>
           <div class="sec-sub">LY 481.469€</div>
         </div>
@@ -760,7 +763,7 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. YTD</div>
-          <div class="sec-val">39.803</div>
+          <div class="sec-val">39.814</div>
           <div class="sec-delta neg">↓ -2.8% vs LY</div>
           <div class="sec-sub">LY 40.962</div>
         </div>
@@ -838,7 +841,7 @@
             <div class="bar b26m" style="height:2px"></div>
           </div>
           <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">7k</div>
+          <div class="bm-val">8k</div>
           <div class="bm-mg neu">MTD</div>
         </div>
         </div>
@@ -847,7 +850,7 @@
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">319.874€</span>
+        <span class="stock-now">319.260€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 315,2k · Mai 319,3k · Abr 298,1k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -864,32 +867,32 @@
       <div class="ytd-row" style="grid-template-columns:repeat(5,1fr)" data-cols="5">
         <div class="sec-kpi" style="min-width:0">
           <div class="sec-label">Vendas MTD</div>
-          <div class="sec-val">5.673€</div>
-          <div class="sec-delta neg">↓ -34.2% vs LY</div>
+          <div class="sec-val">6.001€</div>
+          <div class="sec-delta neg">↓ -30.4%</div>
           <div class="sec-sub">LY 8.626€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € MTD</div>
-          <div class="sec-val" style="color:#8B1A1A">1.788€</div>
-          <div class="sec-delta neg">↓ -25.4% vs LY</div>
+          <div class="sec-val" style="color:#8B1A1A">1.905€</div>
+          <div class="sec-delta neg">↓ -20.5%</div>
           <div class="sec-sub">LY 2.395€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">31,5%</div>
-          <div class="sec-delta pos">↑ +3.7pp vs LY</div>
+          <div class="sec-val">31,7%</div>
+          <div class="sec-delta pos">↑ +3.9pp</div>
           <div class="sec-sub">LY 27,8%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Mg % s/ MSRM &gt;50€</div>
-          <div class="sec-val">37,4%</div>
-          <div class="sec-delta pos">↑ +2.9pp vs LY</div>
+          <div class="sec-val">37,3%</div>
+          <div class="sec-delta pos">↑ +2.8pp</div>
           <div class="sec-sub">LY 34,5%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. MTD</div>
-          <div class="sec-val">166</div>
-          <div class="sec-delta neg">↓ -26.9% vs LY</div>
+          <div class="sec-val">178</div>
+          <div class="sec-delta neg">↓ -21.6%</div>
           <div class="sec-sub">LY 227</div>
         </div>
       </div>
@@ -901,13 +904,13 @@
       <div class="ytd-row">
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">1.174.128€</div>
+          <div class="sec-val">1.174.456€</div>
           <div class="sec-delta pos">↑ +13.1% vs LY</div>
           <div class="sec-sub">LY 1.038.233€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">349.990€</div>
+          <div class="sec-val">350.108€</div>
           <div class="sec-delta pos">↑ +13.5% vs LY</div>
           <div class="sec-sub">LY 308.337€</div>
         </div>
@@ -919,7 +922,7 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. YTD</div>
-          <div class="sec-val">35.298</div>
+          <div class="sec-val">35.310</div>
           <div class="sec-delta pos">↑ +0.8% vs LY</div>
           <div class="sec-sub">LY 35.032</div>
         </div>
@@ -1006,7 +1009,7 @@
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">205.460€</span>
+        <span class="stock-now">205.302€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 206,4k · Mai 228,7k · Abr 211,2k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -1023,32 +1026,32 @@
       <div class="ytd-row" style="grid-template-columns:repeat(5,1fr)" data-cols="5">
         <div class="sec-kpi" style="min-width:0">
           <div class="sec-label">Vendas MTD</div>
-          <div class="sec-val">5.256€</div>
-          <div class="sec-delta neg">↓ -8.4% vs LY</div>
+          <div class="sec-val">5.373€</div>
+          <div class="sec-delta neg">↓ -6.4%</div>
           <div class="sec-sub">LY 5.739€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € MTD</div>
-          <div class="sec-val" style="color:#8B1A1A">1.383€</div>
-          <div class="sec-delta neg">↓ -29.9% vs LY</div>
+          <div class="sec-val" style="color:#8B1A1A">1.423€</div>
+          <div class="sec-delta neg">↓ -27.9%</div>
           <div class="sec-sub">LY 1.975€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">26,3%</div>
-          <div class="sec-delta neg">↓ -8.1pp vs LY</div>
+          <div class="sec-val">26,5%</div>
+          <div class="sec-delta neg">↓ -7.9pp</div>
           <div class="sec-sub">LY 34,4%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Mg % s/ MSRM &gt;50€</div>
-          <div class="sec-val">39,0%</div>
-          <div class="sec-delta pos">↑ +1.1pp vs LY</div>
+          <div class="sec-val">39,1%</div>
+          <div class="sec-delta pos">↑ +1.2pp</div>
           <div class="sec-sub">LY 37,9%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. MTD</div>
-          <div class="sec-val">114</div>
-          <div class="sec-delta neg">↓ -16.8% vs LY</div>
+          <div class="sec-val">120</div>
+          <div class="sec-delta neg">↓ -12.4%</div>
           <div class="sec-sub">LY 137</div>
         </div>
       </div>
@@ -1060,13 +1063,13 @@
       <div class="ytd-row">
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">968.764€</div>
+          <div class="sec-val">968.881€</div>
           <div class="sec-delta pos">↑ +5.8% vs LY</div>
           <div class="sec-sub">LY 915.957€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">300.094€</div>
+          <div class="sec-val">300.133€</div>
           <div class="sec-delta neg">↓ -1.1% vs LY</div>
           <div class="sec-sub">LY 303.475€</div>
         </div>
@@ -1078,7 +1081,7 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. YTD</div>
-          <div class="sec-val">23.104</div>
+          <div class="sec-val">23.110</div>
           <div class="sec-delta neg">↓ -3.3% vs LY</div>
           <div class="sec-sub">LY 23.891</div>
         </div>
@@ -1165,8 +1168,8 @@
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">135.644€</span>
-        <span class='stock-sep'>·</span><span class='stock-hist'>Jun 138,1k · Mai 145,3k · Abr 139,7k</span>
+        <span class="stock-now">139.336€</span>
+        <span class='stock-sep'>·</span><span class='stock-hist'>Jun 138,1k · Mai 145,4k · Abr 139,7k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
@@ -1182,32 +1185,32 @@
       <div class="ytd-row" style="grid-template-columns:repeat(5,1fr)" data-cols="5">
         <div class="sec-kpi" style="min-width:0">
           <div class="sec-label">Vendas MTD</div>
-          <div class="sec-val">11.446€</div>
-          <div class="sec-delta pos">↑ +1.9% vs LY</div>
+          <div class="sec-val">12.505€</div>
+          <div class="sec-delta pos">↑ +11.4%</div>
           <div class="sec-sub">LY 11.229€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € MTD</div>
-          <div class="sec-val" style="color:#8B1A1A">3.036€</div>
-          <div class="sec-delta neg">↓ -2.0% vs LY</div>
+          <div class="sec-val" style="color:#0A6644">3.208€</div>
+          <div class="sec-delta pos">↑ +3.6%</div>
           <div class="sec-sub">LY 3.098€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem % MTD</div>
-          <div class="sec-val">26,5%</div>
-          <div class="sec-delta neg">↓ -1.1pp vs LY</div>
+          <div class="sec-val">25,7%</div>
+          <div class="sec-delta neg">↓ -1.9pp</div>
           <div class="sec-sub">LY 27,6%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Mg % s/ MSRM &gt;50€</div>
-          <div class="sec-val">34,7%</div>
-          <div class="sec-delta pos">↑ +4.9pp vs LY</div>
+          <div class="sec-val">33,1%</div>
+          <div class="sec-delta pos">↑ +3.3pp</div>
           <div class="sec-sub">LY 29,8%</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. MTD</div>
-          <div class="sec-val">203</div>
-          <div class="sec-delta neg">↓ -28.0% vs LY</div>
+          <div class="sec-val">220</div>
+          <div class="sec-delta neg">↓ -22.0%</div>
           <div class="sec-sub">LY 282</div>
         </div>
       </div>
@@ -1219,14 +1222,14 @@
       <div class="ytd-row">
         <div class="sec-kpi">
           <div class="sec-label">Vendas YTD</div>
-          <div class="sec-val">1.585.954€</div>
-          <div class="sec-delta pos">↑ +4.9% vs LY</div>
+          <div class="sec-val">1.587.013€</div>
+          <div class="sec-delta pos">↑ +5.0% vs LY</div>
           <div class="sec-sub">LY 1.511.472€</div>
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Margem € YTD</div>
-          <div class="sec-val">484.088€</div>
-          <div class="sec-delta neg">↓ -0.9% vs LY</div>
+          <div class="sec-val">484.260€</div>
+          <div class="sec-delta neg">↓ -0.8% vs LY</div>
           <div class="sec-sub">LY 488.311€</div>
         </div>
         <div class="sec-kpi">
@@ -1237,7 +1240,7 @@
         </div>
         <div class="sec-kpi">
           <div class="sec-label">Atend. YTD</div>
-          <div class="sec-val">42.189</div>
+          <div class="sec-val">42.206</div>
           <div class="sec-delta neg">↓ -8.9% vs LY</div>
           <div class="sec-sub">LY 46.308</div>
         </div>
@@ -1312,10 +1315,10 @@
         <div class="bar-month">
           <div class="bar-pair">
             <div class="bar b25" style="height:68px"></div>
-            <div class="bar b26m" style="height:2px"></div>
+            <div class="bar b26m" style="height:3px"></div>
           </div>
           <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">11k</div>
+          <div class="bm-val">13k</div>
           <div class="bm-mg neu">MTD</div>
         </div>
         </div>
@@ -1324,7 +1327,7 @@
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">253.787€</span>
+        <span class="stock-now">253.329€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 253,5k · Mai 272,3k · Abr 262,4k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -1348,88 +1351,88 @@
         <tbody>
           <tr>
             <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-k" style="font-size:9px">CAS</span></td>
-            <td style="color:#8B1A1A;font-weight:600">3.036€</td>
-            <td>11.446€</td>
-            <td>26,5%</td>
-            <td>203</td>
-            <td>56,38€</td>
-            <td class="rd pos">↑ +1.9%</td>
-            <td class="rd pos">↑ +4.9%</td>
+            <td style="color:#0A6644;font-weight:600">3.208€</td>
+            <td>12.505€</td>
+            <td>25,7%</td>
+            <td>220</td>
+            <td>56,84€</td>
+            <td class="rd pos">↑ +11.4%</td>
+            <td class="rd pos">↑ +5.0%</td>
           </tr>
           <tr>
-            <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-p" style="font-size:9px">POR</span></td>
-            <td style="color:#8B1A1A;font-weight:600">1.788€</td>
-            <td>5.673€</td>
-            <td>31,5%</td>
-            <td>166</td>
-            <td>34,17€</td>
-            <td class="rd neg">↓ -34.2%</td>
-            <td class="rd pos">↑ +13.1%</td>
-          </tr>
-          <tr>
-            <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
-            <td style="color:#8B1A1A;font-weight:600">1.655€</td>
-            <td>7.317€</td>
-            <td>22,6%</td>
-            <td>126</td>
-            <td>58,07€</td>
-            <td class="rd neg">↓ -42.8%</td>
+            <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
+            <td style="color:#8B1A1A;font-weight:600">1.925€</td>
+            <td>8.309€</td>
+            <td>23,2%</td>
+            <td>137</td>
+            <td>60,65€</td>
+            <td class="rd neg">↓ -35.1%</td>
             <td class="rd pos">↑ +17.5%</td>
           </tr>
           <tr>
+            <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-p" style="font-size:9px">POR</span></td>
+            <td style="color:#8B1A1A;font-weight:600">1.905€</td>
+            <td>6.001€</td>
+            <td>31,7%</td>
+            <td>178</td>
+            <td>33,71€</td>
+            <td class="rd neg">↓ -30.4%</td>
+            <td class="rd pos">↑ +13.1%</td>
+          </tr>
+          <tr>
             <td><span class="rank-pos rank-4">4</span><span class="farm-pill pill-b" style="font-size:9px">D&B</span></td>
-            <td style="color:#8B1A1A;font-weight:600">1.548€</td>
-            <td>3.684€</td>
-            <td>42,0%</td>
-            <td>117</td>
-            <td>31,48€</td>
-            <td class="rd neg">↓ -25.0%</td>
-            <td class="rd pos">↑ +8.3%</td>
+            <td style="color:#0A6644;font-weight:600">1.695€</td>
+            <td>4.064€</td>
+            <td>41,7%</td>
+            <td>126</td>
+            <td>32,25€</td>
+            <td class="rd neg">↓ -17.3%</td>
+            <td class="rd pos">↑ +8.4%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-5">5</span><span class="farm-pill pill-t" style="font-size:9px">TUL</span></td>
-            <td style="color:#8B1A1A;font-weight:600">1.383€</td>
-            <td>5.256€</td>
-            <td>26,3%</td>
-            <td>114</td>
-            <td>46,11€</td>
-            <td class="rd neg">↓ -8.4%</td>
+            <td style="color:#8B1A1A;font-weight:600">1.423€</td>
+            <td>5.373€</td>
+            <td>26,5%</td>
+            <td>120</td>
+            <td>44,77€</td>
+            <td class="rd neg">↓ -6.4%</td>
             <td class="rd pos">↑ +5.8%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-6">6</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
-            <td style="color:#8B1A1A;font-weight:600">1.090€</td>
-            <td>4.998€</td>
-            <td>21,8%</td>
-            <td>88</td>
-            <td>56,80€</td>
-            <td class="rd neg">↓ -27.1%</td>
-            <td class="rd pos">↑ +7.8%</td>
+            <td style="color:#8B1A1A;font-weight:600">1.140€</td>
+            <td>5.154€</td>
+            <td>22,1%</td>
+            <td>93</td>
+            <td>55,42€</td>
+            <td class="rd neg">↓ -24.8%</td>
+            <td class="rd pos">↑ +7.9%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-7">7</span><span class="farm-pill pill-c" style="font-size:9px">CU</span></td>
-            <td style="color:#8B1A1A;font-weight:600">447€</td>
-            <td>1.451€</td>
-            <td>30,8%</td>
-            <td>46</td>
-            <td>31,54€</td>
-            <td class="rd neg">↓ -22.2%</td>
-            <td class="rd pos">↑ +54.8%</td>
+            <td style="color:#8B1A1A;font-weight:600">461€</td>
+            <td>1.492€</td>
+            <td>30,9%</td>
+            <td>49</td>
+            <td>30,45€</td>
+            <td class="rd neg">↓ -20.0%</td>
+            <td class="rd pos">↑ +54.9%</td>
           </tr></tbody>
       </table>
     </div>
     
     <div class="sec-divider">Alertas</div>
     <div class="alerts-block">
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Aroeira — 571 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Dias e Brito — 626 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Cidade Universitária — 311 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto dos Moinhos — 477 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Aroeira — 572 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Dias e Brito — 630 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Cidade Universitária — 314 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto dos Moinhos — 484 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Porfírio — 494 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 723 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 555 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 643 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 557 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
     </div>
-    <div class="footer">Farmácias Connect · Resumo Diário · 18h04</div>
+    <div class="footer">Farmácias Connect · Resumo Diário · 18h34</div>
   </div>
 </div>
 </body>
