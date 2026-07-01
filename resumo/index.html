@@ -86,6 +86,24 @@
   .resumo-table tr:last-child td{border-bottom:none}
   .resumo-table tr.total-row td{font-weight:600;background:#F0EDE6;border-top:1px solid #E8E5DE;border-bottom:none;font-size:11px}
   .rd-delta{font-size:9px;font-family:'JetBrains Mono',monospace;font-weight:500;display:block;margin-top:1px}
+  .chart-card{background:#fff;border:1px solid #E8E5DE;border-radius:6px;padding:10px 12px;margin-top:10px}
+  .chart-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .chart-title{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#9A9790;font-family:'JetBrains Mono',monospace}
+  .chart-leg{display:flex;gap:8px}
+  .chart-leg-item{display:flex;align-items:center;gap:3px;font-size:8px;color:#9A9790;font-family:'JetBrains Mono',monospace}
+  .chart-leg-dot{width:7px;height:7px;border-radius:1px;flex-shrink:0}
+  .bar-months{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+  .bar-month{display:flex;flex-direction:column;align-items:center}
+  .bar-pair{display:flex;align-items:flex-end;gap:2px;height:70px}
+  .bar{border-radius:2px 2px 0 0;width:14px;min-height:2px}
+  .b25{background:#D3D1C7}
+  .b26p{background:#1D9E75}
+  .b26n{background:#C0392B}
+  .b26m{background:#D3D1C7;opacity:0.4}
+  .bm-label{font-size:8px;color:#9A9790;font-family:'JetBrains Mono',monospace;margin-top:2px}
+  .bm-val{font-size:8px;font-weight:600;color:#1A1A18;font-family:'JetBrains Mono',monospace;text-align:center;line-height:1.2}
+  .bm-mg{font-size:7px;font-family:'JetBrains Mono',monospace;text-align:center;line-height:1.2}
+  .bm-mg.pos{color:#0A6644}.bm-mg.neg{color:#8B1A1A}.bm-mg.neu{color:#9A9790}
   .footer{font-size:9px;color:#B0ADA6;text-align:center;padding-top:12px;margin-top:4px;border-top:1px solid #E8E5DE;font-family:'JetBrains Mono',monospace}
   @media(max-width:480px){
     .hero-row4{grid-template-columns:repeat(2,1fr);gap:5px}
@@ -106,7 +124,7 @@
       <div class="hdr-title">Farmácias Connect</div>
       <div class="hdr-sub">Resumo Diário · Quarta, 1 Jul 2026</div>
     </div>
-    <div class="hdr-meta">01h02</div>
+    <div class="hdr-meta">01h12</div>
   </div>
   <div class="body">
     
@@ -329,15 +347,6 @@
           <div class="bm-val">169k</div>
           <div class="bm-mg pos">↑2%</div>
         </div>
-        <div class="bar-month">
-          <div class="bar-pair">
-            <div class="bar b25" style="height:67px"></div>
-            <div class="bar b26m" style="height:2px"></div>
-          </div>
-          <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">0</div>
-          <div class="bm-mg neu">MTD</div>
-        </div>
         </div>
       </div>
 
@@ -480,15 +489,6 @@
           <div class="bm-label">Jun</div>
           <div class="bm-val">122k</div>
           <div class="bm-mg pos">↑20%</div>
-        </div>
-        <div class="bar-month">
-          <div class="bar-pair">
-            <div class="bar b25" style="height:68px"></div>
-            <div class="bar b26m" style="height:2px"></div>
-          </div>
-          <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">0</div>
-          <div class="bm-mg neu">MTD</div>
         </div>
         </div>
       </div>
@@ -633,15 +633,6 @@
           <div class="bm-val">43k</div>
           <div class="bm-mg pos">↑100%</div>
         </div>
-        <div class="bar-month">
-          <div class="bar-pair">
-            <div class="bar b25" style="height:40px"></div>
-            <div class="bar b26m" style="height:2px"></div>
-          </div>
-          <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">0</div>
-          <div class="bm-mg neu">MTD</div>
-        </div>
         </div>
       </div>
 
@@ -784,15 +775,6 @@
           <div class="bm-label">Jun</div>
           <div class="bm-val">339k</div>
           <div class="bm-mg pos">↑18%</div>
-        </div>
-        <div class="bar-month">
-          <div class="bar-pair">
-            <div class="bar b25" style="height:61px"></div>
-            <div class="bar b26m" style="height:2px"></div>
-          </div>
-          <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">0</div>
-          <div class="bm-mg neu">MTD</div>
         </div>
         </div>
       </div>
@@ -937,15 +919,6 @@
           <div class="bm-val">193k</div>
           <div class="bm-mg pos">↑16%</div>
         </div>
-        <div class="bar-month">
-          <div class="bar-pair">
-            <div class="bar b25" style="height:65px"></div>
-            <div class="bar b26m" style="height:2px"></div>
-          </div>
-          <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">0</div>
-          <div class="bm-mg neu">MTD</div>
-        </div>
         </div>
       </div>
 
@@ -1088,15 +1061,6 @@
           <div class="bm-label">Jun</div>
           <div class="bm-val">159k</div>
           <div class="bm-mg pos">↑12%</div>
-        </div>
-        <div class="bar-month">
-          <div class="bar-pair">
-            <div class="bar b25" style="height:63px"></div>
-            <div class="bar b26m" style="height:2px"></div>
-          </div>
-          <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">0</div>
-          <div class="bm-mg neu">MTD</div>
         </div>
         </div>
       </div>
@@ -1241,15 +1205,6 @@
           <div class="bm-val">259k</div>
           <div class="bm-mg pos">↑2%</div>
         </div>
-        <div class="bar-month">
-          <div class="bar-pair">
-            <div class="bar b25" style="height:68px"></div>
-            <div class="bar b26m" style="height:2px"></div>
-          </div>
-          <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">0</div>
-          <div class="bm-mg neu">MTD</div>
-        </div>
         </div>
       </div>
 
@@ -1360,7 +1315,7 @@
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 660 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 560 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
     </div>
-    <div class="footer">Farmácias Connect · Resumo Diário · 01h02</div>
+    <div class="footer">Farmácias Connect · Resumo Diário · 01h12</div>
   </div>
 </div>
 </body>
