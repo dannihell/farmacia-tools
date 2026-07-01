@@ -86,6 +86,24 @@
   .resumo-table tr:last-child td{border-bottom:none}
   .resumo-table tr.total-row td{font-weight:600;background:#F0EDE6;border-top:1px solid #E8E5DE;border-bottom:none;font-size:11px}
   .rd-delta{font-size:9px;font-family:'JetBrains Mono',monospace;font-weight:500;display:block;margin-top:1px}
+  .chart-card{background:#fff;border:1px solid #E8E5DE;border-radius:6px;padding:10px 12px;margin-top:10px}
+  .chart-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .chart-title{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#9A9790;font-family:'JetBrains Mono',monospace}
+  .chart-leg{display:flex;gap:8px}
+  .chart-leg-item{display:flex;align-items:center;gap:3px;font-size:8px;color:#9A9790;font-family:'JetBrains Mono',monospace}
+  .chart-leg-dot{width:7px;height:7px;border-radius:1px;flex-shrink:0}
+  .bar-months{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+  .bar-month{display:flex;flex-direction:column;align-items:center}
+  .bar-pair{display:flex;align-items:flex-end;gap:2px;height:70px}
+  .bar{border-radius:2px 2px 0 0;width:14px;min-height:2px}
+  .b25{background:#D3D1C7}
+  .b26p{background:#1D9E75}
+  .b26n{background:#C0392B}
+  .b26m{background:#D3D1C7;opacity:0.4}
+  .bm-label{font-size:8px;color:#9A9790;font-family:'JetBrains Mono',monospace;margin-top:2px}
+  .bm-val{font-size:8px;font-weight:600;color:#1A1A18;font-family:'JetBrains Mono',monospace;text-align:center;line-height:1.2}
+  .bm-mg{font-size:7px;font-family:'JetBrains Mono',monospace;text-align:center;line-height:1.2}
+  .bm-mg.pos{color:#0A6644}.bm-mg.neg{color:#8B1A1A}.bm-mg.neu{color:#9A9790}
   .footer{font-size:9px;color:#B0ADA6;text-align:center;padding-top:12px;margin-top:4px;border-top:1px solid #E8E5DE;font-family:'JetBrains Mono',monospace}
   @media(max-width:480px){
     .hero-row4{grid-template-columns:repeat(2,1fr);gap:5px}
@@ -106,7 +124,7 @@
       <div class="hdr-title">Farmácias Connect</div>
       <div class="hdr-sub">Resumo Diário · Quarta, 1 Jul 2026</div>
     </div>
-    <div class="hdr-meta">02h12</div>
+    <div class="hdr-meta">02h26</div>
   </div>
   <div class="body">
     
@@ -334,10 +352,11 @@
 
       <!-- Stock -->
       <div class="stock-inline">
-        <span class="stock-lbl">Stock custo</span>
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
         <span class="stock-now">189.377€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 190,5k · Mai 198,2k · Abr 182,7k</span>
       </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider">Farmácia Dias e Brito</div>
     <div class="farm-block">
@@ -477,10 +496,11 @@
 
       <!-- Stock -->
       <div class="stock-inline">
-        <span class="stock-lbl">Stock custo</span>
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
         <span class="stock-now">81.666€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 81,8k · Mai 77,2k · Abr 83,1k</span>
       </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider">Farmácia Cidade Universitária</div>
     <div class="farm-block">
@@ -620,10 +640,11 @@
 
       <!-- Stock -->
       <div class="stock-inline">
-        <span class="stock-lbl">Stock custo</span>
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
         <span class="stock-now">72.041€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 74,1k · Mai 82,3k · Abr 80,0k</span>
       </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider">Farmácia Alto dos Moinhos</div>
     <div class="farm-block">
@@ -763,10 +784,11 @@
 
       <!-- Stock -->
       <div class="stock-inline">
-        <span class="stock-lbl">Stock custo</span>
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
         <span class="stock-now">315.366€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 315,2k · Mai 319,3k · Abr 298,1k</span>
       </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider">Farmácia Porfírio</div>
     <div class="farm-block">
@@ -906,10 +928,11 @@
 
       <!-- Stock -->
       <div class="stock-inline">
-        <span class="stock-lbl">Stock custo</span>
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
         <span class="stock-now">206.243€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 206,4k · Mai 228,7k · Abr 211,1k</span>
       </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider">Farmácia Túlipas</div>
     <div class="farm-block">
@@ -1049,10 +1072,11 @@
 
       <!-- Stock -->
       <div class="stock-inline">
-        <span class="stock-lbl">Stock custo</span>
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
         <span class="stock-now">137.643€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 138,1k · Mai 145,3k · Abr 139,7k</span>
       </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider">Farmácia Alto da Castelhana</div>
     <div class="farm-block">
@@ -1192,10 +1216,11 @@
 
       <!-- Stock -->
       <div class="stock-inline">
-        <span class="stock-lbl">Stock custo</span>
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
         <span class="stock-now">253.484€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 253,6k · Mai 272,3k · Abr 262,4k</span>
       </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     
     <div class="sec-divider">Ranking interno MTD</div>
@@ -1297,7 +1322,7 @@
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 660 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 560 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
     </div>
-    <div class="footer">Farmácias Connect · Resumo Diário · 02h12</div>
+    <div class="footer">Farmácias Connect · Resumo Diário · 02h26</div>
   </div>
 </div>
 </body>
