@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.8</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.9</span>
   </div>
 </header>
 
@@ -339,7 +339,7 @@
 </div>
 
 <!-- Resumo de filtros em mobile (aparece depois de gerar proposta) -->
-<div id="toolbar-resumo">
+<div id="toolbar-resumo" style="display:none">
   <span class="resumo-texto" id="toolbar-resumo-texto"></span>
   <button class="btn-editar" onclick="expandirToolbar()">✏️ Filtros</button>
 </div>
