@@ -1,37 +1,4 @@
-
-<style>
-.dest-bar{background:#0D5E48;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace}
-.dest-bar label{color:rgba(255,255,255,0.7);font-size:10px;text-transform:uppercase;letter-spacing:0.5px}
-.dest-select{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;color:#fff;font-size:12px;padding:4px 8px;font-family:'JetBrains Mono',monospace;cursor:pointer}
-.dest-select option{background:#0D5E48;color:#fff}
-</style>
-<div class="dest-bar">
-  <label>Ver como:</label>
-  <select class="dest-select" id="destSelect" onchange="filterDest(this.value)">
-    <option value="__all__">Todos</option>
-  </select>
-</div>
-<script>
-const DESTINATARIOS = [{"nome": "Daniel", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "Marta", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "Orlando", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "Rui", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "João", "farmacias": ["AltoMoinhos"]}, {"nome": "Vera", "farmacias": ["DiasBrito"]}, {"nome": "Cláudia", "farmacias": ["Aroeira", "CidadeUniv", "Porfirio", "Tulipas", "Castelhana"]}];
-DESTINATARIOS.forEach(function(d, i) {
-  var opt = document.createElement('option');
-  opt.value = i;
-  opt.textContent = d.nome;
-  document.getElementById('destSelect').appendChild(opt);
-});
-function filterDest(val) {
-  var farms = val === '__all__' ? null : DESTINATARIOS[parseInt(val)].farmacias;
-  document.querySelectorAll('[data-farm]').forEach(function(el) {
-    if (!farms) { el.style.display = ''; return; }
-    el.style.display = farms.includes(el.dataset.farm) ? '' : 'none';
-  });
-  // also filter resumo table rows
-  document.querySelectorAll('.resumo-table tbody tr[data-farm]').forEach(function(row) {
-    if (!farms) { row.style.display = ''; return; }
-    row.style.display = farms.includes(row.dataset.farm) ? '' : 'none';
-  });
-}
-</script><!DOCTYPE html>
+<style>.dest-select{{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;color:#fff;font-size:11px;padding:3px 6px;font-family:'JetBrains Mono',monospace;cursor:pointer;margin-left:6px}}.dest-select option{{background:#0D5E48}}.dest-lbl{{color:rgba(255,255,255,0.6);font-size:10px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.5px}}</style><!DOCTYPE html>
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
@@ -170,7 +137,7 @@ function filterDest(val) {
       <div class="hdr-title">Farmácias Connect</div>
       <div class="hdr-sub">Resumo Diário · Sexta, 3 Jul 2026</div>
     </div>
-    <div class="hdr-meta">18h07</div>
+    <div class="hdr-meta" style="display:flex;align-items:center;gap:8px"><span class="dest-lbl">Ver como</span><select class="dest-select" id="destSelect" onchange="filterDest(this.value)"><option value="__all__">Todos</option></select>18h20</div>
   </div>
   <div class="body">
     
@@ -194,19 +161,19 @@ function filterDest(val) {
           
           <tr data-farm="Aroeira">
             <td><span class="farm-pill pill-a">ARO</span></td>
-            <td>5.158€<span class="rd-delta neg">↓ -17.2%</span></td>
-            <td><span style="color:#8B1A1A;font-weight:600">1.119€</span><span class="rd-delta neg">↓ -23.3%</span></td>
-            <td>21,7%<span class="rd-delta neg">↓ -1.7pp</span></td>
-            <td>94<span class="rd-delta neg">↓ -23.2%</span></td>
-            <td>54,87€<span class="rd-delta pos">↑ +7.7%</span></td>
+            <td>5.188€<span class="rd-delta neg">↓ -16.9%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">1.131€</span><span class="rd-delta neg">↓ -22.7%</span></td>
+            <td>21,8%<span class="rd-delta neg">↓ -1.6pp</span></td>
+            <td>97<span class="rd-delta neg">↓ -21.4%</span></td>
+            <td>53,48€<span class="rd-delta pos">↑ +5.7%</span></td>
           </tr>
           <tr data-farm="DiasBrito">
             <td><span class="farm-pill pill-b">D&B</span></td>
-            <td>3.217€<span class="rd-delta neg">↓ -15.7%</span></td>
-            <td><span style="color:#8B1A1A;font-weight:600">1.015€</span><span class="rd-delta neg">↓ -24.5%</span></td>
+            <td>3.234€<span class="rd-delta neg">↓ -15.4%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">1.021€</span><span class="rd-delta neg">↓ -24.2%</span></td>
             <td>31,6%<span class="rd-delta neg">↓ -3.6pp</span></td>
-            <td>85<span class="rd-delta neg">↓ -25.7%</span></td>
-            <td>37,85€<span class="rd-delta pos">↑ +13.3%</span></td>
+            <td>86<span class="rd-delta neg">↓ -25.0%</span></td>
+            <td>37,60€<span class="rd-delta pos">↑ +12.7%</span></td>
           </tr>
           <tr data-farm="CidadeUniv">
             <td><span class="farm-pill pill-c">CU</span></td>
@@ -218,43 +185,43 @@ function filterDest(val) {
           </tr>
           <tr data-farm="AltoMoinhos">
             <td><span class="farm-pill pill-m">AM</span></td>
-            <td>8.040€<span class="rd-delta neg">↓ -34.0%</span></td>
-            <td><span style="color:#8B1A1A;font-weight:600">1.959€</span><span class="rd-delta neg">↓ -32.6%</span></td>
-            <td>24,4%<span class="rd-delta pos">↑ +0.6pp</span></td>
-            <td>134<span class="rd-delta neg">↓ -30.7%</span></td>
-            <td>60,00€<span class="rd-delta neg">↓ -4.8%</span></td>
+            <td>8.291€<span class="rd-delta neg">↓ -32.4%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">1.981€</span><span class="rd-delta neg">↓ -32.0%</span></td>
+            <td>23,9%<span class="rd-delta pos">↑ +0.2pp</span></td>
+            <td>139<span class="rd-delta neg">↓ -28.7%</span></td>
+            <td>59,65€<span class="rd-delta neg">↓ -5.2%</span></td>
           </tr>
           <tr data-farm="Porfirio">
             <td><span class="farm-pill pill-p">POR</span></td>
-            <td>6.141€<span class="rd-delta neg">↓ -1.6%</span></td>
-            <td><span style="color:#8B1A1A;font-weight:600">1.566€</span><span class="rd-delta neg">↓ -15.2%</span></td>
-            <td>25,5%<span class="rd-delta neg">↓ -4.1pp</span></td>
-            <td>157<span class="rd-delta neg">↓ -13.7%</span></td>
-            <td>39,12€<span class="rd-delta pos">↑ +14.1%</span></td>
+            <td>6.205€<span class="rd-delta neg">↓ -0.9%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">1.595€</span><span class="rd-delta neg">↓ -14.1%</span></td>
+            <td>25,7%<span class="rd-delta neg">↓ -3.9pp</span></td>
+            <td>161<span class="rd-delta neg">↓ -12.2%</span></td>
+            <td>38,54€<span class="rd-delta pos">↑ +12.8%</span></td>
           </tr>
           <tr data-farm="Tulipas">
             <td><span class="farm-pill pill-t">TUL</span></td>
-            <td>3.435€<span class="rd-delta neg">↓ -40.6%</span></td>
-            <td><span style="color:#8B1A1A;font-weight:600">1.086€</span><span class="rd-delta neg">↓ -34.7%</span></td>
-            <td>31,6%<span class="rd-delta pos">↑ +2.8pp</span></td>
-            <td>100<span class="rd-delta neg">↓ -25.6%</span></td>
-            <td>34,35€<span class="rd-delta neg">↓ -20.2%</span></td>
+            <td>3.719€<span class="rd-delta neg">↓ -36.7%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">1.146€</span><span class="rd-delta neg">↓ -31.9%</span></td>
+            <td>30,8%<span class="rd-delta pos">↑ +2.1pp</span></td>
+            <td>103<span class="rd-delta neg">↓ -23.9%</span></td>
+            <td>36,11€<span class="rd-delta neg">↓ -16.8%</span></td>
           </tr>
           <tr data-farm="Castelhana">
             <td><span class="farm-pill pill-k">CAS</span></td>
-            <td>7.893€<span class="rd-delta neg">↓ -32.8%</span></td>
-            <td><span style="color:#8B1A1A;font-weight:600">2.521€</span><span class="rd-delta neg">↓ -23.2%</span></td>
-            <td>31,9%<span class="rd-delta pos">↑ +4.0pp</span></td>
-            <td>184<span class="rd-delta neg">↓ -23.2%</span></td>
-            <td>42,90€<span class="rd-delta neg">↓ -12.5%</span></td>
+            <td>7.958€<span class="rd-delta neg">↓ -32.4%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">2.545€</span><span class="rd-delta neg">↓ -22.6%</span></td>
+            <td>32,0%<span class="rd-delta pos">↑ +4.1pp</span></td>
+            <td>186<span class="rd-delta neg">↓ -22.6%</span></td>
+            <td>42,78€<span class="rd-delta neg">↓ -12.6%</span></td>
           </tr>
           <tr class="total-row">
             <td>Grupo</td>
-            <td>35.599€</td>
-            <td style="color:#0A6644">9.736€</td>
-            <td>27,3%</td>
-            <td>803</td>
-            <td>44,33€</td>
+            <td>36.308€</td>
+            <td style="color:#0A6644">9.889€</td>
+            <td>27,2%</td>
+            <td>821</td>
+            <td>44,22€</td>
           </tr>
         </tbody>
       </table>
@@ -274,8 +241,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">18.699€</div>
-            <div class="kpi5d-dlt neg">↓ -9.2%</div>
+            <div class="kpi5d-val">18.729€</div>
+            <div class="kpi5d-dlt neg">↓ -9.1%</div>
             <div class="kpi5d-sub">LY 20.603€</div>
           </div>
         </div>
@@ -283,8 +250,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val" style="color:#8B1A1A">4.378€</div>
-            <div class="kpi5d-dlt neg">↓ -28.0%</div>
+            <div class="kpi5d-val" style="color:#8B1A1A">4.389€</div>
+            <div class="kpi5d-dlt neg">↓ -27.8%</div>
             <div class="kpi5d-sub">LY 6.077€</div>
           </div>
         </div>
@@ -301,8 +268,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">s/MSRM&gt;50</div>
-            <div class="kpi5d-val">29,5%</div>
-            <div class="kpi5d-dlt neg">↓ -5.5pp</div>
+            <div class="kpi5d-val">29,6%</div>
+            <div class="kpi5d-dlt neg">↓ -5.4pp</div>
             <div class="kpi5d-sub">LY 35,0%</div>
           </div>
         </div>
@@ -310,8 +277,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">367</div>
-            <div class="kpi5d-dlt neg">↓ -27.6%</div>
+            <div class="kpi5d-val">370</div>
+            <div class="kpi5d-dlt neg">↓ -27.0%</div>
             <div class="kpi5d-sub">LY 507</div>
           </div>
         </div>
@@ -325,7 +292,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">1.040.126€</div>
+            <div class="kpi5d-val">1.040.156€</div>
             <div class="kpi5d-dlt pos">↑ +7.7%</div>
             <div class="kpi5d-sub">LY 965.512€</div>
           </div>
@@ -334,7 +301,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val">280.056€</div>
+            <div class="kpi5d-val">280.067€</div>
             <div class="kpi5d-dlt neg">↓ -2.9%</div>
             <div class="kpi5d-sub">LY 288.486€</div>
           </div>
@@ -361,7 +328,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">25.191</div>
+            <div class="kpi5d-val">25.194</div>
             <div class="kpi5d-dlt neg">↓ -9.8%</div>
             <div class="kpi5d-sub">LY 27.933</div>
           </div>
@@ -449,7 +416,7 @@ function filterDest(val) {
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">184.296€</span>
+        <span class="stock-now">184.276€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 190,6k · Mai 198,3k · Abr 182,8k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -468,8 +435,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">11.456€</div>
-            <div class="kpi5d-dlt neg">↓ -6.8%</div>
+            <div class="kpi5d-val">11.472€</div>
+            <div class="kpi5d-dlt neg">↓ -6.7%</div>
             <div class="kpi5d-sub">LY 12.290€</div>
           </div>
         </div>
@@ -477,8 +444,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val" style="color:#8B1A1A">4.035€</div>
-            <div class="kpi5d-dlt neg">↓ -3.9%</div>
+            <div class="kpi5d-val" style="color:#8B1A1A">4.041€</div>
+            <div class="kpi5d-dlt neg">↓ -3.8%</div>
             <div class="kpi5d-sub">LY 4.200€</div>
           </div>
         </div>
@@ -504,8 +471,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">343</div>
-            <div class="kpi5d-dlt neg">↓ -18.7%</div>
+            <div class="kpi5d-val">344</div>
+            <div class="kpi5d-dlt neg">↓ -18.5%</div>
             <div class="kpi5d-sub">LY 422</div>
           </div>
         </div>
@@ -519,7 +486,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">732.996€</div>
+            <div class="kpi5d-val">733.013€</div>
             <div class="kpi5d-dlt pos">↑ +8.3%</div>
             <div class="kpi5d-sub">LY 676.882€</div>
           </div>
@@ -528,7 +495,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val">248.564€</div>
+            <div class="kpi5d-val">248.569€</div>
             <div class="kpi5d-dlt pos">↑ +4.2%</div>
             <div class="kpi5d-sub">LY 238.603€</div>
           </div>
@@ -555,7 +522,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">21.292</div>
+            <div class="kpi5d-val">21.293</div>
             <div class="kpi5d-dlt neg">↓ -4.0%</div>
             <div class="kpi5d-sub">LY 22.183</div>
           </div>
@@ -643,7 +610,7 @@ function filterDest(val) {
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">90.114€</span>
+        <span class="stock-now">90.103€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 81,8k · Mai 77,3k · Abr 83,2k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -856,8 +823,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">36.571€</div>
-            <div class="kpi5d-dlt neg">↓ -6.3%</div>
+            <div class="kpi5d-val">36.822€</div>
+            <div class="kpi5d-dlt neg">↓ -5.7%</div>
             <div class="kpi5d-sub">LY 39.045€</div>
           </div>
         </div>
@@ -865,8 +832,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val" style="color:#8B1A1A">8.722€</div>
-            <div class="kpi5d-dlt neg">↓ -14.5%</div>
+            <div class="kpi5d-val" style="color:#8B1A1A">8.744€</div>
+            <div class="kpi5d-dlt neg">↓ -14.3%</div>
             <div class="kpi5d-sub">LY 10.206€</div>
           </div>
         </div>
@@ -874,8 +841,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Mg %</div>
-            <div class="kpi5d-val">23,8%</div>
-            <div class="kpi5d-dlt neg">↓ -2.3pp</div>
+            <div class="kpi5d-val">23,7%</div>
+            <div class="kpi5d-dlt neg">↓ -2.4pp</div>
             <div class="kpi5d-sub">LY 26,1%</div>
           </div>
         </div>
@@ -883,8 +850,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">s/MSRM&gt;50</div>
-            <div class="kpi5d-val">32,6%</div>
-            <div class="kpi5d-dlt neg">↓ -0.9pp</div>
+            <div class="kpi5d-val">32,4%</div>
+            <div class="kpi5d-dlt neg">↓ -1.1pp</div>
             <div class="kpi5d-sub">LY 33,5%</div>
           </div>
         </div>
@@ -892,8 +859,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">580</div>
-            <div class="kpi5d-dlt neg">↓ -25.9%</div>
+            <div class="kpi5d-val">585</div>
+            <div class="kpi5d-dlt neg">↓ -25.3%</div>
             <div class="kpi5d-sub">LY 783</div>
           </div>
         </div>
@@ -907,7 +874,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">2.166.237€</div>
+            <div class="kpi5d-val">2.166.488€</div>
             <div class="kpi5d-dlt pos">↑ +17.4%</div>
             <div class="kpi5d-sub">LY 1.845.664€</div>
           </div>
@@ -916,7 +883,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val">497.145€</div>
+            <div class="kpi5d-val">497.167€</div>
             <div class="kpi5d-dlt pos">↑ +1.8%</div>
             <div class="kpi5d-sub">LY 488.304€</div>
           </div>
@@ -943,7 +910,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">40.257</div>
+            <div class="kpi5d-val">40.262</div>
             <div class="kpi5d-dlt neg">↓ -2.9%</div>
             <div class="kpi5d-sub">LY 41.478</div>
           </div>
@@ -1031,7 +998,7 @@ function filterDest(val) {
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">325.073€</span>
+        <span class="stock-now">324.851€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 315,2k · Mai 319,4k · Abr 298,2k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -1050,8 +1017,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">18.723€</div>
-            <div class="kpi5d-dlt neg">↓ -20.8%</div>
+            <div class="kpi5d-val">18.787€</div>
+            <div class="kpi5d-dlt neg">↓ -20.5%</div>
             <div class="kpi5d-sub">LY 23.626€</div>
           </div>
         </div>
@@ -1059,8 +1026,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val" style="color:#8B1A1A">5.540€</div>
-            <div class="kpi5d-dlt neg">↓ -15.1%</div>
+            <div class="kpi5d-val" style="color:#8B1A1A">5.569€</div>
+            <div class="kpi5d-dlt neg">↓ -14.7%</div>
             <div class="kpi5d-sub">LY 6.527€</div>
           </div>
         </div>
@@ -1086,8 +1053,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">546</div>
-            <div class="kpi5d-dlt neg">↓ -20.1%</div>
+            <div class="kpi5d-val">550</div>
+            <div class="kpi5d-dlt neg">↓ -19.5%</div>
             <div class="kpi5d-sub">LY 683</div>
           </div>
         </div>
@@ -1101,7 +1068,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">1.187.179€</div>
+            <div class="kpi5d-val">1.187.243€</div>
             <div class="kpi5d-dlt pos">↑ +12.7%</div>
             <div class="kpi5d-sub">LY 1.053.233€</div>
           </div>
@@ -1110,7 +1077,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val">353.742€</div>
+            <div class="kpi5d-val">353.771€</div>
             <div class="kpi5d-dlt pos">↑ +13.2%</div>
             <div class="kpi5d-sub">LY 312.470€</div>
           </div>
@@ -1137,7 +1104,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">35.678</div>
+            <div class="kpi5d-val">35.682</div>
             <div class="kpi5d-dlt pos">↑ +0.5%</div>
             <div class="kpi5d-sub">LY 35.488</div>
           </div>
@@ -1225,7 +1192,7 @@ function filterDest(val) {
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">203.813€</span>
+        <span class="stock-now">203.779€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 206,4k · Mai 228,7k · Abr 211,1k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -1244,8 +1211,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">17.339€</div>
-            <div class="kpi5d-dlt neg">↓ -2.9%</div>
+            <div class="kpi5d-val">17.624€</div>
+            <div class="kpi5d-dlt neg">↓ -1.3%</div>
             <div class="kpi5d-sub">LY 17.851€</div>
           </div>
         </div>
@@ -1253,8 +1220,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val" style="color:#8B1A1A">4.989€</div>
-            <div class="kpi5d-dlt neg">↓ -10.2%</div>
+            <div class="kpi5d-val" style="color:#8B1A1A">5.049€</div>
+            <div class="kpi5d-dlt neg">↓ -9.1%</div>
             <div class="kpi5d-sub">LY 5.555€</div>
           </div>
         </div>
@@ -1262,8 +1229,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Mg %</div>
-            <div class="kpi5d-val">28,8%</div>
-            <div class="kpi5d-dlt neg">↓ -2.3pp</div>
+            <div class="kpi5d-val">28,7%</div>
+            <div class="kpi5d-dlt neg">↓ -2.4pp</div>
             <div class="kpi5d-sub">LY 31,1%</div>
           </div>
         </div>
@@ -1280,8 +1247,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">403</div>
-            <div class="kpi5d-dlt neg">↓ -3.4%</div>
+            <div class="kpi5d-val">406</div>
+            <div class="kpi5d-dlt neg">↓ -2.6%</div>
             <div class="kpi5d-sub">LY 417</div>
           </div>
         </div>
@@ -1295,7 +1262,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">980.847€</div>
+            <div class="kpi5d-val">981.132€</div>
             <div class="kpi5d-dlt pos">↑ +5.7%</div>
             <div class="kpi5d-sub">LY 928.069€</div>
           </div>
@@ -1304,7 +1271,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val">303.699€</div>
+            <div class="kpi5d-val">303.760€</div>
             <div class="kpi5d-dlt neg">↓ -1.1%</div>
             <div class="kpi5d-sub">LY 307.055€</div>
           </div>
@@ -1322,8 +1289,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">s/MSRM&gt;50</div>
-            <div class="kpi5d-val">37,0%</div>
-            <div class="kpi5d-dlt neg">↓ -0.2pp</div>
+            <div class="kpi5d-val">37,1%</div>
+            <div class="kpi5d-dlt neg">↓ -0.1pp</div>
             <div class="kpi5d-sub">LY 37,2%</div>
           </div>
         </div>
@@ -1331,7 +1298,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">23.393</div>
+            <div class="kpi5d-val">23.396</div>
             <div class="kpi5d-dlt neg">↓ -3.2%</div>
             <div class="kpi5d-sub">LY 24.171</div>
           </div>
@@ -1407,10 +1374,10 @@ function filterDest(val) {
         <div class="bar-month">
           <div class="bar-pair">
             <div class="bar b25" style="height:63px"></div>
-            <div class="bar b26m" style="height:6px"></div>
+            <div class="bar b26m" style="height:7px"></div>
           </div>
           <div class="bm-label"><span style="color:#1D9E75">Jul▸</span></div>
-          <div class="bm-val">17k</div>
+          <div class="bm-val">18k</div>
           <div class="bm-mg neu">MTD</div>
         </div>
         </div>
@@ -1419,7 +1386,7 @@ function filterDest(val) {
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">142.459€</span>
+        <span class="stock-now">142.616€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 138,2k · Mai 145,4k · Abr 139,7k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -1438,8 +1405,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">35.242€</div>
-            <div class="kpi5d-dlt pos">↑ +16.7%</div>
+            <div class="kpi5d-val">35.306€</div>
+            <div class="kpi5d-dlt pos">↑ +16.9%</div>
             <div class="kpi5d-sub">LY 30.193€</div>
           </div>
         </div>
@@ -1447,8 +1414,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val" style="color:#0A6644">9.843€</div>
-            <div class="kpi5d-dlt pos">↑ +3.9%</div>
+            <div class="kpi5d-val" style="color:#0A6644">9.868€</div>
+            <div class="kpi5d-dlt pos">↑ +4.2%</div>
             <div class="kpi5d-sub">LY 9.474€</div>
           </div>
         </div>
@@ -1474,8 +1441,8 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">719</div>
-            <div class="kpi5d-dlt neg">↓ -10.2%</div>
+            <div class="kpi5d-val">721</div>
+            <div class="kpi5d-dlt neg">↓ -10.0%</div>
             <div class="kpi5d-sub">LY 801</div>
           </div>
         </div>
@@ -1489,7 +1456,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-pos"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Vendas</div>
-            <div class="kpi5d-val">1.609.749€</div>
+            <div class="kpi5d-val">1.609.814€</div>
             <div class="kpi5d-dlt pos">↑ +5.2%</div>
             <div class="kpi5d-sub">LY 1.530.436€</div>
           </div>
@@ -1498,7 +1465,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Margem €</div>
-            <div class="kpi5d-val">490.895€</div>
+            <div class="kpi5d-val">490.920€</div>
             <div class="kpi5d-dlt neg">↓ -0.8%</div>
             <div class="kpi5d-sub">LY 494.687€</div>
           </div>
@@ -1525,7 +1492,7 @@ function filterDest(val) {
           <div class="kpi5d-bar bar-neg"></div>
           <div class="kpi5d-body">
             <div class="kpi5d-lbl">Atend.</div>
-            <div class="kpi5d-val">42.705</div>
+            <div class="kpi5d-val">42.707</div>
             <div class="kpi5d-dlt neg">↓ -8.8%</div>
             <div class="kpi5d-sub">LY 46.827</div>
           </div>
@@ -1613,7 +1580,7 @@ function filterDest(val) {
       <!-- Stock -->
       <div class="stock-inline">
         <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
-        <span class="stock-now">252.303€</span>
+        <span class="stock-now">252.263€</span>
         <span class='stock-sep'>·</span><span class='stock-hist'>Jun 253,6k · Mai 272,4k · Abr 262,6k</span>
       </div>
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
@@ -1637,62 +1604,62 @@ function filterDest(val) {
         <tbody>
           <tr>
             <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-k" style="font-size:9px">CAS</span></td>
-            <td style="color:#0A6644;font-weight:600">9.843€</td>
-            <td>35.242€</td>
+            <td style="color:#0A6644;font-weight:600">9.868€</td>
+            <td>35.306€</td>
             <td>27,9%</td>
-            <td>719</td>
-            <td>49,01€</td>
-            <td class="rd pos">↑ +16.7%</td>
+            <td>721</td>
+            <td>48,97€</td>
+            <td class="rd pos">↑ +16.9%</td>
             <td class="rd pos">↑ +5.2%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
-            <td style="color:#8B1A1A;font-weight:600">8.722€</td>
-            <td>36.571€</td>
-            <td>23,8%</td>
-            <td>580</td>
-            <td>63,05€</td>
-            <td class="rd neg">↓ -6.3%</td>
+            <td style="color:#8B1A1A;font-weight:600">8.744€</td>
+            <td>36.822€</td>
+            <td>23,7%</td>
+            <td>585</td>
+            <td>62,94€</td>
+            <td class="rd neg">↓ -5.7%</td>
             <td class="rd pos">↑ +17.4%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-p" style="font-size:9px">POR</span></td>
-            <td style="color:#8B1A1A;font-weight:600">5.540€</td>
-            <td>18.723€</td>
+            <td style="color:#8B1A1A;font-weight:600">5.569€</td>
+            <td>18.787€</td>
             <td>29,6%</td>
-            <td>546</td>
-            <td>34,29€</td>
-            <td class="rd neg">↓ -20.8%</td>
+            <td>550</td>
+            <td>34,16€</td>
+            <td class="rd neg">↓ -20.5%</td>
             <td class="rd pos">↑ +12.7%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-4">4</span><span class="farm-pill pill-t" style="font-size:9px">TUL</span></td>
-            <td style="color:#8B1A1A;font-weight:600">4.989€</td>
-            <td>17.339€</td>
-            <td>28,8%</td>
-            <td>403</td>
-            <td>43,03€</td>
-            <td class="rd neg">↓ -2.9%</td>
+            <td style="color:#8B1A1A;font-weight:600">5.049€</td>
+            <td>17.624€</td>
+            <td>28,7%</td>
+            <td>406</td>
+            <td>43,41€</td>
+            <td class="rd neg">↓ -1.3%</td>
             <td class="rd pos">↑ +5.7%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-5">5</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
-            <td style="color:#8B1A1A;font-weight:600">4.378€</td>
-            <td>18.699€</td>
+            <td style="color:#8B1A1A;font-weight:600">4.389€</td>
+            <td>18.729€</td>
             <td>23,4%</td>
-            <td>367</td>
-            <td>50,95€</td>
-            <td class="rd neg">↓ -9.2%</td>
+            <td>370</td>
+            <td>50,62€</td>
+            <td class="rd neg">↓ -9.1%</td>
             <td class="rd pos">↑ +7.7%</td>
           </tr>
           <tr>
             <td><span class="rank-pos rank-6">6</span><span class="farm-pill pill-b" style="font-size:9px">D&B</span></td>
-            <td style="color:#8B1A1A;font-weight:600">4.035€</td>
-            <td>11.456€</td>
+            <td style="color:#8B1A1A;font-weight:600">4.041€</td>
+            <td>11.472€</td>
             <td>35,2%</td>
-            <td>343</td>
-            <td>33,40€</td>
-            <td class="rd neg">↓ -6.8%</td>
+            <td>344</td>
+            <td>33,35€</td>
+            <td class="rd neg">↓ -6.7%</td>
             <td class="rd pos">↑ +8.3%</td>
           </tr>
           <tr>
@@ -1713,13 +1680,36 @@ function filterDest(val) {
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Aroeira — 511 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Dias e Brito — 574 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Cidade Universitária — 303 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto dos Moinhos — 488 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto dos Moinhos — 490 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Porfírio — 495 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
-      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 643 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 644 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 533 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
     </div>
-    <div class="footer">Farmácias Connect · Resumo Diário · 18h07</div>
+    <div class="footer">Farmácias Connect · Resumo Diário · 18h20</div>
   </div>
 </div>
-</body>
+<script>
+const DESTINATARIOS = [{"nome": "Daniel", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "Marta", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "Orlando", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "Rui", "farmacias": ["Aroeira", "DiasBrito", "CidadeUniv", "AltoMoinhos", "Porfirio", "Tulipas", "Castelhana"]}, {"nome": "João", "farmacias": ["AltoMoinhos"]}, {"nome": "Vera", "farmacias": ["DiasBrito"]}, {"nome": "Cláudia", "farmacias": ["Aroeira", "CidadeUniv", "Porfirio", "Tulipas", "Castelhana"]}];
+document.addEventListener('DOMContentLoaded', function() {
+  var sel = document.getElementById('destSelect');
+  if (!sel) return;
+  DESTINATARIOS.forEach(function(d, i) {
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = d.nome;
+    sel.appendChild(opt);
+  });
+});
+function filterDest(val) {
+  var farms = val === '__all__' ? null : DESTINATARIOS[parseInt(val)].farmacias;
+  document.querySelectorAll('[data-farm]').forEach(function(el) {
+    if (!farms) { el.style.display = ''; return; }
+    el.style.display = farms.includes(el.dataset.farm) ? '' : 'none';
+  });
+  document.querySelectorAll('.resumo-table tbody tr[data-farm]').forEach(function(row) {
+    if (!farms) { row.style.display = ''; return; }
+    row.style.display = farms.includes(row.dataset.farm) ? '' : 'none';
+  });
+}
+</script></body>
 </html>
