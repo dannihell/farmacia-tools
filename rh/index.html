@@ -86,7 +86,7 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); m
 .pct-green { color:var(--green); } .pct-amber { color:var(--amber); } .pct-red { color:var(--red); }
 
 /* STATS ROW */
-.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+.stats-row { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:24px; }
 .stat-box { background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; }
 .stat-label { font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--ink3); margin-bottom:6px; }
 .stat-val { font-size:24px; font-weight:700; font-family:'JetBrains Mono',monospace; line-height:1; }
@@ -433,6 +433,7 @@ function renderFarmacia(fkey) {
   document.getElementById('equipa-stats').innerHTML = `
     <div class="stat-box"><div class="stat-label">Margem Bruta</div><div class="stat-val">${fmtE(Math.round(totalMargem/1000))}k</div><div class="stat-trend">sem IVA · YTD</div></div>
     <div class="stat-box"><div class="stat-label">Vendas totais</div><div class="stat-val">${fmtE(Math.round(totalVendas/1000))}k</div><div class="stat-trend">sem IVA · YTD</div></div>
+    <div class="stat-box"><div class="stat-label">Atendimentos</div><div class="stat-val">${fmt(totalAtend)}</div><div class="stat-trend">YTD ${dados.ano}</div></div>
     <div class="stat-box"><div class="stat-label">Ticket Médio</div><div class="stat-val">${fmtE(ticketMedio,1)}</div><div class="stat-trend">por atendimento</div></div>
     <div class="stat-box"><div class="stat-label">Taxa SAÚDA</div><div class="stat-val">${taxaSauda !== null ? taxaSauda+'%' : '—'}</div><div class="stat-trend">atend. com cartão</div></div>
   `;
@@ -440,7 +441,10 @@ function renderFarmacia(fkey) {
   // SAÚDA PROGRAMA
   const saudaHTML = sp.valor_atribuido ? `
     <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:24px">
-      <div class="sec-label">Programa SAÚDA · ${dados.ano}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="sec-label" style="margin-bottom:0">Programa SAÚDA · ${dados.ano}</div>
+        ${sp.data_sync ? `<div style="font-size:10px;color:var(--ink4);font-family:'JetBrains Mono',monospace">dados ANF até ${sp.data_sync}</div>` : ''}
+      </div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
         <div class="stat-box">
           <div class="stat-label">Valor Atribuído</div>
@@ -465,9 +469,13 @@ function renderFarmacia(fkey) {
       </div>
     </div>` : '';
 
-  // Inserir SAÚDA antes do gráfico
+  // Inserir SAÚDA antes do gráfico — remover anterior se existir
   const chartEl = document.getElementById('equipa-chart-wrap');
-  if (chartEl) chartEl.insertAdjacentHTML('beforebegin', saudaHTML);
+  const oldSauda = document.getElementById('sauda-programa-block');
+  if (oldSauda) oldSauda.remove();
+  if (chartEl && saudaHTML) {
+    chartEl.insertAdjacentHTML('beforebegin', saudaHTML.replace('<div style="background', '<div id="sauda-programa-block" style="background'));
+  }
 
   // CHART EQUIPA
   const mensalEquipa = calcMensalEquipa(colabs);
@@ -560,6 +568,11 @@ function renderColab(fkey, colabSlug) {
       <div class="stat-label">Margem YTD</div>
       <div class="stat-val">${fmtE(Math.round((colab.margem_ytd||0)/1000))}k</div>
       <div class="stat-trend ${trendClass}">${trendSym} ${Math.abs(colab.cresc_vs_ant||0).toFixed(1)}% vs ${dados.ano-1}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Atendimentos YTD</div>
+      <div class="stat-val">${fmt(colab.atend_ytd||0)}</div>
+      <div class="stat-trend">YTD ${dados.ano}</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Margem/Atend.</div>
