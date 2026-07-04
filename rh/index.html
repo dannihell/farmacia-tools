@@ -563,6 +563,8 @@ function renderColab(fkey, colabSlug) {
   const mediaSauda   = calcTaxaSaudaMedia(colabs);
   const mediaMargemA = calcMediaEquipa(colabs, 'margem_atend');
 
+  const mediaAtend    = calcMediaEquipa(colabs, 'atend_ytd');
+
   document.getElementById('colab-stats').innerHTML = `
     <div class="stat-box">
       <div class="stat-label">Margem YTD</div>
@@ -572,7 +574,7 @@ function renderColab(fkey, colabSlug) {
     <div class="stat-box">
       <div class="stat-label">Atendimentos YTD</div>
       <div class="stat-val">${fmt(colab.atend_ytd||0)}</div>
-      <div class="stat-trend">YTD ${dados.ano}</div>
+      <div class="stat-trend">vs média: ${fmt(Math.round(mediaAtend))}</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Margem/Atend.</div>
