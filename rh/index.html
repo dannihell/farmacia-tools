@@ -628,7 +628,7 @@ function renderColab(fkey, colabSlug) {
   const maxPct = Math.max(...mixEntries.map(([,p]) => Math.max(p, mixMedia[mixEntries[0]?.[0]]||0)), 1);
   const mixHTML = `
     <div class="colab-card">
-      <div class="colab-card-title">Top subcategorias vs média equipa (excl. receita médica)</div>
+      <div class="colab-card-title">Subcategorias · % margem bruta vs média equipa</div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
         ${mixEntries.map(([cat, pct]) => {
           const med = mixMedia[cat] || 0;
