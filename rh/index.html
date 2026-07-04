@@ -614,42 +614,48 @@ function renderColab(fkey, colabSlug) {
       </div>
     </div>`;
 
-  // Mix vs média
+  // Top 5 subcategorias — barras horizontais com vs média equipa
   const mix = colab.mix || {};
   const mixMedia = {};
-  const catCores = { 'MNSRM':'#1d4ed8','SAUDE':'#0f766e','MEDICAMENTOS':'#7c3aed','OUTROS':'#9ca3af' };
   for (const c2 of colabs) {
-    for (const [cat,pct] of Object.entries(c2.mix||{})) {
+    for (const [cat, pct] of Object.entries(c2.mix||{})) {
       mixMedia[cat] = (mixMedia[cat]||0) + pct;
     }
   }
-  for (const cat in mixMedia) mixMedia[cat] = Math.round(mixMedia[cat] / colabs.length);
+  for (const cat in mixMedia) mixMedia[cat] = Math.round(mixMedia[cat] / colabs.length * 10) / 10;
 
-  const cats = Object.keys({...mix,...mixMedia}).slice(0,4);
+  const mixEntries = Object.entries(mix).sort((a,b) => b[1]-a[1]);
+  const maxPct = Math.max(...mixEntries.map(([,p]) => Math.max(p, mixMedia[mixEntries[0]?.[0]]||0)), 1);
   const mixHTML = `
     <div class="colab-card">
-      <div class="colab-card-title">Mix de categorias vs média equipa</div>
-      <div class="vs-grid">${cats.map(cat => {
-        const cv = mix[cat]||0, mv = mixMedia[cat]||0;
-        const max = Math.max(cv,mv,1);
-        const ch  = Math.round((cv/max)*40), mh = Math.round((mv/max)*40);
-        const catCor = catCores[cat] || cor;
-        return `<div class="vs-card">
-          <div class="vs-label">${cat}</div>
-          <div class="vs-bars">
-            <div class="vs-b" style="height:${ch}px;background:${catCor}"></div>
-            <div class="vs-b" style="height:${mh}px;background:#e5e7eb"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:4px">
-            <div style="font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;color:${catCor}">${cv}%</div>
-            <div style="font-size:11px;color:var(--ink3);font-family:'JetBrains Mono',monospace">${mv}%</div>
-          </div>
-          <div class="vs-legend">
-            <div class="vs-leg-item"><div class="vs-leg-dot" style="background:${catCor}"></div>Esta</div>
-            <div class="vs-leg-item"><div class="vs-leg-dot" style="background:#e5e7eb"></div>Média</div>
-          </div>
-        </div>`;
-      }).join('')}</div>
+      <div class="colab-card-title">Top subcategorias vs média equipa (excl. receita médica)</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        ${mixEntries.map(([cat, pct]) => {
+          const med = mixMedia[cat] || 0;
+          const maxBar = Math.max(pct, med, 1);
+          return `
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+              <div style="font-size:11px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70%">${cat}</div>
+              <div style="font-size:11px;font-family:'JetBrains Mono',monospace">
+                <span style="font-weight:600;color:${cor}">${pct}%</span>
+                <span style="color:var(--ink4)"> / ${med}%</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <div style="background:var(--bg2);border-radius:2px;height:5px">
+                <div style="background:${cor};height:5px;border-radius:2px;width:${Math.round((pct/maxBar)*100)}%"></div>
+              </div>
+              <div style="background:var(--bg2);border-radius:2px;height:5px">
+                <div style="background:#d1d5db;height:5px;border-radius:2px;width:${Math.round((med/maxBar)*100)}%"></div>
+              </div>
+            </div>
+          </div>`}).join('')}
+        <div style="display:flex;gap:12px;margin-top:4px">
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:4px;border-radius:2px;background:${cor}"></div><div style="font-size:10px;color:var(--ink3)">Este colaborador</div></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:4px;border-radius:2px;background:#d1d5db"></div><div style="font-size:10px;color:var(--ink3)">Média equipa</div></div>
+        </div>
+      </div>
     </div>`;
 
   document.getElementById('colab-grid-top').innerHTML = chartHTML + mixHTML;
