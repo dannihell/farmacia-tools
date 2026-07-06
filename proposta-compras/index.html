@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.3</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.4</span>
   </div>
 </header>
 
@@ -859,7 +859,7 @@ function aplicar() {
 
     const _mYtd = parseFloat(base.MARGEM_YTD || 0);
     const _vYtd = parseFloat(base.VENDAS_YTD || 0);
-    const margem = _vYtd > 0 ? (_mYtd / _vYtd * 100) : (pvp > 0 ? ((pvp - pcus) / pvp * 100) : 0);
+    const margem = _vYtd > 0 ? (_mYtd / _vYtd * 100) : (pvp > 0 && pvp < 9999 ? ((pvp - pcus) / pvp * 100) : 0);
 
     return { ...base, COD_PRD: cod, pcus, pvp, margem, propostas, mediaGlobal: mediaGlobalCod(cod) };
   });
@@ -969,7 +969,7 @@ function renderTabela() {
       <td class="num">${fd.proposta}</td>
       <td class="num"><input class="qt-input" type="number" min="0" value="${fd.proposta_edit}" data-cod="${p.COD_PRD}" data-farm="${farm}" onchange="updateQt(this)"></td>
       <td class="num">${p.pcus.toFixed(2)} €</td>
-      <td class="num">${p.pvp.toFixed(2)} €</td>
+      <td class="num">${p.pvp > 0 && p.pvp < 9999 ? p.pvp.toFixed(2) + ' €' : '—'}</td>
       <td class="num total-cell">${(fd.proposta_edit * p.pcus).toFixed(2)} €</td>
       ${vCell}
     `;
@@ -1438,10 +1438,11 @@ function abrirDrawerLabs() {
     const media6m = [0,1,2,3,4,5].reduce((s,i) => s + (parseFloat(p[`V${i}`]||0)), 0) / 6;
     const stock = parseFloat(p.STK_FARMACIA || 0);
     const pvp = parseFloat(p.PVP_PROD || 0);
+    const pvpValido = pvp > 0 && pvp < 9999;
     const prioridade = calcPrioridade(stock, media6m);
     if (prioridade === 'rutura') {
       l.rutura_refs++;
-      l.rutura_valor += media6m * pvp;
+      if (pvpValido) l.rutura_valor += media6m * pvp;
     }
     if (prioridade === 'urgente') l.urgente_refs++;
     l.vendas += parseFloat(p.VENDAS_YTD || 0);
@@ -1457,9 +1458,10 @@ function abrirDrawerLabs() {
     const media6m = [0,1,2,3,4,5].reduce((s,i) => s + (parseFloat(p[`V${i}`]||0)), 0) / 6;
     const stock = parseFloat(p.STK_FARMACIA || 0);
     const pvp = parseFloat(p.PVP_PROD || 0);
+    const pvpValido = pvp > 0 && pvp < 9999;
     if (calcPrioridade(stock, media6m) === 'rutura') {
       c.rutura_refs++;
-      c.rutura_valor += media6m * pvp;
+      if (pvpValido) c.rutura_valor += media6m * pvp;
     }
     c.vendas += parseFloat(p.VENDAS_YTD || 0);
     c.vendas_ant += parseFloat(p.VENDAS_ANO_ANT_YTD || 0);
