@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.0</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.1</span>
   </div>
 </header>
 
@@ -510,7 +510,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-const DATA_URL = 'https://dannihell.github.io/farmacia-tools/data/aroeira_brand.json';
+const DATA_URL = 'https://dannihell.github.io/farmacia-tools/data/aroeira_brand.json.gz';
 let allData = null;
 let propostaActual = [];
 let vendedorMap = {};
@@ -518,7 +518,18 @@ let vendedorMap = {};
 async function init() {
   try {
     const r = await fetch(DATA_URL + '?t=' + Date.now());
-    allData = await r.json();
+    let data;
+    // Descomprimir gzip se necessário (ficheiro .json.gz)
+    if (DATA_URL.endsWith('.gz')) {
+      const blob = await r.blob();
+      const ds = new DecompressionStream('gzip');
+      const decompressed = blob.stream().pipeThrough(ds);
+      const text = await new Response(decompressed).text();
+      data = JSON.parse(text);
+    } else {
+      data = await r.json();
+    }
+    allData = data;
     const upd = new Date(allData.updated_at);
     document.getElementById('updated-tag').textContent =
       'Actualizado: ' + upd.toLocaleDateString('pt-PT') + ' ' + upd.toLocaleTimeString('pt-PT', {hour:'2-digit',minute:'2-digit'});
