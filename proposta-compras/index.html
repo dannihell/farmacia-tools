@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.1</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.2</span>
   </div>
 </header>
 
@@ -1394,13 +1394,33 @@ function setDrawerTab(tab) {
 function abrirDrawerLabs() {
   if (!allData) return;
   const farm = document.getElementById('farmacia-select').value;
+  const filtroReceita = document.getElementById('filtro-receita').value;
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcat = document.getElementById('subcat-select').value;
+  const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
+  const cnp = document.getElementById('pesquisa-cnp').value.trim();
+
   const farmLabel = farm || 'Todas as Farmácias';
-  document.getElementById('drawer-labs-farm').textContent = farmLabel;
+  let labelFiltros = farmLabel;
+  if (filtroReceita === 'msrm') labelFiltros += ' · Só MSRM';
+  if (filtroReceita === 'sem_msrm') labelFiltros += ' · Sem MSRM';
+  document.getElementById('drawer-labs-farm').textContent = labelFiltros;
+
+  // Aplicar os mesmos filtros que a tabela
+  let produtos = (allData.produtos || []);
+  if (farm) produtos = produtos.filter(p => p.FARMACIA === farm);
+  if (filtroReceita === 'msrm') produtos = produtos.filter(p => (p.SFAM_ESTAT || '').includes('receita'));
+  if (filtroReceita === 'sem_msrm') produtos = produtos.filter(p => !(p.SFAM_ESTAT || '').includes('receita'));
+  if (marca) produtos = produtos.filter(p => p.MARCA === marca);
+  if (cat) produtos = produtos.filter(p => p.CATEGORIA_DESIGNACAO === cat);
+  if (subcat) produtos = produtos.filter(p => p.MERCADO_DESIGNACAO === subcat);
+  if (pesquisa) produtos = produtos.filter(p => (p.DESIGNACAO || '').toLowerCase().includes(pesquisa));
+  if (cnp) produtos = produtos.filter(p => String(p.COD_PRD || '').includes(cnp));
 
   // Agregar por laboratório
   const labs = {};
-  (allData.produtos || []).forEach(p => {
-    if (farm && p.FARMACIA !== farm) return;
+  produtos.forEach(p => {
     const lab = p.ENT_RESP_COMERC;
     if (!lab) return;
     if (!labs[lab]) labs[lab] = { nome: lab, rutura_valor: 0, rutura_refs: 0, urgente_refs: 0, vendas: 0, margem: 0 };
@@ -1411,17 +1431,16 @@ function abrirDrawerLabs() {
     const prioridade = calcPrioridade(stock, media6m);
     if (prioridade === 'rutura') {
       l.rutura_refs++;
-      l.rutura_valor += media6m * pvp; // valor mensal estimado de vendas perdidas
+      l.rutura_valor += media6m * pvp;
     }
     if (prioridade === 'urgente') l.urgente_refs++;
     l.vendas += parseFloat(p.VENDAS_YTD || 0);
     l.margem += parseFloat(p.MARGEM_YTD || 0);
   });
 
-  // Agregar por subcategoria (MERCADO_DESIGNACAO)
+  // Agregar por categoria
   const cats = {};
-  (allData.produtos || []).forEach(p => {
-    if (farm && p.FARMACIA !== farm) return;
+  produtos.forEach(p => {
     const cat = p.CATEGORIA_DESIGNACAO || p.MERCADO_DESIGNACAO || '(sem categoria)';
     if (!cats[cat]) cats[cat] = { nome: cat, rutura_valor: 0, rutura_refs: 0, vendas: 0, vendas_ant: 0 };
     const c = cats[cat];
