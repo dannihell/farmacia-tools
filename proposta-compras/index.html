@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v2.9</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.0</span>
   </div>
 </header>
 
@@ -316,6 +316,14 @@
   <div class="toolbar-group">
     <label>Cobertura</label>
     <input type="number" id="cobertura" value="4" min="1" max="12"> meses
+  </div>
+  <div class="toolbar-group">
+    <label>Receita</label>
+    <select id="filtro-receita">
+      <option value="todos">Todos</option>
+      <option value="sem_msrm">Sem MSRM</option>
+      <option value="msrm">Só MSRM</option>
+    </select>
   </div>
   <div class="toolbar-group">
     <label>Mostrar</label>
@@ -865,6 +873,8 @@ function renderTabela() {
   // Helper: obter dados da farmácia activa para um produto
   const getFarmData = p => p.propostas[farm] || p.propostas[''];
 
+  const filtroReceita = document.getElementById('filtro-receita').value;
+
   let rows = propostaActual;
 
   // Filtros em tempo real
@@ -873,6 +883,8 @@ function renderTabela() {
   if (subcat) rows = rows.filter(r => r.MERCADO_DESIGNACAO === subcat);
   if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
   if (cnp) rows = rows.filter(r => String(r.COD_PRD || '').includes(cnp));
+  if (filtroReceita === 'msrm') rows = rows.filter(r => (r.SFAM_ESTAT || '').includes('receita'));
+  if (filtroReceita === 'sem_msrm') rows = rows.filter(r => !(r.SFAM_ESTAT || '').includes('receita'));
 
   // Filtro prioridade — usa dados da farmácia activa
   if (filtro === 'rutura') rows = rows.filter(r => getFarmData(r).prioridade === 'rutura');
@@ -1018,12 +1030,13 @@ function exportarCSV() {
 }
 
 function getFilteredRowsForExport() {
-  // Reaplica os mesmos filtros do topo usados em renderTabela(), mas SEM o filtro de prioridade/proposta
+  const farm = document.getElementById('farmacia-select').value;
   const marca = document.getElementById('marca-select').value;
   const cat = document.getElementById('cat-select').value;
   const subcat = document.getElementById('subcat-select').value;
   const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
   const cnp = document.getElementById('pesquisa-cnp').value.trim();
+  const filtroReceita = document.getElementById('filtro-receita').value;
 
   let rows = propostaActual;
   if (marca) rows = rows.filter(r => r.MARCA === marca);
@@ -1031,6 +1044,8 @@ function getFilteredRowsForExport() {
   if (subcat) rows = rows.filter(r => r.MERCADO_DESIGNACAO === subcat);
   if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
   if (cnp) rows = rows.filter(r => String(r.COD_PRD || '').includes(cnp));
+  if (filtroReceita === 'msrm') rows = rows.filter(r => (r.SFAM_ESTAT || '').includes('receita'));
+  if (filtroReceita === 'sem_msrm') rows = rows.filter(r => !(r.SFAM_ESTAT || '').includes('receita'));
   return rows;
 }
 
@@ -1103,6 +1118,8 @@ function expandirToolbar() {
   document.querySelector('.toolbar').classList.remove('collapsed');
   document.getElementById('toolbar-resumo').classList.remove('visible');
 }
+
+let modoKpi = 'ytd'; // 'ytd' ou 'fechado'
 
 function setModoKpi(modo) {
   modoKpi = modo;
@@ -1329,6 +1346,9 @@ function carregarProposta(input) {
   input.value = '';
 }
 
+document.getElementById('filtro-receita').addEventListener('change', () => {
+  if (propostaActual.length) renderTabela();
+});
 document.getElementById('filtro-prioridade').addEventListener('change', () => {
   if (propostaActual.length) renderTabela();
 });
