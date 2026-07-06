@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.2</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.3</span>
   </div>
 </header>
 
@@ -1357,8 +1357,15 @@ function carregarProposta(input) {
   input.value = '';
 }
 
+function reRenderDrawerSeAberto() {
+  if (document.getElementById('drawer-labs').style.display !== 'none') {
+    abrirDrawerLabs();
+  }
+}
+
 document.getElementById('filtro-receita').addEventListener('change', () => {
   if (propostaActual.length) renderTabela();
+  reRenderDrawerSeAberto();
 });
 document.getElementById('filtro-prioridade').addEventListener('change', () => {
   if (propostaActual.length) renderTabela();
@@ -1366,13 +1373,16 @@ document.getElementById('filtro-prioridade').addEventListener('change', () => {
 ['marca-select','cat-select','subcat-select'].forEach(id => {
   document.getElementById(id).addEventListener('change', () => {
     if (propostaActual.length) renderTabela();
+    reRenderDrawerSeAberto();
   });
 });
 document.getElementById('pesquisa').addEventListener('input', () => {
   if (propostaActual.length) renderTabela();
+  reRenderDrawerSeAberto();
 });
 document.getElementById('pesquisa-cnp').addEventListener('input', () => {
   if (propostaActual.length) renderTabela();
+  reRenderDrawerSeAberto();
 });
 
 let drawerOrdem = 'rutura_valor';
