@@ -1,0 +1,98 @@
+{
+  "farmacia": "aroeira",
+  "fonte": "cashlogy",
+  "tipo": "fecho",
+  "data": "2026-07-04",
+  "gerado_em": "2026-07-10T15:41:38",
+  "numerario": {
+    "vendido": 832.21,
+    "troco_devolvido": 8.9,
+    "liquido": 823.31,
+    "apuro": 823.31,
+    "fundo_na_maquina": 400.0,
+    "moedas_retiradas": 3.31,
+    "notas_retiradas": 820.0,
+    "n_vendas": 17,
+    "n_trocos": 2
+  },
+  "apuros_detalhe": [
+    {
+      "hora": "21:07:41",
+      "apuro": 823.31,
+      "saldo_antes": 1223.31,
+      "fundo_depois": 400.0
+    }
+  ],
+  "trocas_especie": [
+    {
+      "hora": "15:57:15",
+      "valor": 1.0
+    }
+  ],
+  "por_operador": [
+    {
+      "operador": "MATILDE",
+      "posto": "5",
+      "atendimentos": 6,
+      "numerario": 581.0,
+      "troco": 6.68,
+      "liquido": 574.32
+    },
+    {
+      "operador": "DUARTE",
+      "posto": "3",
+      "atendimentos": 1,
+      "numerario": 91.6,
+      "troco": 0.0,
+      "liquido": 91.6
+    },
+    {
+      "operador": "DUARTE",
+      "posto": "2",
+      "atendimentos": 4,
+      "numerario": 72.48,
+      "troco": 0.0,
+      "liquido": 72.48
+    },
+    {
+      "operador": "MATILDE",
+      "posto": "30",
+      "atendimentos": 2,
+      "numerario": 44.44,
+      "troco": 0.0,
+      "liquido": 44.44
+    },
+    {
+      "operador": "Leosouza",
+      "posto": "30",
+      "atendimentos": 1,
+      "numerario": 20.95,
+      "troco": 0.0,
+      "liquido": 20.95
+    },
+    {
+      "operador": "Leosouza",
+      "posto": "3",
+      "atendimentos": 2,
+      "numerario": 20.84,
+      "troco": 2.22,
+      "liquido": 18.62
+    },
+    {
+      "operador": "Leosouza",
+      "posto": "5",
+      "atendimentos": 1,
+      "numerario": 0.9,
+      "troco": 0.0,
+      "liquido": 0.9
+    }
+  ],
+  "sanidade": {
+    "apuro_bate_com_saldo": true,
+    "moedas_mais_notas_igual_apuro": true
+  },
+  "avisos": [
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo."
+  ],
+  "nota": "A diferença de caixa nasce do cruzamento de 'liquido' com o total de vendas em numerário do Sifarma. Esse cruzamento vive no pipeline Oracle, não neste leitor."
+}
