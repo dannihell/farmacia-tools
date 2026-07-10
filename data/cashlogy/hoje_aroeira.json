@@ -2,97 +2,88 @@
   "farmacia": "aroeira",
   "fonte": "cashlogy",
   "tipo": "fecho",
-  "data": "2026-07-04",
-  "gerado_em": "2026-07-10T15:41:38",
+  "data": "2026-07-10",
+  "gerado_em": "2026-07-10T15:45:01",
   "numerario": {
-    "vendido": 832.21,
-    "troco_devolvido": 8.9,
-    "liquido": 823.31,
-    "apuro": 823.31,
-    "fundo_na_maquina": 400.0,
-    "moedas_retiradas": 3.31,
-    "notas_retiradas": 820.0,
-    "n_vendas": 17,
-    "n_trocos": 2
+    "vendido": 385.34,
+    "troco_devolvido": 0.91,
+    "liquido": 384.43,
+    "apuro": 0,
+    "fundo_na_maquina": null,
+    "moedas_retiradas": 0,
+    "notas_retiradas": 0,
+    "n_vendas": 19,
+    "n_trocos": 1
   },
-  "apuros_detalhe": [
-    {
-      "hora": "21:07:41",
-      "apuro": 823.31,
-      "saldo_antes": 1223.31,
-      "fundo_depois": 400.0
-    }
-  ],
+  "apuros_detalhe": [],
   "trocas_especie": [
     {
-      "hora": "15:57:15",
+      "hora": "08:58:21",
       "valor": 1.0
+    },
+    {
+      "hora": "10:08:27",
+      "valor": 40.0
+    },
+    {
+      "hora": "11:48:44",
+      "valor": 5.0
     }
   ],
   "por_operador": [
     {
-      "operador": "MATILDE",
+      "operador": "JESSICA",
       "posto": "5",
-      "atendimentos": 6,
-      "numerario": 581.0,
-      "troco": 6.68,
-      "liquido": 574.32
-    },
-    {
-      "operador": "DUARTE",
-      "posto": "3",
-      "atendimentos": 1,
-      "numerario": 91.6,
+      "atendimentos": 7,
+      "numerario": 231.47,
       "troco": 0.0,
-      "liquido": 91.6
+      "liquido": 231.47
     },
     {
-      "operador": "DUARTE",
+      "operador": "Alina",
       "posto": "2",
       "atendimentos": 4,
-      "numerario": 72.48,
-      "troco": 0.0,
-      "liquido": 72.48
-    },
-    {
-      "operador": "MATILDE",
-      "posto": "30",
-      "atendimentos": 2,
-      "numerario": 44.44,
-      "troco": 0.0,
-      "liquido": 44.44
-    },
-    {
-      "operador": "Leosouza",
-      "posto": "30",
-      "atendimentos": 1,
-      "numerario": 20.95,
-      "troco": 0.0,
-      "liquido": 20.95
+      "numerario": 57.17,
+      "troco": 0.91,
+      "liquido": 56.26
     },
     {
       "operador": "Leosouza",
       "posto": "3",
+      "atendimentos": 4,
+      "numerario": 42.4,
+      "troco": 0.0,
+      "liquido": 42.4
+    },
+    {
+      "operador": "CATARINA",
+      "posto": "2",
       "atendimentos": 2,
-      "numerario": 20.84,
-      "troco": 2.22,
-      "liquido": 18.62
+      "numerario": 22.5,
+      "troco": 0.0,
+      "liquido": 22.5
     },
     {
       "operador": "Leosouza",
-      "posto": "5",
+      "posto": "30",
       "atendimentos": 1,
-      "numerario": 0.9,
+      "numerario": 20.9,
       "troco": 0.0,
-      "liquido": 0.9
+      "liquido": 20.9
+    },
+    {
+      "operador": "Alina",
+      "posto": "30",
+      "atendimentos": 1,
+      "numerario": 10.9,
+      "troco": 0.0,
+      "liquido": 10.9
     }
   ],
-  "sanidade": {
-    "apuro_bate_com_saldo": true,
-    "moedas_mais_notas_igual_apuro": true
-  },
+  "sanidade": {},
   "avisos": [
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo."
+    "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
+    "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo."
   ],
   "nota": "A diferença de caixa nasce do cruzamento de 'liquido' com o total de vendas em numerário do Sifarma. Esse cruzamento vive no pipeline Oracle, não neste leitor."
 }
