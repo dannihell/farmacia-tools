@@ -1,0 +1,89 @@
+{
+  "farmacia": "aroeira",
+  "fonte": "cashlogy",
+  "tipo": "fecho",
+  "data": "2026-07-10",
+  "gerado_em": "2026-07-10T15:45:01",
+  "numerario": {
+    "vendido": 385.34,
+    "troco_devolvido": 0.91,
+    "liquido": 384.43,
+    "apuro": 0,
+    "fundo_na_maquina": null,
+    "moedas_retiradas": 0,
+    "notas_retiradas": 0,
+    "n_vendas": 19,
+    "n_trocos": 1
+  },
+  "apuros_detalhe": [],
+  "trocas_especie": [
+    {
+      "hora": "08:58:21",
+      "valor": 1.0
+    },
+    {
+      "hora": "10:08:27",
+      "valor": 40.0
+    },
+    {
+      "hora": "11:48:44",
+      "valor": 5.0
+    }
+  ],
+  "por_operador": [
+    {
+      "operador": "JESSICA",
+      "posto": "5",
+      "atendimentos": 7,
+      "numerario": 231.47,
+      "troco": 0.0,
+      "liquido": 231.47
+    },
+    {
+      "operador": "Alina",
+      "posto": "2",
+      "atendimentos": 4,
+      "numerario": 57.17,
+      "troco": 0.91,
+      "liquido": 56.26
+    },
+    {
+      "operador": "Leosouza",
+      "posto": "3",
+      "atendimentos": 4,
+      "numerario": 42.4,
+      "troco": 0.0,
+      "liquido": 42.4
+    },
+    {
+      "operador": "CATARINA",
+      "posto": "2",
+      "atendimentos": 2,
+      "numerario": 22.5,
+      "troco": 0.0,
+      "liquido": 22.5
+    },
+    {
+      "operador": "Leosouza",
+      "posto": "30",
+      "atendimentos": 1,
+      "numerario": 20.9,
+      "troco": 0.0,
+      "liquido": 20.9
+    },
+    {
+      "operador": "Alina",
+      "posto": "30",
+      "atendimentos": 1,
+      "numerario": 10.9,
+      "troco": 0.0,
+      "liquido": 10.9
+    }
+  ],
+  "sanidade": {},
+  "avisos": [
+    "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
+    "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo."
+  ],
+  "nota": "A diferença de caixa nasce do cruzamento de 'liquido' com o total de vendas em numerário do Sifarma. Esse cruzamento vive no pipeline Oracle, não neste leitor."
+}
