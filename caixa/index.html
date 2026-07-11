@@ -60,7 +60,19 @@
   .hero .big{font-family:var(--mono);font-size:30px;font-weight:750;font-variant-numeric:tabular-nums;margin-top:6px;letter-spacing:-.5px}
   .hero.ok .big{color:var(--ok)}.hero.warn .big{color:var(--warn)}.hero.alert .big{color:var(--alert)}
   .hero.pend .big{color:var(--ink-faint);font-size:17px;font-family:var(--sans);font-weight:650;margin-top:8px}
-  .hero .sub{font-size:12px;color:var(--ink-soft);margin-top:6px;line-height:1.4}
+  .hero .sub{font-size:12px;color:var(--ink-soft);margin-top:6px;line-height:1.4;overflow-wrap:anywhere}
+
+  .diflegend{display:flex;gap:14px;justify-content:center;margin-top:8px;font-size:10.5px;color:var(--ink-faint)}
+  .diflegend span{display:inline-flex;align-items:center;gap:4px}
+  .sw{width:9px;height:9px;border-radius:3px;display:inline-block}
+  .sw.ok{background:var(--ok)}.sw.warn{background:var(--warn)}.sw.alert{background:var(--alert)}
+  .hint-tap{font-size:11px;color:var(--ink-faint);padding:8px 15px 0}
+  tr.tapable{cursor:pointer}
+  tr.tapable:hover td{background:#f5f8f6}
+  td .dchip{font-family:var(--mono);font-weight:600}
+  td .dchip.ok{color:var(--ok)}td .dchip.warn{color:var(--warn)}td .dchip.alert{color:var(--alert)}
+  .voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--cross);
+    background:#e5f1ec;border:none;border-radius:20px;padding:6px 12px;cursor:pointer;font-family:var(--sans);font-weight:600;margin-bottom:12px}
 
   .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
   .card.aguarda{border-style:dashed;border-color:var(--line-strong);background:#fbfcfb}
@@ -199,8 +211,12 @@
       <div class="toggle"><button id="tgDia" class="on">Dia a dia</button><button id="tgMes">Mês a mês</button></div>
       <div class="kpis" id="kpis"></div>
       <div class="chartcard"><h4 id="chartTitle">Total vendas dinheiro</h4><svg id="chart" viewBox="0 0 360 150" width="100%"></svg></div>
+      <div class="chartcard"><h4>Diferença de caixa · por dia</h4><svg id="chartDif" viewBox="0 0 360 120" width="100%"></svg>
+        <div class="diflegend"><span><i class="sw ok"></i>dentro</span><span><i class="sw warn"></i>±5&nbsp;€</span><span><i class="sw alert"></i>desvio</span></div>
+      </div>
       <div class="card">
         <div class="card-h"><h3>Histórico</h3><span class="auto" id="nDias">—</span></div>
+        <div class="hint-tap">Toca num dia para ver o fecho completo.</div>
         <table><thead><tr><th>Data</th><th>Sifarma</th><th>Apuro</th><th>Dif.</th></tr></thead>
           <tbody id="tbSerie"></tbody></table>
       </div>
@@ -224,6 +240,7 @@ let periodo='dia', serie=[], fecho=null;
 
 async function carregar(f){
   document.getElementById('erro').innerHTML='';
+  const bv=document.getElementById('btnVoltar'); if(bv)bv.remove();
   try{
     const [h,s]=await Promise.all([
       fetch(`${BASE}/hoje_${f}.json${cb()}`).then(r=>{if(!r.ok)throw new Error('hoje_'+f+'.json → '+r.status);return r.json()}),
@@ -257,7 +274,7 @@ function render(){
   let heroBig, heroSub;
   if(dif==null){
     heroBig=`falta o cartão`;
-    heroSub=`Numerário e faturação já estão lançados. Assim que os TPAs forem introduzidos, a diferença de caixa fecha aqui.`;
+    heroSub=`Numerário e faturação prontos. Introduz os TPAs para fechar.`;
   }else{
     heroBig=(dif>=0?'+':'')+noE(eur.format(dif))+' €';
     heroSub=`(numerário + TPAs + Finanfarma) − total Sifarma. Tolerância ±${con.tolerancia||5} €.`;
@@ -358,9 +375,62 @@ function renderAnalise(){
   svg+=`<line x1="${pl}" y1="${H-pb}" x2="${W-pr}" y2="${H-pb}" stroke="var(--line-strong)"/>`;
   document.getElementById('chart').innerHTML=svg;
 
-  document.getElementById('tbSerie').innerHTML=[...dados].reverse().map(d=>
-    `<tr><td>${d.data}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.apuro||0)}</td>
-     <td>${d.diferenca_caixa!=null&&d.diferenca_caixa!==0?(d.diferenca_caixa>0?'+':'')+eur.format(d.diferenca_caixa):'—'}</td></tr>`).join('');
+  // ---- gráfico da diferença de caixa (barras acima/abaixo de zero) ----
+  const cd=document.getElementById('chartDif');
+  const comDif=dados.filter(d=>d.diferenca_caixa!=null);
+  if(!comDif.length){
+    cd.innerHTML=`<text x="180" y="60" text-anchor="middle" class="bar-lab">sem diferenças fechadas ainda</text>`;
+  }else{
+    const H2=120,pb2=18,mid=(H2-pb2)/2+4;
+    const maxAbs=Math.max(5,...comDif.map(d=>Math.abs(d.diferenca_caixa)))*1.2;
+    const bw2=(W-pl-pr)/dados.length;
+    let g=`<line x1="${pl}" y1="${mid}" x2="${W-pr}" y2="${mid}" stroke="var(--line-strong)"/>`;
+    dados.forEach((d,i)=>{
+      if(d.diferenca_caixa==null)return;
+      const v=d.diferenca_caixa, a=Math.abs(v);
+      const h=(a/maxAbs)*((H2-pb2)/2);
+      const x=pl+i*bw2+bw2*0.2, w=Math.max(bw2*0.6,2);
+      const y=v>=0?mid-h:mid;
+      const col=a<0.005?'var(--ok)':a<=5?'var(--warn)':'var(--alert)';
+      g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="1.5" fill="${col}"><title>${d.data}: ${(v>=0?'+':'')+v.toFixed(2)} €</title></rect>`;
+    });
+    cd.innerHTML=g;
+  }
+
+  const linhas=[...dados].reverse().map(d=>{
+    const v=d.diferenca_caixa;
+    const chip = v==null ? '<span class="dchip">—</span>'
+      : `<span class="dchip ${Math.abs(v)<0.005?'ok':Math.abs(v)<=5?'warn':'alert'}">${(v>0?'+':'')+eur.format(v)}</span>`;
+    // só dias (não meses) são clicáveis para ver o detalhe
+    const tap = periodo==='dia' ? `class="tapable" onclick="verDia('${d.data}')"` : '';
+    return `<tr ${tap}><td>${d.data}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.apuro||0)}</td><td>${chip}</td></tr>`;
+  }).join('');
+  document.getElementById('tbSerie').innerHTML=linhas;
+}
+
+// carrega o fecho completo de um dia e mostra-o no separador Hoje
+async function verDia(data){
+  const f=document.getElementById('pharm').value;
+  try{
+    const r=await fetch(`${BASE}/dias/${f}_${data}.json${cb()}`);
+    if(!r.ok)throw new Error('dias/'+f+'_'+data+'.json → '+r.status);
+    fecho=await r.json();
+    render();
+    // salta para o Hoje com um botão de voltar
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+    document.querySelector('.tab[data-v="hoje"]').classList.add('active');
+    const hv=document.getElementById('v-hoje'); hv.classList.add('active');
+    if(!document.getElementById('btnVoltar')){
+      const b=document.createElement('button');
+      b.id='btnVoltar'; b.className='voltar'; b.innerHTML='← voltar ao dia atual';
+      b.onclick=()=>{b.remove();carregar(f);document.querySelector('.tab[data-v="analise"]').click();};
+      hv.insertBefore(b, hv.firstChild);
+    }
+    document.querySelector('.body').scrollTop=0;
+  }catch(e){
+    document.getElementById('erro').innerHTML=`<div class="erro">Não consegui abrir o fecho de ${data}.<br>${e.message}</div>`;
+  }
 }
 
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
