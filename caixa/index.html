@@ -42,85 +42,47 @@
     transform:translateY(-70%) rotate(45deg);pointer-events:none}
   .datechip{font-size:12px;color:var(--ink-soft);text-align:right;white-space:nowrap}
   .datechip b{display:block;color:var(--ink);font-size:12.5px;font-weight:600}
-  .nif{font-size:10.5px;color:var(--ink-faint);margin-top:4px}
 
   .body{flex:1;overflow-y:auto;padding:14px 16px 100px;background:var(--canvas)}
-  .view{display:none;animation:fade .22s ease}
-  .view.active{display:block}
+  .view{display:none;animation:fade .22s ease}.view.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
   .sync{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink-faint);margin:2px 2px 12px}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}
-  .dot.stale{background:var(--warn)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}.dot.stale{background:var(--warn)}
 
-  .status{border-radius:16px;padding:15px 16px;margin-bottom:14px;display:flex;align-items:center;gap:13px;border:1px solid transparent}
-  .status.ok{background:var(--ok-bg);border-color:#cfe6d7}
-  .status.warn{background:var(--warn-bg);border-color:#ecdcb3}
-  .st-ic{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;font-weight:700;font-size:18px;color:#fff}
-  .status.ok .st-ic{background:var(--ok)} .status.warn .st-ic{background:var(--warn)}
-  .st-tx b{font-size:14.5px;display:block}
-  .status.ok .st-tx b{color:var(--ok)} .status.warn .st-tx b{color:var(--warn)}
-  .st-tx span{font-size:12px;color:var(--ink-soft);display:block;margin-top:1px}
+  /* diferença de caixa — o herói */
+  .hero{border-radius:18px;padding:18px 18px 16px;margin-bottom:14px;border:1px solid transparent}
+  .hero.ok{background:var(--ok-bg);border-color:#cfe6d7}
+  .hero.warn{background:var(--warn-bg);border-color:#ecdcb3}
+  .hero.alert{background:var(--alert-bg);border-color:#e8c6c1}
+  .hero.pend{background:#eef0ec;border-color:var(--line-strong)}
+  .hero .lab{font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:650;color:var(--ink-soft)}
+  .hero .big{font-family:var(--mono);font-size:30px;font-weight:750;font-variant-numeric:tabular-nums;margin-top:6px;letter-spacing:-.5px}
+  .hero.ok .big{color:var(--ok)}.hero.warn .big{color:var(--warn)}.hero.alert .big{color:var(--alert)}
+  .hero.pend .big{color:var(--ink-faint);font-size:17px;font-family:var(--sans);font-weight:650;margin-top:8px}
+  .hero .sub{font-size:12px;color:var(--ink-soft);margin-top:6px;line-height:1.4}
 
   .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
   .card.aguarda{border-style:dashed;border-color:var(--line-strong);background:#fbfcfb}
   .card-h{padding:12px 15px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:8px}
   .card.aguarda .card-h{border-bottom-style:dashed}
   .card-h h3{font-size:12px;font-weight:650;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft)}
-  .card-h .hint{font-size:11px;color:var(--ink-faint)}
   .auto{font-size:9.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--cross);
     background:#e5f1ec;padding:2px 7px;border-radius:20px;white-space:nowrap}
   .pend{font-size:9.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--ink-faint);
     background:#eef0ec;padding:2px 7px;border-radius:20px;white-space:nowrap}
-
-  .ledger-head,.ledger-row{display:grid;grid-template-columns:1.25fr 1fr 1fr .85fr;align-items:center;padding:11px 15px;gap:6px}
-  .ledger-head{padding:9px 15px;border-bottom:1px solid var(--line)}
-  .ledger-head span{font-size:10px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-faint);text-align:right}
-  .ledger-head span:first-child{text-align:left}
-  .ledger-row{border-bottom:1px solid var(--line)}
-  .ledger-row:last-child{border-bottom:none}
-  .l-name{display:flex;flex-direction:column;gap:3px}
-  .l-name b{font-size:13.5px;font-weight:600}
-  .src{font-size:9.5px;color:var(--ink-faint);display:inline-flex;align-items:center;gap:4px}
-  .src::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--cross);display:inline-block}
-  .src.off::before{background:var(--ink-faint)}
-  .num{font-family:var(--mono);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
-  .num.exp{color:var(--ink-soft)}
-  .num.vazio{color:var(--ink-faint)}
-  .dev{font-family:var(--mono);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
-  .dev.zero{color:var(--ink-faint)} .dev.pos{color:var(--warn)} .dev.neg{color:var(--alert)} .dev.tol{color:var(--ok)}
-  .ledger-total{display:grid;grid-template-columns:1.25fr 1fr 1fr .85fr;align-items:center;padding:13px 15px;gap:6px;
-    background:#f7f9f6;border-top:1px solid var(--line-strong)}
-  .ledger-total .l-name b{font-size:13px}
-  .ledger-total .num,.ledger-total .dev{font-size:13px;font-weight:700}
 
   .kv{display:flex;justify-content:space-between;align-items:baseline;padding:11px 15px;border-bottom:1px solid var(--line);gap:10px}
   .kv:last-child{border-bottom:none}
   .kv .k{font-size:13px;color:var(--ink-soft)}
   .kv .k small{display:block;font-size:10.5px;color:var(--ink-faint);margin-top:2px}
   .kv .v{font-family:var(--mono);font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .kv .v.vazio{color:var(--ink-faint);font-weight:500}
   .kv.total{background:#f7f9f6;border-top:1px solid var(--line-strong)}
-  .kv.total .k{font-weight:650;color:var(--ink)} .kv.total .v{font-weight:700;font-size:15px;color:var(--cross)}
+  .kv.total .k{font-weight:650;color:var(--ink)}.kv.total .v{font-weight:700;font-size:15px;color:var(--cross)}
+  .kv.anchor .v{color:var(--cross);font-weight:700;font-size:15px}
 
-  .msg{padding:16px 15px;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
-  .msg b{color:var(--ink)}
-
-  /* verificação */
-  .verify{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:6px 15px 13px;margin-bottom:14px}
-  .vrow{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;font-size:13px;gap:10px}
-  .vrow .k{color:var(--ink-soft)}
-  .vrow .k small{display:block;font-size:10px;color:var(--ink-faint)}
-  .vrow .v{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .vrow .v.vazio{color:var(--ink-faint);font-weight:500}
-  .vrow.tot{border-top:2px solid var(--line-strong);margin-top:2px;padding-top:11px}
-  .vrow.tot .k{font-weight:650;color:var(--ink)} .vrow.tot .v{font-weight:700;font-size:14px}
-  .vfinal{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:11px 13px;border-radius:11px;gap:8px}
-  .vfinal.ok{background:var(--ok-bg)} .vfinal.warn{background:var(--warn-bg)} .vfinal.pend{background:#eef0ec}
-  .vfinal .k{font-size:12.5px;font-weight:650}
-  .vfinal.ok .k{color:var(--ok)} .vfinal.warn .k{color:var(--warn)} .vfinal.pend .k{color:var(--ink-faint)}
-  .vfinal .v{font-family:var(--mono);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
-  .vfinal.ok .v{color:var(--ok)} .vfinal.warn .v{color:var(--warn)} .vfinal.pend .v{color:var(--ink-faint);font-size:12px;font-family:var(--sans);font-weight:600}
-
+  .msg{padding:15px;font-size:12.5px;color:var(--ink-soft);line-height:1.5}.msg b{color:var(--ink)}
   .aviso{display:flex;gap:9px;padding:11px 14px;border-radius:12px;background:var(--warn-bg);
     border:1px solid #ecdcb3;margin-bottom:9px;font-size:12.5px;color:#6d4a10;line-height:1.4}
   .aviso.info{background:#eef2f6;border-color:#dbe3ea;color:#3f5666}
@@ -147,10 +109,8 @@
   .chartcard h4{font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-soft);margin:0 3px 10px;font-weight:650}
   .bar-lab{font-size:9px;fill:var(--ink-faint);font-family:var(--sans)}
 
-  .sectlabel{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-faint);margin:2px 4px 10px;font-weight:650}
   .empty{text-align:center;padding:38px 20px;color:var(--ink-faint)}
-  .empty b{display:block;color:var(--ink-soft);font-size:14px;margin-bottom:4px}
-  .empty span{font-size:12.5px}
+  .empty b{display:block;color:var(--ink-soft);font-size:14px;margin-bottom:4px}.empty span{font-size:12.5px}
   .erro{background:var(--alert-bg);border:1px solid #e8c6c1;color:#7d2a24;border-radius:12px;padding:13px 15px;font-size:13px;line-height:1.45;margin-bottom:14px}
   .skel{height:13px;border-radius:6px;background:linear-gradient(90deg,#eef0ec,#f6f8f5,#eef0ec);background-size:200% 100%;animation:sh 1.2s infinite}
   @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -159,8 +119,7 @@
   .tab{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;
     gap:4px;padding:5px 2px;color:var(--ink-faint);font-family:var(--sans)}
   .tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .tab span{font-size:10px;font-weight:600}
-  .tab.active{color:var(--cross)}
+  .tab span{font-size:10px;font-weight:600}.tab.active{color:var(--cross)}
   @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
@@ -175,12 +134,13 @@
     <div class="picker">
       <div class="selwrap">
         <select class="pharm" id="pharm" aria-label="Farmácia">
-          <option value="aroeira">Farmácia Aroeira</option>
+          <option value="Aroeira">Farmácia Aroeira</option>
+          <option value="DiasBrito">Farmácia Dias e Brito</option>
+          <option value="CidadeUniv">Farmácia Cidade Universitária</option>
         </select>
       </div>
-      <div class="datechip">dados de<b id="dataFecho">—</b></div>
+      <div class="datechip">fecho de<b id="dataFecho">—</b></div>
     </div>
-    <div class="nif" id="nif">NIF 514 060 751 · Charneca de Caparica</div>
   </header>
 
   <div class="body">
@@ -189,13 +149,13 @@
     <!-- ===== HOJE ===== -->
     <section class="view active" id="v-hoje">
       <div class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">a carregar…</span></div>
-      <div id="statusBox"></div>
+      <div id="hero"></div>
 
       <div class="card">
-        <div class="card-h"><h3>Recebido por meio de pagamento</h3><span class="hint">esperado vs. real</span></div>
-        <div class="ledger-head"><span>Meio</span><span>Sifarma</span><span>Real</span><span>Desvio</span></div>
-        <div id="ledger"></div>
-        <div class="ledger-total" id="ledgerTotal"></div>
+        <div class="card-h"><h3>Conciliação</h3><span id="estadoChip" class="pend">—</span></div>
+        <div id="conc">
+          <div class="kv"><span class="k skel" style="width:120px">&nbsp;</span><span class="v skel" style="width:70px">&nbsp;</span></div>
+        </div>
       </div>
 
       <div id="avisos"></div>
@@ -203,36 +163,25 @@
 
     <!-- ===== FECHO ===== -->
     <section class="view" id="v-fecho">
-      <div class="card aguarda">
-        <div class="card-h"><h3>Recapitulativo · IVA</h3><span class="pend">aguarda Sifarma</span></div>
-        <div class="msg">O recapitulativo diário (isento, 6%, 13%, 23%, movimentos a crédito e
-          <b>total vendas dinheiro</b>) vem do Oracle. Assim que o pipeline Sifarma publicar,
-          preenche-se aqui — e deixa de ser transcrito à mão.</div>
-      </div>
-
-      <div class="card aguarda">
-        <div class="card-h"><h3>Terminais TPA</h3><span class="pend">aguarda Sifarma</span></div>
-        <div class="msg">Cada terminal com <b>bruto, taxa e líquido</b>, e o confronto contra o Sifarma
-          terminal a terminal — que é onde aparece cartão passado fora do sistema.</div>
-      </div>
-
-      <div class="card aguarda">
-        <div class="card-h"><h3>Finanfarma / MBWay</h3><span class="pend">aguarda Sifarma</span></div>
-        <div class="msg">Fecho não presencial, do Oracle.</div>
+      <div class="card">
+        <div class="card-h"><h3>Sifarma · total vendas dinheiro</h3><span class="auto">auto ✓</span></div>
+        <div id="sifarmaBox"></div>
       </div>
 
       <div class="card">
         <div class="card-h"><h3>Numerário · Cashlogy</h3><span class="auto">auto ✓</span></div>
-        <div id="numerario"><div class="kv"><span class="k skel" style="width:130px">&nbsp;</span><span class="v skel" style="width:70px">&nbsp;</span></div></div>
+        <div id="numerario"></div>
+      </div>
+
+      <div class="card aguarda" id="tpasCard">
+        <div class="card-h"><h3>Terminais TPA</h3><span class="pend" id="tpasChip">aguarda talões</span></div>
+        <div id="tpasBox"></div>
       </div>
 
       <div class="card">
         <div class="card-h"><h3>Retirada de apuro</h3><span class="auto">auto ✓</span></div>
         <div id="fechoBox"></div>
       </div>
-
-      <div class="sectlabel">Verificação</div>
-      <div class="verify" id="verify"></div>
     </section>
 
     <!-- ===== POSTOS ===== -->
@@ -242,23 +191,17 @@
         <table><thead><tr><th>Operador · posto</th><th>Atend.</th><th>Líquido</th></tr></thead>
           <tbody id="tbOper"></tbody></table>
       </div>
-      <div class="aviso info">O líquido desconta o troco devolvido. Só numerário — cartão e MBWay não passam pelo Cashlogy.</div>
+      <div class="aviso info">Líquido = numerário − troco. Só o que passou pelo Cashlogy; cartão não entra aqui.</div>
     </section>
 
     <!-- ===== ANÁLISE ===== -->
     <section class="view" id="v-analise">
-      <div class="toggle">
-        <button id="tgDia" class="on">Dia a dia</button>
-        <button id="tgMes">Mês a mês</button>
-      </div>
+      <div class="toggle"><button id="tgDia" class="on">Dia a dia</button><button id="tgMes">Mês a mês</button></div>
       <div class="kpis" id="kpis"></div>
-      <div class="chartcard">
-        <h4 id="chartTitle">Numerário líquido</h4>
-        <svg id="chart" viewBox="0 0 360 150" width="100%"></svg>
-      </div>
+      <div class="chartcard"><h4 id="chartTitle">Total vendas dinheiro</h4><svg id="chart" viewBox="0 0 360 150" width="100%"></svg></div>
       <div class="card">
         <div class="card-h"><h3>Histórico</h3><span class="auto" id="nDias">—</span></div>
-        <table><thead><tr><th>Data</th><th>Líquido</th><th>Apuro</th><th>Vendas</th></tr></thead>
+        <table><thead><tr><th>Data</th><th>Sifarma</th><th>Apuro</th><th>Dif.</th></tr></thead>
           <tbody id="tbSerie"></tbody></table>
       </div>
     </section>
@@ -273,13 +216,14 @@
 </div>
 
 <script>
-const BASE="../data/cashlogy";
+const BASE="../data/fecho";
 const eur=new Intl.NumberFormat('pt-PT',{style:'currency',currency:'EUR'});
 const noE=s=>s.replace(/\s?€/,'');
 const cb=()=>`?v=${Date.now()}`;
 let periodo='dia', serie=[], fecho=null;
 
 async function carregar(f){
+  document.getElementById('erro').innerHTML='';
   try{
     const [h,s]=await Promise.all([
       fetch(`${BASE}/hoje_${f}.json${cb()}`).then(r=>{if(!r.ok)throw new Error('hoje_'+f+'.json → '+r.status);return r.json()}),
@@ -288,70 +232,87 @@ async function carregar(f){
     fecho=h; serie=Array.isArray(s)?s:[]; render();
   }catch(e){
     document.getElementById('erro').innerHTML=
-      `<div class="erro"><b>Não consegui carregar os dados.</b><br>${e.message}<br>O fecho é publicado todos os dias às 21h30.</div>`;
+      `<div class="erro"><b>Sem dados para esta farmácia.</b><br>${e.message}<br>O fecho é publicado todas as noites às 23h59.</div>`;
+    // limpa vistas
+    ['hero','conc','sifarmaBox','numerario','fechoBox','tbOper'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});
   }
 }
 
 function render(){
-  const n=fecho.numerario||{}, san=fecho.sanidade||{};
-  const fechada=(fecho.apuros_detalhe||[]).length>0;
+  const c=fecho.cashlogy||{}, s=fecho.sifarma||{}, con=fecho.conciliacao||{};
+  const estado=fecho.estado||'—';
 
   document.getElementById('dataFecho').textContent=
     new Date(fecho.data+'T12:00').toLocaleDateString('pt-PT',{day:'2-digit',month:'short'}).replace('.','');
   const ger=new Date(fecho.gerado_em);
   document.getElementById('syncDot').className='dot'+(((Date.now()-ger)/36e5)>26?' stale':'');
   document.getElementById('syncTxt').textContent=
-    `Cashlogy lido em ${ger.toLocaleString('pt-PT',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}`;
+    `Gerado ${ger.toLocaleString('pt-PT',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}`;
 
-  const ok=fechada && san.apuro_bate_com_saldo!==false;
-  document.getElementById('statusBox').innerHTML=
-    `<div class="status ${ok?'ok':'warn'}"><div class="st-ic">${ok?'✓':'!'}</div>
-     <div class="st-tx"><b>${fechada?(ok?'Caixa fechada e consistente':'Fecho com inconsistência'):'Caixa ainda aberta'}</b>
-     <span>${fechada?(ok?'Apuro bate com a variação de saldo da máquina':'Ver avisos')
-                    :'O apuro aparece depois da retirada, ao fim do dia'}</span></div></div>`;
+  // HERO — diferença de caixa
+  const dif=con.diferenca_caixa;
+  const mapa={conciliado:['ok','Caixa certa'],tolerancia:['warn','Dentro da tolerância'],
+              desvio:['alert','Desvio a investigar'],aguarda_tpas:['pend','Aguarda talões dos TPA']};
+  const [cls,txt]=mapa[estado]||['pend',estado];
+  let heroBig, heroSub;
+  if(dif==null){
+    heroBig=`falta o cartão`;
+    heroSub=`Numerário e faturação já estão lançados. Assim que os TPAs forem introduzidos, a diferença de caixa fecha aqui.`;
+  }else{
+    heroBig=(dif>=0?'+':'')+noE(eur.format(dif))+' €';
+    heroSub=`(numerário + TPAs + Finanfarma) − total Sifarma. Tolerância ±${con.tolerancia||5} €.`;
+  }
+  document.getElementById('hero').innerHTML=
+    `<div class="hero ${cls}"><div class="lab">Diferença de caixa</div>
+     <div class="big">${heroBig}</div><div class="sub">${txt} · ${heroSub}</div></div>`;
 
-  // ledger: Cashlogy real; Sifarma por ligar
-  document.getElementById('ledger').innerHTML=`
-    <div class="ledger-row">
-      <div class="l-name"><b>Numerário</b><span class="src">Cashlogy</span></div>
-      <div class="num vazio">—</div><div class="num">${eur.format(n.liquido||0)}</div><div class="dev zero">—</div></div>
-    <div class="ledger-row">
-      <div class="l-name"><b>Multibanco</b><span class="src off">TPAs · por ligar</span></div>
-      <div class="num vazio">—</div><div class="num vazio">—</div><div class="dev zero">—</div></div>
-    <div class="ledger-row">
-      <div class="l-name"><b>Outros</b><span class="src off">Finanfarma · por ligar</span></div>
-      <div class="num vazio">—</div><div class="num vazio">—</div><div class="dev zero">—</div></div>`;
-  document.getElementById('ledgerTotal').innerHTML=
-    `<div class="l-name"><b>Total recebido</b></div><div class="num vazio">—</div>
-     <div class="num">${eur.format(n.liquido||0)}</div><div class="dev zero">parcial</div>`;
+  // conciliação (Hoje)
+  document.getElementById('estadoChip').textContent=txt;
+  document.getElementById('estadoChip').className=(cls==='ok'?'auto':'pend');
+  document.getElementById('conc').innerHTML=`
+    <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma · âncora</small></span><span class="v">${s.total_vendas_dinheiro!=null?eur.format(s.total_vendas_dinheiro):'—'}</span></div>
+    <div class="kv"><span class="k">Numerário (apuro)<small>Cashlogy</small></span><span class="v">${c.apuro!=null?eur.format(c.apuro):'—'}</span></div>
+    <div class="kv"><span class="k">TPAs<small>talões</small></span><span class="v ${con.recebido_real==null?'vazio':''}">${(fecho.manual&&fecho.manual.tpas_total!=null)?eur.format(fecho.manual.tpas_total):'a introduzir'}</span></div>
+    <div class="kv"><span class="k">Finanfarma</span><span class="v ${(fecho.manual&&fecho.manual.finanfarma!=null)?'':'vazio'}">${(fecho.manual&&fecho.manual.finanfarma!=null)?eur.format(fecho.manual.finanfarma):'a introduzir'}</span></div>
+    <div class="kv total"><span class="k">Diferença de caixa</span><span class="v">${dif!=null?(dif>=0?'+':'')+eur.format(dif):'aguarda TPAs'}</span></div>`;
 
-  document.getElementById('avisos').innerHTML=
-    (fecho.avisos||[]).map(a=>`<div class="aviso ${/normal/.test(a)?'info':''}">${a}</div>`).join('');
+  // FECHO — Sifarma
+  const diag=s.diagnostico||{};
+  document.getElementById('sifarmaBox').innerHTML=`
+    <div class="kv anchor"><span class="k">Total vendas dinheiro</span><span class="v">${s.total_vendas_dinheiro!=null?eur.format(s.total_vendas_dinheiro):'—'}</span></div>
+    <div class="kv"><span class="k">↳ numerário declarado<small>diagnóstico, não fiável</small></span><span class="v">${diag.numerario_declarado!=null?eur.format(diag.numerario_declarado):'—'}</span></div>
+    <div class="kv"><span class="k">↳ cartão declarado<small>diagnóstico, não fiável</small></span><span class="v">${diag.cartao_declarado!=null?eur.format(diag.cartao_declarado):'—'}</span></div>
+    ${diag.outros_declarado?`<div class="kv"><span class="k">↳ outros</span><span class="v">${eur.format(diag.outros_declarado)}</span></div>`:''}`;
 
-  // numerário
+  // FECHO — numerário
   document.getElementById('numerario').innerHTML=`
-    <div class="kv"><span class="k">Vendido<small>entradas</small></span><span class="v">${eur.format(n.vendido||0)}</span></div>
-    <div class="kv"><span class="k">Troco devolvido<small>saídas</small></span><span class="v">−${noE(eur.format(n.troco_devolvido||0))} €</span></div>
-    <div class="kv total"><span class="k">Líquido</span><span class="v">${eur.format(n.liquido||0)}</span></div>
-    <div class="kv"><span class="k">Nº de vendas</span><span class="v">${n.n_vendas||0}</span></div>`;
+    <div class="kv"><span class="k">Vendido</span><span class="v">${c.vendido!=null?eur.format(c.vendido):'—'}</span></div>
+    <div class="kv"><span class="k">Troco devolvido</span><span class="v">${c.troco_devolvido!=null?'−'+noE(eur.format(c.troco_devolvido))+' €':'—'}</span></div>
+    <div class="kv total"><span class="k">Líquido</span><span class="v">${c.liquido!=null?eur.format(c.liquido):'—'}</span></div>`;
 
+  // FECHO — TPAs (manual, ainda vazio nesta fase)
+  const temTpa=fecho.manual&&fecho.manual.tpas_total!=null;
+  document.getElementById('tpasCard').className='card'+(temTpa?'':' aguarda');
+  document.getElementById('tpasChip').textContent=temTpa?'introduzido':'aguarda talões';
+  document.getElementById('tpasChip').className=temTpa?'auto':'pend';
+  document.getElementById('tpasBox').innerHTML=temTpa
+    ? (fecho.manual.terminais||[]).map(t=>`<div class="kv"><span class="k">${t.nome||'TPA'}</span><span class="v">${eur.format(t.valor)}</span></div>`).join('')
+      + `<div class="kv total"><span class="k">Total TPAs</span><span class="v">${eur.format(fecho.manual.tpas_total)}</span></div>`
+    : `<div class="msg">Os valores dos TPAs entram pelo talão de fecho, tirado ao fechar a loja. <b>Formulário a caminho.</b></div>`;
+
+  // FECHO — apuro
+  const fechada=c.apuro!=null && c.apuro>0;
   document.getElementById('fechoBox').innerHTML= fechada?`
-    <div class="kv"><span class="k">Apuro retirado</span><span class="v">${eur.format(n.apuro||0)}</span></div>
-    <div class="kv"><span class="k">↳ moedas</span><span class="v">${eur.format(n.moedas_retiradas||0)}</span></div>
-    <div class="kv"><span class="k">↳ notas<small>cofre de notas</small></span><span class="v">${eur.format(n.notas_retiradas||0)}</span></div>
-    <div class="kv total"><span class="k">Fundo na máquina</span><span class="v">${eur.format(n.fundo_na_maquina||0)}</span></div>`
+    <div class="kv"><span class="k">Apuro retirado</span><span class="v">${eur.format(c.apuro)}</span></div>
+    <div class="kv total"><span class="k">Fundo na máquina</span><span class="v">${c.fundo_na_maquina!=null?eur.format(c.fundo_na_maquina):'—'}</span></div>`
     : `<div class="empty"><b>Sem retirada de apuro</b><span>A caixa fecha ao fim do dia.</span></div>`;
 
-  // verificação
-  document.getElementById('verify').innerHTML=`
-    <div class="vrow"><span class="k">TPAs (bruto)<small>aguarda Sifarma</small></span><span class="v vazio">—</span></div>
-    <div class="vrow"><span class="k">Finanfarma / MBWay<small>aguarda Sifarma</small></span><span class="v vazio">—</span></div>
-    <div class="vrow"><span class="k">Numerário líquido<small>Cashlogy</small></span><span class="v">${eur.format(n.liquido||0)}</span></div>
-    <div class="vrow tot"><span class="k">= Total recebido</span><span class="v vazio">incompleto</span></div>
-    <div class="vrow"><span class="k">Total vendas dinheiro<small>Sifarma</small></span><span class="v vazio">—</span></div>
-    <div class="vfinal pend"><span class="k">Diferença de caixa</span><span class="v">falta o lado Sifarma</span></div>`;
+  // avisos
+  document.getElementById('avisos').innerHTML=
+    (fecho.avisos||[]).map(a=>`<div class="aviso ${/normal|Faltam/.test(a)?'info':''}">${a}</div>`).join('');
 
-  document.getElementById('tbOper').innerHTML=(fecho.por_operador||[]).map(o=>
+  // postos
+  document.getElementById('tbOper').innerHTML=(c.por_operador||[]).map(o=>
     `<tr><td>${o.operador||'—'}<small>posto ${o.posto}</small></td><td>${o.atendimentos}</td><td>${eur.format(o.liquido)}</td></tr>`
   ).join('')||`<tr><td colspan="3"><div class="empty"><b>Sem dados</b></div></td></tr>`;
 
@@ -361,45 +322,45 @@ function render(){
 function agregarMes(s){
   const m={};
   s.forEach(d=>{const k=d.data.slice(0,7);
-    if(!m[k])m[k]={data:k,liquido:0,apuro:0,n_vendas:0};
-    m[k].liquido+=d.liquido||0;m[k].apuro+=d.apuro||0;m[k].n_vendas+=d.n_vendas||0;});
+    if(!m[k])m[k]={data:k,total_sifarma:0,apuro:0,diferenca_caixa:0,_n:0};
+    m[k].total_sifarma+=d.total_sifarma||0;m[k].apuro+=d.apuro||0;
+    if(d.diferenca_caixa!=null)m[k].diferenca_caixa+=d.diferenca_caixa;m[k]._n++;});
   return Object.values(m).sort((a,b)=>a.data.localeCompare(b.data));
 }
 
 function renderAnalise(){
   const dados=periodo==='dia'?serie.slice(-21):agregarMes(serie);
-  document.getElementById('chartTitle').textContent=periodo==='dia'?'Numerário líquido · por dia':'Numerário líquido · por mês';
+  document.getElementById('chartTitle').textContent=periodo==='dia'?'Total vendas dinheiro · por dia':'Total vendas dinheiro · por mês';
   document.getElementById('nDias').textContent=`${serie.length} dia${serie.length===1?'':'s'}`;
   if(!dados.length){
     document.getElementById('chart').innerHTML='';document.getElementById('kpis').innerHTML='';
     document.getElementById('tbSerie').innerHTML=`<tr><td colspan="4"><div class="empty"><b>Ainda sem histórico</b><span>Cada fecho acrescenta um dia.</span></div></td></tr>`;
     return;
   }
-  const med=dados.reduce((a,b)=>a+(b.liquido||0),0)/dados.length;
-  const totL=dados.reduce((a,b)=>a+(b.liquido||0),0);
-  const totV=dados.reduce((a,b)=>a+(b.n_vendas||0),0);
+  const med=dados.reduce((a,b)=>a+(b.total_sifarma||0),0)/dados.length;
+  const totS=dados.reduce((a,b)=>a+(b.total_sifarma||0),0);
   document.getElementById('kpis').innerHTML=`
-    <div class="kpi"><div class="kn">${noE(eur.format(med))}</div><div class="kl">Líquido médio ${periodo==='dia'?'/ dia':'/ mês'}</div></div>
-    <div class="kpi"><div class="kn">${noE(eur.format(totL))}</div><div class="kl">Total no período</div></div>
-    <div class="kpi"><div class="kn">${totV}</div><div class="kl">Vendas numerário</div></div>`;
+    <div class="kpi"><div class="kn">${noE(eur.format(med))}</div><div class="kl">Média ${periodo==='dia'?'/ dia':'/ mês'}</div></div>
+    <div class="kpi"><div class="kn">${noE(eur.format(totS))}</div><div class="kl">Total período</div></div>
+    <div class="kpi"><div class="kn">${dados.length}</div><div class="kl">${periodo==='dia'?'dias':'meses'}</div></div>`;
 
   const W=360,H=150,pb=20,pt=8,pl=6,pr=6;
-  const max=Math.max(...dados.map(d=>d.liquido||0))*1.15||1;
+  const max=Math.max(...dados.map(d=>d.total_sifarma||0))*1.15||1;
   const bw=(W-pl-pr)/dados.length;
   let svg='';
   dados.forEach((d,i)=>{
-    const h=((d.liquido||0)/max)*(H-pb-pt);
+    const h=((d.total_sifarma||0)/max)*(H-pb-pt);
     const x=pl+i*bw+bw*0.18,y=H-pb-h,w=Math.max(bw*0.64,2);
-    svg+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="var(--cross)" opacity="0.88"><title>${d.data}: ${eur.format(d.liquido||0)}</title></rect>`;
-    if(dados.length<=8||i%Math.ceil(dados.length/7)===0){
+    svg+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="var(--cross)" opacity="0.88"><title>${d.data}: ${eur.format(d.total_sifarma||0)}</title></rect>`;
+    if(dados.length<=8||i%Math.ceil(dados.length/7)===0)
       svg+=`<text class="bar-lab" x="${(x+w/2).toFixed(1)}" y="${H-6}" text-anchor="middle">${periodo==='dia'?d.data.slice(8):d.data.slice(5)}</text>`;
-    }
   });
   svg+=`<line x1="${pl}" y1="${H-pb}" x2="${W-pr}" y2="${H-pb}" stroke="var(--line-strong)"/>`;
   document.getElementById('chart').innerHTML=svg;
 
   document.getElementById('tbSerie').innerHTML=[...dados].reverse().map(d=>
-    `<tr><td>${d.data}</td><td>${eur.format(d.liquido||0)}</td><td>${eur.format(d.apuro||0)}</td><td>${d.n_vendas||0}</td></tr>`).join('');
+    `<tr><td>${d.data}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.apuro||0)}</td>
+     <td>${d.diferenca_caixa!=null&&d.diferenca_caixa!==0?(d.diferenca_caixa>0?'+':'')+eur.format(d.diferenca_caixa):'—'}</td></tr>`).join('');
 }
 
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
@@ -414,7 +375,7 @@ document.getElementById('tgMes').onclick=()=>{periodo='mes';tg()};
 function tg(){document.getElementById('tgDia').classList.toggle('on',periodo==='dia');
   document.getElementById('tgMes').classList.toggle('on',periodo==='mes');renderAnalise();}
 document.getElementById('pharm').onchange=e=>carregar(e.target.value);
-carregar('aroeira');
+carregar('Aroeira');
 </script>
 </body>
 </html>
