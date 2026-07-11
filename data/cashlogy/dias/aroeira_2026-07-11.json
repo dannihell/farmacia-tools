@@ -1,0 +1,59 @@
+{
+  "farmacia": "aroeira",
+  "fonte": "cashlogy",
+  "tipo": "fecho",
+  "data": "2026-07-11",
+  "gerado_em": "2026-07-11T19:12:26",
+  "numerario": {
+    "vendido": 448.65,
+    "troco_devolvido": 24.29,
+    "liquido": 424.36,
+    "apuro": 0,
+    "fundo_na_maquina": null,
+    "moedas_retiradas": 0,
+    "notas_retiradas": 0,
+    "n_vendas": 19,
+    "n_trocos": 1
+  },
+  "apuros_detalhe": [],
+  "trocas_especie": [],
+  "por_operador": [
+    {
+      "operador": "MATILDE",
+      "posto": "5",
+      "atendimentos": 13,
+      "numerario": 319.89,
+      "troco": 24.29,
+      "liquido": 295.6
+    },
+    {
+      "operador": "CATARINA",
+      "posto": "2",
+      "atendimentos": 4,
+      "numerario": 91.72,
+      "troco": 0.0,
+      "liquido": 91.72
+    },
+    {
+      "operador": "TATIANA",
+      "posto": "3",
+      "atendimentos": 1,
+      "numerario": 28.18,
+      "troco": 0.0,
+      "liquido": 28.18
+    },
+    {
+      "operador": "TATIANA",
+      "posto": "2",
+      "atendimentos": 1,
+      "numerario": 8.86,
+      "troco": 0.0,
+      "liquido": 8.86
+    }
+  ],
+  "sanidade": {},
+  "avisos": [
+    "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?"
+  ],
+  "nota": "A diferença de caixa nasce do cruzamento de 'liquido' com o total de vendas em numerário do Sifarma. Esse cruzamento vive no pipeline Oracle, não neste leitor."
+}
