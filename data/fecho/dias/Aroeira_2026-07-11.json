@@ -1,0 +1,91 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-11",
+  "gerado_em": "2026-07-11T19:12:46",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 4223.75,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 424.36,
+      "cartao_declarado": 3799.39,
+      "outros_declarado": 0.0,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 100,
+          "valor": 3799.39
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 161,
+          "valor": 424.36
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 0.0,
+    "liquido": 424.36,
+    "fundo_na_maquina": null,
+    "vendido": 448.65,
+    "troco_devolvido": 24.29,
+    "por_operador": [
+      {
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 13,
+        "numerario": 319.89,
+        "troco": 24.29,
+        "liquido": 295.6
+      },
+      {
+        "operador": "CATARINA",
+        "posto": "2",
+        "atendimentos": 4,
+        "numerario": 91.72,
+        "troco": 0.0,
+        "liquido": 91.72
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 28.18,
+        "troco": 0.0,
+        "liquido": 28.18
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 8.86,
+        "troco": 0.0,
+        "liquido": 8.86
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "finanfarma": null,
+    "terminais": []
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 4223.75,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0
+  },
+  "avisos": [
+    "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 0.0,
+    "sifarma_numerario_declarado": 424.36,
+    "diferenca": -424.36
+  }
+}
