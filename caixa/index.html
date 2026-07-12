@@ -517,6 +517,8 @@ async function renderTaxas(){
   // tabela por TPA: agrega os terminais de todos os dias com fecho completo
   // (lê os fechos dias/ que têm os terminais)
   const agg={};
+  const ffConf=(tpasConfig&&tpasConfig.finanfarma_config)||null;
+  let ff={bruto:0, operacoes:0, presente:false};
   await Promise.all(comTpa.slice(-30).map(async d=>{
     try{
       const r=await fetch(`../data/fecho/dias/${f}_${d.data}.json${cb()}`);
@@ -524,6 +526,13 @@ async function renderTaxas(){
       const fe=await r.json();
       (fe.manual&&fe.manual.terminais||[]).forEach(t=>{
         if(t.bruto==null)return;
+        // Finanfarma físico (TPA F): acumula à parte para o cálculo de pacotes
+        if(t.so_bruto || t.operacoes!=null){
+          ff.presente=true;
+          ff.bruto+=t.bruto||0;
+          ff.operacoes+=(t.operacoes||0);
+          return;
+        }
         const k=t.nome||t.id;
         if(!agg[k])agg[k]={nome:k,bruto:0,taxa:0};
         agg[k].bruto+=t.bruto||0;
@@ -532,12 +541,30 @@ async function renderTaxas(){
     }catch(e){}
   }));
   const linhas=Object.values(agg).sort((a,b)=>b.taxa-a.taxa);
-  if(!linhas.length){ tb.innerHTML='<tr><td colspan="4"><div class="empty"><b>Sem detalhe por TPA</b></div></td></tr>'; return; }
-  tb.innerHTML=linhas.map(t=>{
+
+  // linha do Finanfarma físico: custo mensal (locação + pacotes) convertido em taxa média
+  let linhaFF=null;
+  if(ff.presente && ffConf){
+    const incluidas = ffConf.operacoes_base + Math.floor(ff.bruto/ffConf.limiar_faturacao)*ffConf.operacoes_por_10k;
+    const extra = Math.max(0, ff.operacoes - incluidas);
+    const custoPacotes = Math.ceil(extra/ffConf.operacoes_por_pacote)*ffConf.custo_pacote;
+    const custoTotal = ffConf.locacao_mensal + custoPacotes;
+    const pct = ff.bruto>0 ? (custoTotal/ff.bruto*100) : 0;
+    linhaFF={nome:'TPA F (Finanfarma)', bruto:ff.bruto, taxa:custoTotal, pct,
+             detalhe:`${ff.operacoes} op · ${incluidas} incl · ${Math.max(0,extra)} extra · locação ${eur.format(ffConf.locacao_mensal)}`};
+  }
+
+  if(!linhas.length && !linhaFF){ tb.innerHTML='<tr><td colspan="4"><div class="empty"><b>Sem detalhe por TPA</b></div></td></tr>'; return; }
+  let html=linhas.map(t=>{
     const pct=t.bruto>0?(t.taxa/t.bruto*100):0;
     const cls=pct>1?'style="color:var(--alert);font-weight:700"':'';
     return `<tr><td>${t.nome}</td><td>${eur.format(t.bruto)}</td><td>${eur.format(t.taxa)}</td><td ${cls}>${pct.toFixed(2)}%</td></tr>`;
   }).join('');
+  if(linhaFF){
+    const cls=linhaFF.pct>1?'style="color:var(--alert);font-weight:700"':'';
+    html+=`<tr><td>${linhaFF.nome}<small>${linhaFF.detalhe}</small></td><td>${eur.format(linhaFF.bruto)}</td><td>${eur.format(linhaFF.taxa)}<small>estimativa</small></td><td ${cls}>${linhaFF.pct.toFixed(2)}%</td></tr>`;
+  }
+  tb.innerHTML=html;
 }
 
 function agregarMes(s){
@@ -714,15 +741,16 @@ function toggleResp(id,el){
 function linhaTpa(t, extra){
   const idx = extra ? `x${t.i}` : t.id;
   const rm = extra ? `<button class="rmtpa" onclick="removerExtra(${t.i})" title="remover">×</button>` : '';
-  if(t.so_bruto){
-    // TPA sem líquido no talão (ex. TPA F): só bruto; taxa vem no fecho mensal da ANF
+  if(t.tipo==='finanfarma_fisico' || t.so_bruto){
+    // TPA F (Finanfarma físico): bruto + nº de operações; taxa = custo mensal de pacotes+locação
     return `<div class="tparow off" id="row-${idx}">
       <div class="tpachk" onclick="toggleTpa('${idx}')" id="chk-${idx}"></div>
-      <div class="tpaname"><b>${t.nome}</b><span>só bruto · taxa mensal ANF</span></div>
+      <div class="tpaname"><b>${t.nome}</b><span>bruto + nº operações · custo mensal</span></div>
       <div class="tpafields">
         <label>Bruto<input type="number" step="0.01" inputmode="decimal" id="b-${idx}" oninput="recalcular()"></label>
+        <label>Nº op.<input type="number" step="1" inputmode="numeric" id="op-${idx}" oninput="recalcular()"></label>
       </div>
-      <div class="taxa" id="t-${idx}">taxa ANF</div>${rm}</div>`;
+      <div class="taxa" id="t-${idx}">taxa mensal</div>${rm}</div>`;
   }
   return `<div class="tparow off" id="row-${idx}">
     <div class="tpachk" onclick="toggleTpa('${idx}')" id="chk-${idx}"></div>
@@ -757,9 +785,11 @@ function construirInputs(){
       const ex=tpasExtra.find(x=>x.nome===t.nome);
       if(ex && !(tpasConfig.tpas||[]).some(c=>c.id===t.id)) idx='x'+ex.i;
       const bel=document.getElementById('b-'+idx), lel=document.getElementById('l-'+idx);
+      const opel=document.getElementById('op-'+idx);
       const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
       if(bel && t.bruto!=null) bel.value=t.bruto;
       if(lel && t.liquido!=null) lel.value=t.liquido;
+      if(opel && t.operacoes!=null) opel.value=t.operacoes;
       if(row && (t.bruto!=null||t.liquido!=null)){ row.classList.remove('off'); if(chk)chk.classList.add('on'); }
     });
     const fin=document.getElementById('finanfarma');
@@ -800,17 +830,17 @@ function valOf(id){ const el=document.getElementById(id); const v=el?parseFloat(
 function recalcular(){
   if(!fecho){return;}
   let somaBruto=0, algum=false, erroTaxa=false;
-  const soBruto=new Set((tpasConfig?tpasConfig.tpas:[]).filter(t=>t.so_bruto).map(t=>t.id));
+  const soBruto=new Set((tpasConfig?tpasConfig.tpas:[]).filter(t=>t.so_bruto||t.tipo==='finanfarma_fisico').map(t=>t.id));
   const linhas=[...(tpasConfig?tpasConfig.tpas:[]).map(t=>t.id), ...tpasExtra.map(t=>'x'+t.i)];
   linhas.forEach(idx=>{
     const row=document.getElementById('row-'+idx);
     if(!row||row.classList.contains('off'))return;
     const tx=document.getElementById('t-'+idx);
-    // TPA só-bruto (ex. TPA F): entra pelo bruto, sem taxa (taxa vem mensal da ANF)
+    // TPA F (finanfarma físico): entra pelo bruto; taxa é o custo mensal (calculado na Análise)
     if(soBruto.has(idx)){
       const b=valOf('b-'+idx);
-      if(b!=null){ algum=true; somaBruto+=b; tx.innerHTML='<span style="color:var(--ink-faint)">taxa ANF</span>'; }
-      else tx.innerHTML='taxa ANF';
+      if(b!=null){ algum=true; somaBruto+=b; tx.innerHTML='<span style="color:var(--ink-faint)">custo mensal</span>'; }
+      else tx.innerHTML='taxa mensal';
       return;
     }
     const b=valOf('b-'+idx), l=valOf('l-'+idx);
@@ -878,7 +908,7 @@ function recalcular(){
       const cfgT=(tpasConfig.tpas||[]).find(t=>t.id===idx);
       if(cfgT)nome=cfgT.nome;
       else{const ex=tpasExtra.find(t=>'x'+t.i===idx); if(ex)nome=ex.nome;}
-      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:(ehSoBruto?null:l), so_bruto:ehSoBruto||undefined};
+      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:(ehSoBruto?null:l), operacoes:(ehSoBruto?valOf('op-'+idx):undefined), so_bruto:ehSoBruto||undefined};
     }).filter(Boolean),
     finanfarma:finan, transferencia:transf,
     diferenca_caixa: (erroTaxa?null:dif),
