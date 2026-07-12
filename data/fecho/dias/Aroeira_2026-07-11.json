@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-11",
-  "gerado_em": "2026-07-12T16:32:07.568Z",
+  "gerado_em": "2026-07-12T16:44:07.921Z",
   "estado": "conciliado",
   "sifarma": {
     "total_vendas_dinheiro": 4457.49,
@@ -110,7 +110,7 @@
     ],
     "responsaveis": [],
     "comentario": "Importado do histórico Zoho.",
-    "submetido_em": "2026-07-12T16:32:05.200Z",
+    "submetido_em": "2026-07-12T16:44:00.204Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -120,13 +120,13 @@
     "tolerancia": 5,
     "apuro_usado": 476.63,
     "apuro_maquina": 476.63,
-    "apuro_contado": 476.63
+    "apuro_contado": null
   },
   "discrepancia_cashlogy": {
     "ha_discrepancia": false,
     "apuro_maquina": 476.63,
-    "apuro_contado": 476.63,
-    "delta": 0,
+    "apuro_contado": null,
+    "delta": null,
     "nota": "Contado − máquina. Não afeta o estado do fecho; investiga-se com a Glintt."
   },
   "diagnostico_numerario": {
