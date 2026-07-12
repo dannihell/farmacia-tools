@@ -7,9 +7,17 @@
       { "id": "01123228", "nome": "TPA 4 – 01123228" },
       { "id": "00983095", "nome": "TPA 5 – 00983095" },
       { "id": "01223227", "nome": "TPA Drive – 01223227" },
-      { "id": "40005737", "nome": "TPA F – 40005737", "so_bruto": true }
+      { "id": "40005737", "nome": "TPA F – 40005737", "tipo": "finanfarma_fisico" }
     ],
-    "finanfarma": true
+    "finanfarma": true,
+    "finanfarma_config": {
+      "locacao_mensal": 12.50,
+      "operacoes_base": 100,
+      "operacoes_por_10k": 100,
+      "limiar_faturacao": 10000,
+      "operacoes_por_pacote": 100,
+      "custo_pacote": 12.50
+    }
   },
   "DiasBrito": { "tpas": [], "finanfarma": true },
   "CidadeUniv": { "tpas": [], "finanfarma": true }
