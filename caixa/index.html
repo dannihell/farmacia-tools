@@ -73,6 +73,11 @@
   td .dchip.ok{color:var(--ok)}td .dchip.warn{color:var(--warn)}td .dchip.alert{color:var(--alert)}
   .voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--cross);
     background:#e5f1ec;border:none;border-radius:20px;padding:6px 12px;cursor:pointer;font-family:var(--sans);font-weight:600;margin-bottom:12px}
+  .datesel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 15px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .datesel label{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-soft);font-weight:650}
+  .datesel input[type=date]{font-family:var(--sans);font-size:14px;padding:7px 10px;border:1px solid var(--line-strong);border-radius:9px;color:var(--ink);background:var(--paper)}
+  .datesel input[type=date]:focus{outline:2px solid var(--cross);outline-offset:1px;border-color:var(--cross)}
+  .datesel-info{font-size:11.5px;color:var(--ink-faint);flex-basis:100%}
 
   /* formulário de introdução */
   .tparow{display:flex;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--line)}
@@ -255,6 +260,11 @@
 
     <!-- ===== INTRODUZIR (Camada 1: cálculo ao vivo, sem guardar) ===== -->
     <section class="view" id="v-introduzir">
+      <div class="datesel">
+        <label>Dia do fecho</label>
+        <input type="date" id="introData" onchange="mudarDiaIntro(this.value)">
+        <span id="introDataInfo" class="datesel-info"></span>
+      </div>
       <div id="introHero"></div>
       <div class="card">
         <div class="card-h"><h3>Já lançado · automático</h3><span class="auto">auto ✓</span></div>
@@ -640,6 +650,9 @@ async function carregarTpas(f){
     tpasConfig=(all[f]||{tpas:[],finanfarma:true});
   }catch(e){ tpasConfig={tpas:[],finanfarma:true}; }
   tpasExtra=[];
+  // sincroniza o seletor de data com o dia carregado
+  const di=document.getElementById('introData');
+  if(di && fecho && fecho.data) di.value=fecho.data;
   // se já existe fecho manual para este dia, pré-preenche (edição)
   manualExistente=null;
   try{
@@ -649,8 +662,33 @@ async function carregarTpas(f){
       if(r.ok) manualExistente=await r.json();
     }
   }catch(e){}
+  const info=document.getElementById('introDataInfo');
+  if(info) info.textContent = manualExistente
+    ? 'Este dia já tem fecho — os valores estão pré-preenchidos; corrige o que precisares.'
+    : 'Dia sem TPAs introduzidos. Preenche a partir dos talões.';
   construirInputs();
   carregarEmpregados(f);
+}
+
+// muda o dia a introduzir: recarrega o fecho automático desse dia
+async function mudarDiaIntro(data){
+  if(!data)return;
+  const f=document.getElementById('pharm').value;
+  try{
+    const r=await fetch(`../data/fecho/dias/${f}_${data}.json${cb()}`);
+    if(r.ok){ fecho=await r.json(); }
+    else {
+      // não há fecho automático desse dia ainda
+      document.getElementById('introDataInfo').textContent=
+        `Sem fecho automático para ${data}. Gera-o primeiro no PC (fecho_dia.py).`;
+      return;
+    }
+  }catch(e){
+    document.getElementById('introDataInfo').textContent='Erro a carregar esse dia.';
+    return;
+  }
+  render();            // atualiza Hoje/Postos/etc para o dia escolhido
+  await carregarTpas(f); // reconstrói o formulário com o manual desse dia
 }
 
 async function carregarEmpregados(f){
