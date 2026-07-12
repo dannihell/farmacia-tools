@@ -1,0 +1,178 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-07",
+  "gerado_em": "2026-07-12T14:26:12",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 3867.4,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 377.54,
+      "cartao_declarado": 3401.6,
+      "outros_declarado": 88.26,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 103,
+          "valor": 3401.6
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 205,
+          "valor": 377.54
+        },
+        {
+          "tipo": "Finanfarma",
+          "n": 3,
+          "valor": 88.25
+        },
+        {
+          "tipo": "Numerário",
+          "n": 1,
+          "valor": 0.01
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 377.54,
+    "liquido": 377.54,
+    "fundo_na_maquina": 400.0,
+    "vendido": 462.36,
+    "troco_devolvido": 84.82,
+    "por_operador": [
+      {
+        "operador": "Alina",
+        "posto": "2",
+        "atendimentos": 6,
+        "numerario": 99.71,
+        "troco": 0.0,
+        "liquido": 99.71
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "5",
+        "atendimentos": 3,
+        "numerario": 98.56,
+        "troco": 0.0,
+        "liquido": 98.56
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "5",
+        "atendimentos": 5,
+        "numerario": 78.65,
+        "troco": 0.0,
+        "liquido": 78.65
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 62.81,
+        "troco": 0.0,
+        "liquido": 62.81
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 4,
+        "numerario": 59.07,
+        "troco": 0.0,
+        "liquido": 59.07
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 3,
+        "numerario": 21.58,
+        "troco": 0.0,
+        "liquido": 21.58
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 8.35,
+        "troco": 0.0,
+        "liquido": 8.35
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 17.01,
+        "troco": 9.3,
+        "liquido": 7.71
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 6.89,
+        "troco": 0.0,
+        "liquido": 6.89
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 6.4,
+        "troco": 0.0,
+        "liquido": 6.4
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 3.33,
+        "troco": 4.41,
+        "liquido": -1.08
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "30",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 4.7,
+        "liquido": -4.7
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "2",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 66.41,
+        "liquido": -66.41
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "transferencia": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 3867.4,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0
+  },
+  "avisos": [
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 377.54,
+    "sifarma_numerario_declarado": 377.54,
+    "diferenca": 0.0
+  }
+}
