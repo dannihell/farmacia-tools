@@ -269,6 +269,13 @@
       <div class="card">
         <div class="card-h"><h3>Já lançado · automático</h3><span class="auto">auto ✓</span></div>
         <div id="introAuto"></div>
+        <div class="tparow">
+          <div class="tpaname"><b>Apuro contado (saco)</b><span>o que a equipa contou para depósito</span></div>
+          <div class="tpafields">
+            <label>Valor<input type="number" step="0.01" inputmode="decimal" id="apuroContado" oninput="recalcular()"></label>
+          </div>
+        </div>
+        <div id="discrepanciaAviso"></div>
       </div>
       <div class="card">
         <div class="card-h"><h3>Terminais TPA</h3><span class="hint" style="font-size:11px;color:var(--ink-faint)">bruto e líquido do talão</span></div>
@@ -870,10 +877,17 @@ function recalcular(){
   const transf=valOf('transferencia');
   if(transf!=null)algum=true;
 
-  const apuro=(fecho.cashlogy&&fecho.cashlogy.apuro)||0;
+  const apuroCashlogy=(fecho.cashlogy&&fecho.cashlogy.apuro)||0;
+  const apuroContado=valOf('apuroContado');
+  // o apuro que conta para a conciliação é o CONTADO (o que vai ao banco); se não introduzido, usa Cashlogy
+  const apuro=(apuroContado!=null)?apuroContado:apuroCashlogy;
+  // discrepância: máquina vs contado (anomalia a investigar pela Glintt)
+  const discrepancia=(apuroContado!=null)?round2(apuroContado-apuroCashlogy):0;
+  const temDiscrepancia=Math.abs(discrepancia)>=0.01;
+
   const totalSif=(fecho.sifarma&&fecho.sifarma.total_vendas_dinheiro);
   const recebido=apuro+somaBruto+(finan||0)+(transf||0);
-  const dif=(totalSif!=null)?(recebido-totalSif):null;
+  const dif=(totalSif!=null)?round2(recebido-totalSif):null;
 
   // hero do separador introduzir
   const tol=(fecho.conciliacao&&fecho.conciliacao.tolerancia)||5;
@@ -894,7 +908,16 @@ function recalcular(){
 
   document.getElementById('introAuto').innerHTML=`
     <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma</small></span><span class="v">${totalSif!=null?eur.format(totalSif):'—'}</span></div>
-    <div class="kv"><span class="k">Numerário (apuro)<small>Cashlogy</small></span><span class="v">${eur.format(apuro)}</span></div>`;
+    <div class="kv"><span class="k">Numerário Cashlogy<small>o que a máquina apurou</small></span><span class="v">${eur.format(apuroCashlogy)}</span></div>`;
+
+  // aviso de discrepância Cashlogy vs contado
+  const dEl=document.getElementById('discrepanciaAviso');
+  if(dEl){
+    if(temDiscrepancia){
+      dEl.innerHTML=`<div class="aviso" style="background:#f3e8f8;border-color:#e0c8ec;color:#6b3a80;margin:11px 15px 4px">
+        <b>Discrepância de numerário: ${discrepancia>0?'+':''}${eur.format(discrepancia)}</b> — a máquina apurou ${eur.format(apuroCashlogy)}, a equipa contou ${eur.format(apuroContado)}. Marca-se para investigação da Glintt. A conciliação usa o valor contado.</div>`;
+    }else{ dEl.innerHTML=''; }
+  }
 
   // guarda o estado atual do formulário para o guardarFecho()
   window._estadoForm={
@@ -903,8 +926,7 @@ function recalcular(){
       if(!row||row.classList.contains('off'))return null;
       const b=valOf('b-'+idx), l=valOf('l-'+idx);
       const ehSoBruto=soBruto.has(idx);
-      // só-bruto (TPA F): guarda com bruto (líquido null, taxa vem da ANF)
-      if(b==null) return null;   // precisa sempre de bruto
+      if(b==null) return null;
       let nome=idx;
       const cfgT=(tpasConfig.tpas||[]).find(t=>t.id===idx);
       if(cfgT)nome=cfgT.nome;
@@ -912,6 +934,7 @@ function recalcular(){
       return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:(ehSoBruto?null:l), operacoes:(ehSoBruto?valOf('op-'+idx):undefined), so_bruto:ehSoBruto||undefined};
     }).filter(Boolean),
     finanfarma:finan, transferencia:transf,
+    apuro_contado:apuroContado,
     diferenca_caixa: (erroTaxa?null:dif),
     erroTaxa
   };
@@ -943,6 +966,7 @@ async function guardarFecho(){
   const payload={
     farmacia: fecho.farmacia, data: fecho.data,
     tpas: est.tpas, finanfarma: est.finanfarma, transferencia: est.transferencia,
+    apuro_contado: est.apuro_contado,
     responsaveis: [...respSelec], comentario: coment,
     diferenca_caixa: est.diferenca_caixa,
   };
