@@ -1,0 +1,187 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-08",
+  "gerado_em": "2026-07-12T14:26:21",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 7134.56,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 835.62,
+      "cartao_declarado": 6198.11,
+      "outros_declarado": 100.83,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 124,
+          "valor": 6198.11
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 228,
+          "valor": 835.62
+        },
+        {
+          "tipo": "Finanfarma",
+          "n": 1,
+          "valor": 74.02
+        },
+        {
+          "tipo": "Numerário",
+          "n": 8,
+          "valor": 26.81
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 835.63,
+    "liquido": 835.62,
+    "fundo_na_maquina": 400.0,
+    "vendido": 1361.01,
+    "troco_devolvido": 525.39,
+    "por_operador": [
+      {
+        "operador": "JESSICA",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 362.53,
+        "troco": 0.0,
+        "liquido": 362.53
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "5",
+        "atendimentos": 4,
+        "numerario": 215.82,
+        "troco": 32.97,
+        "liquido": 182.85
+      },
+      {
+        "operador": "CATARINA",
+        "posto": "5",
+        "atendimentos": 5,
+        "numerario": 182.02,
+        "troco": 0.0,
+        "liquido": 182.02
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 3,
+        "numerario": 102.74,
+        "troco": 0.0,
+        "liquido": 102.74
+      },
+      {
+        "operador": "Alina",
+        "posto": "2",
+        "atendimentos": 2,
+        "numerario": 86.18,
+        "troco": 0.0,
+        "liquido": 86.18
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 66.09,
+        "troco": 0.0,
+        "liquido": 66.09
+      },
+      {
+        "operador": "Alina",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 41.36,
+        "troco": 0.0,
+        "liquido": 41.36
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 4,
+        "numerario": 36.34,
+        "troco": 0.0,
+        "liquido": 36.34
+      },
+      {
+        "operador": "Alina",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 32.75,
+        "troco": 0.0,
+        "liquido": 32.75
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 10.9,
+        "troco": 0.0,
+        "liquido": 10.9
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 6.5,
+        "troco": 3.44,
+        "liquido": 3.06
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "003",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 39.12,
+        "liquido": -39.12
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "010",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 69.24,
+        "liquido": -69.24
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "3",
+        "atendimentos": 4,
+        "numerario": 217.78,
+        "troco": 380.62,
+        "liquido": -162.84
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "transferencia": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 7134.56,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0
+  },
+  "avisos": [
+    "7 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 835.63,
+    "sifarma_numerario_declarado": 835.62,
+    "diferenca": 0.01
+  }
+}
