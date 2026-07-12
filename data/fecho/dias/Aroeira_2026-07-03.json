@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-03",
-  "gerado_em": "2026-07-12T13:42:34.419Z",
+  "gerado_em": "2026-07-12T15:51:06.647Z",
   "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 4504.53,
@@ -161,9 +161,12 @@
         "taxa_pct": 0.46
       }
     ],
-    "responsaveis": [],
+    "responsaveis": [
+      "121",
+      "140"
+    ],
     "comentario": "não conseguimos identificar o erro",
-    "submetido_em": "2026-07-12T13:42:33.224Z",
+    "submetido_em": "2026-07-12T15:51:04.518Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -180,6 +183,7 @@
   },
   "avisos": [
     "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa +62.83 € acima da tolerância — investigar.",
     "Diferença de caixa +62.83 € acima da tolerância — investigar."
   ]
 }
