@@ -2,43 +2,48 @@
   "farmacia": "Aroeira",
   "data": "2026-07-11",
   "tipo": "manual",
-  "submetido_em": "2026-07-12T10:25:00.058Z",
+  "submetido_em": "2026-07-12T10:48:12.466Z",
   "tpas": [
     {
       "id": "01123224",
       "nome": "TPA 1 – 01123224",
       "bruto": 1346.84,
       "liquido": 1341.39,
-      "taxa": 5.45
+      "taxa": 5.45,
+      "taxa_pct": 0.4
     },
     {
       "id": "00983092",
       "nome": "TPA 2 – 00983092",
       "bruto": 95.96,
       "liquido": 95.57,
-      "taxa": 0.39
+      "taxa": 0.39,
+      "taxa_pct": 0.41
     },
     {
       "id": "01123228",
       "nome": "TPA 4 – 01123228",
       "bruto": 2246.64,
       "liquido": 2238.96,
-      "taxa": 7.68
+      "taxa": 7.68,
+      "taxa_pct": 0.34
     },
     {
       "id": "01223227",
       "nome": "TPA Drive – 01223227",
       "bruto": 291.42,
       "liquido": 290.22,
-      "taxa": 1.2
+      "taxa": 1.2,
+      "taxa_pct": 0.41
     }
   ],
   "finanfarma": null,
   "transferencia": null,
   "responsaveis": [],
   "comentario": "",
-  "diferenca_caixa": 0,
   "tpas_total": 3980.86,
   "tpas_taxa_total": 14.72,
-  "tpas_liquido_total": 3966.14
+  "tpas_liquido_total": 3966.14,
+  "taxa_pct_media": 0.37,
+  "tpas_taxa_alta": []
 }
