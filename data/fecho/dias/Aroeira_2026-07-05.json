@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-05",
-  "gerado_em": "2026-07-12T14:25:56",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-12T13:42:49.100Z",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 2787.08,
     "diagnostico": {
@@ -34,7 +34,7 @@
   "cashlogy": {
     "apuro": 294.12,
     "liquido": 294.12,
-    "fundo_na_maquina": 400.0,
+    "fundo_na_maquina": 400,
     "vendido": 295.82,
     "troco_devolvido": 1.7,
     "por_operador": [
@@ -43,7 +43,7 @@
         "posto": "5",
         "atendimentos": 13,
         "numerario": 159.78,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 159.78
       },
       {
@@ -51,7 +51,7 @@
         "posto": "2",
         "atendimentos": 6,
         "numerario": 104.3,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 104.3
       },
       {
@@ -67,36 +67,63 @@
         "posto": "2",
         "atendimentos": 2,
         "numerario": 14.8,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 14.8
       }
     ]
   },
   "manual": {
-    "tpas_total": null,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "finanfarma": null,
+    "tpas_total": 2468.53,
+    "tpas_taxa_total": 10.03,
+    "tpas_liquido_total": 2458.5,
+    "taxa_pct_media": 0.41,
+    "finanfarma": 10.08,
     "transferencia": null,
-    "terminais": [],
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224",
+        "bruto": 933.37,
+        "liquido": 929.62,
+        "taxa": 3.75,
+        "taxa_pct": 0.4
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1362.86,
+        "liquido": 1357.37,
+        "taxa": 5.49,
+        "taxa_pct": 0.4
+      },
+      {
+        "id": "01223227",
+        "nome": "TPA Drive – 01223227",
+        "bruto": 172.3,
+        "liquido": 171.51,
+        "taxa": 0.79,
+        "taxa_pct": 0.46
+      }
+    ],
     "responsaveis": [],
-    "comentario": "",
-    "submetido_em": null
+    "comentario": "venda detectada, amanhã será feito o acerto",
+    "submetido_em": "2026-07-12T13:42:47.531Z",
+    "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": null,
+    "recebido_real": 2772.73,
     "total_sifarma": 2787.08,
-    "diferenca_caixa": null,
-    "tolerancia": 5.0
+    "diferenca_caixa": -14.35,
+    "tolerancia": 5
   },
-  "avisos": [
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
-  ],
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
     "cashlogy_apuro": 294.12,
     "sifarma_numerario_declarado": 294.12,
-    "diferenca": 0.0
-  }
+    "diferenca": 0
+  },
+  "avisos": [
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa -14.35 € acima da tolerância — investigar."
+  ]
 }
