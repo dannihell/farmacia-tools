@@ -2,102 +2,73 @@
   "farmacia": "Aroeira",
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
-  "data": "2026-07-04",
-  "gerado_em": "2026-07-12T14:25:43",
+  "data": "2026-07-05",
+  "gerado_em": "2026-07-12T14:25:56",
   "estado": "aguarda_tpas",
   "sifarma": {
-    "total_vendas_dinheiro": 5346.78,
+    "total_vendas_dinheiro": 2787.08,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
-      "numerario_declarado": 823.31,
-      "cartao_declarado": 4428.44,
-      "outros_declarado": 95.03,
+      "numerario_declarado": 294.12,
+      "cartao_declarado": 2482.88,
+      "outros_declarado": 10.08,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 119,
-          "valor": 4428.44
+          "n": 82,
+          "valor": 2482.88
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 191,
-          "valor": 823.31
+          "n": 150,
+          "valor": 294.12
         },
         {
           "tipo": "Finanfarma",
           "n": 2,
-          "valor": 95.03
-        },
-        {
-          "tipo": "Troco",
-          "n": 1,
-          "valor": 0.0
+          "valor": 10.08
         }
       ]
     }
   },
   "cashlogy": {
-    "apuro": 823.31,
-    "liquido": 823.31,
+    "apuro": 294.12,
+    "liquido": 294.12,
     "fundo_na_maquina": 400.0,
-    "vendido": 832.21,
-    "troco_devolvido": 8.9,
+    "vendido": 295.82,
+    "troco_devolvido": 1.7,
     "por_operador": [
       {
         "operador": "MATILDE",
         "posto": "5",
-        "atendimentos": 6,
-        "numerario": 581.0,
-        "troco": 6.68,
-        "liquido": 574.32
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "3",
-        "atendimentos": 1,
-        "numerario": 91.6,
+        "atendimentos": 13,
+        "numerario": 159.78,
         "troco": 0.0,
-        "liquido": 91.6
+        "liquido": 159.78
       },
       {
         "operador": "DUARTE",
         "posto": "2",
-        "atendimentos": 4,
-        "numerario": 72.48,
+        "atendimentos": 6,
+        "numerario": 104.3,
         "troco": 0.0,
-        "liquido": 72.48
+        "liquido": 104.3
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 16.94,
+        "troco": 1.7,
+        "liquido": 15.24
       },
       {
         "operador": "MATILDE",
-        "posto": "30",
+        "posto": "2",
         "atendimentos": 2,
-        "numerario": 44.44,
+        "numerario": 14.8,
         "troco": 0.0,
-        "liquido": 44.44
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "30",
-        "atendimentos": 1,
-        "numerario": 20.95,
-        "troco": 0.0,
-        "liquido": 20.95
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "3",
-        "atendimentos": 2,
-        "numerario": 20.84,
-        "troco": 2.22,
-        "liquido": 18.62
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "5",
-        "atendimentos": 1,
-        "numerario": 0.9,
-        "troco": 0.0,
-        "liquido": 0.9
+        "liquido": 14.8
       }
     ]
   },
@@ -114,7 +85,7 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 5346.78,
+    "total_sifarma": 2787.08,
     "diferenca_caixa": null,
     "tolerancia": 5.0
   },
@@ -124,8 +95,8 @@
   ],
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
-    "cashlogy_apuro": 823.31,
-    "sifarma_numerario_declarado": 823.31,
+    "cashlogy_apuro": 294.12,
+    "sifarma_numerario_declarado": 294.12,
     "diferenca": 0.0
   }
 }
