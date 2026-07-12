@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-10",
-  "gerado_em": "2026-07-12T16:32:57.441Z",
+  "gerado_em": "2026-07-12T16:34:51.548Z",
   "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 3750.81,
@@ -120,7 +120,7 @@
     "tpas_taxa_total": 13.51,
     "tpas_liquido_total": 2951.41,
     "taxa_pct_media": 0.46,
-    "finanfarma": 74.02,
+    "finanfarma": null,
     "transferencia": null,
     "terminais": [
       {
@@ -166,13 +166,13 @@
     ],
     "responsaveis": [],
     "comentario": "não conseguimos identificar o erro",
-    "submetido_em": "2026-07-12T16:32:56.104Z",
+    "submetido_em": "2026-07-12T16:34:46.043Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 3803.86,
+    "recebido_real": 3729.84,
     "total_sifarma": 3750.81,
-    "diferenca_caixa": 53.05,
+    "diferenca_caixa": -20.97,
     "tolerancia": 5,
     "apuro_usado": 764.92,
     "apuro_maquina": 764.92,
@@ -196,6 +196,7 @@
     "Diferença de caixa +276.11 € acima da tolerância — investigar.",
     "Diferença de caixa -20.97 € acima da tolerância — investigar.",
     "Diferença de caixa +53.05 € acima da tolerância — investigar.",
-    "Diferença de caixa +53.05 € acima da tolerância — investigar."
+    "Diferença de caixa +53.05 € acima da tolerância — investigar.",
+    "Diferença de caixa -20.97 € acima da tolerância — investigar."
   ]
 }
