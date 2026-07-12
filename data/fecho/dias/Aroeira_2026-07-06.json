@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-06",
-  "gerado_em": "2026-07-12T13:42:57.345Z",
+  "gerado_em": "2026-07-12T15:47:50.446Z",
   "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 4773.38,
@@ -159,8 +159,8 @@
       }
     ],
     "responsaveis": [],
-    "comentario": "não conseguimos identificar o erro",
-    "submetido_em": "2026-07-12T13:42:55.921Z",
+    "comentario": "equipa registou apuro de 161.82 vs 121.52 do cash. 161.82 deu entrada no banco.",
+    "submetido_em": "2026-07-12T15:47:48.858Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -177,6 +177,7 @@
   },
   "avisos": [
     "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa -40.35 € acima da tolerância — investigar.",
     "Diferença de caixa -40.35 € acima da tolerância — investigar."
   ]
 }
