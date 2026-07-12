@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-08",
-  "gerado_em": "2026-07-12T13:40:46.637Z",
+  "gerado_em": "2026-07-12T13:43:05.142Z",
   "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 7134.56,
@@ -158,31 +158,64 @@
     ]
   },
   "manual": {
-    "tpas_total": 1870.74,
-    "tpas_taxa_total": 8.47,
-    "tpas_liquido_total": 1862.27,
+    "tpas_total": 6156.99,
+    "tpas_taxa_total": 27.69,
+    "tpas_liquido_total": 6037.98,
     "taxa_pct_media": 0.45,
     "finanfarma": 74.02,
     "transferencia": null,
     "terminais": [
       {
         "id": "01123224",
-        "nome": "TPA 1",
+        "nome": "TPA 1 – 01123224",
         "bruto": 1870.74,
         "liquido": 1862.27,
         "taxa": 8.47,
         "taxa_pct": 0.45
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 2490.25,
+        "liquido": 2480.02,
+        "taxa": 10.23,
+        "taxa_pct": 0.41
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1359.33,
+        "liquido": 1351.73,
+        "taxa": 7.6,
+        "taxa_pct": 0.56
+      },
+      {
+        "id": "01223227",
+        "nome": "TPA Drive – 01223227",
+        "bruto": 345.35,
+        "liquido": 343.96,
+        "taxa": 1.39,
+        "taxa_pct": 0.4
+      },
+      {
+        "id": "40005737",
+        "nome": "TPA F – 40005737",
+        "bruto": 91.32,
+        "liquido": null,
+        "taxa": null,
+        "taxa_pct": null,
+        "so_bruto": true
       }
     ],
     "responsaveis": [],
-    "comentario": "teste importacao",
-    "submetido_em": "2026-07-12T13:40:45.022Z",
+    "comentario": "não conseguimos identificar o erro",
+    "submetido_em": "2026-07-12T13:43:02.580Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 2780.39,
+    "recebido_real": 7066.64,
     "total_sifarma": 7134.56,
-    "diferenca_caixa": -4354.17,
+    "diferenca_caixa": -67.92,
     "tolerancia": 5
   },
   "diagnostico_numerario": {
@@ -193,6 +226,7 @@
   },
   "avisos": [
     "7 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Diferença de caixa -4354.17 € acima da tolerância — investigar."
+    "Diferença de caixa -4354.17 € acima da tolerância — investigar.",
+    "Diferença de caixa -67.92 € acima da tolerância — investigar."
   ]
 }
