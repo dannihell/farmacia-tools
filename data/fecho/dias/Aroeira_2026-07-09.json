@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-09",
-  "gerado_em": "2026-07-12T16:29:57.754Z",
-  "estado": "desvio",
+  "gerado_em": "2026-07-12T16:45:00.816Z",
+  "estado": "tolerancia",
   "sifarma": {
     "total_vendas_dinheiro": 4037.82,
     "diagnostico": {
@@ -109,7 +109,7 @@
     "tpas_taxa_total": 17.13,
     "tpas_liquido_total": 3909.37,
     "taxa_pct_media": 0.43,
-    "finanfarma": 74.02,
+    "finanfarma": null,
     "transferencia": null,
     "terminais": [
       {
@@ -157,23 +157,23 @@
     ],
     "responsaveis": [],
     "comentario": "não foi possível identificar o erro",
-    "submetido_em": "2026-07-12T16:29:54.059Z",
+    "submetido_em": "2026-07-12T16:44:54.251Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 4114.38,
+    "recebido_real": 4040.36,
     "total_sifarma": 4037.82,
-    "diferenca_caixa": 76.56,
+    "diferenca_caixa": 2.54,
     "tolerancia": 5,
     "apuro_usado": 85.92,
     "apuro_maquina": 85.92,
-    "apuro_contado": 85.92
+    "apuro_contado": null
   },
   "discrepancia_cashlogy": {
     "ha_discrepancia": false,
     "apuro_maquina": 85.92,
-    "apuro_contado": 85.92,
-    "delta": 0,
+    "apuro_contado": null,
+    "delta": null,
     "nota": "Contado − máquina. Não afeta o estado do fecho; investiga-se com a Glintt."
   },
   "diagnostico_numerario": {
