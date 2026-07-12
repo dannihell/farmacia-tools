@@ -702,7 +702,7 @@ async function carregarTpas(f){
   if(info) info.textContent = manualExistente
     ? 'Este dia já tem fecho — os valores estão pré-preenchidos; corrige o que precisares.'
     : 'Dia sem TPAs introduzidos. Preenche a partir dos talões.';
-  construirInputs();
+  construirInputs(true);
   carregarEmpregados(f);
 }
 
@@ -771,10 +771,13 @@ function linhaTpa(t, extra){
     <div class="taxa" id="t-${idx}">—</div>${rm}</div>`;
 }
 
-function construirInputs(){
+// prefillManual=true  -> carregamento do dia: limpa e pré-preenche do manual gravado
+// prefillManual=false -> só reconstrói a lista (add/remover TPA): PRESERVA o que já está escrito
+function construirInputs(prefillManual){
   const cont=document.getElementById('tpaInputs');
-  // se há manual existente, recria também os TPAs "extra" que lá estavam
-  if(manualExistente && Array.isArray(manualExistente.tpas)){
+
+  // os TPAs "extra" do manual só se acrescentam no carregamento do dia
+  if(prefillManual && manualExistente && Array.isArray(manualExistente.tpas)){
     const idsConfig=new Set((tpasConfig.tpas||[]).map(t=>t.id));
     manualExistente.tpas.forEach(t=>{
       if(!idsConfig.has(t.id) && !tpasExtra.some(x=>x.nome===t.nome)){
@@ -782,41 +785,54 @@ function construirInputs(){
       }
     });
   }
+
+  // add/remover TPA: guarda o que já está escrito para não o perder na reconstrução
+  const preservar=!prefillManual;
+  const snap={}, rowOn={};
+  if(preservar){
+    cont.querySelectorAll('input').forEach(inp=>{ if(inp.id) snap[inp.id]=inp.value; });
+    cont.querySelectorAll('.tparow').forEach(r=>{ if(r.id) rowOn[r.id]=!r.classList.contains('off'); });
+  }
+
   const base=(tpasConfig.tpas||[]).map(t=>linhaTpa(t,false)).join('');
   const extra=tpasExtra.map(t=>linhaTpa(t,true)).join('');
   cont.innerHTML=base+extra;
 
-  // limpa os campos estáticos ao (re)construir — não podem arrastar o dia anterior.
-  // Os TPAs já ficam limpos porque o innerHTML acima é reconstruído de raiz.
-  ['apuroContado','finanfarma','transferencia'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  const comReset=document.getElementById('comentario'); if(comReset)comReset.value='';
+  if(preservar){
+    // repõe valores e estado on/off dos TPAs que já lá estavam
+    Object.keys(snap).forEach(id=>{ const el=document.getElementById(id); if(el) el.value=snap[id]; });
+    Object.keys(rowOn).forEach(id=>{ const r=document.getElementById(id);
+      if(r && rowOn[id]){ r.classList.remove('off'); const chk=document.getElementById('chk-'+id.slice(4)); if(chk)chk.classList.add('on'); } });
+  }
 
-  // pré-preenche a partir do manual existente
-  if(manualExistente){
-    (manualExistente.tpas||[]).forEach(t=>{
-      // encontra o idx: config usa o id, extra usa x<i>
-      let idx=t.id;
-      const ex=tpasExtra.find(x=>x.nome===t.nome);
-      if(ex && !(tpasConfig.tpas||[]).some(c=>c.id===t.id)) idx='x'+ex.i;
-      const bel=document.getElementById('b-'+idx), lel=document.getElementById('l-'+idx);
-      const opel=document.getElementById('op-'+idx);
-      const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
-      if(bel && t.bruto!=null) bel.value=t.bruto;
-      if(lel && t.liquido!=null) lel.value=t.liquido;
-      if(opel && t.operacoes!=null) opel.value=t.operacoes;
-      if(row && (t.bruto!=null||t.liquido!=null)){ row.classList.remove('off'); if(chk)chk.classList.add('on'); }
-    });
-    const ac=document.getElementById('apuroContado');
-    if(ac && manualExistente.apuro_contado!=null) ac.value=manualExistente.apuro_contado;
-    const fin=document.getElementById('finanfarma');
-    if(fin && manualExistente.finanfarma!=null) fin.value=manualExistente.finanfarma;
-    const tr=document.getElementById('transferencia');
-    if(tr && manualExistente.transferencia!=null) tr.value=manualExistente.transferencia;
-    const com=document.getElementById('comentario');
-    if(com && manualExistente.comentario) com.value=manualExistente.comentario;
-    // responsáveis
-    if(Array.isArray(manualExistente.responsaveis)){
-      manualExistente.responsaveis.forEach(id=>respSelec.add(String(id)));
+  // carregamento do dia: limpa os estáticos e pré-preenche do manual gravado
+  if(prefillManual){
+    ['apuroContado','finanfarma','transferencia'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    const comEl=document.getElementById('comentario'); if(comEl)comEl.value='';
+    if(manualExistente){
+      (manualExistente.tpas||[]).forEach(t=>{
+        let idx=t.id;
+        const ex=tpasExtra.find(x=>x.nome===t.nome);
+        if(ex && !(tpasConfig.tpas||[]).some(c=>c.id===t.id)) idx='x'+ex.i;
+        const bel=document.getElementById('b-'+idx), lel=document.getElementById('l-'+idx);
+        const opel=document.getElementById('op-'+idx);
+        const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
+        if(bel && t.bruto!=null) bel.value=t.bruto;
+        if(lel && t.liquido!=null) lel.value=t.liquido;
+        if(opel && t.operacoes!=null) opel.value=t.operacoes;
+        if(row && (t.bruto!=null||t.liquido!=null)){ row.classList.remove('off'); if(chk)chk.classList.add('on'); }
+      });
+      const ac=document.getElementById('apuroContado');
+      if(ac && manualExistente.apuro_contado!=null) ac.value=manualExistente.apuro_contado;
+      const fin=document.getElementById('finanfarma');
+      if(fin && manualExistente.finanfarma!=null) fin.value=manualExistente.finanfarma;
+      const tr=document.getElementById('transferencia');
+      if(tr && manualExistente.transferencia!=null) tr.value=manualExistente.transferencia;
+      const com=document.getElementById('comentario');
+      if(com && manualExistente.comentario) com.value=manualExistente.comentario;
+      if(Array.isArray(manualExistente.responsaveis)){
+        manualExistente.responsaveis.forEach(id=>respSelec.add(String(id)));
+      }
     }
   }
   recalcular();
