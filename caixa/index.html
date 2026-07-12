@@ -90,6 +90,8 @@
     border:1px solid var(--line-strong);border-radius:8px;background:var(--paper);font-variant-numeric:tabular-nums}
   .tpafields input:focus{outline:2px solid var(--cross);outline-offset:1px;border-color:var(--cross)}
   .tparow.off .tpafields{opacity:.35;pointer-events:none}
+  .tparow.erro{background:var(--alert-bg)}
+  .tparow.erro input{border-color:var(--alert)}
   .taxa{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap;min-width:52px;text-align:right}
   .taxa b{color:var(--warn)}
   .addtpa{width:calc(100% - 30px);margin:11px 15px;padding:10px;border:1px dashed var(--line-strong);
@@ -550,16 +552,33 @@ function valOf(id){ const el=document.getElementById(id); const v=el?parseFloat(
 
 function recalcular(){
   if(!fecho){return;}
-  let somaBruto=0, algum=false;
+  let somaBruto=0, algum=false, erroTaxa=false;
   const linhas=[...(tpasConfig?tpasConfig.tpas:[]).map(t=>t.id), ...tpasExtra.map(t=>'x'+t.i)];
   linhas.forEach(idx=>{
     const row=document.getElementById('row-'+idx);
     if(!row||row.classList.contains('off'))return;
     const b=valOf('b-'+idx), l=valOf('l-'+idx);
     const tx=document.getElementById('t-'+idx);
-    if(b!=null){ algum=true; somaBruto+=b; }
-    if(b!=null&&l!=null){ tx.innerHTML=`taxa <b>${(b-l).toFixed(2)}</b>`; }
-    else{ tx.innerHTML='—'; }
+    if(b!=null&&l!=null){
+      const taxa=b-l;
+      if(taxa<-0.005){
+        // líquido > bruto é impossível: erro de introdução
+        tx.innerHTML='<b style="color:var(--alert)">líquido &gt; bruto?</b>';
+        row.classList.add('erro');
+        erroTaxa=true;
+        return; // não soma este TPA
+      }
+      row.classList.remove('erro');
+      tx.innerHTML=`taxa <b>${taxa.toFixed(2)}</b>`;
+      algum=true; somaBruto+=b;
+    }else if(b!=null){
+      row.classList.remove('erro');
+      tx.innerHTML='falta líquido';
+      algum=true; somaBruto+=b;
+    }else{
+      row.classList.remove('erro');
+      tx.innerHTML='—';
+    }
   });
   const finan=valOf('finanfarma');
   if(finan!=null)algum=true;
@@ -574,12 +593,14 @@ function recalcular(){
   // hero do separador introduzir
   const tol=(fecho.conciliacao&&fecho.conciliacao.tolerancia)||5;
   let cls='pend', txt='Preenche os TPAs';
-  if(algum&&dif!=null){
+  if(erroTaxa){
+    cls='alert'; txt='Corrige o TPA com líquido &gt; bruto';
+  }else if(algum&&dif!=null){
     const a=Math.abs(dif);
     cls=a<0.005?'ok':a<=tol?'warn':'alert';
     txt=a<0.005?'Caixa certa':a<=tol?'Dentro da tolerância':'Desvio — verifica os TPAs';
   }
-  const bigTxt=(algum&&dif!=null)?((dif>=0?'+':'')+noE(eur.format(dif))+' €'):'—';
+  const bigTxt=erroTaxa?'erro nos TPAs':((algum&&dif!=null)?((dif>=0?'+':'')+noE(eur.format(dif))+' €'):'—');
   const extras=[finan?`Finanfarma ${eur.format(finan)}`:'',transf?`Transf. ${eur.format(transf)}`:''].filter(Boolean).join(' + ');
   document.getElementById('introHero').innerHTML=
     `<div class="hero ${cls}"><div class="lab">Diferença de caixa · ao vivo</div>
