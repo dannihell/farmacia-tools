@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-08",
-  "gerado_em": "2026-07-12T14:26:21",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-12T13:40:46.637Z",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 7134.56,
     "diagnostico": {
@@ -39,7 +39,7 @@
   "cashlogy": {
     "apuro": 835.63,
     "liquido": 835.62,
-    "fundo_na_maquina": 400.0,
+    "fundo_na_maquina": 400,
     "vendido": 1361.01,
     "troco_devolvido": 525.39,
     "por_operador": [
@@ -48,7 +48,7 @@
         "posto": "2",
         "atendimentos": 1,
         "numerario": 362.53,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 362.53
       },
       {
@@ -64,7 +64,7 @@
         "posto": "5",
         "atendimentos": 5,
         "numerario": 182.02,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 182.02
       },
       {
@@ -72,7 +72,7 @@
         "posto": "5",
         "atendimentos": 3,
         "numerario": 102.74,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 102.74
       },
       {
@@ -80,7 +80,7 @@
         "posto": "2",
         "atendimentos": 2,
         "numerario": 86.18,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 86.18
       },
       {
@@ -88,7 +88,7 @@
         "posto": "30",
         "atendimentos": 1,
         "numerario": 66.09,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 66.09
       },
       {
@@ -96,7 +96,7 @@
         "posto": "30",
         "atendimentos": 1,
         "numerario": 41.36,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 41.36
       },
       {
@@ -104,7 +104,7 @@
         "posto": "3",
         "atendimentos": 4,
         "numerario": 36.34,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 36.34
       },
       {
@@ -112,7 +112,7 @@
         "posto": "5",
         "atendimentos": 2,
         "numerario": 32.75,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 32.75
       },
       {
@@ -120,7 +120,7 @@
         "posto": "2",
         "atendimentos": 1,
         "numerario": 10.9,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 10.9
       },
       {
@@ -135,7 +135,7 @@
         "operador": "Leosouza",
         "posto": "003",
         "atendimentos": 0,
-        "numerario": 0.0,
+        "numerario": 0,
         "troco": 39.12,
         "liquido": -39.12
       },
@@ -143,7 +143,7 @@
         "operador": "MATILDE",
         "posto": "010",
         "atendimentos": 0,
-        "numerario": 0.0,
+        "numerario": 0,
         "troco": 69.24,
         "liquido": -69.24
       },
@@ -158,30 +158,41 @@
     ]
   },
   "manual": {
-    "tpas_total": null,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "finanfarma": null,
+    "tpas_total": 1870.74,
+    "tpas_taxa_total": 8.47,
+    "tpas_liquido_total": 1862.27,
+    "taxa_pct_media": 0.45,
+    "finanfarma": 74.02,
     "transferencia": null,
-    "terminais": [],
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1",
+        "bruto": 1870.74,
+        "liquido": 1862.27,
+        "taxa": 8.47,
+        "taxa_pct": 0.45
+      }
+    ],
     "responsaveis": [],
-    "comentario": "",
-    "submetido_em": null
+    "comentario": "teste importacao",
+    "submetido_em": "2026-07-12T13:40:45.022Z",
+    "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": null,
+    "recebido_real": 2780.39,
     "total_sifarma": 7134.56,
-    "diferenca_caixa": null,
-    "tolerancia": 5.0
+    "diferenca_caixa": -4354.17,
+    "tolerancia": 5
   },
-  "avisos": [
-    "7 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
-  ],
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
     "cashlogy_apuro": 835.63,
     "sifarma_numerario_declarado": 835.62,
     "diferenca": 0.01
-  }
+  },
+  "avisos": [
+    "7 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa -4354.17 € acima da tolerância — investigar."
+  ]
 }
