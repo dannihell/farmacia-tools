@@ -153,6 +153,10 @@
   tr:last-child td{border-bottom:none}
 
   .toggle{display:flex;background:#e2e6e0;border-radius:11px;padding:3px;margin-bottom:14px}
+  .toggle3{display:flex;background:#e2e6e0;border-radius:11px;padding:3px;margin-bottom:14px}
+  .toggle3 button{flex:1;border:none;background:none;font-family:var(--sans);font-size:12.5px;font-weight:600;
+    color:var(--ink-soft);padding:8px 4px;border-radius:9px;cursor:pointer}
+  .toggle3 button.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
   .toggle button{flex:1;border:none;background:none;font-family:var(--sans);font-size:13px;font-weight:600;
     color:var(--ink-soft);padding:8px;border-radius:9px;cursor:pointer}
   .toggle button.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
@@ -292,11 +296,31 @@
       </div>
     </section>
     <section class="view" id="v-analise">
-      <div class="toggle"><button id="tgDia" class="on">Dia a dia</button><button id="tgMes">Mês a mês</button></div>
-      <div class="kpis" id="kpis"></div>
-      <div class="chartcard"><h4 id="chartTitle">Total vendas dinheiro</h4><svg id="chart" viewBox="0 0 360 150" width="100%"></svg></div>
-      <div class="chartcard"><h4>Diferença de caixa · por dia</h4><svg id="chartDif" viewBox="0 0 360 120" width="100%"></svg>
-        <div class="diflegend"><span><i class="sw ok"></i>dentro</span><span><i class="sw warn"></i>±5&nbsp;€</span><span><i class="sw alert"></i>desvio</span></div>
+      <div class="toggle3">
+        <button id="anVendas" class="on" onclick="setAnalise('vendas')">Vendas</button>
+        <button id="anDif" onclick="setAnalise('dif')">Diferenças</button>
+        <button id="anTaxas" onclick="setAnalise('taxas')">Taxas TPA</button>
+      </div>
+      <div id="anVendasBox">
+        <div class="toggle"><button id="tgDia" class="on">Dia a dia</button><button id="tgMes">Mês a mês</button></div>
+        <div class="kpis" id="kpis"></div>
+        <div class="chartcard"><h4 id="chartTitle">Total vendas dinheiro</h4><svg id="chart" viewBox="0 0 360 150" width="100%"></svg></div>
+      </div>
+      <div id="anDifBox" style="display:none">
+        <div class="chartcard"><h4>Diferença de caixa · por dia</h4><svg id="chartDif" viewBox="0 0 360 120" width="100%"></svg>
+          <div class="diflegend"><span><i class="sw ok"></i>dentro</span><span><i class="sw warn"></i>±5&nbsp;€</span><span><i class="sw alert"></i>desvio</span></div>
+        </div>
+      </div>
+      <div id="anTaxasBox" style="display:none">
+        <div class="kpis" id="taxaKpis"></div>
+        <div class="chartcard"><h4>Taxa média % · por dia</h4><svg id="chartTaxa" viewBox="0 0 360 130" width="100%"></svg>
+          <div class="diflegend"><span><i class="sw ok"></i>&lt;1%</span><span><i class="sw alert"></i>&ge;1%</span></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Taxa acumulada por TPA</h3><span class="auto" id="taxaPeriodo">—</span></div>
+          <table><thead><tr><th>TPA</th><th>Bruto</th><th>Taxa €</th><th>%</th></tr></thead>
+            <tbody id="tbTaxaTpa"></tbody></table>
+        </div>
       </div>
       <div class="card">
         <div class="card-h"><h3>Histórico</h3><span class="auto" id="nDias">—</span></div>
@@ -420,6 +444,90 @@ function render(){
   ).join('')||`<tr><td colspan="3"><div class="empty"><b>Sem dados</b></div></td></tr>`;
 
   renderAnalise();
+}
+
+let vistaAnalise='vendas';
+function setAnalise(v){
+  vistaAnalise=v;
+  document.getElementById('anVendas').classList.toggle('on',v==='vendas');
+  document.getElementById('anDif').classList.toggle('on',v==='dif');
+  document.getElementById('anTaxas').classList.toggle('on',v==='taxas');
+  document.getElementById('anVendasBox').style.display=v==='vendas'?'':'none';
+  document.getElementById('anDifBox').style.display=v==='dif'?'':'none';
+  document.getElementById('anTaxasBox').style.display=v==='taxas'?'':'none';
+  if(v==='taxas')renderTaxas();
+}
+
+async function renderTaxas(){
+  // precisa dos fechos completos por dia (têm os terminais). Puxa os dias com TPAs.
+  const f=document.getElementById('pharm').value;
+  const comTpa=serie.filter(d=>d.tpas_total!=null && d.tpas_total>0);
+  const svgEl=document.getElementById('chartTaxa');
+  const kpi=document.getElementById('taxaKpis');
+  const tb=document.getElementById('tbTaxaTpa');
+  document.getElementById('taxaPeriodo').textContent=`${comTpa.length} dia${comTpa.length===1?'':'s'}`;
+  if(!comTpa.length){
+    svgEl.innerHTML='<text x="180" y="65" text-anchor="middle" class="bar-lab">sem TPAs introduzidos ainda</text>';
+    kpi.innerHTML=''; tb.innerHTML='<tr><td colspan="4"><div class="empty"><b>Sem dados de taxas</b><span>Introduz TPAs para começar.</span></div></td></tr>';
+    return;
+  }
+
+  // KPIs: taxa total €, taxa % média do período, dias acima de 1%
+  const taxaTotal=comTpa.reduce((a,d)=>a+(d.tpas_taxa_total||0),0);
+  const brutoTotal=comTpa.reduce((a,d)=>a+(d.tpas_total||0),0);
+  const pctMedia=brutoTotal>0?(taxaTotal/brutoTotal*100):0;
+  const diasAlerta=comTpa.filter(d=>(d.taxa_pct_media||0)>1).length;
+  kpi.innerHTML=`
+    <div class="kpi"><div class="kn">${noE(eur.format(taxaTotal))}</div><div class="kl">Taxas pagas</div></div>
+    <div class="kpi"><div class="kn">${pctMedia.toFixed(2)}%</div><div class="kl">Taxa média</div></div>
+    <div class="kpi"><div class="kn">${diasAlerta}</div><div class="kl">dias &ge;1%</div></div>`;
+
+  // gráfico: taxa % média por dia
+  const dd=comTpa.slice(-21);
+  const W=360,H=130,pb=18,pt=8,pl=6,pr=6;
+  const max=Math.max(1.2,...dd.map(d=>d.taxa_pct_media||0))*1.1;
+  const bw=(W-pl-pr)/dd.length;
+  let g='';
+  // linha de referência a 1%
+  const y1=H-pb-((1/max)*(H-pb-pt));
+  g+=`<line x1="${pl}" y1="${y1.toFixed(1)}" x2="${W-pr}" y2="${y1.toFixed(1)}" stroke="var(--alert)" stroke-dasharray="3 3" opacity="0.5"/>`;
+  g+=`<text x="${W-pr}" y="${(y1-3).toFixed(1)}" text-anchor="end" class="bar-lab" fill="var(--alert)">1%</text>`;
+  dd.forEach((d,i)=>{
+    const v=d.taxa_pct_media||0;
+    const h=(v/max)*(H-pb-pt);
+    const x=pl+i*bw+bw*0.2,y=H-pb-h,w=Math.max(bw*0.6,2);
+    const col=v>1?'var(--alert)':'var(--cross)';
+    g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="2" fill="${col}" opacity="0.88"><title>${d.data}: ${v.toFixed(2)}%</title></rect>`;
+    if(dd.length<=8||i%Math.ceil(dd.length/7)===0)
+      g+=`<text class="bar-lab" x="${(x+w/2).toFixed(1)}" y="${H-5}" text-anchor="middle">${d.data.slice(8)}</text>`;
+  });
+  g+=`<line x1="${pl}" y1="${H-pb}" x2="${W-pr}" y2="${H-pb}" stroke="var(--line-strong)"/>`;
+  svgEl.innerHTML=g;
+
+  // tabela por TPA: agrega os terminais de todos os dias com fecho completo
+  // (lê os fechos dias/ que têm os terminais)
+  const agg={};
+  await Promise.all(comTpa.slice(-30).map(async d=>{
+    try{
+      const r=await fetch(`../data/fecho/dias/${f}_${d.data}.json${cb()}`);
+      if(!r.ok)return;
+      const fe=await r.json();
+      (fe.manual&&fe.manual.terminais||[]).forEach(t=>{
+        if(t.bruto==null)return;
+        const k=t.nome||t.id;
+        if(!agg[k])agg[k]={nome:k,bruto:0,taxa:0};
+        agg[k].bruto+=t.bruto||0;
+        agg[k].taxa+=(t.taxa!=null?t.taxa:0);
+      });
+    }catch(e){}
+  }));
+  const linhas=Object.values(agg).sort((a,b)=>b.taxa-a.taxa);
+  if(!linhas.length){ tb.innerHTML='<tr><td colspan="4"><div class="empty"><b>Sem detalhe por TPA</b></div></td></tr>'; return; }
+  tb.innerHTML=linhas.map(t=>{
+    const pct=t.bruto>0?(t.taxa/t.bruto*100):0;
+    const cls=pct>1?'style="color:var(--alert);font-weight:700"':'';
+    return `<tr><td>${t.nome}</td><td>${eur.format(t.bruto)}</td><td>${eur.format(t.taxa)}</td><td ${cls}>${pct.toFixed(2)}%</td></tr>`;
+  }).join('');
 }
 
 function agregarMes(s){
