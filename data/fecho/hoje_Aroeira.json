@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-10",
-  "gerado_em": "2026-07-12T08:29:26",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-12T11:16:35",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 3750.81,
     "diagnostico": {
@@ -116,19 +116,61 @@
     ]
   },
   "manual": {
-    "tpas_total": null,
+    "tpas_total": 2964.92,
+    "tpas_taxa_total": 13.51,
+    "tpas_liquido_total": 2951.41,
     "finanfarma": null,
-    "terminais": []
+    "transferencia": null,
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224",
+        "bruto": 738.22,
+        "liquido": 735.08,
+        "taxa": 3.14
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 580.7,
+        "liquido": 577.84,
+        "taxa": 2.86
+      },
+      {
+        "id": "01123226",
+        "nome": "TPA 3 – 01123226",
+        "bruto": 15.9,
+        "liquido": 15.84,
+        "taxa": 0.06
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1175.21,
+        "liquido": 1170.03,
+        "taxa": 5.18
+      },
+      {
+        "id": "01223227",
+        "nome": "TPA Drive – 01223227",
+        "bruto": 454.89,
+        "liquido": 452.62,
+        "taxa": 2.27
+      }
+    ],
+    "responsaveis": [],
+    "comentario": "nao sei",
+    "submetido_em": "2026-07-12T10:09:21.432Z"
   },
   "conciliacao": {
-    "recebido_real": null,
+    "recebido_real": 3729.84,
     "total_sifarma": 3750.81,
-    "diferenca_caixa": null,
+    "diferenca_caixa": -20.97,
     "tolerancia": 5.0
   },
   "avisos": [
     "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+    "Diferença de caixa -20.97 € acima da tolerância — investigar."
   ],
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
