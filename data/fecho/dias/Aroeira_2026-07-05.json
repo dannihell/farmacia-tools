@@ -1,0 +1,102 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-05",
+  "gerado_em": "2026-07-12T14:25:56",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 2787.08,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 294.12,
+      "cartao_declarado": 2482.88,
+      "outros_declarado": 10.08,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 82,
+          "valor": 2482.88
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 150,
+          "valor": 294.12
+        },
+        {
+          "tipo": "Finanfarma",
+          "n": 2,
+          "valor": 10.08
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 294.12,
+    "liquido": 294.12,
+    "fundo_na_maquina": 400.0,
+    "vendido": 295.82,
+    "troco_devolvido": 1.7,
+    "por_operador": [
+      {
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 13,
+        "numerario": 159.78,
+        "troco": 0.0,
+        "liquido": 159.78
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "2",
+        "atendimentos": 6,
+        "numerario": 104.3,
+        "troco": 0.0,
+        "liquido": 104.3
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 16.94,
+        "troco": 1.7,
+        "liquido": 15.24
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "2",
+        "atendimentos": 2,
+        "numerario": 14.8,
+        "troco": 0.0,
+        "liquido": 14.8
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "transferencia": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 2787.08,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0
+  },
+  "avisos": [
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 294.12,
+    "sifarma_numerario_declarado": 294.12,
+    "diferenca": 0.0
+  }
+}
