@@ -1,0 +1,139 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-01",
+  "gerado_em": "2026-07-12T14:25:00",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 3527.14,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": -200.48,
+      "cartao_declarado": 3727.62,
+      "outros_declarado": 0.0,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 105,
+          "valor": 3727.62
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 163,
+          "valor": -200.48
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 0.0,
+    "liquido": -200.48,
+    "fundo_na_maquina": null,
+    "vendido": 132.15,
+    "troco_devolvido": 332.63,
+    "por_operador": [
+      {
+        "operador": "CATARINA",
+        "posto": "5",
+        "atendimentos": 3,
+        "numerario": 26.01,
+        "troco": 0.0,
+        "liquido": 26.01
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 18.45,
+        "troco": 0.0,
+        "liquido": 18.45
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 16.36,
+        "troco": 0.0,
+        "liquido": 16.36
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 14.4,
+        "troco": 0.0,
+        "liquido": 14.4
+      },
+      {
+        "operador": "CLAUDIAL",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 9.96,
+        "troco": 0.0,
+        "liquido": 9.96
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 5.27,
+        "troco": 0.0,
+        "liquido": 5.27
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "5",
+        "atendimentos": 1,
+        "numerario": 4.66,
+        "troco": 0.0,
+        "liquido": 4.66
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "5",
+        "atendimentos": 3,
+        "numerario": 37.04,
+        "troco": 87.83,
+        "liquido": -50.79
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "010",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 244.8,
+        "liquido": -244.8
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "transferencia": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 3527.14,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0
+  },
+  "avisos": [
+    "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
+    "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Numerário Sifarma negativo (-200.48 €) — dia atípico.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 0.0,
+    "sifarma_numerario_declarado": -200.48,
+    "diferenca": 200.48
+  }
+}
