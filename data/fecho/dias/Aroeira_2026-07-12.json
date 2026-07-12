@@ -1,0 +1,48 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-12",
+  "gerado_em": "2026-07-12T08:12:08",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 0.0,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 0.0,
+      "cartao_declarado": 0.0,
+      "outros_declarado": 0.0,
+      "por_tipo": []
+    }
+  },
+  "cashlogy": {
+    "apuro": 0.0,
+    "liquido": 0.0,
+    "fundo_na_maquina": null,
+    "vendido": 0.0,
+    "troco_devolvido": 0.0,
+    "por_operador": []
+  },
+  "manual": {
+    "tpas_total": null,
+    "finanfarma": null,
+    "terminais": []
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 0.0,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0
+  },
+  "avisos": [
+    "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
+    "Sem pagamentos registados nesta data.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 0.0,
+    "sifarma_numerario_declarado": 0.0,
+    "diferenca": 0.0
+  }
+}
