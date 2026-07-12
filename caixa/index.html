@@ -399,7 +399,7 @@ function render(){
   document.getElementById('tpasChip').textContent=temTpa?'introduzido':'aguarda talões';
   document.getElementById('tpasChip').className=temTpa?'auto':'pend';
   document.getElementById('tpasBox').innerHTML=temTpa
-    ? (fecho.manual.terminais||[]).map(t=>`<div class="kv"><span class="k">${t.nome||'TPA'}</span><span class="v">${eur.format(t.valor)}</span></div>`).join('')
+    ? (fecho.manual.terminais||[]).map(t=>`<div class="kv"><span class="k">${t.nome||'TPA'}${t.taxa!=null?`<small>taxa ${eur.format(t.taxa)}</small>`:''}</span><span class="v">${eur.format(t.bruto!=null?t.bruto:(t.valor||0))}</span></div>`).join('')
       + `<div class="kv total"><span class="k">Total TPAs</span><span class="v">${eur.format(fecho.manual.tpas_total)}</span></div>`
     : `<div class="msg">Os valores dos TPAs entram pelo talão de fecho, tirado ao fechar a loja. <b>Formulário a caminho.</b></div>`;
 
