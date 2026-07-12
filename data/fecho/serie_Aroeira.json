@@ -63,12 +63,14 @@
   },
   {
     "data": "2026-07-06",
-    "estado": "desvio",
+    "estado": "tolerancia",
     "total_sifarma": 4773.38,
-    "apuro": 121.52,
+    "apuro": 161.82,
+    "apuro_maquina": 121.52,
+    "discrepancia_cashlogy": 40.3,
     "liquido_numerario": 121.52,
-    "recebido_real": 4733.03,
-    "diferenca_caixa": -40.35,
+    "recebido_real": 4773.33,
+    "diferenca_caixa": -0.05,
     "tpas_total": 4597.66,
     "tpas_taxa_total": 17.27,
     "taxa_pct_media": 0.38
