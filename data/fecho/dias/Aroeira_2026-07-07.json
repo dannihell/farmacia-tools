@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-07",
-  "gerado_em": "2026-07-12T15:37:44.993Z",
+  "gerado_em": "2026-07-12T16:28:30.532Z",
   "estado": "tolerancia",
   "sifarma": {
     "total_vendas_dinheiro": 3867.4,
@@ -190,18 +190,26 @@
         "taxa_pct": 0.37
       }
     ],
-    "responsaveis": [
-      "130"
-    ],
-    "comentario": "",
-    "submetido_em": "2026-07-12T15:37:39.706Z",
+    "responsaveis": [],
+    "comentario": "5 cêntimos que faltavam do dia anterior",
+    "submetido_em": "2026-07-12T16:28:26.608Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 3867.39,
+    "recebido_real": 3867.44,
     "total_sifarma": 3867.4,
-    "diferenca_caixa": -0.01,
-    "tolerancia": 5
+    "diferenca_caixa": 0.04,
+    "tolerancia": 5,
+    "apuro_usado": 377.59,
+    "apuro_maquina": 377.54,
+    "apuro_contado": 377.59
+  },
+  "discrepancia_cashlogy": {
+    "ha_discrepancia": true,
+    "apuro_maquina": 377.54,
+    "apuro_contado": 377.59,
+    "delta": 0.05,
+    "nota": "Contado − máquina. Não afeta o estado do fecho; investiga-se com a Glintt."
   },
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
@@ -209,5 +217,7 @@
     "sifarma_numerario_declarado": 377.54,
     "diferenca": 0
   },
-  "avisos": []
+  "avisos": [
+    "Discrepância Cashlogy +0.05 € — a máquina apurou 377.54 €, a equipa contou 377.59 €. Marcar para a Glintt. A conciliação usou o contado."
+  ]
 }
