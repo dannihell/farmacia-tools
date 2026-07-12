@@ -2,177 +2,98 @@
   "farmacia": "Aroeira",
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
-  "data": "2026-07-02",
-  "gerado_em": "2026-07-12T19:30:28.624Z",
-  "estado": "desvio",
+  "data": "2026-07-12",
+  "gerado_em": "2026-07-12T23:59:05",
+  "estado": "aguarda_tpas",
   "sifarma": {
-    "total_vendas_dinheiro": 4736,
+    "total_vendas_dinheiro": 3271.07,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
-      "numerario_declarado": 241.45,
-      "cartao_declarado": 4494.55,
-      "outros_declarado": 0,
+      "numerario_declarado": 292.49,
+      "cartao_declarado": 2978.58,
+      "outros_declarado": 0.0,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 118,
-          "valor": 4494.55
+          "n": 79,
+          "valor": 2978.58
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 193,
-          "valor": 241.45
+          "n": 140,
+          "valor": 292.49
         }
       ]
     }
   },
   "cashlogy": {
-    "apuro": 50,
-    "liquido": 219.88,
-    "fundo_na_maquina": 369.4,
-    "vendido": 255.35,
-    "troco_devolvido": 35.47,
+    "apuro": 292.49,
+    "liquido": 292.49,
+    "fundo_na_maquina": 400.0,
+    "vendido": 293.87,
+    "troco_devolvido": 1.38,
     "por_operador": [
       {
-        "operador": "CLAUDIAL",
-        "posto": "3",
-        "atendimentos": 2,
-        "numerario": 73.48,
-        "troco": 0,
-        "liquido": 73.48
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 13,
+        "numerario": 154.18,
+        "troco": 0.0,
+        "liquido": 154.18
       },
       {
         "operador": "CATARINA",
         "posto": "2",
-        "atendimentos": 6,
-        "numerario": 65.64,
-        "troco": 1.2,
-        "liquido": 64.44
+        "atendimentos": 9,
+        "numerario": 84.74,
+        "troco": 1.38,
+        "liquido": 83.36
       },
       {
-        "operador": "JESSICA",
-        "posto": "5",
-        "atendimentos": 4,
-        "numerario": 33.78,
-        "troco": 0,
-        "liquido": 33.78
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "3",
-        "atendimentos": 2,
-        "numerario": 29.6,
-        "troco": 0,
-        "liquido": 29.6
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "3",
-        "atendimentos": 2,
-        "numerario": 21.56,
-        "troco": 0,
-        "liquido": 21.56
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "2",
-        "atendimentos": 2,
-        "numerario": 14.76,
-        "troco": 2,
-        "liquido": 12.76
-      },
-      {
-        "operador": "Leosouza",
+        "operador": "CATARINA",
         "posto": "30",
-        "atendimentos": 2,
-        "numerario": 16.53,
-        "troco": 10.7,
-        "liquido": 5.83
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "003",
-        "atendimentos": 0,
-        "numerario": 0,
-        "troco": 21.57,
-        "liquido": -21.57
+        "atendimentos": 1,
+        "numerario": 54.95,
+        "troco": 0.0,
+        "liquido": 54.95
       }
     ]
   },
   "manual": {
-    "tpas_total": 4494.55,
-    "tpas_taxa_total": 19.45,
-    "tpas_liquido_total": 4475.1,
-    "taxa_pct_media": 0.43,
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
     "finanfarma": null,
     "transferencia": null,
-    "apuro_contado": 0,
-    "terminais": [
-      {
-        "id": "01123224",
-        "nome": "TPA 1 – 01123224",
-        "bruto": 1841.24,
-        "liquido": 1832.5,
-        "taxa": 8.74,
-        "taxa_pct": 0.47
-      },
-      {
-        "id": "00983092",
-        "nome": "TPA 2 – 00983092",
-        "bruto": 773.31,
-        "liquido": 770.73,
-        "taxa": 2.58,
-        "taxa_pct": 0.33
-      },
-      {
-        "id": "01123228",
-        "nome": "TPA 4 – 01123228",
-        "bruto": 1514.83,
-        "liquido": 1508.15,
-        "taxa": 6.68,
-        "taxa_pct": 0.44
-      },
-      {
-        "id": "01223227",
-        "nome": "TPA Drive – 01223227",
-        "bruto": 365.17,
-        "liquido": 363.72,
-        "taxa": 1.45,
-        "taxa_pct": 0.4
-      }
-    ],
+    "apuro_contado": null,
+    "terminais": [],
     "responsaveis": [],
-    "comentario": "equipa relata apuro de 0 vs 50 cash",
-    "submetido_em": "2026-07-12T19:30:24.085Z",
-    "tpas_taxa_alta": []
+    "comentario": "",
+    "submetido_em": null
   },
   "conciliacao": {
-    "recebido_real": 4714.43,
-    "total_sifarma": 4736,
-    "diferenca_caixa": -21.57,
-    "tolerancia": 5,
-    "liquido_numerario": 219.88
+    "recebido_real": null,
+    "total_sifarma": 3271.07,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "liquido_numerario": 292.49
   },
   "tesouraria": {
-    "apuro_maquina": 50,
-    "apuro_contado": 0,
-    "fundo_na_maquina": 369.4,
-    "desvio_deposito": -50,
-    "ha_desvio_deposito": true,
+    "apuro_maquina": 292.49,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
-  },
-  "diagnostico_numerario": {
-    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
-    "cashlogy_apuro": 50,
-    "sifarma_numerario_declarado": 241.45,
-    "diferenca": -191.45
   },
   "avisos": [
     "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Diferença de caixa -191.45 € acima da tolerância — investigar.",
-    "Diferença de caixa -191.45 € acima da tolerância — investigar.",
-    "Discrepância Cashlogy -50.00 € — a máquina apurou 50.00 €, a equipa contou 0.00 €. Marcar para a Glintt. A conciliação usou o contado.",
-    "Diferença de caixa -21.57 € acima da tolerância — investigar.",
-    "Tesouraria: depósito contado 0.00 € vs apuro da máquina 50.00 € (-50.00 €). Não afeta a diferença de caixa; confirmar o depósito."
-  ]
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 292.49,
+    "sifarma_numerario_declarado": 292.49,
+    "diferenca": 0.0
+  }
 }
