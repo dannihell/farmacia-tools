@@ -102,6 +102,20 @@
   .rmtpa{background:none;border:none;color:var(--alert);cursor:pointer;font-size:16px;padding:0 4px}
   .disc{font-size:11.5px;color:var(--ink-faint);line-height:1.5;padding:4px 6px 0;text-align:center}
   .disc b{color:var(--ink-soft)}
+  .respwrap{padding:12px 15px;display:flex;flex-wrap:wrap;gap:8px}
+  .respchip{font-size:12.5px;padding:7px 12px;border:1px solid var(--line-strong);border-radius:20px;
+    background:var(--paper);cursor:pointer;color:var(--ink-soft);user-select:none}
+  .respchip.on{background:var(--cross);border-color:var(--cross);color:#fff;font-weight:600}
+  .coment{width:calc(100% - 30px);margin:12px 15px;min-height:66px;resize:vertical;font-family:var(--sans);
+    font-size:13px;padding:10px 12px;border:1px solid var(--line-strong);border-radius:10px;color:var(--ink)}
+  .coment:focus{outline:2px solid var(--cross);outline-offset:1px;border-color:var(--cross)}
+  .guardar{width:100%;padding:15px;border:none;border-radius:14px;background:var(--cross);color:#fff;
+    font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px}
+  .guardar:disabled{background:var(--line-strong);cursor:not-allowed}
+  .guardar.saving{opacity:.7}
+  .savemsg{padding:11px 14px;border-radius:12px;font-size:13px;margin-bottom:10px;text-align:center}
+  .savemsg.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #cfe6d7}
+  .savemsg.err{background:var(--alert-bg);color:var(--alert);border:1px solid #e8c6c1}
 
   .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
   .card.aguarda{border-style:dashed;border-color:var(--line-strong);background:#fbfcfb}
@@ -262,9 +276,19 @@
           </div>
         </div>
       </div>
+      <div class="card">
+        <div class="card-h"><h3>Responsáveis</h3><span class="hint" style="font-size:11px;color:var(--ink-faint)">quem fez o fecho</span></div>
+        <div id="responsaveis" class="respwrap"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Comentário</h3></div>
+        <textarea id="comentario" class="coment" placeholder="Notas do fecho (obrigatório se houver desvio)…"></textarea>
+      </div>
+      <button class="guardar" id="btnGuardar" onclick="guardarFecho()">Guardar fecho</button>
+      <div id="guardarMsg"></div>
       <div class="disc">
-        Camada 1 — cálculo ao vivo. Ainda <b>não guarda</b>; serve para veres a caixa fechar.
-        Guardar (com foto do talão, assinatura e responsáveis) vem na próxima fase.
+        Guarda os TPAs, Finanfarma, transferência, responsáveis e comentário.
+        As <b>fotos dos talões e a assinatura</b> vêm na próxima fase.
       </div>
     </section>
     <section class="view" id="v-analise">
@@ -495,8 +519,9 @@ async function verDia(data){
   }
 }
 
-// ===== CAMADA 1: introdução de TPAs com cálculo ao vivo (não guarda) =====
-let tpasConfig=null, tpasExtra=[];
+// ===== CAMADA 1+2: introdução, cálculo ao vivo e guardar via Worker =====
+const WORKER_URL="https://fecho-caixa.danielgds.workers.dev";
+let tpasConfig=null, tpasExtra=[], empregados=[], respSelec=new Set();
 
 async function carregarTpas(f){
   try{
@@ -506,6 +531,27 @@ async function carregarTpas(f){
   }catch(e){ tpasConfig={tpas:[],finanfarma:true}; }
   tpasExtra=[];
   construirInputs();
+  carregarEmpregados(f);
+}
+
+async function carregarEmpregados(f){
+  respSelec=new Set();
+  try{
+    const r=await fetch(`../data/config/empregados_${f}.json${cb()}`);
+    empregados=r.ok?await r.json():[];
+  }catch(e){ empregados=[]; }
+  const cont=document.getElementById('responsaveis');
+  if(!empregados.length){
+    cont.innerHTML='<div style="font-size:12.5px;color:var(--ink-faint)">Lista de colaboradores ainda não publicada para esta farmácia.</div>';
+    return;
+  }
+  cont.innerHTML=empregados.map(e=>
+    `<span class="respchip" data-id="${e.id}" onclick="toggleResp('${e.id}',this)">${e.curto||e.nome}</span>`
+  ).join('');
+}
+function toggleResp(id,el){
+  if(respSelec.has(id)){respSelec.delete(id);el.classList.remove('on');}
+  else{respSelec.add(id);el.classList.add('on');}
 }
 
 function linhaTpa(t, extra){
@@ -610,6 +656,72 @@ function recalcular(){
   document.getElementById('introAuto').innerHTML=`
     <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma</small></span><span class="v">${totalSif!=null?eur.format(totalSif):'—'}</span></div>
     <div class="kv"><span class="k">Numerário (apuro)<small>Cashlogy</small></span><span class="v">${eur.format(apuro)}</span></div>`;
+
+  // guarda o estado atual do formulário para o guardarFecho()
+  window._estadoForm={
+    tpas: linhas.map(idx=>{
+      const row=document.getElementById('row-'+idx);
+      if(!row||row.classList.contains('off'))return null;
+      const b=valOf('b-'+idx), l=valOf('l-'+idx);
+      if(b==null)return null;
+      // nome: da config ou do extra
+      let nome=idx;
+      const cfgT=(tpasConfig.tpas||[]).find(t=>t.id===idx);
+      if(cfgT)nome=cfgT.nome;
+      else{const ex=tpasExtra.find(t=>'x'+t.i===idx); if(ex)nome=ex.nome;}
+      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:l};
+    }).filter(Boolean),
+    finanfarma:finan, transferencia:transf,
+    diferenca_caixa: (erroTaxa?null:dif),
+    erroTaxa
+  };
+}
+
+async function guardarFecho(){
+  const est=window._estadoForm;
+  const msg=document.getElementById('guardarMsg');
+  const btn=document.getElementById('btnGuardar');
+  if(!est||!fecho){ return; }
+
+  if(est.erroTaxa){
+    msg.innerHTML='<div class="savemsg err">Corrige o TPA com líquido &gt; bruto antes de guardar.</div>';
+    return;
+  }
+  if(!est.tpas.length && est.finanfarma==null && est.transferencia==null){
+    msg.innerHTML='<div class="savemsg err">Introduz pelo menos um TPA ou valor antes de guardar.</div>';
+    return;
+  }
+  const coment=document.getElementById('comentario').value.trim();
+  const tol=(fecho.conciliacao&&fecho.conciliacao.tolerancia)||5;
+  const foraTol = est.diferenca_caixa!=null && Math.abs(est.diferenca_caixa)>tol;
+  if(foraTol && !coment){
+    msg.innerHTML='<div class="savemsg err">Diferença fora da tolerância — escreve um comentário a justificar.</div>';
+    document.getElementById('comentario').focus();
+    return;
+  }
+
+  const payload={
+    farmacia: fecho.farmacia, data: fecho.data,
+    tpas: est.tpas, finanfarma: est.finanfarma, transferencia: est.transferencia,
+    responsaveis: [...respSelec], comentario: coment,
+    diferenca_caixa: est.diferenca_caixa,
+  };
+
+  btn.disabled=true; btn.classList.add('saving'); btn.textContent='A guardar…';
+  msg.innerHTML='';
+  try{
+    const r=await fetch(WORKER_URL,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const j=await r.json();
+    if(!r.ok||!j.ok) throw new Error(j.erro||('erro '+r.status));
+    msg.innerHTML=`<div class="savemsg ok">Fecho guardado ✓ &nbsp;(TPAs ${eur.format(j.tpas_total||0)}${j.diferenca_caixa!=null?' · dif '+(j.diferenca_caixa>=0?'+':'')+eur.format(j.diferenca_caixa):''})</div>`;
+  }catch(e){
+    msg.innerHTML=`<div class="savemsg err">Não guardou: ${e.message}</div>`;
+  }finally{
+    btn.disabled=false; btn.classList.remove('saving'); btn.textContent='Guardar fecho';
+  }
 }
 
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
