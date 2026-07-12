@@ -342,7 +342,7 @@
       <div class="card">
         <div class="card-h"><h3>Histórico</h3><span class="auto" id="nDias">—</span></div>
         <div class="hint-tap">Toca num dia para ver o fecho completo.</div>
-        <table><thead><tr><th>Data</th><th>Sifarma</th><th>Apuro</th><th>Dif.</th></tr></thead>
+        <table><thead><tr><th>Data</th><th>Sifarma</th><th>Numerário</th><th>Dif.</th></tr></thead>
           <tbody id="tbSerie"></tbody></table>
       </div>
     </section>
@@ -416,7 +416,7 @@ function render(){
   document.getElementById('estadoChip').className=(cls==='ok'?'auto':'pend');
   document.getElementById('conc').innerHTML=`
     <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma · âncora</small></span><span class="v">${s.total_vendas_dinheiro!=null?eur.format(s.total_vendas_dinheiro):'—'}</span></div>
-    <div class="kv"><span class="k">Numerário (apuro)<small>Cashlogy</small></span><span class="v">${c.apuro!=null?eur.format(c.apuro):'—'}</span></div>
+    <div class="kv"><span class="k">Numerário líquido<small>Cashlogy · vendas − trocos</small></span><span class="v">${c.liquido!=null?eur.format(c.liquido):'—'}</span></div>
     <div class="kv"><span class="k">TPAs<small>talões</small></span><span class="v ${con.recebido_real==null?'vazio':''}">${(fecho.manual&&fecho.manual.tpas_total!=null)?eur.format(fecho.manual.tpas_total):'a introduzir'}</span></div>
     <div class="kv"><span class="k">Finanfarma</span><span class="v ${(fecho.manual&&fecho.manual.finanfarma!=null)?'':'vazio'}">${(fecho.manual&&fecho.manual.finanfarma!=null)?eur.format(fecho.manual.finanfarma):'a introduzir'}</span></div>
     <div class="kv total"><span class="k">Diferença de caixa</span><span class="v">${dif!=null?(dif>=0?'+':'')+eur.format(dif):'aguarda TPAs'}</span></div>`;
@@ -578,8 +578,8 @@ async function renderTaxas(){
 function agregarMes(s){
   const m={};
   s.forEach(d=>{const k=d.data.slice(0,7);
-    if(!m[k])m[k]={data:k,total_sifarma:0,apuro:0,diferenca_caixa:0,_n:0};
-    m[k].total_sifarma+=d.total_sifarma||0;m[k].apuro+=d.apuro||0;
+    if(!m[k])m[k]={data:k,total_sifarma:0,liquido_numerario:0,diferenca_caixa:0,_n:0};
+    m[k].total_sifarma+=d.total_sifarma||0;m[k].liquido_numerario+=d.liquido_numerario||0;
     if(d.diferenca_caixa!=null)m[k].diferenca_caixa+=d.diferenca_caixa;m[k]._n++;});
   return Object.values(m).sort((a,b)=>a.data.localeCompare(b.data));
 }
@@ -643,7 +643,7 @@ function renderAnalise(){
     // só dias (não meses) são clicáveis para ver o detalhe
     const tap = periodo==='dia' ? `class="tapable" onclick="verDia('${d.data}')"` : '';
     const dataCurta=new Date(d.data+'T12:00').toLocaleDateString('pt-PT',{day:'2-digit',month:'short'}).replace('.','');
-    return `<tr ${tap}><td>${dataCurta}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.apuro||0)}</td><td>${chip}</td></tr>`;
+    return `<tr ${tap}><td>${dataCurta}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.liquido_numerario||0)}</td><td>${chip}</td></tr>`;
   }).join('');
   document.getElementById('tbSerie').innerHTML=linhas;
 }
@@ -901,16 +901,17 @@ function recalcular(){
   const transf=valOf('transferencia');
   if(transf!=null)algum=true;
 
-  const apuroCashlogy=(fecho.cashlogy&&fecho.cashlogy.apuro)||0;
+  // ── NUMERÁRIO: a conciliação de vendas usa o LÍQUIDO da máquina (não o apuro).
+  //    O líquido já reflete a variação do fundo de maneio.
+  const liquido=(fecho.cashlogy&&fecho.cashlogy.liquido!=null)?fecho.cashlogy.liquido:0;
+  // Tesouraria (não entra na diferença de caixa): depósito contado vs apuro da máquina.
+  const apuroMaquina=(fecho.cashlogy&&fecho.cashlogy.apuro)||0;
   const apuroContado=valOf('apuroContado');
-  // o apuro que conta para a conciliação é o CONTADO (o que vai ao banco); se não introduzido, usa Cashlogy
-  const apuro=(apuroContado!=null)?apuroContado:apuroCashlogy;
-  // discrepância: máquina vs contado (anomalia a investigar pela Glintt)
-  const discrepancia=(apuroContado!=null)?round2(apuroContado-apuroCashlogy):0;
-  const temDiscrepancia=Math.abs(discrepancia)>=0.01;
+  const desvioDeposito=(apuroContado!=null)?round2(apuroContado-apuroMaquina):0;
+  const temDesvioDeposito=Math.abs(desvioDeposito)>=0.01;
 
   const totalSif=(fecho.sifarma&&fecho.sifarma.total_vendas_dinheiro);
-  const recebido=apuro+somaBruto+(finan||0)+(transf||0);
+  const recebido=liquido+somaBruto+(finan||0)+(transf||0);
   const dif=(totalSif!=null)?round2(recebido-totalSif):null;
 
   // hero do separador introduzir
@@ -928,18 +929,19 @@ function recalcular(){
   document.getElementById('introHero').innerHTML=
     `<div class="hero ${cls}"><div class="lab">Diferença de caixa · ao vivo</div>
      <div class="big">${bigTxt}</div>
-     <div class="sub">${txt} · (apuro ${eur.format(apuro)} + TPAs ${eur.format(somaBruto)}${extras?' + '+extras:''}) − Sifarma ${totalSif!=null?eur.format(totalSif):'—'}</div></div>`;
+     <div class="sub">${txt} · (numerário ${eur.format(liquido)} + TPAs ${eur.format(somaBruto)}${extras?' + '+extras:''}) − Sifarma ${totalSif!=null?eur.format(totalSif):'—'}</div></div>`;
 
   document.getElementById('introAuto').innerHTML=`
-    <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma</small></span><span class="v">${totalSif!=null?eur.format(totalSif):'—'}</span></div>
-    <div class="kv"><span class="k">Numerário Cashlogy<small>o que a máquina apurou</small></span><span class="v">${eur.format(apuroCashlogy)}</span></div>`;
+    <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma · âncora</small></span><span class="v">${totalSif!=null?eur.format(totalSif):'—'}</span></div>
+    <div class="kv"><span class="k">Numerário líquido<small>Cashlogy · vendas − trocos</small></span><span class="v">${eur.format(liquido)}</span></div>
+    <div class="kv"><span class="k">Apuro retirado<small>tesouraria · não entra na diferença</small></span><span class="v">${eur.format(apuroMaquina)}</span></div>`;
 
-  // aviso de discrepância Cashlogy vs contado
+  // aviso de tesouraria: depósito contado vs apuro da máquina (não afeta a diferença de caixa)
   const dEl=document.getElementById('discrepanciaAviso');
   if(dEl){
-    if(temDiscrepancia){
-      dEl.innerHTML=`<div class="aviso" style="background:#f3e8f8;border-color:#e0c8ec;color:#6b3a80;margin:11px 15px 4px">
-        <b>Discrepância de numerário: ${discrepancia>0?'+':''}${eur.format(discrepancia)}</b> — a máquina apurou ${eur.format(apuroCashlogy)}, a equipa contou ${eur.format(apuroContado)}. Marca-se para investigação da Glintt. A conciliação usa o valor contado.</div>`;
+    if(temDesvioDeposito){
+      dEl.innerHTML=`<div class="aviso info" style="margin:11px 15px 4px">
+        <b>Tesouraria: ${desvioDeposito>0?'+':''}${eur.format(desvioDeposito)}</b> — a equipa contou ${eur.format(apuroContado)} para depósito; a máquina apurou ${eur.format(apuroMaquina)}. Confirma o depósito. Não afeta a diferença de caixa.</div>`;
     }else{ dEl.innerHTML=''; }
   }
 
