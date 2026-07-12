@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-09",
-  "gerado_em": "2026-07-12T13:43:13.416Z",
-  "estado": "tolerancia",
+  "gerado_em": "2026-07-12T14:28:00.003Z",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 4037.82,
     "diagnostico": {
@@ -109,7 +109,7 @@
     "tpas_taxa_total": 17.13,
     "tpas_liquido_total": 3909.37,
     "taxa_pct_media": 0.43,
-    "finanfarma": null,
+    "finanfarma": 74.02,
     "transferencia": null,
     "terminais": [
       {
@@ -149,6 +149,7 @@
         "nome": "TPA F – 40005737",
         "bruto": 27.94,
         "liquido": null,
+        "operacoes": 2,
         "taxa": null,
         "taxa_pct": null,
         "so_bruto": true
@@ -156,13 +157,13 @@
     ],
     "responsaveis": [],
     "comentario": "não foi possível identificar o erro",
-    "submetido_em": "2026-07-12T13:43:12.040Z",
+    "submetido_em": "2026-07-12T14:27:55.485Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 4040.36,
+    "recebido_real": 4114.38,
     "total_sifarma": 4037.82,
-    "diferenca_caixa": 2.54,
+    "diferenca_caixa": 76.56,
     "tolerancia": 5
   },
   "diagnostico_numerario": {
@@ -172,6 +173,7 @@
     "diferenca": 2.54
   },
   "avisos": [
-    "6 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo."
+    "6 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa +76.56 € acima da tolerância — investigar."
   ]
 }
