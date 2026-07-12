@@ -786,6 +786,11 @@ function construirInputs(){
   const extra=tpasExtra.map(t=>linhaTpa(t,true)).join('');
   cont.innerHTML=base+extra;
 
+  // limpa os campos estáticos ao (re)construir — não podem arrastar o dia anterior.
+  // Os TPAs já ficam limpos porque o innerHTML acima é reconstruído de raiz.
+  ['apuroContado','finanfarma','transferencia'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const comReset=document.getElementById('comentario'); if(comReset)comReset.value='';
+
   // pré-preenche a partir do manual existente
   if(manualExistente){
     (manualExistente.tpas||[]).forEach(t=>{
@@ -801,6 +806,8 @@ function construirInputs(){
       if(opel && t.operacoes!=null) opel.value=t.operacoes;
       if(row && (t.bruto!=null||t.liquido!=null)){ row.classList.remove('off'); if(chk)chk.classList.add('on'); }
     });
+    const ac=document.getElementById('apuroContado');
+    if(ac && manualExistente.apuro_contado!=null) ac.value=manualExistente.apuro_contado;
     const fin=document.getElementById('finanfarma');
     if(fin && manualExistente.finanfarma!=null) fin.value=manualExistente.finanfarma;
     const tr=document.getElementById('transferencia');
