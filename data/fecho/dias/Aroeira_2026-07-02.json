@@ -3,15 +3,15 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-02",
-  "gerado_em": "2026-07-12T14:25:14",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-12T13:42:27.873Z",
+  "estado": "desvio",
   "sifarma": {
-    "total_vendas_dinheiro": 4736.0,
+    "total_vendas_dinheiro": 4736,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": 241.45,
       "cartao_declarado": 4494.55,
-      "outros_declarado": 0.0,
+      "outros_declarado": 0,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
@@ -27,7 +27,7 @@
     }
   },
   "cashlogy": {
-    "apuro": 50.0,
+    "apuro": 50,
     "liquido": 219.88,
     "fundo_na_maquina": 369.4,
     "vendido": 255.35,
@@ -38,7 +38,7 @@
         "posto": "3",
         "atendimentos": 2,
         "numerario": 73.48,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 73.48
       },
       {
@@ -54,7 +54,7 @@
         "posto": "5",
         "atendimentos": 4,
         "numerario": 33.78,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 33.78
       },
       {
@@ -62,7 +62,7 @@
         "posto": "3",
         "atendimentos": 2,
         "numerario": 29.6,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 29.6
       },
       {
@@ -70,7 +70,7 @@
         "posto": "3",
         "atendimentos": 2,
         "numerario": 21.56,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 21.56
       },
       {
@@ -78,7 +78,7 @@
         "posto": "2",
         "atendimentos": 2,
         "numerario": 14.76,
-        "troco": 2.0,
+        "troco": 2,
         "liquido": 12.76
       },
       {
@@ -93,37 +93,72 @@
         "operador": "DUARTE",
         "posto": "003",
         "atendimentos": 0,
-        "numerario": 0.0,
+        "numerario": 0,
         "troco": 21.57,
         "liquido": -21.57
       }
     ]
   },
   "manual": {
-    "tpas_total": null,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
+    "tpas_total": 4494.55,
+    "tpas_taxa_total": 19.45,
+    "tpas_liquido_total": 4475.1,
+    "taxa_pct_media": 0.43,
     "finanfarma": null,
     "transferencia": null,
-    "terminais": [],
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224",
+        "bruto": 1841.24,
+        "liquido": 1832.5,
+        "taxa": 8.74,
+        "taxa_pct": 0.47
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 773.31,
+        "liquido": 770.73,
+        "taxa": 2.58,
+        "taxa_pct": 0.33
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1514.83,
+        "liquido": 1508.15,
+        "taxa": 6.68,
+        "taxa_pct": 0.44
+      },
+      {
+        "id": "01223227",
+        "nome": "TPA Drive – 01223227",
+        "bruto": 365.17,
+        "liquido": 363.72,
+        "taxa": 1.45,
+        "taxa_pct": 0.4
+      }
+    ],
     "responsaveis": [],
-    "comentario": "",
-    "submetido_em": null
+    "comentario": "cash Logic sem notas suficientes",
+    "submetido_em": "2026-07-12T13:42:25.846Z",
+    "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": null,
-    "total_sifarma": 4736.0,
-    "diferenca_caixa": null,
-    "tolerancia": 5.0
+    "recebido_real": 4544.55,
+    "total_sifarma": 4736,
+    "diferenca_caixa": -191.45,
+    "tolerancia": 5
+  },
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 50,
+    "sifarma_numerario_declarado": 241.45,
+    "diferenca": -191.45
   },
   "avisos": [
     "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
-  ],
-  "diagnostico_numerario": {
-    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
-    "cashlogy_apuro": 50.0,
-    "sifarma_numerario_declarado": 241.45,
-    "diferenca": -191.45
-  }
+    "Diferença de caixa -191.45 € acima da tolerância — investigar."
+  ]
 }
