@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-01",
-  "gerado_em": "2026-07-12T13:42:19.336Z",
+  "gerado_em": "2026-07-12T15:56:21.357Z",
   "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 3527.14,
@@ -148,9 +148,12 @@
         "taxa_pct": 0.31
       }
     ],
-    "responsaveis": [],
+    "responsaveis": [
+      "132",
+      "140"
+    ],
     "comentario": "a cash não tinha dinheiro para retirar o apuro, amanhã vai se regularizar",
-    "submetido_em": "2026-07-12T13:42:13.111Z",
+    "submetido_em": "2026-07-12T15:56:19.570Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -169,6 +172,7 @@
     "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
     "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Numerário Sifarma negativo (-200.48 €) — dia atípico.",
+    "Diferença de caixa +200.50 € acima da tolerância — investigar.",
     "Diferença de caixa +200.50 € acima da tolerância — investigar."
   ]
 }
