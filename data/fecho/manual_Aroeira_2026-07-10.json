@@ -2,22 +2,50 @@
   "farmacia": "Aroeira",
   "data": "2026-07-10",
   "tipo": "manual",
-  "submetido_em": "2026-07-12T08:30:43.386Z",
+  "submetido_em": "2026-07-12T10:05:20.336Z",
   "tpas": [
     {
       "id": "01123224",
-      "nome": "TPA 1",
+      "nome": "TPA 1 – 01123224",
       "bruto": 738.22,
-      "liquido": 730,
-      "taxa": 8.22
+      "liquido": 735.08,
+      "taxa": 3.14
+    },
+    {
+      "id": "00983092",
+      "nome": "TPA 2 – 00983092",
+      "bruto": 580.7,
+      "liquido": 577.84,
+      "taxa": 2.86
+    },
+    {
+      "id": "01123226",
+      "nome": "TPA 3 – 01123226",
+      "bruto": 15.9,
+      "liquido": 15.84,
+      "taxa": 0.06
+    },
+    {
+      "id": "01123228",
+      "nome": "TPA 4 – 01123228",
+      "bruto": 1175.21,
+      "liquido": 1170.03,
+      "taxa": 5.18
+    },
+    {
+      "id": "01223227",
+      "nome": "TPA Drive – 01223227",
+      "bruto": 454.89,
+      "liquido": 452.62,
+      "taxa": 2.27
     }
   ],
-  "finanfarma": 0,
+  "finanfarma": null,
   "transferencia": null,
   "responsaveis": [],
-  "comentario": "teste",
+  "comentario": "nao sei",
   "diferenca_caixa": -20.97,
-  "tpas_total": 738.22,
-  "tpas_taxa_total": 8.22,
-  "tpas_liquido_total": 730
+  "tpas_total": 2964.92,
+  "tpas_taxa_total": 13.51,
+  "tpas_liquido_total": 2951.41
 }
