@@ -3,15 +3,15 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-01",
-  "gerado_em": "2026-07-12T14:25:00",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-12T13:42:19.336Z",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 3527.14,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": -200.48,
       "cartao_declarado": 3727.62,
-      "outros_declarado": 0.0,
+      "outros_declarado": 0,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
@@ -27,7 +27,7 @@
     }
   },
   "cashlogy": {
-    "apuro": 0.0,
+    "apuro": 0,
     "liquido": -200.48,
     "fundo_na_maquina": null,
     "vendido": 132.15,
@@ -38,7 +38,7 @@
         "posto": "5",
         "atendimentos": 3,
         "numerario": 26.01,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 26.01
       },
       {
@@ -46,7 +46,7 @@
         "posto": "3",
         "atendimentos": 2,
         "numerario": 18.45,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 18.45
       },
       {
@@ -54,7 +54,7 @@
         "posto": "3",
         "atendimentos": 1,
         "numerario": 16.36,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 16.36
       },
       {
@@ -62,7 +62,7 @@
         "posto": "2",
         "atendimentos": 1,
         "numerario": 14.4,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 14.4
       },
       {
@@ -70,7 +70,7 @@
         "posto": "2",
         "atendimentos": 1,
         "numerario": 9.96,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 9.96
       },
       {
@@ -78,7 +78,7 @@
         "posto": "2",
         "atendimentos": 1,
         "numerario": 5.27,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 5.27
       },
       {
@@ -86,7 +86,7 @@
         "posto": "5",
         "atendimentos": 1,
         "numerario": 4.66,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 4.66
       },
       {
@@ -101,39 +101,74 @@
         "operador": "Leosouza",
         "posto": "010",
         "atendimentos": 0,
-        "numerario": 0.0,
+        "numerario": 0,
         "troco": 244.8,
         "liquido": -244.8
       }
     ]
   },
   "manual": {
-    "tpas_total": null,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "finanfarma": null,
+    "tpas_total": 3482.84,
+    "tpas_taxa_total": 14.22,
+    "tpas_liquido_total": 3468.62,
+    "taxa_pct_media": 0.41,
+    "finanfarma": 244.8,
     "transferencia": null,
-    "terminais": [],
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224",
+        "bruto": 778.23,
+        "liquido": 774.88,
+        "taxa": 3.35,
+        "taxa_pct": 0.43
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 635.27,
+        "liquido": 632.4,
+        "taxa": 2.87,
+        "taxa_pct": 0.45
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1576.24,
+        "liquido": 1569.79,
+        "taxa": 6.45,
+        "taxa_pct": 0.41
+      },
+      {
+        "id": "01223227",
+        "nome": "TPA Drive – 01223227",
+        "bruto": 493.1,
+        "liquido": 491.55,
+        "taxa": 1.55,
+        "taxa_pct": 0.31
+      }
+    ],
     "responsaveis": [],
-    "comentario": "",
-    "submetido_em": null
+    "comentario": "a cash não tinha dinheiro para retirar o apuro, amanhã vai se regularizar",
+    "submetido_em": "2026-07-12T13:42:13.111Z",
+    "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": null,
+    "recebido_real": 3727.64,
     "total_sifarma": 3527.14,
-    "diferenca_caixa": null,
-    "tolerancia": 5.0
+    "diferenca_caixa": 200.5,
+    "tolerancia": 5
+  },
+  "diagnostico_numerario": {
+    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
+    "cashlogy_apuro": 0,
+    "sifarma_numerario_declarado": -200.48,
+    "diferenca": 200.48
   },
   "avisos": [
     "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
     "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Numerário Sifarma negativo (-200.48 €) — dia atípico.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
-  ],
-  "diagnostico_numerario": {
-    "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
-    "cashlogy_apuro": 0.0,
-    "sifarma_numerario_declarado": -200.48,
-    "diferenca": 200.48
-  }
+    "Diferença de caixa +200.50 € acima da tolerância — investigar."
+  ]
 }
