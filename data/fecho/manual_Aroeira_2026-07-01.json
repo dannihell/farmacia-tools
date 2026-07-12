@@ -1,0 +1,49 @@
+{
+  "farmacia": "Aroeira",
+  "data": "2026-07-01",
+  "tipo": "manual",
+  "submetido_em": "2026-07-12T13:42:13.111Z",
+  "tpas": [
+    {
+      "id": "01123224",
+      "nome": "TPA 1 – 01123224",
+      "bruto": 778.23,
+      "liquido": 774.88,
+      "taxa": 3.35,
+      "taxa_pct": 0.43
+    },
+    {
+      "id": "00983092",
+      "nome": "TPA 2 – 00983092",
+      "bruto": 635.27,
+      "liquido": 632.4,
+      "taxa": 2.87,
+      "taxa_pct": 0.45
+    },
+    {
+      "id": "01123228",
+      "nome": "TPA 4 – 01123228",
+      "bruto": 1576.24,
+      "liquido": 1569.79,
+      "taxa": 6.45,
+      "taxa_pct": 0.41
+    },
+    {
+      "id": "01223227",
+      "nome": "TPA Drive – 01223227",
+      "bruto": 493.1,
+      "liquido": 491.55,
+      "taxa": 1.55,
+      "taxa_pct": 0.31
+    }
+  ],
+  "finanfarma": 244.8,
+  "transferencia": null,
+  "responsaveis": [],
+  "comentario": "a cash não tinha dinheiro para retirar o apuro, amanhã vai se regularizar",
+  "tpas_total": 3482.84,
+  "tpas_taxa_total": 14.22,
+  "tpas_liquido_total": 3468.62,
+  "taxa_pct_media": 0.41,
+  "tpas_taxa_alta": []
+}
