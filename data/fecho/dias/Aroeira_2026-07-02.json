@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-02",
-  "gerado_em": "2026-07-12T16:24:51.900Z",
-  "estado": "tolerancia",
+  "gerado_em": "2026-07-12T19:30:28.624Z",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 4736,
     "diagnostico": {
@@ -104,8 +104,9 @@
     "tpas_taxa_total": 19.45,
     "tpas_liquido_total": 4475.1,
     "taxa_pct_media": 0.43,
-    "finanfarma": 244.8,
+    "finanfarma": null,
     "transferencia": null,
+    "apuro_contado": 0,
     "terminais": [
       {
         "id": "01123224",
@@ -142,24 +143,23 @@
     ],
     "responsaveis": [],
     "comentario": "equipa relata apuro de 0 vs 50 cash",
-    "submetido_em": "2026-07-12T16:24:50.267Z",
+    "submetido_em": "2026-07-12T19:30:24.085Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 4739.35,
+    "recebido_real": 4714.43,
     "total_sifarma": 4736,
-    "diferenca_caixa": 3.35,
+    "diferenca_caixa": -21.57,
     "tolerancia": 5,
-    "apuro_usado": 0,
-    "apuro_maquina": 50,
-    "apuro_contado": 0
+    "liquido_numerario": 219.88
   },
-  "discrepancia_cashlogy": {
-    "ha_discrepancia": true,
+  "tesouraria": {
     "apuro_maquina": 50,
     "apuro_contado": 0,
-    "delta": -50,
-    "nota": "Contado − máquina. Não afeta o estado do fecho; investiga-se com a Glintt."
+    "fundo_na_maquina": 369.4,
+    "desvio_deposito": -50,
+    "ha_desvio_deposito": true,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
@@ -171,6 +171,8 @@
     "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Diferença de caixa -191.45 € acima da tolerância — investigar.",
     "Diferença de caixa -191.45 € acima da tolerância — investigar.",
-    "Discrepância Cashlogy -50.00 € — a máquina apurou 50.00 €, a equipa contou 0.00 €. Marcar para a Glintt. A conciliação usou o contado."
+    "Discrepância Cashlogy -50.00 € — a máquina apurou 50.00 €, a equipa contou 0.00 €. Marcar para a Glintt. A conciliação usou o contado.",
+    "Diferença de caixa -21.57 € acima da tolerância — investigar.",
+    "Tesouraria: depósito contado 0.00 € vs apuro da máquina 50.00 € (-50.00 €). Não afeta a diferença de caixa; confirmar o depósito."
   ]
 }
