@@ -634,7 +634,8 @@ function renderAnalise(){
       : `<span class="dchip ${Math.abs(v)<0.005?'ok':Math.abs(v)<=5?'warn':'alert'}">${(v>0?'+':'')+eur.format(v)}</span>`;
     // só dias (não meses) são clicáveis para ver o detalhe
     const tap = periodo==='dia' ? `class="tapable" onclick="verDia('${d.data}')"` : '';
-    return `<tr ${tap}><td>${d.data}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.apuro||0)}</td><td>${chip}</td></tr>`;
+    const dataCurta=new Date(d.data+'T12:00').toLocaleDateString('pt-PT',{day:'2-digit',month:'short'}).replace('.','');
+    return `<tr ${tap}><td>${dataCurta}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.apuro||0)}</td><td>${chip}</td></tr>`;
   }).join('');
   document.getElementById('tbSerie').innerHTML=linhas;
 }
