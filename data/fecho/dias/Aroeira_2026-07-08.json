@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-08",
-  "gerado_em": "2026-07-12T13:43:05.142Z",
+  "gerado_em": "2026-07-12T14:27:40.194Z",
   "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 7134.56,
@@ -202,6 +202,7 @@
         "nome": "TPA F – 40005737",
         "bruto": 91.32,
         "liquido": null,
+        "operacoes": 2,
         "taxa": null,
         "taxa_pct": null,
         "so_bruto": true
@@ -209,7 +210,7 @@
     ],
     "responsaveis": [],
     "comentario": "não conseguimos identificar o erro",
-    "submetido_em": "2026-07-12T13:43:02.580Z",
+    "submetido_em": "2026-07-12T14:27:38.664Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -227,6 +228,7 @@
   "avisos": [
     "7 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Diferença de caixa -4354.17 € acima da tolerância — investigar.",
+    "Diferença de caixa -67.92 € acima da tolerância — investigar.",
     "Diferença de caixa -67.92 € acima da tolerância — investigar."
   ]
 }
