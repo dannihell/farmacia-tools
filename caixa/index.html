@@ -631,6 +631,8 @@ async function verDia(data){
 const WORKER_URL="https://fecho-caixa.danielgds.workers.dev";
 let tpasConfig=null, tpasExtra=[], empregados=[], respSelec=new Set();
 
+let manualExistente=null;
+
 async function carregarTpas(f){
   try{
     const r=await fetch(`../data/config/tpas.json${cb()}`);
@@ -638,6 +640,15 @@ async function carregarTpas(f){
     tpasConfig=(all[f]||{tpas:[],finanfarma:true});
   }catch(e){ tpasConfig={tpas:[],finanfarma:true}; }
   tpasExtra=[];
+  // se já existe fecho manual para este dia, pré-preenche (edição)
+  manualExistente=null;
+  try{
+    const data=fecho?fecho.data:null;
+    if(data){
+      const r=await fetch(`../data/fecho/manual_${f}_${data}.json${cb()}`);
+      if(r.ok) manualExistente=await r.json();
+    }
+  }catch(e){}
   construirInputs();
   carregarEmpregados(f);
 }
@@ -654,7 +665,7 @@ async function carregarEmpregados(f){
     return;
   }
   cont.innerHTML=empregados.map(e=>
-    `<span class="respchip" data-id="${e.id}" onclick="toggleResp('${e.id}',this)">${e.curto||e.nome}</span>`
+    `<span class="respchip${respSelec.has(String(e.id))?' on':''}" data-id="${e.id}" onclick="toggleResp('${e.id}',this)">${e.curto||e.nome}</span>`
   ).join('');
 }
 function toggleResp(id,el){
@@ -665,6 +676,16 @@ function toggleResp(id,el){
 function linhaTpa(t, extra){
   const idx = extra ? `x${t.i}` : t.id;
   const rm = extra ? `<button class="rmtpa" onclick="removerExtra(${t.i})" title="remover">×</button>` : '';
+  if(t.so_bruto){
+    // TPA sem líquido no talão (ex. TPA F): só bruto; taxa vem no fecho mensal da ANF
+    return `<div class="tparow off" id="row-${idx}">
+      <div class="tpachk" onclick="toggleTpa('${idx}')" id="chk-${idx}"></div>
+      <div class="tpaname"><b>${t.nome}</b><span>só bruto · taxa mensal ANF</span></div>
+      <div class="tpafields">
+        <label>Bruto<input type="number" step="0.01" inputmode="decimal" id="b-${idx}" oninput="recalcular()"></label>
+      </div>
+      <div class="taxa" id="t-${idx}">taxa ANF</div>${rm}</div>`;
+  }
   return `<div class="tparow off" id="row-${idx}">
     <div class="tpachk" onclick="toggleTpa('${idx}')" id="chk-${idx}"></div>
     <div class="tpaname"><b>${t.nome}</b><span>bruto − líquido = taxa</span></div>
@@ -677,9 +698,43 @@ function linhaTpa(t, extra){
 
 function construirInputs(){
   const cont=document.getElementById('tpaInputs');
+  // se há manual existente, recria também os TPAs "extra" que lá estavam
+  if(manualExistente && Array.isArray(manualExistente.tpas)){
+    const idsConfig=new Set((tpasConfig.tpas||[]).map(t=>t.id));
+    manualExistente.tpas.forEach(t=>{
+      if(!idsConfig.has(t.id) && !tpasExtra.some(x=>x.nome===t.nome)){
+        tpasExtra.push({i:tpasExtra.length, nome:t.nome, _id:t.id});
+      }
+    });
+  }
   const base=(tpasConfig.tpas||[]).map(t=>linhaTpa(t,false)).join('');
   const extra=tpasExtra.map(t=>linhaTpa(t,true)).join('');
   cont.innerHTML=base+extra;
+
+  // pré-preenche a partir do manual existente
+  if(manualExistente){
+    (manualExistente.tpas||[]).forEach(t=>{
+      // encontra o idx: config usa o id, extra usa x<i>
+      let idx=t.id;
+      const ex=tpasExtra.find(x=>x.nome===t.nome);
+      if(ex && !(tpasConfig.tpas||[]).some(c=>c.id===t.id)) idx='x'+ex.i;
+      const bel=document.getElementById('b-'+idx), lel=document.getElementById('l-'+idx);
+      const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
+      if(bel && t.bruto!=null) bel.value=t.bruto;
+      if(lel && t.liquido!=null) lel.value=t.liquido;
+      if(row && (t.bruto!=null||t.liquido!=null)){ row.classList.remove('off'); if(chk)chk.classList.add('on'); }
+    });
+    const fin=document.getElementById('finanfarma');
+    if(fin && manualExistente.finanfarma!=null) fin.value=manualExistente.finanfarma;
+    const tr=document.getElementById('transferencia');
+    if(tr && manualExistente.transferencia!=null) tr.value=manualExistente.transferencia;
+    const com=document.getElementById('comentario');
+    if(com && manualExistente.comentario) com.value=manualExistente.comentario;
+    // responsáveis
+    if(Array.isArray(manualExistente.responsaveis)){
+      manualExistente.responsaveis.forEach(id=>respSelec.add(String(id)));
+    }
+  }
   recalcular();
 }
 
@@ -687,7 +742,7 @@ function toggleTpa(idx){
   const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
   const on=row.classList.toggle('off')===false;
   chk.classList.toggle('on',on);
-  if(on){document.getElementById('b-'+idx).focus();}
+  if(on){ const bel=document.getElementById('b-'+idx)||document.getElementById('l-'+idx); if(bel)bel.focus(); }
   recalcular();
 }
 
@@ -707,20 +762,27 @@ function valOf(id){ const el=document.getElementById(id); const v=el?parseFloat(
 function recalcular(){
   if(!fecho){return;}
   let somaBruto=0, algum=false, erroTaxa=false;
+  const soBruto=new Set((tpasConfig?tpasConfig.tpas:[]).filter(t=>t.so_bruto).map(t=>t.id));
   const linhas=[...(tpasConfig?tpasConfig.tpas:[]).map(t=>t.id), ...tpasExtra.map(t=>'x'+t.i)];
   linhas.forEach(idx=>{
     const row=document.getElementById('row-'+idx);
     if(!row||row.classList.contains('off'))return;
-    const b=valOf('b-'+idx), l=valOf('l-'+idx);
     const tx=document.getElementById('t-'+idx);
+    // TPA só-bruto (ex. TPA F): entra pelo bruto, sem taxa (taxa vem mensal da ANF)
+    if(soBruto.has(idx)){
+      const b=valOf('b-'+idx);
+      if(b!=null){ algum=true; somaBruto+=b; tx.innerHTML='<span style="color:var(--ink-faint)">taxa ANF</span>'; }
+      else tx.innerHTML='taxa ANF';
+      return;
+    }
+    const b=valOf('b-'+idx), l=valOf('l-'+idx);
     if(b!=null&&l!=null){
       const taxa=b-l;
       if(taxa<-0.005){
-        // líquido > bruto é impossível: erro de introdução
         tx.innerHTML='<b style="color:var(--alert)">líquido &gt; bruto?</b>';
         row.classList.add('erro');
         erroTaxa=true;
-        return; // não soma este TPA
+        return;
       }
       row.classList.remove('erro');
       tx.innerHTML=`taxa <b>${taxa.toFixed(2)}</b>`;
@@ -771,13 +833,14 @@ function recalcular(){
       const row=document.getElementById('row-'+idx);
       if(!row||row.classList.contains('off'))return null;
       const b=valOf('b-'+idx), l=valOf('l-'+idx);
-      if(b==null)return null;
-      // nome: da config ou do extra
+      const ehSoBruto=soBruto.has(idx);
+      // só-bruto (TPA F): guarda com bruto (líquido null, taxa vem da ANF)
+      if(b==null) return null;   // precisa sempre de bruto
       let nome=idx;
       const cfgT=(tpasConfig.tpas||[]).find(t=>t.id===idx);
       if(cfgT)nome=cfgT.nome;
       else{const ex=tpasExtra.find(t=>'x'+t.i===idx); if(ex)nome=ex.nome;}
-      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:l};
+      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:(ehSoBruto?null:l), so_bruto:ehSoBruto||undefined};
     }).filter(Boolean),
     finanfarma:finan, transferencia:transf,
     diferenca_caixa: (erroTaxa?null:dif),
