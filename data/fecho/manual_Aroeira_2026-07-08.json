@@ -2,7 +2,7 @@
   "farmacia": "Aroeira",
   "data": "2026-07-08",
   "tipo": "manual",
-  "submetido_em": "2026-07-12T14:27:38.664Z",
+  "submetido_em": "2026-07-12T15:05:22.358Z",
   "tpas": [
     {
       "id": "01123224",
@@ -49,8 +49,11 @@
   ],
   "finanfarma": 74.02,
   "transferencia": null,
-  "responsaveis": [],
-  "comentario": "não conseguimos identificar o erro",
+  "responsaveis": [
+    "140",
+    "132"
+  ],
+  "comentario": "maquina diz 835,63 mas carrega valor de 901.66",
   "tpas_total": 6156.99,
   "tpas_taxa_total": 27.69,
   "tpas_liquido_total": 6037.98,
