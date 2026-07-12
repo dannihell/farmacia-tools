@@ -2,132 +2,188 @@
   "farmacia": "Aroeira",
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
-  "data": "2026-07-05",
-  "gerado_em": "2026-07-12T15:49:10.678Z",
+  "data": "2026-07-03",
+  "gerado_em": "2026-07-12T15:51:06.647Z",
   "estado": "desvio",
   "sifarma": {
-    "total_vendas_dinheiro": 2787.08,
+    "total_vendas_dinheiro": 4504.53,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
-      "numerario_declarado": 294.12,
-      "cartao_declarado": 2482.88,
-      "outros_declarado": 10.08,
+      "numerario_declarado": 171.69,
+      "cartao_declarado": 4058.54,
+      "outros_declarado": 274.3,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 82,
-          "valor": 2482.88
-        },
-        {
-          "tipo": "Caixa Automatica",
-          "n": 150,
-          "valor": 294.12
+          "n": 103,
+          "valor": 4058.54
         },
         {
           "tipo": "Finanfarma",
-          "n": 2,
-          "valor": 10.08
+          "n": 3,
+          "valor": 274.3
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 189,
+          "valor": 171.69
         }
       ]
     }
   },
   "cashlogy": {
-    "apuro": 294.12,
-    "liquido": 294.12,
+    "apuro": 191.09,
+    "liquido": 171.69,
     "fundo_na_maquina": 400,
-    "vendido": 295.82,
-    "troco_devolvido": 1.7,
+    "vendido": 229.97,
+    "troco_devolvido": 58.28,
     "por_operador": [
       {
-        "operador": "MATILDE",
+        "operador": "JESSICA",
         "posto": "5",
-        "atendimentos": 13,
-        "numerario": 159.78,
+        "atendimentos": 3,
+        "numerario": 47.88,
         "troco": 0,
-        "liquido": 159.78
+        "liquido": 47.88
       },
       {
-        "operador": "DUARTE",
-        "posto": "2",
-        "atendimentos": 6,
-        "numerario": 104.3,
+        "operador": "Leosouza",
+        "posto": "30",
+        "atendimentos": 3,
+        "numerario": 44.38,
         "troco": 0,
-        "liquido": 104.3
+        "liquido": 44.38
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "30",
+        "atendimentos": 2,
+        "numerario": 39.17,
+        "troco": 0,
+        "liquido": 39.17
+      },
+      {
+        "operador": "CATARINA",
+        "posto": "2",
+        "atendimentos": 3,
+        "numerario": 28.18,
+        "troco": 0,
+        "liquido": 28.18
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 2,
+        "numerario": 27.04,
+        "troco": 0,
+        "liquido": 27.04
       },
       {
         "operador": "DUARTE",
         "posto": "5",
         "atendimentos": 2,
-        "numerario": 16.94,
-        "troco": 1.7,
-        "liquido": 15.24
+        "numerario": 18.24,
+        "troco": 0,
+        "liquido": 18.24
       },
       {
-        "operador": "MATILDE",
-        "posto": "2",
-        "atendimentos": 2,
-        "numerario": 14.8,
+        "operador": "DUARTE",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 9.29,
         "troco": 0,
-        "liquido": 14.8
+        "liquido": 9.29
+      },
+      {
+        "operador": "CATARINA",
+        "posto": "30",
+        "atendimentos": 2,
+        "numerario": 4.19,
+        "troco": 0,
+        "liquido": 4.19
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 11.6,
+        "troco": 28.88,
+        "liquido": -17.28
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "002",
+        "atendimentos": 0,
+        "numerario": 0,
+        "troco": 29.4,
+        "liquido": -29.4
       }
     ]
   },
   "manual": {
-    "tpas_total": 2468.53,
-    "tpas_taxa_total": 10.03,
-    "tpas_liquido_total": 2458.5,
-    "taxa_pct_media": 0.41,
-    "finanfarma": 10.08,
+    "tpas_total": 4058.54,
+    "tpas_taxa_total": 18.66,
+    "tpas_liquido_total": 4039.88,
+    "taxa_pct_media": 0.46,
+    "finanfarma": 317.73,
     "transferencia": null,
     "terminais": [
       {
         "id": "01123224",
         "nome": "TPA 1 – 01123224",
-        "bruto": 933.37,
-        "liquido": 929.62,
-        "taxa": 3.75,
+        "bruto": 854.6,
+        "liquido": 851.16,
+        "taxa": 3.44,
         "taxa_pct": 0.4
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 478.11,
+        "liquido": 475.31,
+        "taxa": 2.8,
+        "taxa_pct": 0.59
       },
       {
         "id": "01123228",
         "nome": "TPA 4 – 01123228",
-        "bruto": 1362.86,
-        "liquido": 1357.37,
-        "taxa": 5.49,
-        "taxa_pct": 0.4
+        "bruto": 1740.17,
+        "liquido": 1732.27,
+        "taxa": 7.9,
+        "taxa_pct": 0.45
       },
       {
         "id": "01223227",
         "nome": "TPA Drive – 01223227",
-        "bruto": 172.3,
-        "liquido": 171.51,
-        "taxa": 0.79,
+        "bruto": 985.66,
+        "liquido": 981.14,
+        "taxa": 4.52,
         "taxa_pct": 0.46
       }
     ],
     "responsaveis": [
       "121",
-      "130"
+      "140"
     ],
-    "comentario": "venda detectada, amanhã será feito o acerto",
-    "submetido_em": "2026-07-12T15:49:09.522Z",
+    "comentario": "não conseguimos identificar o erro",
+    "submetido_em": "2026-07-12T15:51:04.518Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 2772.73,
-    "total_sifarma": 2787.08,
-    "diferenca_caixa": -14.35,
+    "recebido_real": 4567.36,
+    "total_sifarma": 4504.53,
+    "diferenca_caixa": 62.83,
     "tolerancia": 5
   },
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
-    "cashlogy_apuro": 294.12,
-    "sifarma_numerario_declarado": 294.12,
-    "diferenca": 0
+    "cashlogy_apuro": 191.09,
+    "sifarma_numerario_declarado": 171.69,
+    "diferenca": 19.4
   },
   "avisos": [
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Diferença de caixa -14.35 € acima da tolerância — investigar.",
-    "Diferença de caixa -14.35 € acima da tolerância — investigar."
+    "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa +62.83 € acima da tolerância — investigar.",
+    "Diferença de caixa +62.83 € acima da tolerância — investigar."
   ]
 }
