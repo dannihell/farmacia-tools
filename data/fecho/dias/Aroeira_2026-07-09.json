@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-09",
-  "gerado_em": "2026-07-12T14:28:00.003Z",
-  "estado": "desvio",
+  "gerado_em": "2026-07-12T15:01:02.035Z",
+  "estado": "tolerancia",
   "sifarma": {
     "total_vendas_dinheiro": 4037.82,
     "diagnostico": {
@@ -109,7 +109,7 @@
     "tpas_taxa_total": 17.13,
     "tpas_liquido_total": 3909.37,
     "taxa_pct_media": 0.43,
-    "finanfarma": 74.02,
+    "finanfarma": null,
     "transferencia": null,
     "terminais": [
       {
@@ -157,13 +157,13 @@
     ],
     "responsaveis": [],
     "comentario": "não foi possível identificar o erro",
-    "submetido_em": "2026-07-12T14:27:55.485Z",
+    "submetido_em": "2026-07-12T15:00:55.484Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 4114.38,
+    "recebido_real": 4040.36,
     "total_sifarma": 4037.82,
-    "diferenca_caixa": 76.56,
+    "diferenca_caixa": 2.54,
     "tolerancia": 5
   },
   "diagnostico_numerario": {
