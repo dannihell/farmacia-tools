@@ -74,6 +74,33 @@
   .voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--cross);
     background:#e5f1ec;border:none;border-radius:20px;padding:6px 12px;cursor:pointer;font-family:var(--sans);font-weight:600;margin-bottom:12px}
 
+  /* formulário de introdução */
+  .tparow{display:flex;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--line)}
+  .tparow:last-child{border-bottom:none}
+  .tpachk{width:20px;height:20px;flex:none;border:2px solid var(--line-strong);border-radius:6px;cursor:pointer;
+    display:grid;place-items:center;background:var(--paper)}
+  .tpachk.on{background:var(--cross);border-color:var(--cross)}
+  .tpachk.on::after{content:"✓";color:#fff;font-size:13px;font-weight:700}
+  .tpaname{flex:1;min-width:0}
+  .tpaname b{font-size:13px;font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tpaname span{font-size:10.5px;color:var(--ink-faint)}
+  .tpafields{display:flex;gap:6px;align-items:flex-end}
+  .tpafields label{font-size:9px;text-transform:uppercase;letter-spacing:.3px;color:var(--ink-faint);display:flex;flex-direction:column;gap:2px}
+  .tpafields input{width:74px;font-family:var(--mono);font-size:13px;text-align:right;padding:6px 7px;
+    border:1px solid var(--line-strong);border-radius:8px;background:var(--paper);font-variant-numeric:tabular-nums}
+  .tpafields input:focus{outline:2px solid var(--cross);outline-offset:1px;border-color:var(--cross)}
+  .tparow.off .tpafields{opacity:.35;pointer-events:none}
+  .taxa{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap;min-width:52px;text-align:right}
+  .taxa b{color:var(--warn)}
+  .addtpa{width:calc(100% - 30px);margin:11px 15px;padding:10px;border:1px dashed var(--line-strong);
+    background:none;border-radius:10px;color:var(--cross);font-family:var(--sans);font-weight:600;font-size:12.5px;cursor:pointer}
+  .addtpa:hover{background:#f5f8f6}
+  .otherhead{display:flex;gap:8px;padding:9px 15px 0}
+  .otherhead input{flex:1;font-size:12.5px;padding:6px 9px;border:1px solid var(--line-strong);border-radius:8px;font-family:var(--sans)}
+  .rmtpa{background:none;border:none;color:var(--alert);cursor:pointer;font-size:16px;padding:0 4px}
+  .disc{font-size:11.5px;color:var(--ink-faint);line-height:1.5;padding:4px 6px 0;text-align:center}
+  .disc b{color:var(--ink-soft)}
+
   .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
   .card.aguarda{border-style:dashed;border-color:var(--line-strong);background:#fbfcfb}
   .card-h{padding:12px 15px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:8px}
@@ -206,7 +233,38 @@
       <div class="aviso info">Líquido = numerário − troco. Só o que passou pelo Cashlogy; cartão não entra aqui.</div>
     </section>
 
-    <!-- ===== ANÁLISE ===== -->
+    <!-- ===== INTRODUZIR (Camada 1: cálculo ao vivo, sem guardar) ===== -->
+    <section class="view" id="v-introduzir">
+      <div id="introHero"></div>
+      <div class="card">
+        <div class="card-h"><h3>Já lançado · automático</h3><span class="auto">auto ✓</span></div>
+        <div id="introAuto"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Terminais TPA</h3><span class="hint" style="font-size:11px;color:var(--ink-faint)">bruto e líquido do talão</span></div>
+        <div id="tpaInputs"></div>
+        <button class="addtpa" id="addTpa">+ outro TPA (fora da lista)</button>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Outras formas</h3></div>
+        <div class="tparow">
+          <div class="tpaname"><b>My Finanfarma</b><span>fecho não presencial</span></div>
+          <div class="tpafields">
+            <label>Valor<input type="number" step="0.01" inputmode="decimal" id="finanfarma" oninput="recalcular()"></label>
+          </div>
+        </div>
+        <div class="tparow">
+          <div class="tpaname"><b>Transferência bancária</b><span>valor recebido por transferência</span></div>
+          <div class="tpafields">
+            <label>Valor<input type="number" step="0.01" inputmode="decimal" id="transferencia" oninput="recalcular()"></label>
+          </div>
+        </div>
+      </div>
+      <div class="disc">
+        Camada 1 — cálculo ao vivo. Ainda <b>não guarda</b>; serve para veres a caixa fechar.
+        Guardar (com foto do talão, assinatura e responsáveis) vem na próxima fase.
+      </div>
+    </section>
     <section class="view" id="v-analise">
       <div class="toggle"><button id="tgDia" class="on">Dia a dia</button><button id="tgMes">Mês a mês</button></div>
       <div class="kpis" id="kpis"></div>
@@ -227,6 +285,7 @@
     <button class="tab active" data-v="hoje"><svg viewBox="0 0 24 24"><path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Hoje</span></button>
     <button class="tab" data-v="fecho"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 12l2 2 4-4"/></svg><span>Fecho</span></button>
     <button class="tab" data-v="postos"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg><span>Postos</span></button>
+    <button class="tab" data-v="introduzir"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Introduzir</span></button>
     <button class="tab" data-v="analise"><svg viewBox="0 0 24 24"><path d="M4 20V6"/><path d="M4 20h16"/><rect x="7" y="12" width="3" height="5"/><rect x="12" y="8" width="3" height="9"/><rect x="17" y="14" width="3" height="3"/></svg><span>Análise</span></button>
   </nav>
 </div>
@@ -247,6 +306,7 @@ async function carregar(f){
       fetch(`${BASE}/serie_${f}.json${cb()}`).then(r=>r.ok?r.json():[])
     ]);
     fecho=h; serie=Array.isArray(s)?s:[]; render();
+    carregarTpas(f);
   }catch(e){
     document.getElementById('erro').innerHTML=
       `<div class="erro"><b>Sem dados para esta farmácia.</b><br>${e.message}<br>O fecho é publicado todas as noites às 23h59.</div>`;
@@ -431,6 +491,104 @@ async function verDia(data){
   }catch(e){
     document.getElementById('erro').innerHTML=`<div class="erro">Não consegui abrir o fecho de ${data}.<br>${e.message}</div>`;
   }
+}
+
+// ===== CAMADA 1: introdução de TPAs com cálculo ao vivo (não guarda) =====
+let tpasConfig=null, tpasExtra=[];
+
+async function carregarTpas(f){
+  try{
+    const r=await fetch(`../data/config/tpas.json${cb()}`);
+    const all=r.ok?await r.json():{};
+    tpasConfig=(all[f]||{tpas:[],finanfarma:true});
+  }catch(e){ tpasConfig={tpas:[],finanfarma:true}; }
+  tpasExtra=[];
+  construirInputs();
+}
+
+function linhaTpa(t, extra){
+  const idx = extra ? `x${t.i}` : t.id;
+  const rm = extra ? `<button class="rmtpa" onclick="removerExtra(${t.i})" title="remover">×</button>` : '';
+  return `<div class="tparow off" id="row-${idx}">
+    <div class="tpachk" onclick="toggleTpa('${idx}')" id="chk-${idx}"></div>
+    <div class="tpaname"><b>${t.nome}</b><span>bruto − líquido = taxa</span></div>
+    <div class="tpafields">
+      <label>Bruto<input type="number" step="0.01" inputmode="decimal" id="b-${idx}" oninput="recalcular()"></label>
+      <label>Líquido<input type="number" step="0.01" inputmode="decimal" id="l-${idx}" oninput="recalcular()"></label>
+    </div>
+    <div class="taxa" id="t-${idx}">—</div>${rm}</div>`;
+}
+
+function construirInputs(){
+  const cont=document.getElementById('tpaInputs');
+  const base=(tpasConfig.tpas||[]).map(t=>linhaTpa(t,false)).join('');
+  const extra=tpasExtra.map(t=>linhaTpa(t,true)).join('');
+  cont.innerHTML=base+extra;
+  recalcular();
+}
+
+function toggleTpa(idx){
+  const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
+  const on=row.classList.toggle('off')===false;
+  chk.classList.toggle('on',on);
+  if(on){document.getElementById('b-'+idx).focus();}
+  recalcular();
+}
+
+document.getElementById('addTpa').onclick=()=>{
+  const i=tpasExtra.length;
+  const nome=prompt('Nome/número do TPA (do talão):','TPA ');
+  if(!nome)return;
+  tpasExtra.push({i, nome});
+  construirInputs();
+  // ativa logo o novo
+  setTimeout(()=>toggleTpa('x'+i),0);
+};
+function removerExtra(i){ tpasExtra=tpasExtra.filter(t=>t.i!==i); construirInputs(); }
+
+function valOf(id){ const el=document.getElementById(id); const v=el?parseFloat(el.value):NaN; return isNaN(v)?null:v; }
+
+function recalcular(){
+  if(!fecho){return;}
+  let somaBruto=0, algum=false;
+  const linhas=[...(tpasConfig?tpasConfig.tpas:[]).map(t=>t.id), ...tpasExtra.map(t=>'x'+t.i)];
+  linhas.forEach(idx=>{
+    const row=document.getElementById('row-'+idx);
+    if(!row||row.classList.contains('off'))return;
+    const b=valOf('b-'+idx), l=valOf('l-'+idx);
+    const tx=document.getElementById('t-'+idx);
+    if(b!=null){ algum=true; somaBruto+=b; }
+    if(b!=null&&l!=null){ tx.innerHTML=`taxa <b>${(b-l).toFixed(2)}</b>`; }
+    else{ tx.innerHTML='—'; }
+  });
+  const finan=valOf('finanfarma');
+  if(finan!=null)algum=true;
+  const transf=valOf('transferencia');
+  if(transf!=null)algum=true;
+
+  const apuro=(fecho.cashlogy&&fecho.cashlogy.apuro)||0;
+  const totalSif=(fecho.sifarma&&fecho.sifarma.total_vendas_dinheiro);
+  const recebido=apuro+somaBruto+(finan||0)+(transf||0);
+  const dif=(totalSif!=null)?(recebido-totalSif):null;
+
+  // hero do separador introduzir
+  const tol=(fecho.conciliacao&&fecho.conciliacao.tolerancia)||5;
+  let cls='pend', txt='Preenche os TPAs';
+  if(algum&&dif!=null){
+    const a=Math.abs(dif);
+    cls=a<0.005?'ok':a<=tol?'warn':'alert';
+    txt=a<0.005?'Caixa certa':a<=tol?'Dentro da tolerância':'Desvio — verifica os TPAs';
+  }
+  const bigTxt=(algum&&dif!=null)?((dif>=0?'+':'')+noE(eur.format(dif))+' €'):'—';
+  const extras=[finan?`Finanfarma ${eur.format(finan)}`:'',transf?`Transf. ${eur.format(transf)}`:''].filter(Boolean).join(' + ');
+  document.getElementById('introHero').innerHTML=
+    `<div class="hero ${cls}"><div class="lab">Diferença de caixa · ao vivo</div>
+     <div class="big">${bigTxt}</div>
+     <div class="sub">${txt} · (apuro ${eur.format(apuro)} + TPAs ${eur.format(somaBruto)}${extras?' + '+extras:''}) − Sifarma ${totalSif!=null?eur.format(totalSif):'—'}</div></div>`;
+
+  document.getElementById('introAuto').innerHTML=`
+    <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma</small></span><span class="v">${totalSif!=null?eur.format(totalSif):'—'}</span></div>
+    <div class="kv"><span class="k">Numerário (apuro)<small>Cashlogy</small></span><span class="v">${eur.format(apuro)}</span></div>`;
 }
 
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
