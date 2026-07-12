@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-09",
-  "gerado_em": "2026-07-12T15:01:02.035Z",
-  "estado": "tolerancia",
+  "gerado_em": "2026-07-12T16:29:57.754Z",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 4037.82,
     "diagnostico": {
@@ -109,7 +109,7 @@
     "tpas_taxa_total": 17.13,
     "tpas_liquido_total": 3909.37,
     "taxa_pct_media": 0.43,
-    "finanfarma": null,
+    "finanfarma": 74.02,
     "transferencia": null,
     "terminais": [
       {
@@ -157,14 +157,24 @@
     ],
     "responsaveis": [],
     "comentario": "não foi possível identificar o erro",
-    "submetido_em": "2026-07-12T15:00:55.484Z",
+    "submetido_em": "2026-07-12T16:29:54.059Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 4040.36,
+    "recebido_real": 4114.38,
     "total_sifarma": 4037.82,
-    "diferenca_caixa": 2.54,
-    "tolerancia": 5
+    "diferenca_caixa": 76.56,
+    "tolerancia": 5,
+    "apuro_usado": 85.92,
+    "apuro_maquina": 85.92,
+    "apuro_contado": 85.92
+  },
+  "discrepancia_cashlogy": {
+    "ha_discrepancia": false,
+    "apuro_maquina": 85.92,
+    "apuro_contado": 85.92,
+    "delta": 0,
+    "nota": "Contado − máquina. Não afeta o estado do fecho; investiga-se com a Glintt."
   },
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
@@ -174,6 +184,7 @@
   },
   "avisos": [
     "6 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa +76.56 € acima da tolerância — investigar.",
     "Diferença de caixa +76.56 € acima da tolerância — investigar."
   ]
 }
