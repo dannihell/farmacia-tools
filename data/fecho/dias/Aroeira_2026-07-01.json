@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-01",
-  "gerado_em": "2026-07-12T15:56:21.357Z",
-  "estado": "desvio",
+  "gerado_em": "2026-07-13T07:11:39.339Z",
+  "estado": "tolerancia",
   "sifarma": {
     "total_vendas_dinheiro": 3527.14,
     "diagnostico": {
@@ -114,6 +114,7 @@
     "taxa_pct_media": 0.41,
     "finanfarma": 244.8,
     "transferencia": null,
+    "apuro_contado": null,
     "terminais": [
       {
         "id": "01123224",
@@ -148,19 +149,25 @@
         "taxa_pct": 0.31
       }
     ],
-    "responsaveis": [
-      "132",
-      "140"
-    ],
+    "responsaveis": [],
     "comentario": "a cash não tinha dinheiro para retirar o apuro, amanhã vai se regularizar",
-    "submetido_em": "2026-07-12T15:56:19.570Z",
+    "submetido_em": "2026-07-13T07:11:33.994Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 3727.64,
+    "recebido_real": 3527.16,
     "total_sifarma": 3527.14,
-    "diferenca_caixa": 200.5,
-    "tolerancia": 5
+    "diferenca_caixa": 0.02,
+    "tolerancia": 5,
+    "liquido_numerario": -200.48
+  },
+  "tesouraria": {
+    "apuro_maquina": 0,
+    "apuro_contado": null,
+    "fundo_na_maquina": null,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "diagnostico_numerario": {
     "nota": "Informativo. Não entra na conciliação; só ajuda a investigar a origem de desvios.",
