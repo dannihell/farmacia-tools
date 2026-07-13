@@ -1,0 +1,155 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-13",
+  "gerado_em": "2026-07-13T23:59:04",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 4809.3,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 160.19,
+      "cartao_declarado": 4649.11,
+      "outros_declarado": 0.0,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 106,
+          "valor": 4649.11
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 182,
+          "valor": 160.19
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 160.19,
+    "liquido": 160.19,
+    "fundo_na_maquina": 400.0,
+    "vendido": 224.04,
+    "troco_devolvido": 63.85,
+    "por_operador": [
+      {
+        "operador": "JESSICA",
+        "posto": "5",
+        "atendimentos": 7,
+        "numerario": 96.12,
+        "troco": 0.0,
+        "liquido": 96.12
+      },
+      {
+        "operador": "CATARINA",
+        "posto": "2",
+        "atendimentos": 4,
+        "numerario": 42.83,
+        "troco": 0.0,
+        "liquido": 42.83
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 40.0,
+        "troco": 0.0,
+        "liquido": 40.0
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "5",
+        "atendimentos": 4,
+        "numerario": 18.89,
+        "troco": 0.0,
+        "liquido": 18.89
+      },
+      {
+        "operador": "CATARINA",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 12.97,
+        "troco": 0.0,
+        "liquido": 12.97
+      },
+      {
+        "operador": "Alina",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 6.19,
+        "troco": 0.0,
+        "liquido": 6.19
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "005",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 4.1,
+        "liquido": -4.1
+      },
+      {
+        "operador": "Alina",
+        "posto": "005",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 8.75,
+        "liquido": -8.75
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "2",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 12.78,
+        "liquido": -12.78
+      },
+      {
+        "operador": "Alina",
+        "posto": "2",
+        "atendimentos": 2,
+        "numerario": 7.04,
+        "troco": 38.22,
+        "liquido": -31.18
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 4809.3,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "liquido_numerario": 160.19
+  },
+  "tesouraria": {
+    "apuro_maquina": 160.19,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "2 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 160.19,
+    "sifarma_numerario_declarado": 160.19,
+    "diferenca": 0.0
+  }
+}
