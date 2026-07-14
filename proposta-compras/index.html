@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.4</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.5</span>
   </div>
 </header>
 
@@ -504,7 +504,79 @@
   <div class="footer-actions">
     <button class="btn btn-secondary" onclick="exportarCSV()">Exportar CSV</button>
     <button class="btn btn-secondary" onclick="exportarAnalise()">Exportar Análise</button>
-    <button class="btn btn-primary" onclick="copiarResumo()">Copiar resumo</button>
+    <button class="btn btn-secondary" onclick="copiarResumo()">Copiar resumo</button>
+    <button class="btn" id="btn-submeter" onclick="abrirModalSubmeter()" style="background:#1a5c8a;color:white;display:none">📤 Submeter</button>
+    <button class="btn" id="btn-aprovar" onclick="abrirModalAprovar()" style="background:#0F6E56;color:white;display:none">✅ Aprovar</button>
+  </div>
+</div>
+
+<!-- Modal: Submeter para aprovação -->
+<div id="modal-submeter" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:12px;padding:24px;width:520px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+    <h3 style="color:var(--verde);margin-bottom:16px;font-size:16px">📤 Submeter Proposta para Aprovação</h3>
+    <div id="modal-submeter-lab" style="font-size:13px;color:var(--cinza-escuro);margin-bottom:16px;padding:8px 12px;background:#f8f8f6;border-radius:6px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Colaborador *</label>
+        <input id="sm-colaborador" type="text" placeholder="Nome do colaborador" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Delegado (nome)</label>
+        <input id="sm-delegado-nome" type="text" placeholder="Nome do delegado" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Email delegado</label>
+        <input id="sm-delegado-email" type="email" placeholder="email@lab.com" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Telefone delegado</label>
+        <input id="sm-delegado-tel" type="text" placeholder="Telefone" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Desconto acordado</label>
+        <input id="sm-desconto" type="text" placeholder="Ex: 18%" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Prazo de pagamento</label>
+        <input id="sm-prazo" type="text" placeholder="Ex: 30 dias" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Bónus / Ofertas</label>
+      <input id="sm-bonus" type="text" placeholder="Ex: 1 caixa por cada 10" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Promotores / Góndola / Formações</label>
+      <input id="sm-promotores" type="text" placeholder="Ex: SVR 16/7" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Campanhas / Validades a regularizar</label>
+      <input id="sm-campanhas" type="text" placeholder="Ex: Campanha verão 2026" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Notas</label>
+      <textarea id="sm-notas" rows="3" placeholder="Notas adicionais..." style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="fecharModalSubmeter()">Cancelar</button>
+      <button class="btn" id="btn-submeter-confirmar" onclick="submeterProposta()" style="background:#1a5c8a;color:white">📤 Submeter para Aprovação</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Aprovar -->
+<div id="modal-aprovar" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:12px;padding:24px;width:480px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+    <h3 style="color:var(--verde);margin-bottom:16px;font-size:16px">✅ Aprovar Proposta</h3>
+    <div id="modal-aprovar-info" style="font-size:13px;color:var(--cinza-escuro);margin-bottom:16px;padding:8px 12px;background:#f8f8f6;border-radius:6px"></div>
+    <div style="margin-bottom:16px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Notas de aprovação</label>
+      <textarea id="ap-notas" rows="3" placeholder="Notas ou condições da aprovação..." style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="fecharModalAprovar()">Cancelar</button>
+      <button class="btn" onclick="aprovarProposta()" style="background:#0F6E56;color:white">✅ Aprovar e actualizar CRM</button>
+    </div>
   </div>
 </div>
 
@@ -866,6 +938,8 @@ function aplicar() {
 
   document.getElementById('btn-guardar').style.display = 'inline-block';
   document.getElementById('btn-vendedor').style.display = 'inline-block';
+  document.getElementById('btn-submeter').style.display = 'inline-block';
+  document.getElementById('btn-aprovar').style.display = propostaPoId ? 'inline-block' : 'none';
   renderTabela();
   colapsarToolbar();
 }
@@ -1303,7 +1377,140 @@ function updateKPIsLight() {
 
 
 // ===== GUARDAR/CARREGAR PROPOSTA =====
-function guardarProposta() {
+const WORKER_CRM_URL = 'https://zoho-crm-po.danielgds.workers.dev';
+let propostaPoId = null; // po_id do CRM após submissão
+
+function abrirModalSubmeter() {
+  if (!propostaActual.length) return;
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const total = propostaActual.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  document.getElementById('modal-submeter-lab').textContent =
+    `${lab} · ${farm} · Total: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})} €`;
+  document.getElementById('modal-submeter').style.display = 'flex';
+}
+
+function fecharModalSubmeter() {
+  document.getElementById('modal-submeter').style.display = 'none';
+}
+
+async function submeterProposta() {
+  const colaborador = document.getElementById('sm-colaborador').value.trim();
+  if (!colaborador) { alert('Preenche o nome do colaborador.'); return; }
+
+  const btn = document.getElementById('btn-submeter-confirmar');
+  btn.textContent = '⏳ A submeter...';
+  btn.disabled = true;
+
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+
+  const payload = {
+    laboratorio: lab,
+    farmacia: farm,
+    colaborador,
+    delegado_nome: document.getElementById('sm-delegado-nome').value,
+    delegado_email: document.getElementById('sm-delegado-email').value,
+    delegado_tel: document.getElementById('sm-delegado-tel').value,
+    desconto: document.getElementById('sm-desconto').value,
+    bonus: document.getElementById('sm-bonus').value,
+    prazo_pagamento: document.getElementById('sm-prazo').value,
+    promotores: document.getElementById('sm-promotores').value,
+    campanhas: document.getElementById('sm-campanhas').value,
+    notas: document.getElementById('sm-notas').value,
+    total_custo: total,
+    produtos: comProposta.map(p => {
+      const fd = getFd(p);
+      return {
+        cod: p.COD_PRD,
+        designacao: p.DESIGNACAO,
+        quantidade: fd.proposta_edit,
+        custo_unit: p.pcus,
+        total: fd.proposta_edit * p.pcus,
+      };
+    }),
+  };
+
+  try {
+    const r = await fetch(`${WORKER_CRM_URL}/submeter`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await r.json();
+    if (data.success) {
+      propostaPoId = data.po_id;
+      document.getElementById('btn-aprovar').style.display = '';
+      fecharModalSubmeter();
+      alert(`✅ Proposta submetida com sucesso!\nPO criado no CRM: ${data.po_id}\n\nGuarda o JSON para carregar quando fores aprovar.`);
+      guardarProposta(); // guarda automaticamente com o po_id incluído
+    } else {
+      alert('Erro ao submeter: ' + data.error);
+    }
+  } catch(err) {
+    alert('Erro de ligação: ' + err.message);
+  } finally {
+    btn.textContent = '📤 Submeter para Aprovação';
+    btn.disabled = false;
+  }
+}
+
+function abrirModalAprovar() {
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const total = propostaActual.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  document.getElementById('modal-aprovar-info').innerHTML =
+    `<strong>${lab}</strong> · ${farm}<br>Total: <strong>${total.toLocaleString('pt-PT',{minimumFractionDigits:2})} €</strong><br>PO CRM: ${propostaPoId || '(sem po_id)'}`;
+  document.getElementById('modal-aprovar').style.display = 'flex';
+}
+
+function fecharModalAprovar() {
+  document.getElementById('modal-aprovar').style.display = 'none';
+}
+
+async function aprovarProposta() {
+  if (!propostaPoId) { alert('Sem po_id — carrega um JSON que tenha sido submetido.'); return; }
+
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+
+  const payload = {
+    po_id: propostaPoId,
+    laboratorio: lab,
+    farmacia: farm,
+    total_custo: total,
+    notas_aprovacao: document.getElementById('ap-notas').value,
+    produtos: comProposta.map(p => {
+      const fd = getFd(p);
+      return { cod: p.COD_PRD, designacao: p.DESIGNACAO, quantidade: fd.proposta_edit, custo_unit: p.pcus, total: fd.proposta_edit * p.pcus };
+    }),
+  };
+
+  try {
+    const r = await fetch(`${WORKER_CRM_URL}/aprovar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await r.json();
+    if (data.success) {
+      fecharModalAprovar();
+      alert('✅ Proposta aprovada! PO actualizado no CRM.');
+    } else {
+      alert('Erro ao aprovar: ' + data.error);
+    }
+  } catch(err) {
+    alert('Erro de ligação: ' + err.message);
+  }
+}
   const lab = document.getElementById('lab-select').value;
   if (!lab || !propostaActual.length) return;
   // Guardar propostas de todas as farmácias num único ficheiro
@@ -1345,6 +1552,11 @@ function carregarProposta(input) {
             });
           }
         });
+        // Restaurar po_id se existir
+        if (dados.po_id) {
+          propostaPoId = dados.po_id;
+          document.getElementById('btn-aprovar').style.display = 'inline-block';
+        }
         renderTabela();
         updateFooter();
         alert('Proposta carregada — guardada em ' + new Date(dados.data).toLocaleString('pt-PT'));
