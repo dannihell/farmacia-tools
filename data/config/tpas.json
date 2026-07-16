@@ -1,24 +1,52 @@
 {
   "Aroeira": {
     "tpas": [
-      { "id": "01123224", "nome": "TPA 1 – 01123224" },
-      { "id": "00983092", "nome": "TPA 2 – 00983092" },
-      { "id": "01123226", "nome": "TPA 3 – 01123226" },
-      { "id": "01123228", "nome": "TPA 4 – 01123228" },
-      { "id": "00983095", "nome": "TPA 5 – 00983095" },
-      { "id": "01223227", "nome": "TPA Drive – 01223227" },
-      { "id": "40005737", "nome": "TPA F – 40005737", "tipo": "finanfarma_fisico" }
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224"
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092"
+      },
+      {
+        "id": "01123226",
+        "nome": "TPA 3 – 01123226"
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228"
+      },
+      {
+        "id": "00983095",
+        "nome": "TPA 5 – 00983095"
+      },
+      {
+        "id": "01123227",
+        "nome": "TPA Drive – 01123227"
+      },
+      {
+        "id": "001907",
+        "nome": "TPA F – 001907",
+        "tipo": "finanfarma_fisico"
+      }
     ],
     "finanfarma": true,
     "finanfarma_config": {
-      "locacao_mensal": 12.50,
+      "locacao_mensal": 12.5,
       "operacoes_base": 100,
       "operacoes_por_10k": 100,
       "limiar_faturacao": 10000,
       "operacoes_por_pacote": 100,
-      "custo_pacote": 12.50
+      "custo_pacote": 12.5
     }
   },
-  "DiasBrito": { "tpas": [], "finanfarma": true },
-  "CidadeUniv": { "tpas": [], "finanfarma": true }
+  "DiasBrito": {
+    "tpas": [],
+    "finanfarma": true
+  },
+  "CidadeUniv": {
+    "tpas": [],
+    "finanfarma": true
+  }
 }
