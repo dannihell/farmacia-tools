@@ -102,6 +102,13 @@
   .addtpa{width:calc(100% - 30px);margin:11px 15px;padding:10px;border:1px dashed var(--line-strong);
     background:none;border-radius:10px;color:var(--cross);font-family:var(--sans);font-weight:600;font-size:12.5px;cursor:pointer}
   .addtpa:hover{background:#f5f8f6}
+  .lertalao{width:calc(100% - 30px);margin:11px 15px 4px;padding:12px;border:none;border-radius:11px;
+    background:var(--cross);color:#fff;font-family:var(--sans);font-weight:700;font-size:13.5px;cursor:pointer}
+  .lertalao:disabled{background:var(--line-strong);cursor:wait}
+  .talaomsg{margin:6px 15px 2px;padding:9px 12px;border-radius:10px;font-size:12.5px;line-height:1.4}
+  .talaomsg.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #cfe6d7}
+  .talaomsg.err{background:var(--alert-bg);color:var(--alert);border:1px solid #e8c6c1}
+  .tparow.lido{background:#eef7f2}
   .otherhead{display:flex;gap:8px;padding:9px 15px 0}
   .otherhead input{flex:1;font-size:12.5px;padding:6px 9px;border:1px solid var(--line-strong);border-radius:8px;font-family:var(--sans)}
   .rmtpa{background:none;border:none;color:var(--alert);cursor:pointer;font-size:16px;padding:0 4px}
@@ -279,6 +286,9 @@
       </div>
       <div class="card">
         <div class="card-h"><h3>Terminais TPA</h3><span class="hint" style="font-size:11px;color:var(--ink-faint)">bruto e líquido do talão</span></div>
+        <button class="lertalao" id="btnTalao">📷 Ler talão</button>
+        <input type="file" id="fotoTalao" accept="image/*" capture="environment" style="display:none">
+        <div id="talaoMsg"></div>
         <div id="tpaInputs"></div>
         <button class="addtpa" id="addTpa">+ outro TPA (fora da lista)</button>
       </div>
@@ -702,8 +712,11 @@ async function carregarTpas(f){
   if(info) info.textContent = manualExistente
     ? 'Este dia já tem fecho — os valores estão pré-preenchidos; corrige o que precisares.'
     : 'Dia sem TPAs introduzidos. Preenche a partir dos talões.';
+  // A seleção de responsáveis só se limpa no carregamento do dia.
+  // Ordem obrigatória: reset -> desenhar chips (await) -> construirInputs pré-preenche e pinta.
+  respSelec=new Set();
+  await carregarEmpregados(f);
   construirInputs(true);
-  carregarEmpregados(f);
 }
 
 // muda o dia a introduzir: recarrega o fecho automático desse dia
@@ -728,7 +741,7 @@ async function mudarDiaIntro(data){
 }
 
 async function carregarEmpregados(f){
-  respSelec=new Set();
+  // NÃO limpa o respSelec — quem o limpa é o carregarTpas, no carregamento do dia.
   try{
     const r=await fetch(`../data/config/empregados_${f}.json${cb()}`);
     empregados=r.ok?await r.json():[];
@@ -739,8 +752,16 @@ async function carregarEmpregados(f){
     return;
   }
   cont.innerHTML=empregados.map(e=>
-    `<span class="respchip${respSelec.has(String(e.id))?' on':''}" data-id="${e.id}" onclick="toggleResp('${e.id}',this)">${e.curto||e.nome}</span>`
+    `<span class="respchip" data-id="${e.id}" onclick="toggleResp('${e.id}',this)">${e.curto||e.nome}</span>`
   ).join('');
+  pintarResp();
+}
+
+// Sincroniza o visual dos chips com a seleção atual (respSelec).
+function pintarResp(){
+  document.querySelectorAll('#responsaveis .respchip').forEach(el=>{
+    el.classList.toggle('on', respSelec.has(String(el.dataset.id)));
+  });
 }
 function toggleResp(id,el){
   if(respSelec.has(id)){respSelec.delete(id);el.classList.remove('on');}
@@ -834,6 +855,7 @@ function construirInputs(prefillManual){
         manualExistente.responsaveis.forEach(id=>respSelec.add(String(id)));
       }
     }
+    pintarResp();   // marca os chips de quem ficou selecionado
   }
   recalcular();
 }
@@ -856,6 +878,77 @@ document.getElementById('addTpa').onclick=()=>{
   setTimeout(()=>toggleTpa('x'+i),0);
 };
 function removerExtra(i){ tpasExtra=tpasExtra.filter(t=>t.i!==i); construirInputs(); }
+
+// ===== LER TALÃO (foto -> Worker -> Claude -> preenche a linha certa) =====
+// O talão traz o nº do terminal impresso, por isso identifica-se sozinho.
+const TALAO_MAX_LADO=1568;   // reduzir a foto é o que mantém o custo em cêntimos
+
+function msgTalao(cls,txt){
+  const el=document.getElementById('talaoMsg');
+  el.innerHTML = txt ? `<div class="talaomsg ${cls}">${txt}</div>` : '';
+}
+
+async function reduzirFoto(file){
+  const bmp=await createImageBitmap(file);
+  const esc=Math.min(1, TALAO_MAX_LADO/Math.max(bmp.width,bmp.height));
+  const w=Math.round(bmp.width*esc), h=Math.round(bmp.height*esc);
+  const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+  cv.getContext('2d').drawImage(bmp,0,0,w,h);
+  const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',0.85));
+  const b64=await new Promise((res,rej)=>{
+    const fr=new FileReader();
+    fr.onload=()=>res(String(fr.result).split(',')[1]);
+    fr.onerror=()=>rej(new Error('não consegui ler a foto'));
+    fr.readAsDataURL(blob);
+  });
+  return b64;
+}
+
+function aplicarTalao(r){
+  const alvo=(tpasConfig.tpas||[]).find(t=>String(t.id)===String(r.terminal));
+  if(!alvo){
+    msgTalao('err',`Li o terminal <b>${r.terminal||'?'}</b>, mas não está na lista desta farmácia. Mete os valores à mão.`);
+    return;
+  }
+  if(r.valor==null || r.total_movimentar==null){
+    msgTalao('err',`Reconheci o ${alvo.nome} mas não li os valores com certeza. Confirma-os à mão.`);
+    return;
+  }
+  const idx=alvo.id;
+  const bel=document.getElementById('b-'+idx), lel=document.getElementById('l-'+idx);
+  const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
+  if(bel) bel.value=r.valor;
+  if(lel) lel.value=r.total_movimentar;
+  if(row){ row.classList.remove('off'); row.classList.add('lido'); }
+  if(chk) chk.classList.add('on');
+  recalcular();
+  const taxa=round2(r.valor-r.total_movimentar);
+  msgTalao('ok',`<b>${alvo.nome}</b> preenchido: bruto ${eur.format(r.valor)}, líquido ${eur.format(r.total_movimentar)}, taxa ${eur.format(taxa)}. <b>Confere com o talão.</b>`);
+  if(row && row.scrollIntoView) row.scrollIntoView({block:'center',behavior:'smooth'});
+}
+
+document.getElementById('btnTalao').onclick=()=>document.getElementById('fotoTalao').click();
+document.getElementById('fotoTalao').onchange=async(e)=>{
+  const file=e.target.files&&e.target.files[0];
+  e.target.value='';                 // permite repetir a mesma foto
+  if(!file) return;
+  const btn=document.getElementById('btnTalao');
+  btn.disabled=true; btn.textContent='A ler o talão…'; msgTalao('','');
+  try{
+    const b64=await reduzirFoto(file);
+    const r=await fetch(WORKER_URL+'/ocr',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({imagem:b64, media_type:'image/jpeg'})
+    });
+    const j=await r.json();
+    if(!r.ok||!j.ok) throw new Error(j.erro||('erro '+r.status));
+    aplicarTalao(j);
+  }catch(err){
+    msgTalao('err',`Não consegui ler: ${err.message}. Mete os valores à mão.`);
+  }finally{
+    btn.disabled=false; btn.textContent='📷 Ler talão';
+  }
+};
 
 function valOf(id){ const el=document.getElementById(id); const v=el?parseFloat(el.value):NaN; return isNaN(v)?null:v; }
 
