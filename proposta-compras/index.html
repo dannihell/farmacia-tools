@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.9</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v4.1</span>
     <button onclick="forcarActualizacao()" style="background:rgba(255,255,255,0.15);border:none;color:white;font-size:11px;cursor:pointer;border-radius:4px;padding:3px 8px;margin-left:4px" title="Forçar actualização dos dados">🔄</button>
   </div>
 </header>
@@ -623,11 +623,36 @@ async function init() {
       farmSel.appendChild(opt);
     });
 
-    // Preencher laboratórios (todas as farmácias inicialmente)
+    // Preencher laboratórios
     popularLabs('');
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('empty').style.display = 'block';
+
+    // Ler parâmetros da URL (quando chamado do botão do CRM)
+    const params = new URLSearchParams(window.location.search);
+    const poIdUrl = params.get('po_id');
+    const labUrl = params.get('lab');
+
+    if (poIdUrl) {
+      propostaPoId = poIdUrl;
+      document.getElementById('btn-aprovar').style.display = 'inline-block';
+    }
+
+    if (labUrl) {
+      // Pré-seleccionar laboratório
+      const labSel = document.getElementById('lab-select');
+      const opt = [...labSel.options].find(o => 
+        o.value.toLowerCase().includes(labUrl.toLowerCase().substring(0, 15)) ||
+        labUrl.toLowerCase().includes(o.value.toLowerCase().substring(0, 15))
+      );
+      if (opt) {
+        labSel.value = opt.value;
+        onLabChange();
+        aplicar();
+      }
+    }
+
   } catch(e) {
     document.getElementById('loading').textContent = 'Erro a carregar dados: ' + e.message;
   }
@@ -1396,6 +1421,21 @@ function abrirModalSubmeter() {
   const total = propostaActual.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
   document.getElementById('modal-submeter-lab').textContent =
     `${lab} · ${farm} · Total: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})} €`;
+
+  const params = new URLSearchParams(window.location.search);
+  const veioDoCRM = !!params.get('po_id');
+
+  // Se veio do CRM (po_id na URL), esconder campos já preenchidos no PO
+  const camposCRM = ['sm-delegado-nome','sm-delegado-email','sm-delegado-tel',
+    'sm-desconto','sm-prazo','sm-bonus','sm-promotores','sm-campanhas','sm-po-id'];
+  camposCRM.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.closest('div').style.display = veioDoCRM ? 'none' : '';
+  });
+
+  if (propostaPoId) {
+    document.getElementById('sm-po-id').value = propostaPoId;
+  }
   document.getElementById('modal-submeter').style.display = 'flex';
 }
 
