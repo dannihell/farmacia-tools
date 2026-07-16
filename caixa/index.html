@@ -913,20 +913,39 @@ function aplicarTalao(r){
     msgTalao('err',`Li o terminal <b>${r.terminal||'?'}</b>, mas não está na lista desta farmácia. Mete os valores à mão.`);
     return;
   }
-  if(r.valor==null || r.total_movimentar==null){
-    msgTalao('err',`Reconheci o ${alvo.nome} mas não li os valores com certeza. Confirma-os à mão.`);
-    return;
-  }
   const idx=alvo.id;
-  const bel=document.getElementById('b-'+idx), lel=document.getElementById('l-'+idx);
+  const ehFinanfarma = alvo.tipo==='finanfarma_fisico' || alvo.so_bruto;
   const row=document.getElementById('row-'+idx), chk=document.getElementById('chk-'+idx);
-  if(bel) bel.value=r.valor;
-  if(lel) lel.value=r.total_movimentar;
-  if(row){ row.classList.remove('off'); row.classList.add('lido'); }
-  if(chk) chk.classList.add('on');
-  recalcular();
-  const taxa=round2(r.valor-r.total_movimentar);
-  msgTalao('ok',`<b>${alvo.nome}</b> preenchido: bruto ${eur.format(r.valor)}, líquido ${eur.format(r.total_movimentar)}, taxa ${eur.format(taxa)}. <b>Confere com o talão.</b>`);
+
+  if(ehFinanfarma){
+    // TPA F: bruto + nº de operações. Não tem linha de líquido — a taxa é mensal.
+    if(r.valor==null){
+      msgTalao('err',`Reconheci o ${alvo.nome} mas não li o total com certeza. Mete-o à mão.`);
+      return;
+    }
+    const bel=document.getElementById('b-'+idx), opel=document.getElementById('op-'+idx);
+    if(bel) bel.value=r.valor;
+    if(opel && r.operacoes!=null) opel.value=r.operacoes;
+    if(row){ row.classList.remove('off'); row.classList.add('lido'); }
+    if(chk) chk.classList.add('on');
+    recalcular();
+    const nOps = r.operacoes!=null ? `${r.operacoes} operaç${r.operacoes===1?'ão':'ões'}` : 'nº de operações por meter';
+    msgTalao('ok',`<b>${alvo.nome}</b> preenchido: ${eur.format(r.valor)}, ${nOps}. <b>Confere com o talão.</b>`);
+  }else{
+    // TPA bancário: bruto + líquido; a taxa é a diferença.
+    if(r.valor==null || r.total_movimentar==null){
+      msgTalao('err',`Reconheci o ${alvo.nome} mas não li os valores com certeza. Confirma-os à mão.`);
+      return;
+    }
+    const bel=document.getElementById('b-'+idx), lel=document.getElementById('l-'+idx);
+    if(bel) bel.value=r.valor;
+    if(lel) lel.value=r.total_movimentar;
+    if(row){ row.classList.remove('off'); row.classList.add('lido'); }
+    if(chk) chk.classList.add('on');
+    recalcular();
+    const taxa=round2(r.valor-r.total_movimentar);
+    msgTalao('ok',`<b>${alvo.nome}</b> preenchido: bruto ${eur.format(r.valor)}, líquido ${eur.format(r.total_movimentar)}, taxa ${eur.format(taxa)}. <b>Confere com o talão.</b>`);
+  }
   if(row && row.scrollIntoView) row.scrollIntoView({block:'center',behavior:'smooth'});
 }
 
