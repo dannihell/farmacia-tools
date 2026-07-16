@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.7</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.8</span>
     <button onclick="forcarActualizacao()" style="background:rgba(255,255,255,0.15);border:none;color:white;font-size:11px;cursor:pointer;border-radius:4px;padding:3px 8px;margin-left:4px" title="Forçar actualização dos dados">🔄</button>
   </div>
 </header>
@@ -1515,16 +1515,23 @@ async function aprovarProposta() {
     alert('Erro de ligação: ' + err.message);
   }
 }
+
+function guardarProposta() {
   const lab = document.getElementById('lab-select').value;
   if (!lab || !propostaActual.length) return;
-  // Guardar propostas de todas as farmácias num único ficheiro
   const quantidades = propostaActual.map(p => ({
     cod: p.COD_PRD,
     propostas: Object.fromEntries(
       Object.entries(p.propostas).map(([f, fd]) => [f, fd.proposta_edit])
     )
   }));
-  const dados = { lab, cobertura: document.getElementById('cobertura').value, data: new Date().toISOString(), quantidades };
+  const dados = {
+    lab,
+    cobertura: document.getElementById('cobertura').value,
+    data: new Date().toISOString(),
+    po_id: propostaPoId || null,
+    quantidades
+  };
   const blob = new Blob([JSON.stringify(dados, null, 2)], {type: 'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
