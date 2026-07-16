@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v4.2</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v4.3</span>
     <button onclick="forcarActualizacao()" style="background:rgba(255,255,255,0.15);border:none;color:white;font-size:11px;cursor:pointer;border-radius:4px;padding:3px 8px;margin-left:4px" title="Forçar actualização dos dados">🔄</button>
   </div>
 </header>
@@ -637,44 +637,11 @@ async function init() {
     if (poIdUrl) {
       propostaPoId = poIdUrl;
       document.getElementById('btn-aprovar').style.display = 'inline-block';
-
-      // Carregar proposta da Matilde guardada no PO
-      if (labUrl) {
-        // Esperar que a proposta seja gerada e depois carregar as quantidades
-        setTimeout(async () => {
-          try {
-            const r = await fetch(`${WORKER_CRM_URL}/proposta-por-po?po_id=${poIdUrl}`);
-            const data = await r.json();
-            if (data.success && data.proposta) {
-              const p = data.proposta;
-              // Aplicar quantidades por produto
-              const qtMap = {};
-              (p.produtos || []).forEach(prod => {
-                qtMap[prod.cod] = prod.quantidade;
-              });
-              propostaActual.forEach(prod => {
-                const qt = qtMap[prod.COD_PRD];
-                if (qt !== undefined) {
-                  const farm = document.getElementById('farmacia-select').value;
-                  const fd = prod.propostas[farm] || prod.propostas[''];
-                  if (fd) fd.proposta_edit = qt;
-                }
-              });
-              renderTabela();
-              updateFooter();
-              document.getElementById('empty').textContent = '✅ Proposta da Matilde carregada — revê e aprova.';
-            }
-          } catch(e) {
-            console.warn('Não foi possível carregar proposta do CRM:', e.message);
-          }
-        }, 2000); // esperar 2s para a proposta ser gerada
-      }
     }
 
     if (labUrl) {
-      // Pré-seleccionar laboratório
       const labSel = document.getElementById('lab-select');
-      const opt = [...labSel.options].find(o => 
+      const opt = [...labSel.options].find(o =>
         o.value.toLowerCase().includes(labUrl.toLowerCase().substring(0, 15)) ||
         labUrl.toLowerCase().includes(o.value.toLowerCase().substring(0, 15))
       );
@@ -682,6 +649,36 @@ async function init() {
         labSel.value = opt.value;
         onLabChange();
         aplicar();
+
+        // Se tiver po_id, carregar quantidades da Matilde após aplicar()
+        if (poIdUrl) {
+          setTimeout(async () => {
+            try {
+              const r = await fetch(`${WORKER_CRM_URL}/proposta-por-po?po_id=${poIdUrl}`);
+              const data = await r.json();
+              if (data.success && data.proposta) {
+                const qtMap = {};
+                (data.proposta.produtos || []).forEach(prod => {
+                  qtMap[String(prod.cod)] = prod.quantidade;
+                });
+                propostaActual.forEach(prod => {
+                  const qt = qtMap[String(prod.COD_PRD)];
+                  if (qt !== undefined) {
+                    const farm = document.getElementById('farmacia-select').value;
+                    const fd = prod.propostas[farm] || prod.propostas[''];
+                    if (fd) fd.proposta_edit = qt;
+                  }
+                });
+                renderTabela();
+                updateFooter();
+                // Mostrar mensagem discreta
+                document.getElementById('cnt-total').textContent += ' · ✅ Proposta da Matilde carregada';
+              }
+            } catch(e) {
+              console.warn('Não foi possível carregar proposta do CRM:', e.message);
+            }
+          }, 1500);
+        }
       }
     }
 
