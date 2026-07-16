@@ -685,7 +685,7 @@ async function verDia(data){
 
 // ===== CAMADA 1+2: introdução, cálculo ao vivo e guardar via Worker =====
 const WORKER_URL="https://fecho-caixa.danielgds.workers.dev";
-let tpasConfig=null, tpasExtra=[], empregados=[], respSelec=new Set();
+let tpasConfig=null, tpasExtra=[], empregados=[], respSelec=new Set(), fotosTalao={};
 
 let manualExistente=null;
 
@@ -715,6 +715,7 @@ async function carregarTpas(f){
   // A seleção de responsáveis só se limpa no carregamento do dia.
   // Ordem obrigatória: reset -> desenhar chips (await) -> construirInputs pré-preenche e pinta.
   respSelec=new Set();
+  fotosTalao={};
   await carregarEmpregados(f);
   construirInputs(true);
 }
@@ -841,6 +842,7 @@ function construirInputs(prefillManual){
         if(bel && t.bruto!=null) bel.value=t.bruto;
         if(lel && t.liquido!=null) lel.value=t.liquido;
         if(opel && t.operacoes!=null) opel.value=t.operacoes;
+        if(t.foto) fotosTalao[idx]=t.foto;
         if(row && (t.bruto!=null||t.liquido!=null)){ row.classList.remove('off'); if(chk)chk.classList.add('on'); }
       });
       const ac=document.getElementById('apuroContado');
@@ -928,6 +930,7 @@ function aplicarTalao(r){
     if(opel && r.operacoes!=null) opel.value=r.operacoes;
     if(row){ row.classList.remove('off'); row.classList.add('lido'); }
     if(chk) chk.classList.add('on');
+    fotosTalao[idx]=r.foto_key||null;
     recalcular();
     const nOps = r.operacoes!=null ? `${r.operacoes} operaç${r.operacoes===1?'ão':'ões'}` : 'nº de operações por meter';
     msgTalao('ok',`<b>${alvo.nome}</b> preenchido: ${eur.format(r.valor)}, ${nOps}. <b>Confere com o talão.</b>`);
@@ -942,9 +945,16 @@ function aplicarTalao(r){
     if(lel) lel.value=r.total_movimentar;
     if(row){ row.classList.remove('off'); row.classList.add('lido'); }
     if(chk) chk.classList.add('on');
+    fotosTalao[idx]=r.foto_key||null;
     recalcular();
     const taxa=round2(r.valor-r.total_movimentar);
-    msgTalao('ok',`<b>${alvo.nome}</b> preenchido: bruto ${eur.format(r.valor)}, líquido ${eur.format(r.total_movimentar)}, taxa ${eur.format(taxa)}. <b>Confere com o talão.</b>`);
+    // O talão fecha sobre si próprio: bruto − líquido tem de dar a soma dos descontos.
+    // Se não bater, o OCR trocou um dígito — avisa em vez de deixar passar.
+    if(r.soma_descontos!=null && Math.abs(taxa-r.soma_descontos)>0.015){
+      msgTalao('err',`<b>${alvo.nome}: a foto pode estar mal lida.</b> Bruto − líquido dá ${eur.format(taxa)}, mas a soma dos descontos do talão é ${eur.format(r.soma_descontos)}. Confere os números ou tira outra foto mais focada.`);
+    }else{
+      msgTalao('ok',`<b>${alvo.nome}</b> preenchido: bruto ${eur.format(r.valor)}, líquido ${eur.format(r.total_movimentar)}, taxa ${eur.format(taxa)}${r.soma_descontos!=null?' ✓ confere com os descontos':''}. <b>Confere com o talão.</b>`);
+    }
   }
   if(row && row.scrollIntoView) row.scrollIntoView({block:'center',behavior:'smooth'});
 }
@@ -960,7 +970,8 @@ document.getElementById('fotoTalao').onchange=async(e)=>{
     const b64=await reduzirFoto(file);
     const r=await fetch(WORKER_URL+'/ocr',{
       method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({imagem:b64, media_type:'image/jpeg'})
+      body:JSON.stringify({imagem:b64, media_type:'image/jpeg',
+                           farmacia:fecho.farmacia, data:fecho.data})
     });
     const j=await r.json();
     if(!r.ok||!j.ok) throw new Error(j.erro||('erro '+r.status));
@@ -1072,7 +1083,7 @@ function recalcular(){
       const cfgT=(tpasConfig.tpas||[]).find(t=>t.id===idx);
       if(cfgT)nome=cfgT.nome;
       else{const ex=tpasExtra.find(t=>'x'+t.i===idx); if(ex)nome=ex.nome;}
-      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:(ehSoBruto?null:l), operacoes:(ehSoBruto?valOf('op-'+idx):undefined), so_bruto:ehSoBruto||undefined};
+      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:(ehSoBruto?null:l), operacoes:(ehSoBruto?valOf('op-'+idx):undefined), so_bruto:ehSoBruto||undefined, foto:fotosTalao[idx]||undefined};
     }).filter(Boolean),
     finanfarma:finan, transferencia:transf,
     apuro_contado:apuroContado,
