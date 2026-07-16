@@ -632,58 +632,115 @@ async function init() {
     // Ler parâmetros da URL (quando chamado do botão do CRM)
     const params = new URLSearchParams(window.location.search);
     const poIdUrl = params.get('po_id');
-    const labUrl = params.get('lab');
+    const labUrl  = params.get('lab');
+
+    // Sem po_id na URL não pode existir po_id herdado de outra sessão
+    propostaPoId = poIdUrl || null;
 
     if (poIdUrl) {
-      propostaPoId = poIdUrl;
       document.getElementById('btn-aprovar').style.display = 'inline-block';
+      const carregou = await carregarPropostaDoPO(poIdUrl);
+      if (!carregou && labUrl) seleccionarLabPorTexto(labUrl);
+    } else if (labUrl) {
+      seleccionarLabPorTexto(labUrl);
     }
+  } catch(e) {
+    document.getElementById('loading').textContent = 'Erro a carregar dados: ' + e.message;
+  }
+}
 
-    if (labUrl) {
-      const labSel = document.getElementById('lab-select');
-      const opt = [...labSel.options].find(o =>
-        o.value.toLowerCase().includes(labUrl.toLowerCase().substring(0, 15)) ||
-        labUrl.toLowerCase().includes(o.value.toLowerCase().substring(0, 15))
-      );
-      if (opt) {
-        labSel.value = opt.value;
-        onLabChange();
-        aplicar();
+// ===== CARREGAMENTO A PARTIR DO PO (CRM) =====
 
-        // Se tiver po_id, carregar quantidades da Matilde após aplicar()
-        if (poIdUrl) {
-          setTimeout(async () => {
-            try {
-              const r = await fetch(`${WORKER_CRM_URL}/proposta-por-po?po_id=${poIdUrl}`);
-              const data = await r.json();
-              if (data.success && data.proposta) {
-                const qtMap = {};
-                (data.proposta.produtos || []).forEach(prod => {
-                  qtMap[String(prod.cod)] = prod.quantidade;
-                });
-                propostaActual.forEach(prod => {
-                  const qt = qtMap[String(prod.COD_PRD)];
-                  if (qt !== undefined) {
-                    const farm = document.getElementById('farmacia-select').value;
-                    const fd = prod.propostas[farm] || prod.propostas[''];
-                    if (fd) fd.proposta_edit = qt;
-                  }
-                });
-                renderTabela();
-                updateFooter();
-                // Mostrar mensagem discreta
-                document.getElementById('cnt-total').textContent += ' · ✅ Proposta da Matilde carregada';
-              }
-            } catch(e) {
-              console.warn('Não foi possível carregar proposta do CRM:', e.message);
-            }
-          }, 1500);
-        }
+// Corrige mojibake UTF-8 lido como Latin-1: "FarmÃ¡cia Aroeira" -> "Farmácia Aroeira"
+function repararUtf8(s) {
+  if (typeof s !== 'string' || !/[ÃÂ]/.test(s)) return s;
+  try { return decodeURIComponent(escape(s)); } catch(e) { return s; }
+}
+
+function seleccionarSelectPorTexto(sel, texto) {
+  if (!texto) return false;
+  const alvo = texto.toLowerCase().trim();
+  let opt = [...sel.options].find(o => o.value.toLowerCase() === alvo);
+  if (!opt) opt = [...sel.options].find(o =>
+    o.value.toLowerCase().includes(alvo.substring(0, 15)) ||
+    alvo.includes(o.value.toLowerCase().substring(0, 15))
+  );
+  if (!opt) return false;
+  sel.value = opt.value;
+  return true;
+}
+
+function seleccionarLabPorTexto(texto) {
+  const labSel = document.getElementById('lab-select');
+  if (!seleccionarSelectPorTexto(labSel, texto)) {
+    console.warn('Laboratório da URL não encontrado nos dados:', texto);
+    return false;
+  }
+  onLabChange();
+  aplicar();
+  return true;
+}
+
+// A nota do PO é a fonte de verdade: traz laboratório, farmácia e quantidades.
+// O parâmetro lab= da URL deixa de condicionar o carregamento.
+async function carregarPropostaDoPO(poId) {
+  try {
+    const r = await fetch(`${WORKER_CRM_URL}/proposta-por-po?po_id=${encodeURIComponent(poId)}`);
+    const data = await r.json();
+    if (!data.success || !data.proposta) {
+      console.warn('PO sem proposta guardada:', data.error || '(sem detalhe)');
+      return false;
+    }
+    const prop = data.proposta;
+
+    // 1. Farmácia primeiro — condiciona a lista de laboratórios
+    const farmSel = document.getElementById('farmacia-select');
+    const farmNome = repararUtf8(prop.farmacia || '');
+    if (farmNome && farmNome !== 'Todas') {
+      if (seleccionarSelectPorTexto(farmSel, farmNome)) {
+        onFarmaciaChange();
+      } else {
+        console.warn('Farmácia da proposta não encontrada nos dados:', farmNome);
       }
     }
 
+    // 2. Laboratório
+    const labSel = document.getElementById('lab-select');
+    const labNome = repararUtf8(prop.laboratorio || '');
+    if (!seleccionarSelectPorTexto(labSel, labNome)) {
+      console.warn('Laboratório da proposta não encontrado nos dados:', labNome);
+      return false;
+    }
+    onLabChange();
+    aplicar();
+
+    // 3. Injectar as quantidades guardadas (sem timers — aplicar() é síncrono)
+    const farm = farmSel.value;
+    const qtMap = {};
+    (prop.produtos || []).forEach(p => { qtMap[String(p.cod)] = p.quantidade; });
+
+    let aplicadas = 0;
+    propostaActual.forEach(prod => {
+      const qt = qtMap[String(prod.COD_PRD)];
+      if (qt === undefined) return;
+      const fd = prod.propostas[farm] || prod.propostas[''];
+      if (fd) { fd.proposta_edit = qt; aplicadas++; }
+    });
+
+    renderTabela();
+    updateFooter();
+
+    const total = Object.keys(qtMap).length;
+    document.getElementById('cnt-total').textContent +=
+      ` · ✅ Proposta carregada (${aplicadas}/${total} refs)`;
+    if (aplicadas < total) {
+      console.warn(`Proposta: ${total - aplicadas} refs do PO não existem nos dados actuais.`);
+    }
+    return true;
+
   } catch(e) {
-    document.getElementById('loading').textContent = 'Erro a carregar dados: ' + e.message;
+    console.warn('Não foi possível carregar proposta do CRM:', e.message);
+    return false;
   }
 }
 
