@@ -904,8 +904,11 @@ async function reduzirFoto(file){
   return b64;
 }
 
+// compara nºs de terminal sem se deixar enganar por zeros à esquerda ou lixo do OCR
+const normTerm=s=>String(s==null?'':s).replace(/\D/g,'').replace(/^0+/,'');
+
 function aplicarTalao(r){
-  const alvo=(tpasConfig.tpas||[]).find(t=>String(t.id)===String(r.terminal));
+  const alvo=(tpasConfig.tpas||[]).find(t=>normTerm(t.id)===normTerm(r.terminal) && normTerm(t.id)!=='');
   if(!alvo){
     msgTalao('err',`Li o terminal <b>${r.terminal||'?'}</b>, mas não está na lista desta farmácia. Mete os valores à mão.`);
     return;
