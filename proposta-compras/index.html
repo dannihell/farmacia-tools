@@ -270,7 +270,7 @@
     <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
-    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.8</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.9</span>
     <button onclick="forcarActualizacao()" style="background:rgba(255,255,255,0.15);border:none;color:white;font-size:11px;cursor:pointer;border-radius:4px;padding:3px 8px;margin-left:4px" title="Forçar actualização dos dados">🔄</button>
   </div>
 </header>
@@ -516,6 +516,10 @@
   <div style="background:white;border-radius:12px;padding:24px;width:520px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
     <h3 style="color:var(--verde);margin-bottom:16px;font-size:16px">📤 Submeter Proposta para Aprovação</h3>
     <div id="modal-submeter-lab" style="font-size:13px;color:var(--cinza-escuro);margin-bottom:16px;padding:8px 12px;background:#f8f8f6;border-radius:6px"></div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">ID do PO no CRM <span style="font-weight:400;color:#999">(opcional — se já criaste o PO no CRM)</span></label>
+      <input id="sm-po-id" type="text" placeholder="Ex: 2817740000036032001" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box;font-family:monospace">
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
       <div>
         <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Colaborador *</label>
@@ -1413,10 +1417,13 @@ async function submeterProposta() {
   const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
   const total = comProposta.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
 
+  const poIdExistente = document.getElementById('sm-po-id').value.trim();
+
   const payload = {
     laboratorio: lab,
     farmacia: farm,
     colaborador,
+    po_id_existente: poIdExistente || null,
     delegado_nome: document.getElementById('sm-delegado-nome').value,
     delegado_email: document.getElementById('sm-delegado-email').value,
     delegado_tel: document.getElementById('sm-delegado-tel').value,
