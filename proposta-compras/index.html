@@ -271,6 +271,1769 @@
     <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
     <span class="tag-updated" id="updated-tag">A carregar...</span>
     <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.5</span>
+    <button onclick="forcarActualizacao()" style="background:rgba(255,255,255,0.15);border:none;color:white;font-size:11px;cursor:pointer;border-radius:4px;padding:3px 8px;margin-left:4px" title="Forçar actualização dos dados">🔄</button>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-group">
+    <label>Farmácia</label>
+    <select id="farmacia-select" onchange="onFarmaciaChange()" style="min-width:200px">
+      <option value="">Todas</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Laboratório</label>
+    <select id="lab-select" onchange="onLabChange()">
+      <option value="">Seleccionar laboratório...</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Marca</label>
+    <select id="marca-select" onchange="onMarcaChange()" disabled>
+      <option value="">Todas</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Mercado</label>
+    <select id="cat-select" onchange="onCatChange()" disabled>
+      <option value="">Todas</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Categoria</label>
+    <select id="subcat-select" disabled>
+      <option value="">Todas</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Pesquisa</label>
+    <input type="text" id="pesquisa" placeholder="Designação..." style="min-width:160px;padding:6px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;">
+  </div>
+  <div class="toolbar-group">
+    <label>CNP</label>
+    <input type="text" id="pesquisa-cnp" placeholder="Código CNP..." style="min-width:120px;padding:6px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;">
+  </div>
+  <div class="toolbar-group">
+    <label>Cobertura</label>
+    <input type="number" id="cobertura" value="4" min="1" max="12"> meses
+  </div>
+  <div class="toolbar-group">
+    <label>Receita</label>
+    <select id="filtro-receita">
+      <option value="todos">Todos</option>
+      <option value="sem_msrm">Sem MSRM</option>
+      <option value="msrm">Só MSRM</option>
+    </select>
+  </div>
+  <div class="toolbar-group">
+    <label>Mostrar</label>
+    <select id="filtro-prioridade">
+      <option value="todos">Todos</option>
+      <option value="rutura">Só Rutura</option>
+      <option value="urgente_comprar">Urgente + Comprar</option>
+      <option value="com_proposta">Com proposta > 0</option>
+      <option value="com_vendedor">Com proposta vendedor</option>
+      <option value="sem_vendedor">Sem proposta vendedor</option>
+    </select>
+  </div>
+  <div class="toolbar-group" style="margin-left:auto">
+    <button id="btn-sifarma" onclick="setModoKpi(modoKpi === 'fechado' ? 'ytd' : 'fechado')"
+      style="padding:5px 10px;border-radius:5px;border:1px solid var(--cinza);background:white;font-size:11px;color:var(--cinza-escuro);cursor:pointer;font-family:inherit;transition:all 0.15s"
+      title="Alternar entre YTD e período fechado (Jan→Mês-1) para comparar com Sifarma.gest">
+      Sifarma.gest
+    </button>
+  </div>
+  <button class="btn btn-primary" onclick="aplicar()">Gerar proposta</button>
+</div>
+
+<!-- Resumo de filtros em mobile (aparece depois de gerar proposta) -->
+<div id="toolbar-resumo" style="display:none">
+  <span class="resumo-texto" id="toolbar-resumo-texto"></span>
+  <button class="btn-editar" onclick="expandirToolbar()">✏️ Filtros</button>
+</div>
+
+<div class="status-bar" id="status-bar" style="display:none">
+  <span class="badge badge-rutura" id="cnt-rutura">● 0 RUTURA</span>
+  <span class="badge badge-urgente" id="cnt-urgente">● 0 URGENTE</span>
+  <span class="badge badge-comprar" id="cnt-comprar">● 0 COMPRAR</span>
+  <span style="margin-left:auto" id="cnt-total">0 produtos</span>
+</div>
+</div>
+
+<div id="modal-vendedor" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;padding:24px"></div>
+
+<!-- Drawer: Laboratórios por urgência -->
+<div id="drawer-labs" style="display:none;position:fixed;top:0;right:0;bottom:0;width:680px;max-width:95vw;background:white;z-index:200;box-shadow:-4px 0 24px rgba(0,0,0,0.15);flex-direction:column">
+  <div style="padding:16px 20px;border-bottom:1px solid var(--cinza);display:flex;align-items:center;justify-content:space-between;background:var(--verde);color:white">
+    <div>
+      <div style="font-weight:700;font-size:15px">🚨 Urgência</div>
+      <div id="drawer-labs-farm" style="font-size:11px;opacity:0.8;margin-top:2px"></div>
+    </div>
+    <button onclick="fecharDrawerLabs()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:18px;cursor:pointer;border-radius:6px;padding:4px 10px">✕</button>
+  </div>
+  <div style="display:flex;border-bottom:1px solid var(--cinza);background:#f8f8f6">
+    <button id="tab-labs" onclick="setDrawerTab('labs')" style="padding:8px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;color:var(--verde);border-bottom:2px solid var(--verde);background:white;font-family:inherit">Laboratórios</button>
+    <button id="tab-cats" onclick="setDrawerTab('cats')" style="padding:8px 20px;border:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--cinza-escuro);border-bottom:2px solid transparent;background:transparent;font-family:inherit">Categorias</button>
+  </div>
+  <!-- Tab: Laboratórios -->
+  <div id="tab-content-labs" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+    <div style="padding:10px 20px;border-bottom:1px solid var(--cinza);display:flex;gap:16px;font-size:12px;color:var(--cinza-escuro)">
+      <span>Ordenar por:</span>
+      <button onclick="ordenarDrawer('rutura_valor')" id="ord-rutura_valor" class="btn btn-secondary" style="font-size:11px;padding:3px 10px;background:#fde8e8;color:var(--rutura);border-color:var(--rutura)">Valor em Rutura ↓</button>
+      <button onclick="ordenarDrawer('rutura_refs')" id="ord-rutura_refs" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Refs em Rutura</button>
+      <button onclick="ordenarDrawer('vendas')" id="ord-vendas" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Vendas YTD</button>
+      <button onclick="ordenarDrawer('margem')" id="ord-margem" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Margem YTD</button>
+    </div>
+    <div style="overflow-y:auto;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#f8f8f6;position:sticky;top:0">
+            <th style="padding:8px 12px;text-align:left;font-weight:600;color:var(--cinza-escuro);border-bottom:1px solid var(--cinza)">Laboratório</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Valor Rutura/mês</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Refs Rutura</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--urgente);border-bottom:1px solid var(--cinza)">Refs Urgente</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Vendas YTD</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Margem %</th>
+          </tr>
+        </thead>
+        <tbody id="drawer-labs-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab: Categorias -->
+  <div id="tab-content-cats" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <div style="padding:10px 20px;border-bottom:1px solid var(--cinza);display:flex;gap:16px;font-size:12px;color:var(--cinza-escuro)">
+      <span>Ordenar por:</span>
+      <button onclick="ordenarDrawerCats('rutura_valor')" id="cord-rutura_valor" class="btn btn-secondary" style="font-size:11px;padding:3px 10px;background:#fde8e8;color:var(--rutura);border-color:var(--rutura)">Valor em Rutura ↓</button>
+      <button onclick="ordenarDrawerCats('cresc')" id="cord-cresc" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Crescimento</button>
+      <button onclick="ordenarDrawerCats('vendas')" id="cord-vendas" class="btn btn-secondary" style="font-size:11px;padding:3px 10px">Vendas YTD</button>
+    </div>
+    <div style="overflow-y:auto;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#f8f8f6;position:sticky;top:0">
+            <th style="padding:8px 12px;text-align:left;font-weight:600;color:var(--cinza-escuro);border-bottom:1px solid var(--cinza)">Categoria</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Valor Rutura/mês</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;color:var(--rutura);border-bottom:1px solid var(--cinza)">Refs Rutura</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Vendas YTD</th>
+            <th style="padding:8px 12px;text-align:right;font-weight:600;border-bottom:1px solid var(--cinza)">Cresc. Hom.</th>
+          </tr>
+        </thead>
+        <tbody id="drawer-cats-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="kpi-panel" style="display:none;padding:12px 24px;background:#fff;border-bottom:1px solid var(--cinza);display:none">
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+    <div class="kpi-card">
+      <div class="kpi-label">Vendas YTD</div>
+      <div class="kpi-value" id="kpi-vendas-ytd">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Margem YTD</div>
+      <div class="kpi-value" id="kpi-margem-ytd">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Margem Bruta</div>
+      <div class="kpi-value" id="kpi-margem-bruta">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Cresc. Homólogo</div>
+      <div class="kpi-value" id="kpi-cresc">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Refs Activas</div>
+      <div class="kpi-value" id="kpi-refs-activas">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Em Rutura</div>
+      <div class="kpi-value" id="kpi-rutura">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Stock (Custo)</div>
+      <div class="kpi-value" id="kpi-stock-custo">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Quebras YTD</div>
+      <div class="kpi-value kpi-neg" id="kpi-quebras">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Proposta (Custo)</div>
+      <div class="kpi-value" id="kpi-proposta-custo">—</div>
+    </div>
+    <div class="kpi-card" id="kpi-card-vendedor" style="display:none">
+      <div class="kpi-label">Proposta Vendedor</div>
+      <div class="kpi-value" id="kpi-proposta-vendedor">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="loading" id="loading">A carregar dados...</div>
+  <table id="tabela" style="display:none">
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th id="th-farmacia" style="display:none">Farmácia</th>
+        <th>Prioridade</th>
+        <th class="num">Stock</th>
+        <th class="num">Dias</th>
+        <th class="num">Méd/Base</th>
+        <th>Vendas (18m)</th>
+        <th class="num">Ult.Compra</th>
+        <th class="num">Margem</th>
+        <th class="num">Proposta</th>
+        <th class="num">Editar</th>
+        <th class="num">Custo s/IVA</th>
+        <th class="num">PVP s/IVA</th>
+        <th class="num">Total Custo</th>
+        <th class="num" id="th-vendedor" style="display:none;background:#1a5c8a">V.Qt</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none">Seleccione um laboratório e clique em Gerar proposta.</div>
+</div>
+
+<div class="footer-bar" id="footer" style="display:none">
+  <span class="footer-info" id="footer-refs">0 referências</span>
+  <span class="footer-total" id="footer-total">Total: 0,00 €</span>
+  <div class="footer-actions">
+    <button class="btn btn-secondary" onclick="exportarCSV()">Exportar CSV</button>
+    <button class="btn btn-secondary" onclick="exportarAnalise()">Exportar Análise</button>
+    <button class="btn btn-secondary" onclick="copiarResumo()">Copiar resumo</button>
+    <button class="btn" id="btn-submeter" onclick="abrirModalSubmeter()" style="background:#1a5c8a;color:white;display:none">📤 Submeter</button>
+    <button class="btn" id="btn-aprovar" onclick="abrirModalAprovar()" style="background:#0F6E56;color:white;display:none">✅ Aprovar</button>
+  </div>
+</div>
+
+<!-- Modal: Submeter para aprovação -->
+<div id="modal-submeter" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:12px;padding:24px;width:520px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+    <h3 style="color:var(--verde);margin-bottom:16px;font-size:16px">📤 Submeter Proposta para Aprovação</h3>
+    <div id="modal-submeter-lab" style="font-size:13px;color:var(--cinza-escuro);margin-bottom:16px;padding:8px 12px;background:#f8f8f6;border-radius:6px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Colaborador *</label>
+        <input id="sm-colaborador" type="text" placeholder="Nome do colaborador" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Delegado (nome)</label>
+        <input id="sm-delegado-nome" type="text" placeholder="Nome do delegado" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Email delegado</label>
+        <input id="sm-delegado-email" type="email" placeholder="email@lab.com" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Telefone delegado</label>
+        <input id="sm-delegado-tel" type="text" placeholder="Telefone" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Desconto acordado</label>
+        <input id="sm-desconto" type="text" placeholder="Ex: 18%" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Prazo de pagamento</label>
+        <input id="sm-prazo" type="text" placeholder="Ex: 30 dias" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+      </div>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Bónus / Ofertas</label>
+      <input id="sm-bonus" type="text" placeholder="Ex: 1 caixa por cada 10" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Promotores / Góndola / Formações</label>
+      <input id="sm-promotores" type="text" placeholder="Ex: SVR 16/7" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Campanhas / Validades a regularizar</label>
+      <input id="sm-campanhas" type="text" placeholder="Ex: Campanha verão 2026" style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Notas</label>
+      <textarea id="sm-notas" rows="3" placeholder="Notas adicionais..." style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="fecharModalSubmeter()">Cancelar</button>
+      <button class="btn" id="btn-submeter-confirmar" onclick="submeterProposta()" style="background:#1a5c8a;color:white">📤 Submeter para Aprovação</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Aprovar -->
+<div id="modal-aprovar" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:12px;padding:24px;width:480px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+    <h3 style="color:var(--verde);margin-bottom:16px;font-size:16px">✅ Aprovar Proposta</h3>
+    <div id="modal-aprovar-info" style="font-size:13px;color:var(--cinza-escuro);margin-bottom:16px;padding:8px 12px;background:#f8f8f6;border-radius:6px"></div>
+    <div style="margin-bottom:16px">
+      <label style="font-size:11px;font-weight:600;color:var(--cinza-escuro);display:block;margin-bottom:4px">Notas de aprovação</label>
+      <textarea id="ap-notas" rows="3" placeholder="Notas ou condições da aprovação..." style="width:100%;padding:7px 10px;border:1px solid var(--cinza);border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="fecharModalAprovar()">Cancelar</button>
+      <button class="btn" onclick="aprovarProposta()" style="background:#0F6E56;color:white">✅ Aprovar e actualizar CRM</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const DATA_URL = 'https://dannihell.github.io/farmacia-tools/data/aroeira_brand.json.gz';
+let allData = null;
+let propostaActual = [];
+let vendedorMap = {};
+
+function forcarActualizacao() {
+  allData = null;
+  propostaActual = [];
+  propostaPoId = null;
+  document.getElementById('updated-tag').textContent = 'A actualizar...';
+  document.getElementById('tabela').style.display = 'none';
+  document.getElementById('footer').style.display = 'none';
+  document.getElementById('status-bar').style.display = 'none';
+  document.getElementById('kpi-panel').style.display = 'none';
+  document.getElementById('empty').style.display = 'block';
+  document.getElementById('empty').textContent = 'A carregar dados actualizados...';
+  init();
+}
+
+async function init() {
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    let data;
+    // Descomprimir gzip se necessário (ficheiro .json.gz)
+    if (DATA_URL.endsWith('.gz')) {
+      const blob = await r.blob();
+      const ds = new DecompressionStream('gzip');
+      const decompressed = blob.stream().pipeThrough(ds);
+      const text = await new Response(decompressed).text();
+      data = JSON.parse(text);
+    } else {
+      data = await r.json();
+    }
+    allData = data;
+    const upd = new Date(allData.updated_at);
+    document.getElementById('updated-tag').textContent =
+      'Actualizado: ' + upd.toLocaleDateString('pt-PT') + ' ' + upd.toLocaleTimeString('pt-PT', {hour:'2-digit',minute:'2-digit'});
+
+    // Preencher farmácias
+    const farmacias = allData.farmacias || [...new Set((allData.produtos||[]).map(p=>p.FARMACIA).filter(Boolean))].sort();
+    const farmSel = document.getElementById('farmacia-select');
+    farmacias.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f; opt.textContent = f;
+      farmSel.appendChild(opt);
+    });
+
+    // Preencher laboratórios (todas as farmácias inicialmente)
+    popularLabs('');
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('empty').style.display = 'block';
+  } catch(e) {
+    document.getElementById('loading').textContent = 'Erro a carregar dados: ' + e.message;
+  }
+}
+
+function getProdutosFarmacia() {
+  const farm = document.getElementById('farmacia-select').value;
+  return (allData.produtos || []).filter(p => !farm || p.FARMACIA === farm);
+}
+
+function popularLabs(farmacia) {
+  const produtos = (allData.produtos || []).filter(p => !farmacia || p.FARMACIA === farmacia);
+  const labMap = {};
+  produtos.forEach(p => { if (p.ENT_RESP_COMERC) labMap[p.ENT_RESP_COMERC] = true; });
+  const sel = document.getElementById('lab-select');
+  const valActual = sel.value;
+  sel.innerHTML = '<option value="">Seleccionar laboratório...</option>';
+  Object.keys(labMap).sort().forEach(lab => {
+    const opt = document.createElement('option');
+    opt.value = lab; opt.textContent = lab;
+    sel.appendChild(opt);
+  });
+  if (valActual && labMap[valActual]) sel.value = valActual;
+}
+
+function onFarmaciaChange() {
+  const farm = document.getElementById('farmacia-select').value;
+
+  // Guardar todos os filtros activos antes de reconstruir
+  const labActual    = document.getElementById('lab-select').value;
+  const marcaActual  = document.getElementById('marca-select').value;
+  const catActual    = document.getElementById('cat-select').value;
+  const subcatActual = document.getElementById('subcat-select').value;
+
+  // Reconstruir laboratórios para a nova farmácia
+  popularLabs(farm);
+
+  // Restaurar laboratório se existir
+  const labSel = document.getElementById('lab-select');
+  const labExiste = [...labSel.options].some(o => o.value === labActual);
+  if (labExiste) labSel.value = labActual;
+
+  // Reconstruir marcas/categorias respeitando o lab restaurado
+  onLabChange();
+
+  // Restaurar marca
+  const marcaSel = document.getElementById('marca-select');
+  const marcaExiste = [...marcaSel.options].some(o => o.value === marcaActual);
+  if (marcaExiste) { marcaSel.value = marcaActual; onMarcaChange(); }
+
+  // Restaurar categoria
+  const catSel = document.getElementById('cat-select');
+  const catExiste = [...catSel.options].some(o => o.value === catActual);
+  if (catExiste) { catSel.value = catActual; onCatChange(); }
+
+  // Restaurar subcategoria
+  const subcatSel = document.getElementById('subcat-select');
+  const subcatExiste = [...subcatSel.options].some(o => o.value === subcatActual);
+  if (subcatExiste) subcatSel.value = subcatActual;
+
+  // Regenerar proposta se havia uma activa e o lab ainda existe
+  if (labActual && labExiste && propostaActual.length) {
+    aplicar();
+  } else if (labActual && !labExiste) {
+    propostaActual = [];
+    document.getElementById('tabela').style.display = 'none';
+    document.getElementById('footer').style.display = 'none';
+    document.getElementById('status-bar').style.display = 'none';
+    document.getElementById('kpi-panel').style.display = 'none';
+    document.getElementById('empty').style.display = 'block';
+    document.getElementById('empty').textContent = 'Laboratório não disponível nesta farmácia. Seleccione outro.';
+  }
+}
+
+function onLabChange() {
+  const lab = document.getElementById('lab-select').value;
+  const marcaSel = document.getElementById('marca-select');
+  const catSel = document.getElementById('cat-select');
+  const subcatSel = document.getElementById('subcat-select');
+
+  marcaSel.innerHTML = '<option value="">Todas</option>';
+  catSel.innerHTML = '<option value="">Todas</option>';
+  subcatSel.innerHTML = '<option value="">Todas</option>';
+  marcaSel.disabled = true;
+  catSel.disabled = true;
+  subcatSel.disabled = true;
+
+  if (!lab || !allData) return;
+
+  const produtosLab = getProdutosFarmacia().filter(p => p.ENT_RESP_COMERC === lab);
+
+  const marcas = [...new Set(produtosLab.map(p => p.MARCA).filter(Boolean))].sort();
+  if (marcas.length > 0) {
+    marcas.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m; opt.textContent = m;
+      marcaSel.appendChild(opt);
+    });
+    marcaSel.disabled = false;
+  }
+
+  const cats = [...new Set(produtosLab.map(p => p.CATEGORIA_DESIGNACAO).filter(Boolean))].sort();
+  if (cats.length > 0) {
+    cats.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat; opt.textContent = cat;
+      catSel.appendChild(opt);
+    });
+    catSel.disabled = false;
+  }
+}
+
+function onMarcaChange() {
+  const lab = document.getElementById('lab-select').value;
+  const marca = document.getElementById('marca-select').value;
+  const catSel = document.getElementById('cat-select');
+  const subcatSel = document.getElementById('subcat-select');
+
+  catSel.innerHTML = '<option value="">Todas</option>';
+  subcatSel.innerHTML = '<option value="">Todas</option>';
+  subcatSel.disabled = true;
+
+  const produtosFiltrados = getProdutosFarmacia().filter(p => {
+    if (p.ENT_RESP_COMERC !== lab) return false;
+    if (marca && p.MARCA !== marca) return false;
+    return true;
+  });
+
+  const cats = [...new Set(produtosFiltrados.map(p => p.CATEGORIA_DESIGNACAO).filter(Boolean))].sort();
+  cats.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat; opt.textContent = cat;
+    catSel.appendChild(opt);
+  });
+  catSel.disabled = cats.length === 0;
+}
+
+function onCatChange() {
+  const lab = document.getElementById('lab-select').value;
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcatSel = document.getElementById('subcat-select');
+
+  subcatSel.innerHTML = '<option value="">Todas</option>';
+  subcatSel.disabled = true;
+
+  if (!cat || !allData) return;
+
+  const produtosFiltrados = getProdutosFarmacia().filter(p => {
+    if (p.ENT_RESP_COMERC !== lab) return false;
+    if (marca && p.MARCA !== marca) return false;
+    if (p.CATEGORIA_DESIGNACAO !== cat) return false;
+    return true;
+  });
+  const subcats = [...new Set(produtosFiltrados.map(p => p.MERCADO_DESIGNACAO).filter(Boolean))].sort();
+
+  if (subcats.length > 0) {
+    subcats.forEach(sub => {
+      const opt = document.createElement('option');
+      opt.value = sub; opt.textContent = sub;
+      subcatSel.appendChild(opt);
+    });
+    subcatSel.disabled = false;
+  }
+}
+
+
+function calcPrioridade(stock, media6m) {
+  if (media6m === 0) return 'ok';
+  const dias = (stock / (media6m / 30));
+  if (stock === 0 && media6m > 0) return 'rutura';
+  if (dias < 15) return 'urgente';
+  if (dias < 30) return 'comprar';
+  return 'ok';
+}
+
+function calcDias(stock, media6m) {
+  if (media6m === 0) return '—';
+  return Math.round(stock / (media6m / 30));
+}
+
+// Categorias sazonais e meses restantes da época (a partir de junho)
+const CATEGORIAS_SAZONAIS = ['protectores solares', 'protetores solares', 'pos solares', 'pós solares', 'after sun'];
+const MES_ATUAL = new Date().getMonth() + 1; // 1-12
+function mesesRestantesEpoca() {
+  // Época solar: junho(6), julho(7), agosto(8)
+  const fimEpoca = 8;
+  return Math.max(0, fimEpoca - MES_ATUAL + 1);
+}
+function isSazonal(p) {
+  const cat = (p.CATEGORIA_DESIGNACAO || '').toLowerCase();
+  return CATEGORIAS_SAZONAIS.some(c => cat.includes(c));
+}
+
+function calcularPropostaPorFarm(dadosFarm, cobertura, mesesEpoca) {
+  // Calcula proposta para os dados de uma farmácia específica (ou agregado)
+  const v = Array.from({length:18}, (_, i) => parseFloat(dadosFarm[`V${i}`] || 0));
+  const media6m = v.slice(0,6).reduce((a,b)=>a+b,0) / 6;
+  const stock = parseFloat(dadosFarm.STK_FARMACIA || 0);
+  const cat = (dadosFarm.CATEGORIA_DESIGNACAO || '').toLowerCase();
+  const saz = CATEGORIAS_SAZONAIS.some(c => cat.includes(c));
+
+  let proposta, mediaBase, sazonal = false;
+  if (saz && mesesEpoca > 0) {
+    const baseSazonal = v[10] + v[11] + v[12];
+    if (baseSazonal > 0) {
+      const mediaEpoca = baseSazonal / 3;
+      proposta = Math.max(0, Math.round(mediaEpoca * mesesEpoca - stock));
+      mediaBase = mediaEpoca; sazonal = true;
+    } else if (media6m > 0) {
+      proposta = Math.max(0, Math.round(media6m * mesesEpoca - stock));
+      mediaBase = media6m; sazonal = true;
+    } else { proposta = 0; mediaBase = 0; }
+  } else {
+    proposta = Math.max(0, Math.round(media6m * cobertura - stock));
+    mediaBase = media6m;
+  }
+  return { v, media6m, mediaBase, stock, proposta, sazonal };
+}
+
+function aplicar() {
+  const lab = document.getElementById('lab-select').value;
+  if (!lab || !allData) return;
+  const cobertura = parseFloat(document.getElementById('cobertura').value) || 4;
+  const mesesEpoca = mesesRestantesEpoca();
+
+  // Lista de todas as farmácias disponíveis no JSON
+  const todasFarmacias = allData.farmacias || [...new Set((allData.produtos||[]).map(p=>p.FARMACIA).filter(Boolean))];
+
+  // Universo completo do laboratório (todas as farmácias)
+  const todosOsProdutos = (allData.produtos || []).filter(p => p.ENT_RESP_COMERC === lab);
+
+  // Agrupar por COD_PRD → por FARMACIA
+  const porCod = {};
+  todosOsProdutos.forEach(p => {
+    const cod = p.COD_PRD;
+    if (!porCod[cod]) porCod[cod] = { base: p, porFarm: {} };
+    porCod[cod].porFarm[p.FARMACIA] = p;
+    // Acumular agregado "Todas"
+    if (!porCod[cod]._todas) {
+      porCod[cod]._todas = { ...p, STK_FARMACIA: 0, VENDAS_YTD: 0, MARGEM_YTD: 0,
+        VENDAS_ANO_ANT_YTD: 0, VENDAS_MES_ANT: 0, MARGEM_MES_ANT: 0,
+        VENDAS_ANO_ANT_MES_ANT: 0, VALOR_QUEBRAS: 0 };
+      for (let i = 0; i < 18; i++) porCod[cod]._todas[`V${i}`] = 0;
+    }
+    const t = porCod[cod]._todas;
+    t.STK_FARMACIA += (p.STK_FARMACIA || 0);
+    t.VENDAS_YTD += (p.VENDAS_YTD || 0);
+    t.MARGEM_YTD += (p.MARGEM_YTD || 0);
+    t.VENDAS_ANO_ANT_YTD += (p.VENDAS_ANO_ANT_YTD || 0);
+    t.VENDAS_MES_ANT += (p.VENDAS_MES_ANT || 0);
+    t.MARGEM_MES_ANT += (p.MARGEM_MES_ANT || 0);
+    t.VENDAS_ANO_ANT_MES_ANT += (p.VENDAS_ANO_ANT_MES_ANT || 0);
+    t.VALOR_QUEBRAS += (p.VALOR_QUEBRAS || 0);
+    for (let i = 0; i < 18; i++) t[`V${i}`] += (p[`V${i}`] || 0);
+  });
+
+  // Ordem global: média agregada de todas as farmácias, calculada uma vez
+  const mediaGlobalCod = cod => {
+    const t = porCod[cod]._todas;
+    if (!t) return 0;
+    return [0,1,2,3,4,5].reduce((s,i) => s + (t[`V${i}`]||0), 0) / 6;
+  };
+
+  const codsPorOrdem = Object.keys(porCod).sort((a, b) => mediaGlobalCod(b) - mediaGlobalCod(a));
+
+  propostaActual = codsPorOrdem.map(cod => {
+    const entry = porCod[cod];
+    const base = entry.base;
+    const pcus = parseFloat(base.PCUSMED_PROD || 0);
+    const pvp  = parseFloat(base.PVP_PROD || 0);
+
+    // Calcular proposta para cada farmácia individualmente
+    const propostas = {};
+    todasFarmacias.forEach(f => {
+      const dadosFarm = entry.porFarm[f] || {
+        ...base,
+        STK_FARMACIA: 0, VENDAS_YTD: 0, MARGEM_YTD: 0, VENDAS_ANO_ANT_YTD: 0,
+        VENDAS_MES_ANT: 0, MARGEM_MES_ANT: 0, VENDAS_ANO_ANT_MES_ANT: 0, VALOR_QUEBRAS: 0,
+        ...Object.fromEntries(Array.from({length:18},(_,i)=>[`V${i}`,0]))
+      };
+      const calc = calcularPropostaPorFarm(dadosFarm, cobertura, mesesEpoca);
+      propostas[f] = {
+        proposta: calc.proposta,
+        proposta_edit: calc.proposta_edit !== undefined ? calc.proposta_edit : calc.proposta,
+        stock: calc.stock,
+        v: calc.v,
+        media6m: calc.mediaBase,
+        sazonal: calc.sazonal,
+        prioridade: calcPrioridade(calc.stock, calc.mediaBase),
+        dias: calcDias(calc.stock, calc.mediaBase),
+        dados: dadosFarm,
+      };
+    });
+
+    // Calcular também para "Todas" (agregado)
+    const calcTodas = calcularPropostaPorFarm(entry._todas, cobertura, mesesEpoca);
+    propostas[''] = {
+      proposta: calcTodas.proposta,
+      proposta_edit: calcTodas.proposta,
+      stock: calcTodas.stock,
+      v: calcTodas.v,
+      media6m: calcTodas.mediaBase,
+      sazonal: calcTodas.sazonal,
+      prioridade: calcPrioridade(calcTodas.stock, calcTodas.mediaBase),
+      dias: calcDias(calcTodas.stock, calcTodas.mediaBase),
+      dados: entry._todas,
+    };
+
+    const _mYtd = parseFloat(base.MARGEM_YTD || 0);
+    const _vYtd = parseFloat(base.VENDAS_YTD || 0);
+    const margem = _vYtd > 0 ? (_mYtd / _vYtd * 100) : (pvp > 0 && pvp < 9999 ? ((pvp - pcus) / pvp * 100) : 0);
+
+    return { ...base, COD_PRD: cod, pcus, pvp, margem, propostas, mediaGlobal: mediaGlobalCod(cod) };
+  });
+
+  document.getElementById('btn-guardar').style.display = 'inline-block';
+  document.getElementById('btn-vendedor').style.display = 'inline-block';
+  document.getElementById('btn-submeter').style.display = 'inline-block';
+  document.getElementById('btn-aprovar').style.display = propostaPoId ? 'inline-block' : 'none';
+  renderTabela();
+  colapsarToolbar();
+}
+
+function renderTabela() {
+  if (!propostaActual.length) return;
+
+  const farm = document.getElementById('farmacia-select').value;
+  const filtro = document.getElementById('filtro-prioridade').value;
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcat = document.getElementById('subcat-select').value;
+  const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
+  const cnp = document.getElementById('pesquisa-cnp').value.trim();
+
+  // Helper: obter dados da farmácia activa para um produto
+  const getFarmData = p => p.propostas[farm] || p.propostas[''];
+
+  const filtroReceita = document.getElementById('filtro-receita').value;
+
+  let rows = propostaActual;
+
+  // Filtros em tempo real
+  if (marca) rows = rows.filter(r => r.MARCA === marca);
+  if (cat) rows = rows.filter(r => r.CATEGORIA_DESIGNACAO === cat);
+  if (subcat) rows = rows.filter(r => r.MERCADO_DESIGNACAO === subcat);
+  if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
+  if (cnp) rows = rows.filter(r => String(r.COD_PRD || '').includes(cnp));
+  if (filtroReceita === 'msrm') rows = rows.filter(r => (r.SFAM_ESTAT || '').includes('receita'));
+  if (filtroReceita === 'sem_msrm') rows = rows.filter(r => !(r.SFAM_ESTAT || '').includes('receita'));
+
+  // Filtro prioridade — usa dados da farmácia activa
+  if (filtro === 'rutura') rows = rows.filter(r => getFarmData(r).prioridade === 'rutura');
+  if (filtro === 'urgente_comprar') rows = rows.filter(r => ['rutura','urgente','comprar'].includes(getFarmData(r).prioridade));
+  if (filtro === 'com_proposta') rows = rows.filter(r => getFarmData(r).proposta_edit > 0);
+  if (filtro === 'com_vendedor') rows = rows.filter(r => vendedorMap[parseInt(r.COD_PRD)] > 0);
+  if (filtro === 'sem_vendedor') rows = rows.filter(r => !vendedorMap[parseInt(r.COD_PRD)]);
+
+  const cntR = propostaActual.filter(r => getFarmData(r).prioridade === 'rutura').length;
+  const cntU = propostaActual.filter(r => getFarmData(r).prioridade === 'urgente').length;
+  const cntC = propostaActual.filter(r => getFarmData(r).prioridade === 'comprar').length;
+  document.getElementById('cnt-rutura').textContent = `● ${cntR} RUTURA`;
+  document.getElementById('cnt-urgente').textContent = `● ${cntU} URGENTE`;
+  document.getElementById('cnt-comprar').textContent = `● ${cntC} COMPRAR`;
+  document.getElementById('cnt-total').textContent = `${rows.length} produtos mostrados`;
+  document.getElementById('status-bar').style.display = 'flex';
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  const mostrarFarmacia = !farm;
+
+  rows.forEach((p) => {
+    const fd = getFarmData(p); // dados da farmácia activa
+    const q = Array.from({length:18}, (_, i) => parseFloat(p[`Q${i}`] || 0));
+    const v = fd.v || Array(18).fill(0);
+    const maxV = Math.max(...v, 0.1);
+    const meses = ['Jun','Mai','Abr','Mar','Fev','Jan','Dez','Nov','Out','Set','Ago','Jul','Jun','Mai','Abr','Mar','Fev','Jan'];
+    const barras = v.slice(0,18).map((vv, i) => {
+      const h = Math.round(vv/maxV*22)+2;
+      const label = vv > 0 ? `<span class="bar-num">${Math.round(vv)}</span>` : '';
+      const isSazonalBar = fd.sazonal && (i === 10 || i === 11 || i === 12);
+      const temQuebra = q[i] > 0;
+      const barClass = i === 0 ? 'bar current' : isSazonalBar ? 'bar sazonal' : 'bar';
+      const quebraIcon = temQuebra ? `<span style="font-size:7px;color:#A32D2D;line-height:1" title="Quebra: ${q[i].toFixed(2)}€">⚠</span>` : '';
+      return `<div class="bar-wrap" title="${meses[i]}: ${vv.toFixed(1)} un${temQuebra ? ' | Quebra: '+q[i].toFixed(2)+'€' : ''}"><div class="${barClass}" style="height:${h}px"></div>${label}${quebraIcon}</div>`;
+    }).reverse().join('');
+
+    const prLabel = {rutura:'RUTURA',urgente:'URGENTE',comprar:'COMPRAR',ok:'OK'}[fd.prioridade] || 'OK';
+    const prClass = `p-${fd.prioridade || 'ok'}`;
+    const margemClass = p.margem >= 30 ? 'margem-ok' : 'margem-low';
+    const diasStr = typeof fd.dias === 'number' ? fd.dias + 'd' : fd.dias;
+
+    // DUC — data última compra
+    const duc = p.DUC || fd.dados?.DUC || '';
+    const ducStr = duc ? duc.substring(0,7) : '—'; // mostra YYYY-MM
+
+    const cnpInt = parseInt(p.COD_PRD);
+    const vQt = vendedorMap[cnpInt];
+    const vCell = Object.keys(vendedorMap).length > 0
+      ? `<td class="num" style="${vQt > 0 ? 'color:var(--verde);font-weight:600' : 'color:var(--cinza-escuro)'}">${vQt > 0 ? vQt : '—'}</td>`
+      : '';
+
+    const farmaciaCell = mostrarFarmacia
+      ? `<td style="font-size:11px;color:var(--cinza-escuro);white-space:nowrap">${(p.FARMACIA||'').replace('Farmácia ','')}</td>`
+      : '';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="produto">
+        <div class="nome">${p.DESIGNACAO || ''}</div>
+        <div class="cod">${p.COD_PRD || ''}</div>
+      </td>
+      ${farmaciaCell}
+      <td><span class="prioridade ${prClass}">${prLabel}</span></td>
+      <td class="num">${fd.stock}</td>
+      <td class="num">${diasStr}</td>
+      <td class="num">${fd.media6m.toFixed(1)}${fd.sazonal ? ' ☀️' : ''}</td>
+      <td><div class="vendas-bar">${barras}</div></td>
+      <td class="num" style="font-size:11px;color:var(--cinza-escuro)">${ducStr}</td>
+      <td class="num"><span class="margem-pct ${margemClass}">${p.margem.toFixed(0)}%</span></td>
+      <td class="num">${fd.proposta}</td>
+      <td class="num"><input class="qt-input" type="number" min="0" value="${fd.proposta_edit}" data-cod="${p.COD_PRD}" data-farm="${farm}" onchange="updateQt(this)"></td>
+      <td class="num">${p.pcus.toFixed(2)} €</td>
+      <td class="num">${p.pvp > 0 && p.pvp < 9999 ? p.pvp.toFixed(2) + ' €' : '—'}</td>
+      <td class="num total-cell">${(fd.proposta_edit * p.pcus).toFixed(2)} €</td>
+      ${vCell}
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const mostrarFarmaciaTh = !farm;
+  document.getElementById('th-farmacia').style.display = mostrarFarmaciaTh ? '' : 'none';
+  document.getElementById('th-vendedor').style.display = Object.keys(vendedorMap).length > 0 ? '' : 'none';
+  document.getElementById('tabela').style.display = rows.length ? 'table' : 'none';
+  document.getElementById('empty').style.display = rows.length ? 'none' : 'block';
+  if (!rows.length) document.getElementById('empty').textContent = 'Nenhum produto com este filtro.';
+  document.getElementById('footer').style.display = 'flex';
+  updateFooter();
+  updateKPIs(rows);
+}
+
+function updateQt(input) {
+  const cod = input.dataset.cod;
+  const farmInput = input.dataset.farm;
+  const val = Math.max(0, parseInt(input.value) || 0);
+  const p = propostaActual.find(x => x.COD_PRD === cod);
+  if (!p) return;
+  const fd = p.propostas[farmInput] || p.propostas[''];
+  const original = fd.proposta;
+  fd.proposta_edit = val;
+  input.classList.toggle('modified', val !== original);
+  const tr = input.closest('tr');
+  tr.querySelector('.total-cell').textContent = (val * p.pcus).toFixed(2) + ' €';
+  updateFooter();
+  updateKPIsLight();
+}
+
+function updateFooter() {
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s, p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  document.getElementById('footer-refs').textContent = comProposta.length + ' referências com quantidade';
+  document.getElementById('footer-total').textContent = 'Total Custo s/IVA: ' + total.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+}
+
+function exportarCSV() {
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const mesesLabel = ['Jun26','Mai26','Abr26','Mar26','Fev26','Jan26','Dez25','Nov25','Out25','Set25','Ago25','Jul25','Jun25','Mai25','Abr25','Mar25','Fev25','Jan25'];
+  const colsVendas = mesesLabel.map(m => 'V_' + m);
+  const linhas = [[
+    'COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','MEDIA_6M','PROPOSTA','CUSTO_UNIT','PVP_SIVA','TOTAL_CUSTO','MARGEM_PCT',
+    ...colsVendas
+  ].join(';')];
+  comProposta.forEach(p => {
+    const fd = getFd(p);
+    const v = fd.v || Array(18).fill(0);
+    const vendasMensais = mesesLabel.map((_, i) => (v[i] || 0).toFixed(1));
+    linhas.push([
+      p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`, `"${p.MARCA || ''}"`, `"${p.CATEGORIA_DESIGNACAO || ''}"`,
+      fd.stock, fd.media6m.toFixed(2), fd.proposta_edit,
+      p.pcus.toFixed(2), p.pvp.toFixed(2), (fd.proposta_edit * p.pcus).toFixed(2), p.margem.toFixed(1)+'%',
+      ...vendasMensais
+    ].join(';'));
+  });
+  const blob = new Blob(['\ufeff'+linhas.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'proposta_' + document.getElementById('lab-select').value.substring(0,20).replace(/\s/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.csv';
+  a.click();
+}
+
+function getFilteredRowsForExport() {
+  const farm = document.getElementById('farmacia-select').value;
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcat = document.getElementById('subcat-select').value;
+  const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
+  const cnp = document.getElementById('pesquisa-cnp').value.trim();
+  const filtroReceita = document.getElementById('filtro-receita').value;
+
+  let rows = propostaActual;
+  if (marca) rows = rows.filter(r => r.MARCA === marca);
+  if (cat) rows = rows.filter(r => r.CATEGORIA_DESIGNACAO === cat);
+  if (subcat) rows = rows.filter(r => r.MERCADO_DESIGNACAO === subcat);
+  if (pesquisa) rows = rows.filter(r => (r.DESIGNACAO || '').toLowerCase().includes(pesquisa));
+  if (cnp) rows = rows.filter(r => String(r.COD_PRD || '').includes(cnp));
+  if (filtroReceita === 'msrm') rows = rows.filter(r => (r.SFAM_ESTAT || '').includes('receita'));
+  if (filtroReceita === 'sem_msrm') rows = rows.filter(r => !(r.SFAM_ESTAT || '').includes('receita'));
+  return rows;
+}
+
+function exportarAnalise() {
+  if (!propostaActual.length) return;
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const rows = getFilteredRowsForExport();
+  const mesesLabel = ['Jun26','Mai26','Abr26','Mar26','Fev26','Jan26','Dez25','Nov25','Out25','Set25','Ago25','Jul25','Jun25','Mai25','Abr25','Mar25','Fev25','Jan25'];
+  const colsVendas = mesesLabel.map(m => 'V_' + m);
+  const temVendedor = Object.keys(vendedorMap).length > 0;
+  const header = ['COD_PRD','DESIGNACAO','ENT_RESP_COMERC','MARCA','CATEGORIA','STK','DIAS','MEDIA_6M','CUSTO_UNIT','PVP_SIVA','MARGEM_PCT',...colsVendas];
+  if (temVendedor) header.push('V_QT_VENDEDOR');
+  const linhas = [header.join(';')];
+  rows.forEach(p => {
+    const fd = getFd(p);
+    const v = fd.v || Array(18).fill(0);
+    const vendasMensais = mesesLabel.map((_, i) => (v[i] || 0).toFixed(1));
+    const diasVal = typeof fd.dias === 'number' ? fd.dias : '';
+    const linha = [
+      p.COD_PRD, `"${p.DESIGNACAO}"`, `"${p.ENT_RESP_COMERC}"`, `"${p.MARCA || ''}"`, `"${p.CATEGORIA_DESIGNACAO || ''}"`,
+      fd.stock, diasVal, fd.media6m.toFixed(2),
+      p.pcus.toFixed(2), p.pvp.toFixed(2), p.margem.toFixed(1)+'%',
+      ...vendasMensais
+    ];
+    if (temVendedor) linha.push(vendedorMap[parseInt(p.COD_PRD)] || 0);
+    linhas.push(linha.join(';'));
+  });
+  const blob = new Blob(['\ufeff'+linhas.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'analise_' + document.getElementById('lab-select').value.substring(0,20).replace(/\s/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.csv';
+  a.click();
+}
+
+function copiarResumo() {
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  const farmLabel = farm || 'Todas as Farmácias';
+  const linhas = [`Proposta de Compra — ${lab} (${farmLabel})`, `Data: ${new Date().toLocaleDateString('pt-PT')}`, ''];
+  comProposta.forEach(p => {
+    const fd = getFd(p);
+    linhas.push(`${fd.proposta_edit}x ${p.DESIGNACAO} (${p.COD_PRD}) — ${(fd.proposta_edit*p.pcus).toFixed(2)}€ custo`);
+  });
+  linhas.push('');
+  linhas.push(`Total Custo s/IVA: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})}€`);
+  navigator.clipboard.writeText(linhas.join('\n')).then(() => alert('Resumo copiado!'));
+}
+
+function isMobile() { return window.innerWidth <= 768; }
+
+function colapsarToolbar() {
+  if (!isMobile()) return;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const lab = document.getElementById('lab-select').value || '—';
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  let resumo = farm + ' · ' + lab.substring(0, 25);
+  if (marca) resumo += ' · ' + marca.substring(0, 15);
+  if (cat) resumo += ' · ' + cat.substring(0, 15);
+  document.getElementById('toolbar-resumo-texto').textContent = resumo;
+  document.querySelector('.toolbar').classList.add('collapsed');
+  document.getElementById('toolbar-resumo').classList.add('visible');
+}
+
+function expandirToolbar() {
+  document.querySelector('.toolbar').classList.remove('collapsed');
+  document.getElementById('toolbar-resumo').classList.remove('visible');
+}
+
+let modoKpi = 'ytd'; // 'ytd' ou 'fechado'
+
+function setModoKpi(modo) {
+  modoKpi = modo;
+  const btn = document.getElementById('btn-sifarma');
+  if (btn) {
+    btn.style.background = modo === 'fechado' ? '#e8f7f1' : 'white';
+    btn.style.color = modo === 'fechado' ? 'var(--verde)' : 'var(--cinza-escuro)';
+    btn.style.borderColor = modo === 'fechado' ? 'var(--verde)' : 'var(--cinza)';
+    btn.style.fontWeight = modo === 'fechado' ? '700' : 'normal';
+  }
+  if (propostaActual.length) renderTabela();
+}
+
+function carregarExcelVendedor(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result, {type: 'array'});
+      // Juntar todas as sheets numa lista de rows
+      const todasRows = [];
+      wb.SheetNames.forEach(name => {
+        const ws = wb.Sheets[name];
+        const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+        rows.forEach(r => todasRows.push(r));
+      });
+
+      // Tentar detetar colunas automaticamente
+      // Procurar header row com CÓDIGO/CNP e QUANTIDADE
+      let colCnp = -1, colQt = -1, headerRow = -1;
+      for (let i = 0; i < Math.min(todasRows.length, 10); i++) {
+        const row = todasRows[i].map(c => String(c).toUpperCase().trim());
+        const cnpIdx = row.findIndex(c => c.includes('CÓDIGO') || c.includes('CODIGO') || c.includes('CNP') || c.includes('REF'));
+        const qtIdx = row.findIndex(c => c.includes('QUANT') || c.includes('QT') || c === 'QTD');
+        if (cnpIdx >= 0 && qtIdx >= 0) {
+          colCnp = cnpIdx; colQt = qtIdx; headerRow = i;
+          break;
+        }
+      }
+
+      if (colCnp < 0) {
+        // Mostrar primeiras colunas para seleção manual
+        const headers = todasRows.find(r => r.some(c => c !== '')) || [];
+        const opcoes = headers.map((h,i) => `<option value="${i}">${i}: ${h}</option>`).join('');
+        document.getElementById('modal-vendedor').innerHTML = `
+          <div style="background:white;padding:24px;border-radius:12px;max-width:400px;margin:auto;margin-top:20vh;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+            <h3 style="margin-bottom:16px;color:var(--verde)">Mapear colunas do Excel</h3>
+            <div style="margin-bottom:12px"><label>Coluna CNP/Código:</label><br><select id="sel-cnp" style="width:100%;margin-top:4px">${opcoes}</select></div>
+            <div style="margin-bottom:16px"><label>Coluna Quantidade:</label><br><select id="sel-qt" style="width:100%;margin-top:4px">${opcoes}</select></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-secondary" onclick="document.getElementById('modal-vendedor').style.display='none'">Cancelar</button>
+              <button class="btn btn-primary" onclick="aplicarMapeamento(${JSON.stringify(todasRows)})">Confirmar</button>
+            </div>
+          </div>`;
+        document.getElementById('modal-vendedor').style.display = 'flex';
+        input.value = '';
+        return;
+      }
+
+      processarLinhasVendedor(todasRows, colCnp, colQt, headerRow);
+    } catch(err) {
+      alert('Erro ao ler Excel: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  input.value = '';
+}
+
+function aplicarMapeamento(rows) {
+  const colCnp = parseInt(document.getElementById('sel-cnp').value);
+  const colQt = parseInt(document.getElementById('sel-qt').value);
+  document.getElementById('modal-vendedor').style.display = 'none';
+  processarLinhasVendedor(rows, colCnp, colQt, 0);
+}
+
+function processarLinhasVendedor(rows, colCnp, colQt, headerRow) {
+  vendedorMap = {};
+  let count = 0;
+  rows.forEach((row, i) => {
+    if (i <= headerRow) return;
+    const cnpRaw = String(row[colCnp] || '').replace(/\.0$/, '').trim();
+    const cnp = parseInt(cnpRaw);
+    const qt = parseFloat(row[colQt]);
+    if (!isNaN(cnp) && cnp > 0 && !isNaN(qt) && qt > 0) {
+      vendedorMap[cnp] = qt;
+      count++;
+    }
+  });
+  renderTabela();
+  updateKPIsLight();
+  alert(`Excel do vendedor carregado — ${count} referências com quantidade.\nColuna "V.Qt" adicionada à tabela.`);
+}
+
+
+function fmt(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:0, maximumFractionDigits:0}); }
+function fmtEur(v) { return v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
+
+function updateKPIs(rows) {
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const fechado = modoKpi === 'fechado';
+
+  const campoVendas  = fechado ? 'VENDAS_MES_ANT'         : 'VENDAS_YTD';
+  const campoMargem  = fechado ? 'MARGEM_MES_ANT'         : 'MARGEM_YTD';
+  const campoAntYTD  = fechado ? 'VENDAS_ANO_ANT_MES_ANT' : 'VENDAS_ANO_ANT_YTD';
+
+  const agora = new Date();
+  const mesAnterior = new Date(agora.getFullYear(), agora.getMonth() - 1, 1);
+  const nomeMes = mesAnterior.toLocaleString('pt-PT', {month:'short'}).replace('.','');
+  const labelPeriodo = fechado
+    ? `Jan→${nomeMes} (fechado)`
+    : `Jan→${agora.toLocaleString('pt-PT', {month:'short'}).replace('.','').replace('.','')} YTD`;
+
+  const vendasYtd  = rows.reduce((s,p) => s + parseFloat(getFd(p).dados?.[campoVendas] || 0), 0);
+  const margemYtd  = rows.reduce((s,p) => s + parseFloat(getFd(p).dados?.[campoMargem] || 0), 0);
+  const margemPct  = vendasYtd > 0 ? (margemYtd / vendasYtd * 100) : 0;
+  const vendasAnoAnt = rows.reduce((s,p) => s + parseFloat(getFd(p).dados?.[campoAntYTD] || 0), 0);
+  const cresc = vendasAnoAnt > 0 ? ((vendasYtd - vendasAnoAnt) / vendasAnoAnt * 100) : null;
+
+  const refsActivas = rows.filter(p => [0,1,2,3,4,5].some(i => (getFd(p).v?.[i]||0) > 0)).length;
+  const emRutura = rows.filter(p => getFd(p).prioridade === 'rutura').length;
+  const stockCusto = rows.reduce((s,p) => s + (getFd(p).stock || 0) * p.pcus, 0);
+  const quebras = rows.reduce((s,p) => s + parseFloat(getFd(p).dados?.VALOR_QUEBRAS || 0), 0);
+
+  document.getElementById('kpi-vendas-ytd').textContent = fmtEur(vendasYtd);
+  document.querySelector('#kpi-vendas-ytd').closest('.kpi-card').querySelector('.kpi-label').textContent = `Vendas ${labelPeriodo}`;
+  const mEl = document.getElementById('kpi-margem-ytd');
+  mEl.textContent = margemPct.toFixed(1) + '%';
+  mEl.className = 'kpi-value ' + (margemPct >= 30 ? 'kpi-pos' : 'kpi-neg');
+  mEl.closest('.kpi-card').querySelector('.kpi-label').textContent = `Margem % ${labelPeriodo}`;
+  const mbEl = document.getElementById('kpi-margem-bruta');
+  mbEl.textContent = fmtEur(margemYtd);
+  mbEl.className = 'kpi-value ' + (margemYtd >= 0 ? 'kpi-pos' : 'kpi-neg');
+  mbEl.closest('.kpi-card').querySelector('.kpi-label').textContent = `Margem Bruta ${labelPeriodo}`;
+  const cEl = document.getElementById('kpi-cresc');
+  if (cresc !== null) {
+    cEl.textContent = (cresc >= 0 ? '+' : '') + cresc.toFixed(1) + '%';
+    cEl.className = 'kpi-value ' + (cresc >= 0 ? 'kpi-pos' : 'kpi-neg');
+  } else {
+    cEl.textContent = '—';
+    cEl.className = 'kpi-value';
+  }
+  document.getElementById('kpi-refs-activas').textContent = refsActivas;
+  const rEl = document.getElementById('kpi-rutura');
+  rEl.textContent = emRutura;
+  rEl.className = 'kpi-value ' + (emRutura > 0 ? 'kpi-neg' : '');
+  document.getElementById('kpi-stock-custo').textContent = fmtEur(stockCusto);
+  document.getElementById('kpi-quebras').textContent = fmtEur(quebras);
+
+  document.getElementById('kpi-panel').style.display = 'block';
+  updateKPIsLight();
+}
+
+
+function updateKPIsLight() {
+  const farm = document.getElementById('farmacia-select').value;
+  const getFd = p => p.propostas[farm] || p.propostas[''];
+  const propostaCusto = propostaActual.reduce((s, p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  document.getElementById('kpi-proposta-custo').textContent = fmtEur(propostaCusto);
+  if (Object.keys(vendedorMap).length > 0) {
+    const vendedorCusto = propostaActual.reduce((s, p) => {
+      const vQt = vendedorMap[parseInt(p.COD_PRD)] || 0;
+      return s + vQt * p.pcus;
+    }, 0);
+    document.getElementById('kpi-proposta-vendedor').textContent = fmtEur(vendedorCusto);
+    document.getElementById('kpi-card-vendedor').style.display = '';
+  }
+}
+
+
+// ===== GUARDAR/CARREGAR PROPOSTA =====
+const WORKER_CRM_URL = 'https://zoho-crm-po.danielgds.workers.dev';
+let propostaPoId = null; // po_id do CRM após submissão
+
+function abrirModalSubmeter() {
+  if (!propostaActual.length) return;
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const total = propostaActual.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  document.getElementById('modal-submeter-lab').textContent =
+    `${lab} · ${farm} · Total: ${total.toLocaleString('pt-PT',{minimumFractionDigits:2})} €`;
+  document.getElementById('modal-submeter').style.display = 'flex';
+}
+
+function fecharModalSubmeter() {
+  document.getElementById('modal-submeter').style.display = 'none';
+}
+
+async function submeterProposta() {
+  const colaborador = document.getElementById('sm-colaborador').value.trim();
+  if (!colaborador) { alert('Preenche o nome do colaborador.'); return; }
+
+  const btn = document.getElementById('btn-submeter-confirmar');
+  btn.textContent = '⏳ A submeter...';
+  btn.disabled = true;
+
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+
+  const payload = {
+    laboratorio: lab,
+    farmacia: farm,
+    colaborador,
+    delegado_nome: document.getElementById('sm-delegado-nome').value,
+    delegado_email: document.getElementById('sm-delegado-email').value,
+    delegado_tel: document.getElementById('sm-delegado-tel').value,
+    desconto: document.getElementById('sm-desconto').value,
+    bonus: document.getElementById('sm-bonus').value,
+    prazo_pagamento: document.getElementById('sm-prazo').value,
+    promotores: document.getElementById('sm-promotores').value,
+    campanhas: document.getElementById('sm-campanhas').value,
+    notas: document.getElementById('sm-notas').value,
+    total_custo: total,
+    produtos: comProposta.map(p => {
+      const fd = getFd(p);
+      return {
+        cod: p.COD_PRD,
+        designacao: p.DESIGNACAO,
+        quantidade: fd.proposta_edit,
+        custo_unit: p.pcus,
+        total: fd.proposta_edit * p.pcus,
+      };
+    }),
+  };
+
+  try {
+    const r = await fetch(`${WORKER_CRM_URL}/submeter`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await r.json();
+    if (data.success) {
+      propostaPoId = data.po_id;
+      document.getElementById('btn-aprovar').style.display = '';
+      fecharModalSubmeter();
+      alert(`✅ Proposta submetida com sucesso!\nPO criado no CRM: ${data.po_id}\n\nGuarda o JSON para carregar quando fores aprovar.`);
+      guardarProposta(); // guarda automaticamente com o po_id incluído
+    } else {
+      alert('Erro ao submeter: ' + data.error);
+    }
+  } catch(err) {
+    alert('Erro de ligação: ' + err.message);
+  } finally {
+    btn.textContent = '📤 Submeter para Aprovação';
+    btn.disabled = false;
+  }
+}
+
+function abrirModalAprovar() {
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const total = propostaActual.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+  document.getElementById('modal-aprovar-info').innerHTML =
+    `<strong>${lab}</strong> · ${farm}<br>Total: <strong>${total.toLocaleString('pt-PT',{minimumFractionDigits:2})} €</strong><br>PO CRM: ${propostaPoId || '(sem po_id)'}`;
+  document.getElementById('modal-aprovar').style.display = 'flex';
+}
+
+function fecharModalAprovar() {
+  document.getElementById('modal-aprovar').style.display = 'none';
+}
+
+async function aprovarProposta() {
+  if (!propostaPoId) { alert('Sem po_id — carrega um JSON que tenha sido submetido.'); return; }
+
+  const lab = document.getElementById('lab-select').value;
+  const farm = document.getElementById('farmacia-select').value || 'Todas';
+  const getFd = p => p.propostas[document.getElementById('farmacia-select').value] || p.propostas[''];
+  const comProposta = propostaActual.filter(p => getFd(p).proposta_edit > 0);
+  const total = comProposta.reduce((s,p) => s + getFd(p).proposta_edit * p.pcus, 0);
+
+  const payload = {
+    po_id: propostaPoId,
+    laboratorio: lab,
+    farmacia: farm,
+    total_custo: total,
+    notas_aprovacao: document.getElementById('ap-notas').value,
+    produtos: comProposta.map(p => {
+      const fd = getFd(p);
+      return { cod: p.COD_PRD, designacao: p.DESIGNACAO, quantidade: fd.proposta_edit, custo_unit: p.pcus, total: fd.proposta_edit * p.pcus };
+    }),
+  };
+
+  try {
+    const r = await fetch(`${WORKER_CRM_URL}/aprovar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await r.json();
+    if (data.success) {
+      fecharModalAprovar();
+      alert('✅ Proposta aprovada! PO actualizado no CRM.');
+    } else {
+      alert('Erro ao aprovar: ' + data.error);
+    }
+  } catch(err) {
+    alert('Erro de ligação: ' + err.message);
+  }
+}
+  const lab = document.getElementById('lab-select').value;
+  if (!lab || !propostaActual.length) return;
+  // Guardar propostas de todas as farmácias num único ficheiro
+  const quantidades = propostaActual.map(p => ({
+    cod: p.COD_PRD,
+    propostas: Object.fromEntries(
+      Object.entries(p.propostas).map(([f, fd]) => [f, fd.proposta_edit])
+    )
+  }));
+  const dados = { lab, cobertura: document.getElementById('cobertura').value, data: new Date().toISOString(), quantidades };
+  const blob = new Blob([JSON.stringify(dados, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'proposta_' + lab.substring(0,30).replace(/[^a-zA-Z0-9]/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.json';
+  a.click();
+}
+
+function carregarProposta(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const dados = JSON.parse(e.target.result);
+      const labSel = document.getElementById('lab-select');
+      labSel.value = dados.lab;
+      if (!labSel.value) { alert('Laboratório não encontrado: ' + dados.lab); return; }
+      document.getElementById('cobertura').value = dados.cobertura || 4;
+      onLabChange();
+      aplicar();
+      setTimeout(() => {
+        const qtMap = {};
+        dados.quantidades.forEach(q => { qtMap[q.cod] = q.propostas || {}; });
+        propostaActual.forEach(p => {
+          const qt = qtMap[p.COD_PRD];
+          if (qt) {
+            Object.entries(qt).forEach(([f, val]) => {
+              if (p.propostas[f]) p.propostas[f].proposta_edit = val;
+            });
+          }
+        });
+        // Restaurar po_id se existir
+        if (dados.po_id) {
+          propostaPoId = dados.po_id;
+          document.getElementById('btn-aprovar').style.display = 'inline-block';
+        }
+        renderTabela();
+        updateFooter();
+        alert('Proposta carregada — guardada em ' + new Date(dados.data).toLocaleString('pt-PT'));
+      }, 400);
+    } catch(err) {
+      alert('Erro ao carregar ficheiro: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+function reRenderDrawerSeAberto() {
+  if (document.getElementById('drawer-labs').style.display !== 'none') {
+    abrirDrawerLabs();
+  }
+}
+
+document.getElementById('filtro-receita').addEventListener('change', () => {
+  if (propostaActual.length) renderTabela();
+  reRenderDrawerSeAberto();
+});
+document.getElementById('filtro-prioridade').addEventListener('change', () => {
+  if (propostaActual.length) renderTabela();
+});
+['marca-select','cat-select','subcat-select'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => {
+    if (propostaActual.length) renderTabela();
+    reRenderDrawerSeAberto();
+  });
+});
+document.getElementById('pesquisa').addEventListener('input', () => {
+  if (propostaActual.length) renderTabela();
+  reRenderDrawerSeAberto();
+});
+document.getElementById('pesquisa-cnp').addEventListener('input', () => {
+  if (propostaActual.length) renderTabela();
+  reRenderDrawerSeAberto();
+});
+
+let drawerOrdem = 'rutura_valor';
+let drawerCatsOrdem = 'rutura_valor';
+let drawerLabsData = [];
+let drawerCatsData = [];
+
+function setDrawerTab(tab) {
+  document.getElementById('tab-content-labs').style.display = tab === 'labs' ? 'flex' : 'none';
+  document.getElementById('tab-content-cats').style.display = tab === 'cats' ? 'flex' : 'none';
+  document.getElementById('tab-labs').style.borderBottom = tab === 'labs' ? '2px solid var(--verde)' : '2px solid transparent';
+  document.getElementById('tab-labs').style.color = tab === 'labs' ? 'var(--verde)' : 'var(--cinza-escuro)';
+  document.getElementById('tab-labs').style.background = tab === 'labs' ? 'white' : 'transparent';
+  document.getElementById('tab-cats').style.borderBottom = tab === 'cats' ? '2px solid var(--verde)' : '2px solid transparent';
+  document.getElementById('tab-cats').style.color = tab === 'cats' ? 'var(--verde)' : 'var(--cinza-escuro)';
+  document.getElementById('tab-cats').style.background = tab === 'cats' ? 'white' : 'transparent';
+}
+
+function abrirDrawerLabs() {
+  if (!allData) return;
+  const farm = document.getElementById('farmacia-select').value;
+  const filtroReceita = document.getElementById('filtro-receita').value;
+  const marca = document.getElementById('marca-select').value;
+  const cat = document.getElementById('cat-select').value;
+  const subcat = document.getElementById('subcat-select').value;
+  const pesquisa = document.getElementById('pesquisa').value.trim().toLowerCase();
+  const cnp = document.getElementById('pesquisa-cnp').value.trim();
+
+  const farmLabel = farm || 'Todas as Farmácias';
+  let labelFiltros = farmLabel;
+  if (filtroReceita === 'msrm') labelFiltros += ' · Só MSRM';
+  if (filtroReceita === 'sem_msrm') labelFiltros += ' · Sem MSRM';
+  document.getElementById('drawer-labs-farm').textContent = labelFiltros;
+
+  // Aplicar os mesmos filtros que a tabela
+  let produtos = (allData.produtos || []);
+  if (farm) produtos = produtos.filter(p => p.FARMACIA === farm);
+  if (filtroReceita === 'msrm') produtos = produtos.filter(p => (p.SFAM_ESTAT || '').includes('receita'));
+  if (filtroReceita === 'sem_msrm') produtos = produtos.filter(p => !(p.SFAM_ESTAT || '').includes('receita'));
+  if (marca) produtos = produtos.filter(p => p.MARCA === marca);
+  if (cat) produtos = produtos.filter(p => p.CATEGORIA_DESIGNACAO === cat);
+  if (subcat) produtos = produtos.filter(p => p.MERCADO_DESIGNACAO === subcat);
+  if (pesquisa) produtos = produtos.filter(p => (p.DESIGNACAO || '').toLowerCase().includes(pesquisa));
+  if (cnp) produtos = produtos.filter(p => String(p.COD_PRD || '').includes(cnp));
+
+  // Agregar por laboratório
+  const labs = {};
+  produtos.forEach(p => {
+    const lab = p.ENT_RESP_COMERC;
+    if (!lab) return;
+    if (!labs[lab]) labs[lab] = { nome: lab, rutura_valor: 0, rutura_refs: 0, urgente_refs: 0, vendas: 0, margem: 0 };
+    const l = labs[lab];
+    const media6m = [0,1,2,3,4,5].reduce((s,i) => s + (parseFloat(p[`V${i}`]||0)), 0) / 6;
+    const stock = parseFloat(p.STK_FARMACIA || 0);
+    const pvp = parseFloat(p.PVP_PROD || 0);
+    const pvpValido = pvp > 0 && pvp < 9999;
+    const prioridade = calcPrioridade(stock, media6m);
+    if (prioridade === 'rutura') {
+      l.rutura_refs++;
+      if (pvpValido) l.rutura_valor += media6m * pvp;
+    }
+    if (prioridade === 'urgente') l.urgente_refs++;
+    l.vendas += parseFloat(p.VENDAS_YTD || 0);
+    l.margem += parseFloat(p.MARGEM_YTD || 0);
+  });
+
+  // Agregar por categoria
+  const cats = {};
+  produtos.forEach(p => {
+    const cat = p.CATEGORIA_DESIGNACAO || p.MERCADO_DESIGNACAO || '(sem categoria)';
+    if (!cats[cat]) cats[cat] = { nome: cat, rutura_valor: 0, rutura_refs: 0, vendas: 0, vendas_ant: 0 };
+    const c = cats[cat];
+    const media6m = [0,1,2,3,4,5].reduce((s,i) => s + (parseFloat(p[`V${i}`]||0)), 0) / 6;
+    const stock = parseFloat(p.STK_FARMACIA || 0);
+    const pvp = parseFloat(p.PVP_PROD || 0);
+    const pvpValido = pvp > 0 && pvp < 9999;
+    if (calcPrioridade(stock, media6m) === 'rutura') {
+      c.rutura_refs++;
+      if (pvpValido) c.rutura_valor += media6m * pvp;
+    }
+    c.vendas += parseFloat(p.VENDAS_YTD || 0);
+    c.vendas_ant += parseFloat(p.VENDAS_ANO_ANT_YTD || 0);
+  });
+  drawerCatsData = Object.values(cats);
+  drawerLabsData = Object.values(labs);
+  renderDrawerLabs(drawerLabsData);
+  renderDrawerCats(drawerCatsData);
+  document.getElementById('drawer-labs').style.display = 'flex';
+  setDrawerTab('labs');
+}
+
+function fecharDrawerLabs() {
+  document.getElementById('drawer-labs').style.display = 'none';
+}
+
+function ordenarDrawer(campo) {
+  drawerOrdem = campo;
+  // Reset botões
+  ['rutura_valor','rutura_refs','vendas','margem'].forEach(c => {
+    const btn = document.getElementById('ord-' + c);
+    if (btn) { btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }
+  });
+  const btn = document.getElementById('ord-' + campo);
+  if (btn) { btn.style.background = '#e8f7f1'; btn.style.color = 'var(--verde)'; btn.style.borderColor = 'var(--verde)'; }
+  // Re-renderizar com os dados actuais
+  const rows = [...document.getElementById('drawer-labs-tbody').querySelectorAll('tr')].map(tr => ({
+    nome: tr.dataset.nome,
+    rutura_valor: parseFloat(tr.dataset.ruturaValor),
+    rutura_refs: parseInt(tr.dataset.ruturaRefs),
+    urgente_refs: parseInt(tr.dataset.urgenteRefs),
+    vendas: parseFloat(tr.dataset.vendas),
+    margem: parseFloat(tr.dataset.margem),
+  }));
+  renderDrawerLabs(rows);
+}
+
+function renderDrawerLabs(labs) {
+  labs.sort((a,b) => {
+    if (drawerOrdem === 'rutura_valor') return b.rutura_valor - a.rutura_valor;
+    if (drawerOrdem === 'rutura_refs') return b.rutura_refs - a.rutura_refs;
+    if (drawerOrdem === 'vendas') return b.vendas - a.vendas;
+    if (drawerOrdem === 'margem') return (b.vendas > 0 ? b.margem/b.vendas : 0) - (a.vendas > 0 ? a.margem/a.vendas : 0);
+    return 0;
+  });
+
+  const tbody = document.getElementById('drawer-labs-tbody');
+  tbody.innerHTML = '';
+  labs.forEach(l => {
+    const margemPct = l.vendas > 0 ? (l.margem / l.vendas * 100) : 0;
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #f0f0ee';
+    tr.dataset.nome = l.nome;
+    tr.dataset.ruturaValor = l.rutura_valor;
+    tr.dataset.ruturaRefs = l.rutura_refs;
+    tr.dataset.urgenteRefs = l.urgente_refs;
+    tr.dataset.vendas = l.vendas;
+    tr.dataset.margem = l.margem;
+    tr.innerHTML = `
+      <td style="padding:7px 12px;cursor:pointer;color:var(--verde);font-weight:500" onclick="selecionarLabDoDrawer('${l.nome.replace(/'/g,"\\'")}')">
+        ${l.nome}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${l.rutura_valor > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'};font-weight:${l.rutura_valor > 0 ? '600' : '400'}">
+        ${l.rutura_valor > 0 ? fmtEur(l.rutura_valor) : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${l.rutura_refs > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'}">
+        ${l.rutura_refs > 0 ? l.rutura_refs : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${l.urgente_refs > 0 ? 'var(--urgente)' : 'var(--cinza-escuro)'}">
+        ${l.urgente_refs > 0 ? l.urgente_refs : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right">${fmtEur(l.vendas)}</td>
+      <td style="padding:7px 12px;text-align:right;color:${margemPct >= 30 ? 'var(--comprar)' : 'var(--urgente)'}">${margemPct.toFixed(1)}%</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function ordenarDrawerCats(campo) {
+  drawerCatsOrdem = campo;
+  ['rutura_valor','cresc','vendas'].forEach(c => {
+    const btn = document.getElementById('cord-' + c);
+    if (btn) { btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }
+  });
+  const btn = document.getElementById('cord-' + campo);
+  if (btn) { btn.style.background = '#e8f7f1'; btn.style.color = 'var(--verde)'; btn.style.borderColor = 'var(--verde)'; }
+  renderDrawerCats(drawerCatsData);
+}
+
+function renderDrawerCats(cats) {
+  const sorted = [...cats].sort((a,b) => {
+    if (drawerCatsOrdem === 'rutura_valor') return b.rutura_valor - a.rutura_valor;
+    if (drawerCatsOrdem === 'vendas') return b.vendas - a.vendas;
+    if (drawerCatsOrdem === 'cresc') {
+      const ca = a.vendas_ant > 0 ? (a.vendas - a.vendas_ant)/a.vendas_ant : 0;
+      const cb = b.vendas_ant > 0 ? (b.vendas - b.vendas_ant)/b.vendas_ant : 0;
+      return cb - ca;
+    }
+    return 0;
+  });
+  const tbody = document.getElementById('drawer-cats-tbody');
+  tbody.innerHTML = '';
+  sorted.forEach(c => {
+    const cresc = c.vendas_ant > 0 ? ((c.vendas - c.vendas_ant) / c.vendas_ant * 100) : null;
+    const crescStr = cresc !== null
+      ? `<span style="color:${cresc >= 0 ? 'var(--comprar)' : 'var(--rutura)'};font-weight:600">${cresc >= 0 ? '+' : ''}${cresc.toFixed(1)}%</span>`
+      : '—';
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #f0f0ee';
+    tr.innerHTML = `
+      <td style="padding:7px 12px;font-weight:500">${c.nome}</td>
+      <td style="padding:7px 12px;text-align:right;color:${c.rutura_valor > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'};font-weight:${c.rutura_valor > 0 ? '600' : '400'}">
+        ${c.rutura_valor > 0 ? fmtEur(c.rutura_valor) : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right;color:${c.rutura_refs > 0 ? 'var(--rutura)' : 'var(--cinza-escuro)'}">
+        ${c.rutura_refs > 0 ? c.rutura_refs : '—'}
+      </td>
+      <td style="padding:7px 12px;text-align:right">${fmtEur(c.vendas)}</td>
+      <td style="padding:7px 12px;text-align:right">${crescStr}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function selecionarLabDoDrawer(nome) {
+  const labSel = document.getElementById('lab-select');
+  const opt = [...labSel.options].find(o => o.value === nome);
+  if (opt) {
+    labSel.value = nome;
+    onLabChange();
+    aplicar();
+  }
+  fecharDrawerLabs();
+}
+
+init();
+
+</script>
+</body>
+</html>    font-size: 13px;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--verde); color: white; }
+  .btn-secondary { background: var(--cinza); color: var(--texto); }
+
+  .status-bar {
+    padding: 8px 24px;
+    background: #f0f0ee;
+    border-bottom: 1px solid var(--cinza);
+    font-size: 12px;
+    color: var(--cinza-escuro);
+    display: flex;
+    gap: 20px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+  .badge-rutura { color: var(--rutura); }
+  .badge-urgente { color: var(--urgente); }
+  .badge-comprar { color: var(--comprar); }
+
+  .container { padding: 0; overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--verde);
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    position: sticky;
+    top: 0; /* sticky-top wrapper já posiciona tudo */
+  }
+  thead th.num { text-align: right; }
+  tbody tr { border-bottom: 1px solid #eeecea; }
+  tbody tr:hover { background: #f5f5f3; }
+  td { padding: 7px 10px; vertical-align: middle; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.produto { max-width: 280px; }
+  td.produto .nome { font-weight: 500; line-height: 1.3; }
+  td.produto .cod { font-size: 11px; color: var(--cinza-escuro); margin-top: 1px; }
+
+  .prioridade {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .p-rutura { background: #fde8e8; color: var(--rutura); }
+  .p-urgente { background: #fdf0e8; color: var(--urgente); }
+  .p-comprar { background: #e8f7f1; color: var(--comprar); }
+  .p-ok { background: #f0f0ee; color: var(--ok); }
+
+  .vendas-bar { display: flex; gap: 2px; align-items: flex-end; height: 36px; }
+  .bar-wrap { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+  .bar-num { font-size: 8px; color: var(--cinza-escuro); line-height: 1; margin-top: 1px; }
+  .bar { background: var(--verde-claro); border-radius: 2px 2px 0 0; width: 6px; min-height: 2px; opacity: 0.7; }
+  .bar.current { background: var(--verde); opacity: 1; }
+  .bar.sazonal { background: #C4621A; opacity: 0.9; }
+  .bar.current { opacity: 1; background: var(--verde); }
+
+  input.qt-input {
+    width: 55px;
+    text-align: right;
+    padding: 4px 6px;
+    border: 1px solid var(--cinza);
+    border-radius: 4px;
+    font-size: 13px;
+    background: white;
+  }
+  input.qt-input:focus { border-color: var(--verde); outline: none; }
+  input.qt-input.modified { border-color: var(--verde); background: #e8f7f1; }
+
+  .margem-pct { font-weight: 600; }
+  .margem-ok { color: var(--comprar); }
+  .margem-low { color: var(--urgente); }
+
+  .empty { text-align: center; padding: 60px; color: var(--cinza-escuro); }
+  .loading { text-align: center; padding: 60px; color: var(--cinza-escuro); }
+
+  .footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 2px solid var(--verde);
+    padding: 10px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .footer-total { font-weight: 600; color: var(--verde); }
+  .footer-info { color: var(--cinza-escuro); font-size: 12px; }
+  .footer-actions { margin-left: auto; display: flex; gap: 8px; }
+
+  .kpi-card {
+    background: var(--fundo);
+    border: 1px solid var(--cinza);
+    border-radius: 8px;
+    padding: 10px 16px;
+    min-width: 120px;
+  }
+  .kpi-label { font-size: 11px; color: var(--cinza-escuro); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+  .kpi-value { font-size: 18px; font-weight: 600; color: var(--texto); margin-top: 2px; }
+  .kpi-pos { color: var(--comprar); }
+  .kpi-neg { color: var(--rutura); }
+
+  .tag-updated { font-size: 11px; color: var(--cinza-escuro); }
+
+  @media (max-width: 768px) {
+    header { padding: 10px 12px; flex-wrap: wrap; gap: 6px; }
+    header h1 { font-size: 13px; }
+    header .meta { display: none; }
+    header > div:last-child { gap: 6px; flex-wrap: wrap; }
+    header .btn { font-size: 11px; padding: 4px 8px; }
+
+    .toolbar { padding: 8px 12px; gap: 8px; }
+    .toolbar-group { width: 100%; }
+    .toolbar-group label { min-width: 80px; font-size: 11px; }
+    .toolbar-group select,
+    .toolbar-group input[type=text] { flex: 1; min-width: 0; font-size: 13px; }
+    select { min-width: 0; }
+
+    .toolbar.collapsed { display: none; }
+    #toolbar-resumo { display: none; }
+    #toolbar-resumo.visible {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: white;
+      border-bottom: 1px solid var(--cinza);
+      font-size: 12px;
+      color: var(--cinza-escuro);
+      gap: 8px;
+    }
+    #toolbar-resumo .resumo-texto {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+      color: var(--texto);
+    }
+    #toolbar-resumo .btn-editar {
+      flex-shrink: 0;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--cinza);
+      background: white;
+      font-size: 11px;
+      cursor: pointer;
+      color: var(--verde);
+      font-weight: 600;
+    }
+
+    #kpi-panel { padding: 8px 12px; }
+    #kpi-panel > div { gap: 8px; }
+    .kpi-card { min-width: calc(50% - 4px); padding: 8px 10px; flex: 1; }
+    .kpi-value { font-size: 15px; }
+    .kpi-label { font-size: 10px; }
+
+    .footer-bar { padding: 8px 12px; gap: 8px; flex-wrap: wrap; }
+    .footer-info { font-size: 11px; width: 100%; }
+    .footer-total { font-size: 12px; }
+    .footer-actions { margin-left: 0; width: 100%; justify-content: flex-end; }
+    .footer-actions .btn { font-size: 11px; padding: 6px 10px; }
+
+    #drawer-labs { width: 100%; max-width: 100vw; }
+  }
+</style>
+</head>
+<body>
+
+<div id="sticky-top">
+<header>
+  <div>
+    <h1>Proposta de Compra</h1>
+    <div class="meta">Farmácias Connect · dados actualizados diariamente às 22h</div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="btn btn-secondary" onclick="abrirDrawerLabs()" style="font-size:12px;padding:5px 12px;background:#fdf0e8;border:1px solid #C4621A;color:#C4621A">🚨 Laboratórios</button>
+    <button class="btn btn-secondary" onclick="guardarProposta()" id="btn-guardar" style="display:none;font-size:12px;padding:5px 12px">💾 Guardar</button>
+    <label class="btn btn-secondary" style="cursor:pointer;font-size:12px;padding:5px 12px">📂 Carregar<input type="file" id="input-carregar" accept=".json" style="display:none" onchange="carregarProposta(this)"></label>
+    <label class="btn btn-secondary" id="btn-vendedor" style="cursor:pointer;font-size:12px;padding:5px 12px;display:none">📋 Excel Vendedor<input type="file" id="input-vendedor" accept=".xlsx,.xls" style="display:none" onchange="carregarExcelVendedor(this)"></label>
+    <span class="tag-updated" id="updated-tag">A carregar...</span>
+    <span style="font-size:10px;color:rgba(255,255,255,0.4);margin-left:4px" title="Versão da app">v3.5</span>
   </div>
 </header>
 
