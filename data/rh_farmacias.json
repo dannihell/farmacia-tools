@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-07-18T22:30:02",
+  "gerado_em": "2026-07-19T22:30:02",
   "ano": 2026,
   "farmacias": {
     "aroeira": {
@@ -11,18 +11,18 @@
         "rent_gen": 4.45
       },
       "kpis": {
-        "vendas_otc": 112020.33,
-        "vendas_saude": 753268.65,
-        "margem_bruta": 301472.6,
-        "atendimentos": 27135
+        "vendas_otc": 112394.67,
+        "vendas_saude": 755369.83,
+        "margem_bruta": 302478.52,
+        "atendimentos": 27234
       },
       "sauda_programa": {
-        "valor_atribuido": 12976.44,
-        "rebat_pontos": 986.15,
+        "valor_atribuido": 13062.17,
+        "rebat_pontos": 990.76,
         "rebat_vales_sauda": 4988.57,
         "rebat_vales_ind": 509.35,
-        "saldo_aprox": 6492.37,
-        "data_sync": "17/07/2026"
+        "saldo_aprox": 6573.49,
+        "data_sync": "18/07/2026"
       },
       "colaboradores": [
         {
@@ -573,14 +573,14 @@
         {
           "cod": 132,
           "nome": "JESSICA SOUSA",
-          "vendas_ytd": 225775.24,
-          "margem_ytd": 60943.2,
-          "atend_ytd": 5248,
-          "ticket_medio": 43.02,
-          "margem_atend": 11.61,
-          "cresc_vs_ant": 541.0,
+          "vendas_ytd": 227673.04,
+          "margem_ytd": 61457.63,
+          "atend_ytd": 5300,
+          "ticket_medio": 42.96,
+          "margem_atend": 11.6,
+          "cresc_vs_ant": 546.4,
           "rent_genericos": 4.47,
-          "taxa_sauda": 53.9,
+          "taxa_sauda": 53.8,
           "mensal": [
             {
               "mes": 1,
@@ -632,17 +632,17 @@
             },
             {
               "mes": 7,
-              "vendas": 21886.15,
-              "margem": 5409.27,
-              "atend": 424,
-              "ticket": 51.62,
-              "margem_atend": 12.76
+              "vendas": 23783.95,
+              "margem": 5923.7,
+              "atend": 476,
+              "ticket": 49.97,
+              "margem_atend": 12.44
             }
           ],
           "mix": {
             "Medicamento sujeito a receita médica": 62.4,
-            "Medicamento não sujeito a receita médica": 13.1,
-            "Dispositivos e acessórios": 7.0,
+            "Medicamento não sujeito a receita médica": 13.0,
+            "Dispositivos e acessórios": 7.1,
             "Suplementos Alimentares": 6.1,
             "Produtos Cosméticos": 5.9,
             "Outros": 2.0,
@@ -678,8 +678,8 @@
               "rent_media": 4.47
             },
             "7": {
-              "unidades": 279,
-              "rent_media": 4.49
+              "unidades": 300,
+              "rent_media": 4.57
             }
           },
           "sauda_mensal": {
@@ -689,7 +689,7 @@
             "4": 318,
             "5": 482,
             "6": 468,
-            "7": 229
+            "7": 255
           }
         },
         {
@@ -801,14 +801,14 @@
         {
           "cod": 140,
           "nome": "Leo Souza",
-          "vendas_ytd": 93478.15,
-          "margem_ytd": 24014.48,
-          "atend_ytd": 2255,
-          "ticket_medio": 41.45,
+          "vendas_ytd": 94908.21,
+          "margem_ytd": 24505.96,
+          "atend_ytd": 2302,
+          "ticket_medio": 41.23,
           "margem_atend": 10.65,
           "cresc_vs_ant": null,
           "rent_genericos": 4.24,
-          "taxa_sauda": 54.2,
+          "taxa_sauda": 53.9,
           "mensal": [
             {
               "mes": 1,
@@ -860,19 +860,19 @@
             },
             {
               "mes": 7,
-              "vendas": 22482.93,
-              "margem": 4733.73,
-              "atend": 479,
-              "ticket": 46.94,
-              "margem_atend": 9.88
+              "vendas": 23912.99,
+              "margem": 5225.21,
+              "atend": 526,
+              "ticket": 45.46,
+              "margem_atend": 9.93
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 57.6,
-            "Medicamento não sujeito a receita médica": 12.1,
-            "Produtos Cosméticos": 8.4,
-            "Dispositivos e acessórios": 8.3,
-            "Suplementos Alimentares": 6.3,
+            "Medicamento sujeito a receita médica": 57.5,
+            "Medicamento não sujeito a receita médica": 12.2,
+            "Produtos Cosméticos": 8.6,
+            "Dispositivos e acessórios": 8.2,
+            "Suplementos Alimentares": 6.2,
             "Produtos de Higiene": 2.9,
             "Outros": 1.9,
             "Dietética": 1.6,
@@ -893,15 +893,15 @@
               "rent_media": 4.36
             },
             "7": {
-              "unidades": 257,
-              "rent_media": 3.85
+              "unidades": 290,
+              "rent_media": 3.92
             }
           },
           "sauda_mensal": {
             "4": 25,
             "5": 443,
             "6": 501,
-            "7": 253
+            "7": 272
           }
         },
         {
@@ -1265,12 +1265,12 @@
         "atendimentos": 22962
       },
       "sauda_programa": {
-        "valor_atribuido": 9444.37,
-        "rebat_pontos": 4876.64,
+        "valor_atribuido": 9502.49,
+        "rebat_pontos": 4904.32,
         "rebat_vales_sauda": 2154.0,
         "rebat_vales_ind": 322.76,
-        "saldo_aprox": 2090.97,
-        "data_sync": "17/07/2026"
+        "saldo_aprox": 2121.41,
+        "data_sync": "18/07/2026"
       },
       "colaboradores": [
         {
@@ -2016,12 +2016,12 @@
         "atendimentos": 9589
       },
       "sauda_programa": {
-        "valor_atribuido": 793.17,
+        "valor_atribuido": 794.95,
         "rebat_pontos": 182.04,
         "rebat_vales_sauda": 50.0,
         "rebat_vales_ind": 8.94,
-        "saldo_aprox": 552.18,
-        "data_sync": "17/07/2026"
+        "saldo_aprox": 553.97,
+        "data_sync": "18/07/2026"
       },
       "colaboradores": [
         {
