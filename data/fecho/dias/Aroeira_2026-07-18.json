@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-18",
-  "gerado_em": "2026-07-18T23:59:03",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-20T19:21:21.708Z",
+  "estado": "conciliado",
   "sifarma": {
     "total_vendas_dinheiro": 6290.74,
     "diagnostico": {
@@ -34,8 +34,8 @@
   "cashlogy": {
     "apuro": 345.76,
     "liquido": 345.76,
-    "fundo_na_maquina": 400.0,
-    "vendido": 372.0,
+    "fundo_na_maquina": 400,
+    "vendido": 372,
     "troco_devolvido": 26.24,
     "por_operador": [
       {
@@ -43,7 +43,7 @@
         "posto": "5",
         "atendimentos": 9,
         "numerario": 192.86,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 192.86
       },
       {
@@ -59,7 +59,7 @@
         "posto": "3",
         "atendimentos": 4,
         "numerario": 33.77,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 33.77
       },
       {
@@ -67,7 +67,7 @@
         "posto": "2",
         "atendimentos": 3,
         "numerario": 30.61,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 30.61
       },
       {
@@ -81,40 +81,81 @@
     ]
   },
   "manual": {
-    "tpas_total": null,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "finanfarma": null,
+    "tpas_total": 5913.36,
+    "tpas_taxa_total": 24.85,
+    "tpas_liquido_total": 5888.51,
+    "taxa_pct_media": 0.42,
+    "finanfarma": 31.62,
     "transferencia": null,
     "apuro_contado": null,
-    "terminais": [],
-    "responsaveis": [],
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224",
+        "bruto": 518.24,
+        "liquido": 516.96,
+        "taxa": 1.28,
+        "taxa_pct": 0.25,
+        "foto": null
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 2244.24,
+        "liquido": 2233.44,
+        "taxa": 10.8,
+        "taxa_pct": 0.48,
+        "foto": null
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1859.33,
+        "liquido": 1850.24,
+        "taxa": 9.09,
+        "taxa_pct": 0.49,
+        "foto": null
+      },
+      {
+        "id": "01123227",
+        "nome": "TPA Drive – 01123227",
+        "bruto": 1291.55,
+        "liquido": 1287.87,
+        "taxa": 3.68,
+        "taxa_pct": 0.28,
+        "foto": null
+      }
+    ],
+    "responsaveis": [
+      "140",
+      "132"
+    ],
     "comentario": "",
-    "submetido_em": null
+    "submetido_em": "2026-07-20T19:21:20.284Z",
+    "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": null,
+    "recebido_real": 6290.74,
     "total_sifarma": 6290.74,
-    "diferenca_caixa": null,
-    "tolerancia": 5.0,
+    "diferenca_caixa": 0,
+    "tolerancia": 5,
     "liquido_numerario": 345.76
   },
   "tesouraria": {
     "apuro_maquina": 345.76,
     "apuro_contado": null,
-    "fundo_na_maquina": 400.0,
+    "fundo_na_maquina": 400,
     "desvio_deposito": null,
     "ha_desvio_deposito": false,
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
-  "avisos": [
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
-  ],
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
     "cashlogy_liquido": 345.76,
     "sifarma_numerario_declarado": 345.76,
-    "diferenca": 0.0
-  }
+    "diferenca": 0
+  },
+  "avisos": [
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo."
+  ]
 }
