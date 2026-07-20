@@ -2,147 +2,145 @@
   "farmacia": "Aroeira",
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
-  "data": "2026-07-18",
-  "gerado_em": "2026-07-20T19:21:21.708Z",
-  "estado": "conciliado",
+  "data": "2026-07-19",
+  "gerado_em": "2026-07-20T19:23:59.809Z",
+  "estado": "desvio",
   "sifarma": {
-    "total_vendas_dinheiro": 6290.74,
+    "total_vendas_dinheiro": 2298.59,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
-      "numerario_declarado": 345.76,
-      "cartao_declarado": 5913.36,
-      "outros_declarado": 31.62,
+      "numerario_declarado": 141.93,
+      "cartao_declarado": 2156.66,
+      "outros_declarado": 0,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 128,
-          "valor": 5913.36
+          "n": 82,
+          "valor": 2156.66
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 207,
-          "valor": 345.76
-        },
-        {
-          "tipo": "Finanfarma",
-          "n": 3,
-          "valor": 31.62
+          "n": 125,
+          "valor": 141.93
         }
       ]
     }
   },
   "cashlogy": {
-    "apuro": 345.76,
-    "liquido": 345.76,
+    "apuro": 141.93,
+    "liquido": 141.93,
     "fundo_na_maquina": 400,
-    "vendido": 372,
-    "troco_devolvido": 26.24,
+    "vendido": 174.85,
+    "troco_devolvido": 32.92,
     "por_operador": [
       {
         "operador": "JESSICA",
         "posto": "5",
-        "atendimentos": 9,
-        "numerario": 192.86,
-        "troco": 0,
-        "liquido": 192.86
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "3",
-        "atendimentos": 7,
-        "numerario": 102.21,
-        "troco": 13.84,
-        "liquido": 88.37
-      },
-      {
-        "operador": "TATIANA",
-        "posto": "3",
-        "atendimentos": 4,
-        "numerario": 33.77,
-        "troco": 0,
-        "liquido": 33.77
+        "atendimentos": 8,
+        "numerario": 112.99,
+        "troco": 32.92,
+        "liquido": 80.07
       },
       {
         "operador": "Leosouza",
         "posto": "2",
         "atendimentos": 3,
-        "numerario": 30.61,
+        "numerario": 37.16,
         "troco": 0,
-        "liquido": 30.61
+        "liquido": 37.16
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 3,
+        "numerario": 14.88,
+        "troco": 0,
+        "liquido": 14.88
       },
       {
         "operador": "Leosouza",
         "posto": "30",
         "atendimentos": 1,
-        "numerario": 12.55,
-        "troco": 12.4,
-        "liquido": 0.15
+        "numerario": 9.82,
+        "troco": 0,
+        "liquido": 9.82
       }
     ]
   },
   "manual": {
-    "tpas_total": 5913.36,
-    "tpas_taxa_total": 24.85,
-    "tpas_liquido_total": 5888.51,
-    "taxa_pct_media": 0.42,
-    "finanfarma": 31.62,
+    "tpas_total": 2174.56,
+    "tpas_taxa_total": 8.5,
+    "tpas_liquido_total": 2013.84,
+    "taxa_pct_media": 0.39,
+    "finanfarma": null,
     "transferencia": null,
     "apuro_contado": null,
     "terminais": [
       {
         "id": "01123224",
         "nome": "TPA 1 – 01123224",
-        "bruto": 518.24,
-        "liquido": 516.96,
-        "taxa": 1.28,
-        "taxa_pct": 0.25,
+        "bruto": 159.33,
+        "liquido": 158.77,
+        "taxa": 0.56,
+        "taxa_pct": 0.35,
         "foto": null
       },
       {
         "id": "00983092",
         "nome": "TPA 2 – 00983092",
-        "bruto": 2244.24,
-        "liquido": 2233.44,
-        "taxa": 10.8,
-        "taxa_pct": 0.48,
+        "bruto": 684.44,
+        "liquido": 681.73,
+        "taxa": 2.71,
+        "taxa_pct": 0.4,
         "foto": null
       },
       {
         "id": "01123228",
         "nome": "TPA 4 – 01123228",
-        "bruto": 1859.33,
-        "liquido": 1850.24,
-        "taxa": 9.09,
-        "taxa_pct": 0.49,
+        "bruto": 950.41,
+        "liquido": 946.23,
+        "taxa": 4.18,
+        "taxa_pct": 0.44,
         "foto": null
       },
       {
         "id": "01123227",
         "nome": "TPA Drive – 01123227",
-        "bruto": 1291.55,
-        "liquido": 1287.87,
-        "taxa": 3.68,
-        "taxa_pct": 0.28,
+        "bruto": 228.16,
+        "liquido": 227.11,
+        "taxa": 1.05,
+        "taxa_pct": 0.46,
+        "foto": null
+      },
+      {
+        "id": "40013648",
+        "nome": "TPA F – 40013648",
+        "bruto": 152.22,
+        "liquido": null,
+        "operacoes": 2,
+        "taxa": null,
+        "taxa_pct": null,
+        "so_bruto": true,
         "foto": null
       }
     ],
     "responsaveis": [
-      "140",
-      "132"
+      "132",
+      "140"
     ],
-    "comentario": "",
-    "submetido_em": "2026-07-20T19:21:20.284Z",
+    "comentario": "Não percebemos o erro",
+    "submetido_em": "2026-07-20T19:23:58.301Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": 6290.74,
-    "total_sifarma": 6290.74,
-    "diferenca_caixa": 0,
+    "recebido_real": 2316.49,
+    "total_sifarma": 2298.59,
+    "diferenca_caixa": 17.9,
     "tolerancia": 5,
-    "liquido_numerario": 345.76
+    "liquido_numerario": 141.93
   },
   "tesouraria": {
-    "apuro_maquina": 345.76,
+    "apuro_maquina": 141.93,
     "apuro_contado": null,
     "fundo_na_maquina": 400,
     "desvio_deposito": null,
@@ -151,11 +149,11 @@
   },
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
-    "cashlogy_liquido": 345.76,
-    "sifarma_numerario_declarado": 345.76,
+    "cashlogy_liquido": 141.93,
+    "sifarma_numerario_declarado": 141.93,
     "diferenca": 0
   },
   "avisos": [
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo."
+    "Diferença de caixa +17.90 € acima da tolerância — investigar."
   ]
 }
