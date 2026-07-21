@@ -1,0 +1,173 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-21",
+  "gerado_em": "2026-07-21T23:59:03",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 4545.74,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 468.14,
+      "cartao_declarado": 3729.77,
+      "outros_declarado": 347.83,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 95,
+          "valor": 3729.77
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 183,
+          "valor": 468.14
+        },
+        {
+          "tipo": "Finanfarma",
+          "n": 3,
+          "valor": 347.83
+        },
+        {
+          "tipo": "Numerário",
+          "n": 4,
+          "valor": 0.0
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 470.14,
+    "liquido": 468.14,
+    "fundo_na_maquina": 400.0,
+    "vendido": 643.99,
+    "troco_devolvido": 175.85,
+    "por_operador": [
+      {
+        "operador": "Alina",
+        "posto": "2",
+        "atendimentos": 3,
+        "numerario": 323.18,
+        "troco": 11.37,
+        "liquido": 311.81
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "5",
+        "atendimentos": 11,
+        "numerario": 175.23,
+        "troco": 18.48,
+        "liquido": 156.75
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 44.05,
+        "troco": 0.0,
+        "liquido": 44.05
+      },
+      {
+        "operador": "Alina",
+        "posto": "30",
+        "atendimentos": 3,
+        "numerario": 26.72,
+        "troco": 0.0,
+        "liquido": 26.72
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 40.13,
+        "troco": 20.9,
+        "liquido": 19.23
+      },
+      {
+        "operador": "Alina",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 19.16,
+        "troco": 0.0,
+        "liquido": 19.16
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 11.4,
+        "troco": 0.0,
+        "liquido": 11.4
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 4.05,
+        "troco": 0.0,
+        "liquido": 4.05
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "5",
+        "atendimentos": 1,
+        "numerario": 0.07,
+        "troco": 0.0,
+        "liquido": 0.07
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 0.5,
+        "liquido": -0.5
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "005",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 124.6,
+        "liquido": -124.6
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 4545.74,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "liquido_numerario": 468.14
+  },
+  "tesouraria": {
+    "apuro_maquina": 470.14,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "6 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa."
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 468.14,
+    "sifarma_numerario_declarado": 468.14,
+    "diferenca": 0.0
+  }
+}
