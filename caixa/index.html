@@ -249,6 +249,12 @@
         <div id="tpasBox"></div>
       </div>
 
+      <div class="card" id="cartaoTpaCard" style="display:none">
+        <div class="card-h"><h3>Cartão por TPA</h3><span class="auto">talão vs Sifarma</span></div>
+        <table><thead><tr><th>TPA</th><th>Talão</th><th>Sifarma</th><th>Δ</th></tr></thead>
+          <tbody id="tbCartaoTpa"></tbody></table>
+      </div>
+
       <div class="card">
         <div class="card-h"><h3>Retirada de apuro</h3><span class="auto">auto ✓</span></div>
         <div id="fechoBox"></div>
@@ -454,6 +460,21 @@ function render(){
     ? (fecho.manual.terminais||[]).map(t=>`<div class="kv"><span class="k">${t.nome||'TPA'}${t.taxa!=null?`<small>taxa ${eur.format(t.taxa)}</small>`:''}</span><span class="v">${eur.format(t.bruto!=null?t.bruto:(t.valor||0))}</span></div>`).join('')
       + `<div class="kv total"><span class="k">Total TPAs</span><span class="v">${eur.format(fecho.manual.tpas_total)}</span></div>`
     : `<div class="msg">Os valores dos TPAs entram pelo talão de fecho, tirado ao fechar a loja. <b>Formulário a caminho.</b></div>`;
+
+  // FECHO — cartão por TPA (localiza um desvio no terminal certo)
+  const cpt=fecho.cartao_por_tpa||[];
+  const cptCard=document.getElementById('cartaoTpaCard');
+  if(cptCard){
+    if(cpt.length){
+      cptCard.style.display='';
+      document.getElementById('tbCartaoTpa').innerHTML=cpt.map(l=>{
+        const d=l.delta;
+        const chip = d==null ? '<span class="dchip">—</span>'
+          : `<span class="dchip ${Math.abs(d)<0.005?'ok':Math.abs(d)<=5?'warn':'alert'}">${(d>0?'+':'')+eur.format(d)}</span>`;
+        return `<tr><td>${l.tpa}<small>posto ${l.posto}</small></td><td>${l.talao_bruto!=null?eur.format(l.talao_bruto):'—'}</td><td>${l.sifarma_cartao!=null?eur.format(l.sifarma_cartao):'—'}</td><td>${chip}</td></tr>`;
+      }).join('');
+    }else{ cptCard.style.display='none'; }
+  }
 
   // FECHO — apuro
   const fechada=c.apuro!=null && c.apuro>0;
@@ -1079,11 +1100,11 @@ function recalcular(){
       const b=valOf('b-'+idx), l=valOf('l-'+idx);
       const ehSoBruto=soBruto.has(idx);
       if(b==null) return null;
-      let nome=idx;
+      let nome=idx, posto;
       const cfgT=(tpasConfig.tpas||[]).find(t=>t.id===idx);
-      if(cfgT)nome=cfgT.nome;
+      if(cfgT){nome=cfgT.nome; posto=cfgT.posto;}
       else{const ex=tpasExtra.find(t=>'x'+t.i===idx); if(ex)nome=ex.nome;}
-      return {id:idx.replace(/^x/,''), nome, bruto:b, liquido:(ehSoBruto?null:l), operacoes:(ehSoBruto?valOf('op-'+idx):undefined), so_bruto:ehSoBruto||undefined, foto:fotosTalao[idx]||undefined};
+      return {id:idx.replace(/^x/,''), nome, posto, bruto:b, liquido:(ehSoBruto?null:l), operacoes:(ehSoBruto?valOf('op-'+idx):undefined), so_bruto:ehSoBruto||undefined, foto:fotosTalao[idx]||undefined};
     }).filter(Boolean),
     finanfarma:finan, transferencia:transf,
     apuro_contado:apuroContado,
