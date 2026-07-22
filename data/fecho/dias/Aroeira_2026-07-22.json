@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-22",
-  "gerado_em": "2026-07-22T23:59:04",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-22T23:27:15.789Z",
+  "estado": "conciliado",
   "sifarma": {
     "total_vendas_dinheiro": 3751.37,
     "diagnostico": {
@@ -54,7 +54,7 @@
     }
   },
   "cashlogy": {
-    "apuro": 425.0,
+    "apuro": 425,
     "liquido": 404.95,
     "fundo_na_maquina": 379.95,
     "vendido": 440.94,
@@ -65,7 +65,7 @@
         "posto": "2",
         "atendimentos": 10,
         "numerario": 217.7,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 217.7
       },
       {
@@ -73,7 +73,7 @@
         "posto": "3",
         "atendimentos": 2,
         "numerario": 60.03,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 60.03
       },
       {
@@ -81,7 +81,7 @@
         "posto": "3",
         "atendimentos": 4,
         "numerario": 53.45,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 53.45
       },
       {
@@ -89,7 +89,7 @@
         "posto": "5",
         "atendimentos": 7,
         "numerario": 52.09,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 52.09
       },
       {
@@ -97,7 +97,7 @@
         "posto": "30",
         "atendimentos": 1,
         "numerario": 25.3,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 25.3
       },
       {
@@ -105,7 +105,7 @@
         "posto": "2",
         "atendimentos": 1,
         "numerario": 11.56,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 11.56
       },
       {
@@ -113,7 +113,7 @@
         "posto": "30",
         "atendimentos": 2,
         "numerario": 7.06,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 7.06
       },
       {
@@ -121,14 +121,14 @@
         "posto": "30",
         "atendimentos": 1,
         "numerario": 6.65,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 6.65
       },
       {
         "operador": "Alina",
         "posto": "30",
         "atendimentos": 0,
-        "numerario": 0.0,
+        "numerario": 0,
         "troco": 8.05,
         "liquido": -8.05
       },
@@ -143,76 +143,121 @@
     ]
   },
   "manual": {
-    "tpas_total": null,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "finanfarma": null,
+    "tpas_total": 3300.54,
+    "tpas_taxa_total": 13.9,
+    "tpas_liquido_total": 3286.64,
+    "taxa_pct_media": 0.42,
+    "finanfarma": 45.88,
     "transferencia": null,
     "apuro_contado": null,
-    "terminais": [],
-    "responsaveis": [],
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224",
+        "bruto": 292.15,
+        "liquido": 290.99,
+        "taxa": 1.16,
+        "taxa_pct": 0.4,
+        "foto": null,
+        "posto": "002"
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 644.83,
+        "liquido": 642.28,
+        "taxa": 2.55,
+        "taxa_pct": 0.4,
+        "foto": null,
+        "posto": "003"
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1874.17,
+        "liquido": 1865.91,
+        "taxa": 8.26,
+        "taxa_pct": 0.44,
+        "foto": null,
+        "posto": "005"
+      },
+      {
+        "id": "01123227",
+        "nome": "TPA Drive – 01123227",
+        "bruto": 489.39,
+        "liquido": 487.46,
+        "taxa": 1.93,
+        "taxa_pct": 0.39,
+        "foto": null,
+        "posto": "030"
+      }
+    ],
+    "responsaveis": [
+      "132",
+      "140"
+    ],
     "comentario": "",
-    "submetido_em": null
+    "submetido_em": "2026-07-22T23:27:14.386Z",
+    "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": null,
+    "recebido_real": 3751.37,
     "total_sifarma": 3751.37,
-    "diferenca_caixa": null,
-    "tolerancia": 5.0,
+    "diferenca_caixa": 0,
+    "tolerancia": 5,
     "liquido_numerario": 404.95
   },
   "tesouraria": {
-    "apuro_maquina": 425.0,
+    "apuro_maquina": 425,
     "apuro_contado": null,
     "fundo_na_maquina": 379.95,
     "desvio_deposito": null,
     "ha_desvio_deposito": false,
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
-  "avisos": [
-    "1 registo(s) de apuro repetido(s) (mesmo saldo inicial) ignorado(s) — o F7 foi corrido sem que saísse dinheiro.",
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 425.00 € (7 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
-  ],
   "cartao_por_tpa": [
     {
       "tpa": "TPA 1 – 01123224",
       "id": "01123224",
       "posto": "002",
-      "talao_bruto": null,
+      "talao_bruto": 292.15,
       "sifarma_cartao": 292.15,
-      "delta": null
+      "delta": 0
     },
     {
       "tpa": "TPA 2 – 00983092",
       "id": "00983092",
       "posto": "003",
-      "talao_bruto": null,
+      "talao_bruto": 644.83,
       "sifarma_cartao": 644.83,
-      "delta": null
-    },
-    {
-      "tpa": "TPA Drive – 01123227",
-      "id": "01123227",
-      "posto": "030",
-      "talao_bruto": null,
-      "sifarma_cartao": 489.39,
-      "delta": null
+      "delta": 0
     },
     {
       "tpa": "TPA 4 – 01123228",
       "id": "01123228",
       "posto": "005",
-      "talao_bruto": null,
+      "talao_bruto": 1874.17,
       "sifarma_cartao": 1874.17,
-      "delta": null
+      "delta": 0
+    },
+    {
+      "tpa": "TPA Drive – 01123227",
+      "id": "01123227",
+      "posto": "030",
+      "talao_bruto": 489.39,
+      "sifarma_cartao": 489.39,
+      "delta": 0
     }
   ],
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
     "cashlogy_liquido": 404.95,
     "sifarma_numerario_declarado": 404.95,
-    "diferenca": 0.0
-  }
+    "diferenca": 0
+  },
+  "avisos": [
+    "1 registo(s) de apuro repetido(s) (mesmo saldo inicial) ignorado(s) — o F7 foi corrido sem que saísse dinheiro.",
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 425.00 € (7 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado."
+  ]
 }
