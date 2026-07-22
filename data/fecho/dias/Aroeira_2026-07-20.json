@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-20",
-  "gerado_em": "2026-07-22T18:00:46.708Z",
+  "gerado_em": "2026-07-22T18:43:00.167Z",
   "estado": "tolerancia",
   "sifarma": {
     "total_vendas_dinheiro": 4599.77,
@@ -112,7 +112,8 @@
         "liquido": 570.12,
         "taxa": 2.44,
         "taxa_pct": 0.43,
-        "foto": null
+        "foto": null,
+        "posto": "002"
       },
       {
         "id": "00983092",
@@ -121,7 +122,8 @@
         "liquido": 1053.51,
         "taxa": 4.14,
         "taxa_pct": 0.39,
-        "foto": null
+        "foto": null,
+        "posto": "003"
       },
       {
         "id": "01123228",
@@ -130,7 +132,8 @@
         "liquido": 1464.63,
         "taxa": 6.53,
         "taxa_pct": 0.44,
-        "foto": null
+        "foto": null,
+        "posto": "005"
       },
       {
         "id": "01123227",
@@ -139,14 +142,15 @@
         "liquido": 1193.83,
         "taxa": 4.74,
         "taxa_pct": 0.4,
-        "foto": null
+        "foto": null,
+        "posto": "030"
       }
     ],
     "responsaveis": [
       "130"
     ],
     "comentario": "Não consigo detetar o erro. Dinheiro correto, sem vendas a MB com este valor",
-    "submetido_em": "2026-07-22T18:00:45.011Z",
+    "submetido_em": "2026-07-22T18:42:58.707Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -164,6 +168,7 @@
     "ha_desvio_deposito": true,
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
+  "cartao_por_tpa": [],
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
     "cashlogy_liquido": 298.53,
@@ -172,6 +177,7 @@
   },
   "avisos": [
     "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Tesouraria: depósito contado 300.33 € vs apuro da máquina 298.53 € (+1.80 €). Não afeta a diferença de caixa; confirmar o depósito.",
     "Tesouraria: depósito contado 300.33 € vs apuro da máquina 298.53 € (+1.80 €). Não afeta a diferença de caixa; confirmar o depósito."
   ]
 }
