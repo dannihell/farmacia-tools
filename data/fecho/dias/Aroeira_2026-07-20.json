@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-20",
-  "gerado_em": "2026-07-20T23:59:04",
-  "estado": "aguarda_tpas",
+  "gerado_em": "2026-07-22T18:00:46.708Z",
+  "estado": "tolerancia",
   "sifarma": {
     "total_vendas_dinheiro": 4599.77,
     "diagnostico": {
@@ -34,7 +34,7 @@
   "cashlogy": {
     "apuro": 298.53,
     "liquido": 298.53,
-    "fundo_na_maquina": 400.0,
+    "fundo_na_maquina": 400,
     "vendido": 402.13,
     "troco_devolvido": 103.6,
     "por_operador": [
@@ -43,7 +43,7 @@
         "posto": "2",
         "atendimentos": 11,
         "numerario": 211.89,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 211.89
       },
       {
@@ -59,7 +59,7 @@
         "posto": "3",
         "atendimentos": 2,
         "numerario": 61.47,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 61.47
       },
       {
@@ -67,7 +67,7 @@
         "posto": "5",
         "atendimentos": 4,
         "numerario": 35.61,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 35.61
       },
       {
@@ -75,7 +75,7 @@
         "posto": "30",
         "atendimentos": 1,
         "numerario": 10.76,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 10.76
       },
       {
@@ -83,7 +83,7 @@
         "posto": "30",
         "atendimentos": 1,
         "numerario": 7.2,
-        "troco": 0.0,
+        "troco": 0,
         "liquido": 7.2
       },
       {
@@ -97,40 +97,81 @@
     ]
   },
   "manual": {
-    "tpas_total": null,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
+    "tpas_total": 4299.94,
+    "tpas_taxa_total": 17.85,
+    "tpas_liquido_total": 4282.09,
+    "taxa_pct_media": 0.42,
     "finanfarma": null,
     "transferencia": null,
-    "apuro_contado": null,
-    "terminais": [],
-    "responsaveis": [],
-    "comentario": "",
-    "submetido_em": null
+    "apuro_contado": 300.33,
+    "terminais": [
+      {
+        "id": "01123224",
+        "nome": "TPA 1 – 01123224",
+        "bruto": 572.56,
+        "liquido": 570.12,
+        "taxa": 2.44,
+        "taxa_pct": 0.43,
+        "foto": null
+      },
+      {
+        "id": "00983092",
+        "nome": "TPA 2 – 00983092",
+        "bruto": 1057.65,
+        "liquido": 1053.51,
+        "taxa": 4.14,
+        "taxa_pct": 0.39,
+        "foto": null
+      },
+      {
+        "id": "01123228",
+        "nome": "TPA 4 – 01123228",
+        "bruto": 1471.16,
+        "liquido": 1464.63,
+        "taxa": 6.53,
+        "taxa_pct": 0.44,
+        "foto": null
+      },
+      {
+        "id": "01123227",
+        "nome": "TPA Drive – 01123227",
+        "bruto": 1198.57,
+        "liquido": 1193.83,
+        "taxa": 4.74,
+        "taxa_pct": 0.4,
+        "foto": null
+      }
+    ],
+    "responsaveis": [
+      "130"
+    ],
+    "comentario": "Não consigo detetar o erro. Dinheiro correto, sem vendas a MB com este valor",
+    "submetido_em": "2026-07-22T18:00:45.011Z",
+    "tpas_taxa_alta": []
   },
   "conciliacao": {
-    "recebido_real": null,
+    "recebido_real": 4598.47,
     "total_sifarma": 4599.77,
-    "diferenca_caixa": null,
-    "tolerancia": 5.0,
+    "diferenca_caixa": -1.3,
+    "tolerancia": 5,
     "liquido_numerario": 298.53
   },
   "tesouraria": {
     "apuro_maquina": 298.53,
-    "apuro_contado": null,
-    "fundo_na_maquina": 400.0,
-    "desvio_deposito": null,
-    "ha_desvio_deposito": false,
+    "apuro_contado": 300.33,
+    "fundo_na_maquina": 400,
+    "desvio_deposito": 1.8,
+    "ha_desvio_deposito": true,
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
-  "avisos": [
-    "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "Faltam os TPAs (talões) para fechar a diferença de caixa."
-  ],
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
     "cashlogy_liquido": 298.53,
     "sifarma_numerario_declarado": 273.88,
     "diferenca": 24.65
-  }
+  },
+  "avisos": [
+    "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Tesouraria: depósito contado 300.33 € vs apuro da máquina 298.53 € (+1.80 €). Não afeta a diferença de caixa; confirmar o depósito."
+  ]
 }
