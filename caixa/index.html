@@ -109,6 +109,14 @@
   .talaomsg.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #cfe6d7}
   .talaomsg.err{background:var(--alert-bg);color:var(--alert);border:1px solid #e8c6c1}
   .tparow.lido{background:#eef7f2}
+  .vertalao{cursor:pointer;font-size:15px;margin-left:4px;user-select:none;opacity:.75}
+  .vertalao:hover{opacity:1}
+  #talaoOverlay{display:none;position:fixed;inset:0;background:rgba(20,25,22,.82);
+    z-index:9999;align-items:center;justify-content:center;padding:20px}
+  #talaoOverlay .talaobox{max-width:92vw;max-height:92vh;display:flex;flex-direction:column;gap:8px}
+  #talaoOverlay img{max-width:92vw;max-height:84vh;object-fit:contain;border-radius:12px;
+    background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+  #talaoOverlay .talaofecha{color:#fff;text-align:center;font-family:var(--sans);font-size:13px;opacity:.85}
   .otherhead{display:flex;gap:8px;padding:9px 15px 0}
   .otherhead input{flex:1;font-size:12.5px;padding:6px 9px;border:1px solid var(--line-strong);border-radius:8px;font-family:var(--sans)}
   .rmtpa{background:none;border:none;color:var(--alert);cursor:pointer;font-size:16px;padding:0 4px}
@@ -802,7 +810,7 @@ function linhaTpa(t, extra){
         <label>Bruto<input type="number" step="0.01" inputmode="decimal" id="b-${idx}" oninput="recalcular()"></label>
         <label>Nº op.<input type="number" step="1" inputmode="numeric" id="op-${idx}" oninput="recalcular()"></label>
       </div>
-      <div class="taxa" id="t-${idx}">taxa mensal</div>${rm}</div>`;
+      <div class="taxa" id="t-${idx}">taxa mensal</div><span class="vertalao" id="ft-${idx}" onclick="verTalao('${idx}')" title="ver talão">🔍</span>${rm}</div>`;
   }
   return `<div class="tparow off" id="row-${idx}">
     <div class="tpachk" onclick="toggleTpa('${idx}')" id="chk-${idx}"></div>
@@ -811,7 +819,7 @@ function linhaTpa(t, extra){
       <label>Bruto<input type="number" step="0.01" inputmode="decimal" id="b-${idx}" oninput="recalcular()"></label>
       <label>Líquido<input type="number" step="0.01" inputmode="decimal" id="l-${idx}" oninput="recalcular()"></label>
     </div>
-    <div class="taxa" id="t-${idx}">—</div>${rm}</div>`;
+    <div class="taxa" id="t-${idx}">—</div><span class="vertalao" id="ft-${idx}" onclick="verTalao('${idx}')" title="ver talão">🔍</span>${rm}</div>`;
 }
 
 // prefillManual=true  -> carregamento do dia: limpa e pré-preenche do manual gravado
@@ -901,6 +909,21 @@ document.getElementById('addTpa').onclick=()=>{
   setTimeout(()=>toggleTpa('x'+i),0);
 };
 function removerExtra(i){ tpasExtra=tpasExtra.filter(t=>t.i!==i); construirInputs(); }
+
+function verTalao(idx){
+  const key=fotosTalao[idx];
+  if(!key) return;
+  const url=WORKER_URL+'/talao/'+key.split('/').map(encodeURIComponent).join('/');
+  let ov=document.getElementById('talaoOverlay');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='talaoOverlay';
+    ov.onclick=()=>{ov.style.display='none';};
+    document.body.appendChild(ov);
+  }
+  ov.innerHTML=`<div class="talaobox"><img src="${url}" alt="talão"><div class="talaofecha">fechar ✕</div></div>`;
+  ov.style.display='flex';
+}
 
 // ===== LER TALÃO (foto -> Worker -> Claude -> preenche a linha certa) =====
 // O talão traz o nº do terminal impresso, por isso identifica-se sozinho.
@@ -1093,6 +1116,12 @@ function recalcular(){
   }
 
   // guarda o estado atual do formulário para o guardarFecho()
+  // mostra o ícone "ver talão" só nos TPAs que têm foto guardada
+  document.querySelectorAll('.vertalao').forEach(el=>{
+    const idx=el.id.slice(3);              // ft-<idx>
+    el.style.display = fotosTalao[idx] ? 'inline' : 'none';
+  });
+
   window._estadoForm={
     tpas: linhas.map(idx=>{
       const row=document.getElementById('row-'+idx);
