@@ -298,16 +298,19 @@
   },
   {
     "data": "2026-07-23",
-    "estado": "conciliado",
+    "estado": "desvio",
     "total_sifarma": 4568.39,
-    "liquido_numerario": 118.2,
-    "apuro": 425,
-    "fundo_na_maquina": 379.95,
-    "desvio_deposito": -326.85,
-    "recebido_real": 4568.39,
-    "diferenca_caixa": 0,
+    "liquido_numerario": null,
+    "recebido_real": 4450.19,
+    "diferenca_caixa": -118.2,
+    "apuro": null,
+    "apuro_contado": 98.15,
+    "fundo_na_maquina": null,
+    "cofre": null,
+    "desvio_deposito": null,
+    "desvio_fisico": null,
     "tpas_total": 4150.22,
     "tpas_taxa_total": 18.01,
-    "taxa_pct_media": 0.43
+    "taxa_pct_media": null
   }
 ]
