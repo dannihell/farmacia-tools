@@ -3,8 +3,8 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-23",
-  "gerado_em": "2026-07-23T22:02:29",
-  "estado": "conciliado",
+  "gerado_em": "2026-07-23T22:20:49",
+  "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 4568.39,
     "diagnostico": {
@@ -187,10 +187,12 @@
     "submetido_em": "2026-07-23T20:29:03.021Z"
   },
   "conciliacao": {
-    "recebido_real": 4568.39,
+    "recebido_real": 4143.39,
     "total_sifarma": 4568.39,
-    "diferenca_caixa": 0.0,
+    "diferenca_caixa": -425.0,
     "tolerancia": 5.0,
+    "numerario_evidenciado": -306.8,
+    "base_numerario": "contado + delta fundo + delta cofre",
     "liquido_numerario": 118.2
   },
   "verificacao_fisica": {
@@ -218,6 +220,7 @@
   "avisos": [
     "Apuro (948.15 €) não bate com a variação de saldo (923.15 -> 400.00 EUR).",
     "5 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "Diferença de caixa -425.00 € acima da tolerância — investigar.",
     "DINHEIRO FÍSICO: faltam/sobram -425.00 € entre o que a máquina recebeu (118.20 €) e o que foi contado/ficou na máquina. Verificar o saco.",
     "Tesouraria: depósito contado 98.15 € vs apuro da máquina 948.15 € (-850.00 €). Não afeta a diferença de caixa; confirmar o depósito."
   ],
