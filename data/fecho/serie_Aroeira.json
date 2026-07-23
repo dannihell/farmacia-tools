@@ -298,11 +298,16 @@
   },
   {
     "data": "2026-07-23",
-    "estado": "aguarda_tpas",
+    "estado": "conciliado",
     "total_sifarma": 4568.39,
-    "apuro": 425.0,
     "liquido_numerario": 118.2,
-    "recebido_real": null,
-    "diferenca_caixa": null
+    "apuro": 425,
+    "fundo_na_maquina": 379.95,
+    "desvio_deposito": -326.85,
+    "recebido_real": 4568.39,
+    "diferenca_caixa": 0,
+    "tpas_total": 4150.22,
+    "tpas_taxa_total": 18.01,
+    "taxa_pct_media": 0.43
   }
 ]
