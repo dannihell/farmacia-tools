@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-21",
-  "gerado_em": "2026-07-23T00:09:49.160Z",
+  "gerado_em": "2026-07-23T08:14:39.162Z",
   "estado": "desvio",
   "sifarma": {
     "total_vendas_dinheiro": 4545.74,
@@ -162,7 +162,7 @@
     "taxa_pct_media": 0.35,
     "finanfarma": 347.83,
     "transferencia": null,
-    "apuro_contado": 489.84,
+    "apuro_contado": 479.84,
     "terminais": [
       {
         "id": "01123224",
@@ -210,7 +210,7 @@
       "140"
     ],
     "comentario": "Possível venda não fechada",
-    "submetido_em": "2026-07-23T00:09:47.827Z",
+    "submetido_em": "2026-07-23T08:14:37.771Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -222,9 +222,9 @@
   },
   "tesouraria": {
     "apuro_maquina": 470.14,
-    "apuro_contado": 489.84,
+    "apuro_contado": 479.84,
     "fundo_na_maquina": 400,
-    "desvio_deposito": 19.7,
+    "desvio_deposito": 9.7,
     "ha_desvio_deposito": true,
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
@@ -276,6 +276,10 @@
     "Tesouraria: depósito contado 489.84 € vs apuro da máquina 470.14 € (+19.70 €). Não afeta a diferença de caixa; confirmar o depósito.",
     "Diferença de caixa +23.00 € acima da tolerância — investigar.",
     "Tesouraria: depósito contado 489.84 € vs apuro da máquina 470.14 € (+19.70 €). Não afeta a diferença de caixa; confirmar o depósito.",
+    "Cartão TPA 2 – 00983092 (posto 003): talão 1263.90 € vs Sifarma 1259.38 € (+4.52 €).",
+    "Cartão TPA 4 – 01123228 (posto 005): talão 1095.27 € vs Sifarma 1076.79 € (+18.48 €).",
+    "Diferença de caixa +23.00 € acima da tolerância — investigar.",
+    "Tesouraria: depósito contado 479.84 € vs apuro da máquina 470.14 € (+9.70 €). Não afeta a diferença de caixa; confirmar o depósito.",
     "Cartão TPA 2 – 00983092 (posto 003): talão 1263.90 € vs Sifarma 1259.38 € (+4.52 €).",
     "Cartão TPA 4 – 01123228 (posto 005): talão 1095.27 € vs Sifarma 1076.79 € (+18.48 €)."
   ]
