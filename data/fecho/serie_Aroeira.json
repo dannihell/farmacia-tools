@@ -273,14 +273,17 @@
     "estado": "desvio",
     "total_sifarma": 4545.74,
     "liquido_numerario": 468.14,
-    "apuro": 470.14,
-    "fundo_na_maquina": 400,
-    "desvio_deposito": 9.7,
     "recebido_real": 4568.74,
-    "diferenca_caixa": 23,
+    "diferenca_caixa": 23.0,
+    "apuro": 470.14,
+    "apuro_contado": 479.84,
+    "fundo_na_maquina": 400.0,
+    "cofre": 0.0,
+    "desvio_deposito": 9.7,
+    "desvio_fisico": null,
     "tpas_total": 3752.77,
     "tpas_taxa_total": 12.97,
-    "taxa_pct_media": 0.35
+    "taxa_pct_media": null
   },
   {
     "data": "2026-07-22",
