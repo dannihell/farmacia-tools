@@ -287,14 +287,17 @@
     "estado": "conciliado",
     "total_sifarma": 3751.37,
     "liquido_numerario": 404.95,
-    "apuro": 425,
-    "fundo_na_maquina": 379.95,
-    "desvio_deposito": null,
     "recebido_real": 3751.37,
-    "diferenca_caixa": 0,
+    "diferenca_caixa": 0.0,
+    "apuro": 425.0,
+    "apuro_contado": 425.0,
+    "fundo_na_maquina": 379.95,
+    "cofre": 425.0,
+    "desvio_deposito": 0.0,
+    "desvio_fisico": null,
     "tpas_total": 3300.54,
     "tpas_taxa_total": 13.9,
-    "taxa_pct_media": 0.42
+    "taxa_pct_media": null
   },
   {
     "data": "2026-07-23",
