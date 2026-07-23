@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-22",
-  "gerado_em": "2026-07-22T23:27:15.789Z",
+  "gerado_em": "2026-07-23T07:38:28.340Z",
   "estado": "conciliado",
   "sifarma": {
     "total_vendas_dinheiro": 3751.37,
@@ -149,7 +149,7 @@
     "taxa_pct_media": 0.42,
     "finanfarma": 45.88,
     "transferencia": null,
-    "apuro_contado": null,
+    "apuro_contado": 425,
     "terminais": [
       {
         "id": "01123224",
@@ -197,7 +197,7 @@
       "140"
     ],
     "comentario": "",
-    "submetido_em": "2026-07-22T23:27:14.386Z",
+    "submetido_em": "2026-07-23T07:38:26.866Z",
     "tpas_taxa_alta": []
   },
   "conciliacao": {
@@ -209,9 +209,9 @@
   },
   "tesouraria": {
     "apuro_maquina": 425,
-    "apuro_contado": null,
+    "apuro_contado": 425,
     "fundo_na_maquina": 379.95,
-    "desvio_deposito": null,
+    "desvio_deposito": 0,
     "ha_desvio_deposito": false,
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
