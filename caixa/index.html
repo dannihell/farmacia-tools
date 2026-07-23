@@ -337,32 +337,14 @@
       </div>
     </section>
     <section class="view" id="v-analise">
-      <div class="toggle3">
-        <button id="anTeso" class="on" onclick="setAnalise('teso')">Tesouraria</button>
-        <button id="anVendas" onclick="setAnalise('vendas')">Vendas</button>
-        <button id="anDif" onclick="setAnalise('dif')">Diferenças</button>
+      <div class="toggle">
+        <button id="anVendas" class="on" onclick="setAnalise('vendas')">Vendas</button>
         <button id="anTaxas" onclick="setAnalise('taxas')">Taxas TPA</button>
       </div>
-      <div id="anTesoBox">
-        <div class="kpis" id="tesoKpis"></div>
-        <div class="chartcard"><h4>Dinheiro físico · desvio por dia</h4><svg id="chartTeso" viewBox="0 0 360 120" width="100%"></svg>
-          <div class="diflegend"><span><i class="sw ok"></i>bate</span><span><i class="sw alert"></i>falta/sobra</span></div>
-        </div>
-        <div class="card">
-          <div class="card-h"><h3>Dinheiro contado vs máquina</h3><span class="auto">por dia</span></div>
-          <table><thead><tr><th>Data</th><th>Recebido</th><th>Contado</th><th>Cofre</th><th>Desvio</th></tr></thead>
-            <tbody id="tbTeso"></tbody></table>
-        </div>
-      </div>
-      <div id="anVendasBox" style="display:none">
+      <div id="anVendasBox">
         <div class="toggle"><button id="tgDia" class="on">Dia a dia</button><button id="tgMes">Mês a mês</button></div>
         <div class="kpis" id="kpis"></div>
         <div class="chartcard"><h4 id="chartTitle">Total vendas dinheiro</h4><svg id="chart" viewBox="0 0 360 150" width="100%"></svg></div>
-      </div>
-      <div id="anDifBox" style="display:none">
-        <div class="chartcard"><h4>Diferença de caixa · por dia</h4><svg id="chartDif" viewBox="0 0 360 120" width="100%"></svg>
-          <div class="diflegend"><span><i class="sw ok"></i>dentro</span><span><i class="sw warn"></i>±5&nbsp;€</span><span><i class="sw alert"></i>desvio</span></div>
-        </div>
       </div>
       <div id="anTaxasBox" style="display:none">
         <div class="kpis" id="taxaKpis"></div>
@@ -378,7 +360,7 @@
       <div class="card">
         <div class="card-h"><h3>Histórico</h3><span class="auto" id="nDias">—</span></div>
         <div class="hint-tap">Toca num dia para ver o fecho completo.</div>
-        <table><thead><tr><th>Data</th><th>Sifarma</th><th>Numerário</th><th>Dif.</th></tr></thead>
+        <table><thead><tr><th>Data</th><th>Sifarma</th><th>Real</th><th>Dif.</th></tr></thead>
           <tbody id="tbSerie"></tbody></table>
       </div>
     </section>
@@ -514,77 +496,18 @@ function render(){
   ).join('')||`<tr><td colspan="3"><div class="empty"><b>Sem dados</b></div></td></tr>`;
 
   renderAnalise();
-  if(vistaAnalise==="teso")renderTesouraria();
 }
 
-let vistaAnalise='teso';
+let vistaAnalise='vendas';
 function setAnalise(v){
   vistaAnalise=v;
-  [['teso','anTeso','anTesoBox'],['vendas','anVendas','anVendasBox'],
-   ['dif','anDif','anDifBox'],['taxas','anTaxas','anTaxasBox']].forEach(([k,btn,box])=>{
+  [['vendas','anVendas','anVendasBox'],['taxas','anTaxas','anTaxasBox']].forEach(([k,btn,box])=>{
     document.getElementById(btn).classList.toggle('on',v===k);
     document.getElementById(box).style.display = v===k ? '' : 'none';
   });
   if(v==='taxas')renderTaxas();
-  if(v==='teso')renderTesouraria();
 }
 
-// ===== TESOURARIA: o dinheiro recebido chegou ao saco? =====
-function renderTesouraria(){
-  const dd=serie.filter(d=>d.liquido_numerario!=null);
-  const kpi=document.getElementById('tesoKpis');
-  const tb=document.getElementById('tbTeso');
-  const svgEl=document.getElementById('chartTeso');
-  if(!dd.length){
-    kpi.innerHTML=''; svgEl.innerHTML='<text x="180" y="60" text-anchor="middle" class="bar-lab">sem dados ainda</text>';
-    tb.innerHTML='<tr><td colspan="5"><div class="empty"><b>Sem histórico</b></div></td></tr>';
-    return;
-  }
-  const comVer=dd.filter(d=>d.desvio_fisico!=null);
-  const acumulado=round2(comVer.reduce((a,d)=>a+(d.desvio_fisico||0),0));
-  const nDesvio=comVer.filter(d=>Math.abs(d.desvio_fisico)>=0.01).length;
-  const semContagem=dd.filter(d=>d.apuro_contado==null).length;
-  const noCofre=round2(dd.length?(dd[dd.length-1].cofre||0):0);
-  kpi.innerHTML=`
-    <div class="kpi"><div class="kn" style="color:${Math.abs(acumulado)<0.01?'var(--ok)':'var(--alert)'}">${(acumulado>0?'+':'')+noE(eur.format(acumulado))}</div><div class="kl">Desvio acumulado</div></div>
-    <div class="kpi"><div class="kn">${nDesvio}</div><div class="kl">dias com desvio</div></div>
-    <div class="kpi"><div class="kn" style="${noCofre>0.01?'color:var(--warn)':''}">${noE(eur.format(noCofre))}</div><div class="kl">no cofre agora</div></div>`;
-  if(semContagem)
-    kpi.innerHTML+=`<div class="aviso" style="grid-column:1/-1;margin-top:2px">${semContagem} dia(s) sem apuro contado — nesses não dá para confirmar o dinheiro.</div>`;
-
-  // gráfico do desvio físico
-  const W=360,H2=120,pb2=18,pl=6,pr=6,mid=(H2-pb2)/2+4;
-  const ult=dd.slice(-21);
-  if(!comVer.length){
-    svgEl.innerHTML='<text x="180" y="60" text-anchor="middle" class="bar-lab">sem contagens para verificar</text>';
-  }else{
-    const maxAbs=Math.max(5,...comVer.map(d=>Math.abs(d.desvio_fisico)))*1.2;
-    const bw=(W-pl-pr)/ult.length;
-    let g=`<line x1="${pl}" y1="${mid}" x2="${W-pr}" y2="${mid}" stroke="var(--line-strong)"/>`;
-    ult.forEach((d,i)=>{
-      if(d.desvio_fisico==null)return;
-      const v=d.desvio_fisico, a=Math.abs(v);
-      const h=(a/maxAbs)*((H2-pb2)/2);
-      const x=pl+i*bw+bw*0.2, w=Math.max(bw*0.6,2);
-      const y=v>=0?mid-h:mid;
-      const col=a<0.01?'var(--ok)':'var(--alert)';
-      g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="1.5" fill="${col}"><title>${d.data}: ${(v>=0?'+':'')+v.toFixed(2)} €</title></rect>`;
-    });
-    svgEl.innerHTML=g;
-  }
-
-  tb.innerHTML=[...dd].reverse().map(d=>{
-    const v=d.desvio_fisico;
-    const chip = v==null ? '<span class="dchip">—</span>'
-      : `<span class="dchip ${Math.abs(v)<0.01?'ok':'alert'}">${(v>0?'+':'')+eur.format(v)}</span>`;
-    const dataCurta=new Date(d.data+'T12:00').toLocaleDateString('pt-PT',{day:'2-digit',month:'short'}).replace('.','');
-    const cofre = d.cofre!=null && d.cofre>0.01 ? `<b style="color:var(--warn)">${eur.format(d.cofre)}</b>` : '—';
-    return `<tr class="tapable" onclick="verDia('${d.data}')"><td>${dataCurta}</td>`
-      +`<td>${eur.format(d.liquido_numerario||0)}</td>`
-      +`<td>${d.apuro_contado!=null?eur.format(d.apuro_contado):'<span style="color:var(--ink-faint)">sem contagem</span>'}</td>`
-      +`<td>${cofre}</td><td>${chip}</td></tr>`;
-  }).join('');
-}
 
 async function renderTaxas(){
   // precisa dos fechos completos por dia (têm os terminais). Puxa os dias com TPAs.
@@ -688,8 +611,8 @@ async function renderTaxas(){
 function agregarMes(s){
   const m={};
   s.forEach(d=>{const k=d.data.slice(0,7);
-    if(!m[k])m[k]={data:k,total_sifarma:0,liquido_numerario:0,diferenca_caixa:0,_n:0};
-    m[k].total_sifarma+=d.total_sifarma||0;m[k].liquido_numerario+=d.liquido_numerario||0;
+    if(!m[k])m[k]={data:k,total_sifarma:0,recebido_real:0,diferenca_caixa:0,_n:0};
+    m[k].total_sifarma+=d.total_sifarma||0;m[k].recebido_real+=d.recebido_real||0;
     if(d.diferenca_caixa!=null)m[k].diferenca_caixa+=d.diferenca_caixa;m[k]._n++;});
   return Object.values(m).sort((a,b)=>a.data.localeCompare(b.data));
 }
@@ -724,28 +647,6 @@ function renderAnalise(){
   svg+=`<line x1="${pl}" y1="${H-pb}" x2="${W-pr}" y2="${H-pb}" stroke="var(--line-strong)"/>`;
   document.getElementById('chart').innerHTML=svg;
 
-  // ---- gráfico da diferença de caixa (barras acima/abaixo de zero) ----
-  const cd=document.getElementById('chartDif');
-  const comDif=dados.filter(d=>d.diferenca_caixa!=null);
-  if(!comDif.length){
-    cd.innerHTML=`<text x="180" y="60" text-anchor="middle" class="bar-lab">sem diferenças fechadas ainda</text>`;
-  }else{
-    const H2=120,pb2=18,mid=(H2-pb2)/2+4;
-    const maxAbs=Math.max(5,...comDif.map(d=>Math.abs(d.diferenca_caixa)))*1.2;
-    const bw2=(W-pl-pr)/dados.length;
-    let g=`<line x1="${pl}" y1="${mid}" x2="${W-pr}" y2="${mid}" stroke="var(--line-strong)"/>`;
-    dados.forEach((d,i)=>{
-      if(d.diferenca_caixa==null)return;
-      const v=d.diferenca_caixa, a=Math.abs(v);
-      const h=(a/maxAbs)*((H2-pb2)/2);
-      const x=pl+i*bw2+bw2*0.2, w=Math.max(bw2*0.6,2);
-      const y=v>=0?mid-h:mid;
-      const col=a<0.005?'var(--ok)':a<=5?'var(--warn)':'var(--alert)';
-      g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="1.5" fill="${col}"><title>${d.data}: ${(v>=0?'+':'')+v.toFixed(2)} €</title></rect>`;
-    });
-    cd.innerHTML=g;
-  }
-
   const linhas=[...dados].reverse().map(d=>{
     const v=d.diferenca_caixa;
     const chip = v==null ? '<span class="dchip">—</span>'
@@ -753,7 +654,7 @@ function renderAnalise(){
     // só dias (não meses) são clicáveis para ver o detalhe
     const tap = periodo==='dia' ? `class="tapable" onclick="verDia('${d.data}')"` : '';
     const dataCurta=new Date(d.data+'T12:00').toLocaleDateString('pt-PT',{day:'2-digit',month:'short'}).replace('.','');
-    return `<tr ${tap}><td>${dataCurta}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${eur.format(d.liquido_numerario||0)}</td><td>${chip}</td></tr>`;
+    return `<tr ${tap}><td>${dataCurta}</td><td>${eur.format(d.total_sifarma||0)}</td><td>${d.recebido_real!=null?eur.format(d.recebido_real):'—'}</td><td>${chip}</td></tr>`;
   }).join('');
   document.getElementById('tbSerie').innerHTML=linhas;
 }
@@ -1142,17 +1043,21 @@ function recalcular(){
   const transf=valOf('transferencia');
   if(transf!=null)algum=true;
 
-  // ── NUMERÁRIO: a conciliação de vendas usa o LÍQUIDO da máquina (não o apuro).
-  //    O líquido já reflete a variação do fundo de maneio.
+  // ── NUMERÁRIO EVIDENCIADO: parte do dinheiro CONTADO e soma o que ficou na
+  //    máquina (Δfundo + Δcofre, vindos do fecho automático). Sem contagem ou
+  //    sem dia anterior, cai no líquido — que é o que o validador contou.
   const liquido=(fecho.cashlogy&&fecho.cashlogy.liquido!=null)?fecho.cashlogy.liquido:0;
-  // Tesouraria (não entra na diferença de caixa): depósito contado vs apuro da máquina.
+  const vf=fecho.verificacao_fisica||{};
+  const dFundo=vf.delta_fundo, dCofre=vf.delta_cofre;
   const apuroMaquina=(fecho.cashlogy&&fecho.cashlogy.apuro)||0;
   const apuroContado=valOf('apuroContado');
+  const temEvid = apuroContado!=null && dFundo!=null && dCofre!=null;
+  const numerario = temEvid ? round2(apuroContado+dFundo+dCofre) : liquido;
   const desvioDeposito=(apuroContado!=null)?round2(apuroContado-apuroMaquina):0;
   const temDesvioDeposito=Math.abs(desvioDeposito)>=0.01;
 
   const totalSif=(fecho.sifarma&&fecho.sifarma.total_vendas_dinheiro);
-  const recebido=liquido+somaBruto+(finan||0)+(transf||0);
+  const recebido=numerario+somaBruto+(finan||0)+(transf||0);
   const dif=(totalSif!=null)?round2(recebido-totalSif):null;
 
   // hero do separador introduzir
@@ -1170,12 +1075,12 @@ function recalcular(){
   document.getElementById('introHero').innerHTML=
     `<div class="hero ${cls}"><div class="lab">Diferença de caixa · ao vivo</div>
      <div class="big">${bigTxt}</div>
-     <div class="sub">${txt} · (numerário ${eur.format(liquido)} + TPAs ${eur.format(somaBruto)}${extras?' + '+extras:''}) − Sifarma ${totalSif!=null?eur.format(totalSif):'—'}</div></div>`;
+     <div class="sub">${txt} · (numerário ${eur.format(numerario)} + TPAs ${eur.format(somaBruto)}${extras?' + '+extras:''}) − Sifarma ${totalSif!=null?eur.format(totalSif):'—'}</div></div>`;
 
   document.getElementById('introAuto').innerHTML=`
     <div class="kv anchor"><span class="k">Total vendas dinheiro<small>Sifarma · âncora</small></span><span class="v">${totalSif!=null?eur.format(totalSif):'—'}</span></div>
-    <div class="kv"><span class="k">Numerário líquido<small>Cashlogy · vendas − trocos</small></span><span class="v">${eur.format(liquido)}</span></div>
-    <div class="kv"><span class="k">Apuro retirado<small>tesouraria · não entra na diferença</small></span><span class="v">${eur.format(apuroMaquina)}</span></div>`;
+    <div class="kv"><span class="k">Numerário<small>${temEvid?`contado ${eur.format(apuroContado)} + fundo ${dFundo>=0?'+':''}${noE(eur.format(dFundo))} + cofre ${dCofre>=0?'+':''}${noE(eur.format(dCofre))}`:'líquido do Cashlogy (falta a contagem)'}</small></span><span class="v">${eur.format(numerario)}</span></div>
+    <div class="kv"><span class="k">↳ recebido pela máquina<small>validador · para comparar</small></span><span class="v ${temEvid&&Math.abs(numerario-liquido)>=0.01?'':'vazio'}">${eur.format(liquido)}</span></div>`;
 
   // aviso de tesouraria: depósito contado vs apuro da máquina (não afeta a diferença de caixa)
   const dEl=document.getElementById('discrepanciaAviso');
