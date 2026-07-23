@@ -338,11 +338,23 @@
     </section>
     <section class="view" id="v-analise">
       <div class="toggle3">
-        <button id="anVendas" class="on" onclick="setAnalise('vendas')">Vendas</button>
+        <button id="anTeso" class="on" onclick="setAnalise('teso')">Tesouraria</button>
+        <button id="anVendas" onclick="setAnalise('vendas')">Vendas</button>
         <button id="anDif" onclick="setAnalise('dif')">Diferenças</button>
         <button id="anTaxas" onclick="setAnalise('taxas')">Taxas TPA</button>
       </div>
-      <div id="anVendasBox">
+      <div id="anTesoBox">
+        <div class="kpis" id="tesoKpis"></div>
+        <div class="chartcard"><h4>Dinheiro físico · desvio por dia</h4><svg id="chartTeso" viewBox="0 0 360 120" width="100%"></svg>
+          <div class="diflegend"><span><i class="sw ok"></i>bate</span><span><i class="sw alert"></i>falta/sobra</span></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Dinheiro contado vs máquina</h3><span class="auto">por dia</span></div>
+          <table><thead><tr><th>Data</th><th>Recebido</th><th>Contado</th><th>Cofre</th><th>Desvio</th></tr></thead>
+            <tbody id="tbTeso"></tbody></table>
+        </div>
+      </div>
+      <div id="anVendasBox" style="display:none">
         <div class="toggle"><button id="tgDia" class="on">Dia a dia</button><button id="tgMes">Mês a mês</button></div>
         <div class="kpis" id="kpis"></div>
         <div class="chartcard"><h4 id="chartTitle">Total vendas dinheiro</h4><svg id="chart" viewBox="0 0 360 150" width="100%"></svg></div>
@@ -502,18 +514,76 @@ function render(){
   ).join('')||`<tr><td colspan="3"><div class="empty"><b>Sem dados</b></div></td></tr>`;
 
   renderAnalise();
+  if(vistaAnalise==="teso")renderTesouraria();
 }
 
-let vistaAnalise='vendas';
+let vistaAnalise='teso';
 function setAnalise(v){
   vistaAnalise=v;
-  document.getElementById('anVendas').classList.toggle('on',v==='vendas');
-  document.getElementById('anDif').classList.toggle('on',v==='dif');
-  document.getElementById('anTaxas').classList.toggle('on',v==='taxas');
-  document.getElementById('anVendasBox').style.display=v==='vendas'?'':'none';
-  document.getElementById('anDifBox').style.display=v==='dif'?'':'none';
-  document.getElementById('anTaxasBox').style.display=v==='taxas'?'':'none';
+  [['teso','anTeso','anTesoBox'],['vendas','anVendas','anVendasBox'],
+   ['dif','anDif','anDifBox'],['taxas','anTaxas','anTaxasBox']].forEach(([k,btn,box])=>{
+    document.getElementById(btn).classList.toggle('on',v===k);
+    document.getElementById(box).style.display = v===k ? '' : 'none';
+  });
   if(v==='taxas')renderTaxas();
+  if(v==='teso')renderTesouraria();
+}
+
+// ===== TESOURARIA: o dinheiro recebido chegou ao saco? =====
+function renderTesouraria(){
+  const dd=serie.filter(d=>d.liquido_numerario!=null);
+  const kpi=document.getElementById('tesoKpis');
+  const tb=document.getElementById('tbTeso');
+  const svgEl=document.getElementById('chartTeso');
+  if(!dd.length){
+    kpi.innerHTML=''; svgEl.innerHTML='<text x="180" y="60" text-anchor="middle" class="bar-lab">sem dados ainda</text>';
+    tb.innerHTML='<tr><td colspan="5"><div class="empty"><b>Sem histórico</b></div></td></tr>';
+    return;
+  }
+  const comVer=dd.filter(d=>d.desvio_fisico!=null);
+  const acumulado=round2(comVer.reduce((a,d)=>a+(d.desvio_fisico||0),0));
+  const nDesvio=comVer.filter(d=>Math.abs(d.desvio_fisico)>=0.01).length;
+  const semContagem=dd.filter(d=>d.apuro_contado==null).length;
+  const noCofre=round2(dd.length?(dd[dd.length-1].cofre||0):0);
+  kpi.innerHTML=`
+    <div class="kpi"><div class="kn" style="color:${Math.abs(acumulado)<0.01?'var(--ok)':'var(--alert)'}">${(acumulado>0?'+':'')+noE(eur.format(acumulado))}</div><div class="kl">Desvio acumulado</div></div>
+    <div class="kpi"><div class="kn">${nDesvio}</div><div class="kl">dias com desvio</div></div>
+    <div class="kpi"><div class="kn" style="${noCofre>0.01?'color:var(--warn)':''}">${noE(eur.format(noCofre))}</div><div class="kl">no cofre agora</div></div>`;
+  if(semContagem)
+    kpi.innerHTML+=`<div class="aviso" style="grid-column:1/-1;margin-top:2px">${semContagem} dia(s) sem apuro contado — nesses não dá para confirmar o dinheiro.</div>`;
+
+  // gráfico do desvio físico
+  const W=360,H2=120,pb2=18,pl=6,pr=6,mid=(H2-pb2)/2+4;
+  const ult=dd.slice(-21);
+  if(!comVer.length){
+    svgEl.innerHTML='<text x="180" y="60" text-anchor="middle" class="bar-lab">sem contagens para verificar</text>';
+  }else{
+    const maxAbs=Math.max(5,...comVer.map(d=>Math.abs(d.desvio_fisico)))*1.2;
+    const bw=(W-pl-pr)/ult.length;
+    let g=`<line x1="${pl}" y1="${mid}" x2="${W-pr}" y2="${mid}" stroke="var(--line-strong)"/>`;
+    ult.forEach((d,i)=>{
+      if(d.desvio_fisico==null)return;
+      const v=d.desvio_fisico, a=Math.abs(v);
+      const h=(a/maxAbs)*((H2-pb2)/2);
+      const x=pl+i*bw+bw*0.2, w=Math.max(bw*0.6,2);
+      const y=v>=0?mid-h:mid;
+      const col=a<0.01?'var(--ok)':'var(--alert)';
+      g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="1.5" fill="${col}"><title>${d.data}: ${(v>=0?'+':'')+v.toFixed(2)} €</title></rect>`;
+    });
+    svgEl.innerHTML=g;
+  }
+
+  tb.innerHTML=[...dd].reverse().map(d=>{
+    const v=d.desvio_fisico;
+    const chip = v==null ? '<span class="dchip">—</span>'
+      : `<span class="dchip ${Math.abs(v)<0.01?'ok':'alert'}">${(v>0?'+':'')+eur.format(v)}</span>`;
+    const dataCurta=new Date(d.data+'T12:00').toLocaleDateString('pt-PT',{day:'2-digit',month:'short'}).replace('.','');
+    const cofre = d.cofre!=null && d.cofre>0.01 ? `<b style="color:var(--warn)">${eur.format(d.cofre)}</b>` : '—';
+    return `<tr class="tapable" onclick="verDia('${d.data}')"><td>${dataCurta}</td>`
+      +`<td>${eur.format(d.liquido_numerario||0)}</td>`
+      +`<td>${d.apuro_contado!=null?eur.format(d.apuro_contado):'<span style="color:var(--ink-faint)">sem contagem</span>'}</td>`
+      +`<td>${cofre}</td><td>${chip}</td></tr>`;
+  }).join('');
 }
 
 async function renderTaxas(){
