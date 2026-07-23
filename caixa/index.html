@@ -431,8 +431,9 @@ function render(){
     heroBig=(dif>=0?'+':'')+noE(eur.format(dif))+' €';
     heroSub=`(numerário + TPAs + Finanfarma) − total Sifarma. Tolerância ±${con.tolerancia||5} €.`;
   }
+  const geradoHora = ger.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
   document.getElementById('hero').innerHTML=
-    `<div class="hero ${cls}"><div class="lab">Diferença de caixa</div>
+    `<div class="hero ${cls}"><div class="lab">Diferença de caixa <span style="font-weight:500;text-transform:none;letter-spacing:0;color:var(--ink-faint)">· dados até às ${geradoHora}</span></div>
      <div class="big">${heroBig}</div><div class="sub">${txt} · ${heroSub}</div></div>`;
 
   // conciliação (Hoje)
