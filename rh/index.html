@@ -282,14 +282,17 @@ function pctClass(pct, esp=50) {
 }
 
 // ── DADOS FICTÍCIOS ───────────────────────────────────────────────────────────
-function gerarColabMock(nome, vendas_base, atend_base, rent, sauda, cresc, mix) {
+function gerarColabMock(nome, vendas_base, atend_base, rent, sauda, cresc, mix, dermo) {
   const mensal = [1,2,3,4,5,6].map(mes => ({
     mes, 
     vendas: Math.round(vendas_base * (0.85 + Math.random()*0.3)),
+    margem: Math.round(vendas_base * 0.22 * (0.85 + Math.random()*0.3)),
     atend:  Math.round(atend_base  * (0.85 + Math.random()*0.3)),
-    ticket: Math.round((vendas_base / atend_base) * (0.9 + Math.random()*0.2) * 10) / 10
+    ticket: Math.round((vendas_base / atend_base) * (0.9 + Math.random()*0.2) * 10) / 10,
+    margem_atend: Math.round(vendas_base * 0.22 / atend_base * 10) / 10,
   }));
   const vendas_ytd = mensal.reduce((a,m) => a + m.vendas, 0);
+  const margem_ytd = mensal.reduce((a,m) => a + m.margem, 0);
   const atend_ytd  = mensal.reduce((a,m) => a + m.atend,  0);
   const gen_mensal = {};
   [1,2,3,4,5,6].forEach(m => {
@@ -299,8 +302,10 @@ function gerarColabMock(nome, vendas_base, atend_base, rent, sauda, cresc, mix) 
     cod: Math.floor(Math.random()*900)+100,
     nome,
     vendas_ytd,
+    margem_ytd,
     atend_ytd,
     ticket_medio: Math.round(vendas_ytd/atend_ytd*10)/10,
+    margem_atend: Math.round(margem_ytd/atend_ytd*10)/10,
     cresc_vs_ant: cresc,
     rent_genericos: rent,
     taxa_sauda: sauda,
@@ -308,8 +313,29 @@ function gerarColabMock(nome, vendas_base, atend_base, rent, sauda, cresc, mix) 
     mix,
     genericos_mensal: Object.fromEntries(Object.entries(gen_mensal).map(([k,v]) => [k,v])),
     sauda_mensal: Object.fromEntries([1,2,3,4,5,6].map(m => [m, Math.round(atend_base*sauda/100)])),
+    dermo: dermo || {},
   };
 }
+
+const DERMO_MOCK_FARM = {
+  "Isdin":          { vendas: 8200,  margem: 4090,  margem_ant: 5200,  cresc: -21.3 },
+  "Avène":          { vendas: 6100,  margem: 2950,  margem_ant: 3100,  cresc: -4.8  },
+  "Bioderma":       { vendas: 5400,  margem: 2610,  margem_ant: 2400,  cresc: 8.8   },
+  "Uriage":         { vendas: 4200,  margem: 2100,  margem_ant: 1900,  cresc: 10.5  },
+  "Vichy":          { vendas: 3800,  margem: 1830,  margem_ant: 2100,  cresc: -12.9 },
+  "Ducray":         { vendas: 3100,  margem: 1490,  margem_ant: 1200,  cresc: 24.2  },
+  "SVR":            { vendas: 2900,  margem: 1400,  margem_ant: 1100,  cresc: 27.3  },
+  "Eucerin":        { vendas: 2400,  margem: 1150,  margem_ant: 1300,  cresc: -11.5 },
+  "Lierac":         { vendas: 2100,  margem: 1010,  margem_ant: 980,   cresc: 3.1   },
+  "Nuxe":           { vendas: 1800,  margem: 870,   margem_ant: 920,   cresc: -5.4  },
+  "Caudalie":       { vendas: 1500,  margem: 720,   margem_ant: 600,   cresc: 20.0  },
+  "Klorane":        { vendas: 1200,  margem: 580,   margem_ant: 640,   cresc: -9.4  },
+  "Phyto":          { vendas: 900,   margem: 430,   margem_ant: 380,   cresc: 13.2  },
+  "Martiderm":      { vendas: 700,   margem: 340,   margem_ant: 280,   cresc: 21.4  },
+  "Heliocare":      { vendas: 600,   margem: 290,   margem_ant: 310,   cresc: -6.5  },
+  "Isdinceutics":   { vendas: 500,   margem: 240,   margem_ant: 180,   cresc: 33.3  },
+  "Filorga":        { vendas: 400,   margem: 190,   margem_ant: 220,   cresc: -13.6 },
+};
 
 const MOCK_DATA = {
   gerado_em: new Date().toISOString(),
@@ -318,31 +344,37 @@ const MOCK_DATA = {
     aroeira: {
       nome: "Aroeira",
       kpis: { margem_bruta: 291000, vendas_otc: 99000, vendas_saude: 268000, atendimentos: 2752 },
+      sauda_programa: { valor_atribuido: 8579, rebat_pontos: 720, rebat_vales_sauda: 4988, rebat_vales_ind: 509, saldo_aprox: 2362, data_sync: "25/06/2026" },
+      dermo: DERMO_MOCK_FARM,
       colaboradores: [
-        gerarColabMock("Duarte Silva",    6800, 102, 4.51, 58, -6.8, { MNSRM:26, SAUDE:33, MEDICAMENTOS:28, OUTROS:13 }),
-        gerarColabMock("Matilde Soares",  5200,  87, 4.38, 51,  5.7, { MNSRM:23, SAUDE:31, MEDICAMENTOS:29, OUTROS:17 }),
-        gerarColabMock("Alina Pereira",   7400, 117, 4.29, 56, -4.5, { MNSRM:24, SAUDE:41, MEDICAMENTOS:21, OUTROS:14 }),
-        gerarColabMock("Jéssica Costa",   4900,  81, 4.62, 52, -4.5, { MNSRM:21, SAUDE:28, MEDICAMENTOS:37, OUTROS:14 }),
-        gerarColabMock("Tatiana Lopes",   4500,  74, 4.44, 52, -5.0, { MNSRM:22, SAUDE:30, MEDICAMENTOS:28, OUTROS:20 }),
+        gerarColabMock("Duarte Silva",    6800, 102, 4.51, 58, -6.8, { MNSRM:26, SAUDE:33, MEDICAMENTOS:28, OUTROS:13 }, { "Isdin": {vendas:1200, margem:580}, "Bioderma": {vendas:800, margem:390}, "Avène": {vendas:600, margem:290} }),
+        gerarColabMock("Matilde Soares",  5200,  87, 4.38, 51,  5.7, { MNSRM:23, SAUDE:31, MEDICAMENTOS:29, OUTROS:17 }, { "Avène": {vendas:1100, margem:530}, "Vichy": {vendas:700, margem:340}, "Ducray": {vendas:500, margem:240} }),
+        gerarColabMock("Alina Pereira",   7400, 117, 4.29, 56, -4.5, { MNSRM:24, SAUDE:41, MEDICAMENTOS:21, OUTROS:14 }, { "Isdin": {vendas:2100, margem:1010}, "Uriage": {vendas:1400, margem:680}, "SVR": {vendas:900, margem:430} }),
+        gerarColabMock("Jéssica Costa",   4900,  81, 4.62, 52, -4.5, { MNSRM:21, SAUDE:28, MEDICAMENTOS:37, OUTROS:14 }, { "Bioderma": {vendas:900, margem:430}, "Lierac": {vendas:600, margem:290} }),
+        gerarColabMock("Tatiana Lopes",   4500,  74, 4.44, 52, -5.0, { MNSRM:22, SAUDE:30, MEDICAMENTOS:28, OUTROS:20 }, { "Klorane": {vendas:400, margem:190}, "Nuxe": {vendas:300, margem:145} }),
       ]
     },
     diasbrito: {
       nome: "Dias e Brito",
       kpis: { margem_bruta: 198000, vendas_otc: 71000, vendas_saude: 182000, atendimentos: 2104 },
+      sauda_programa: { valor_atribuido: 5200, rebat_pontos: 410, rebat_vales_sauda: 2900, rebat_vales_ind: 310, saldo_aprox: 1580, data_sync: "25/06/2026" },
+      dermo: { "Eucerin": {vendas:3200, margem:1540, margem_ant:1200, cresc:28.3}, "Bioderma": {vendas:2800, margem:1350, margem_ant:1400, cresc:-3.6}, "Vichy": {vendas:1900, margem:910, margem_ant:850, cresc:7.1} },
       colaboradores: [
-        gerarColabMock("Ana Ferreira",    6200,  98, 4.48, 53,  2.1, { MNSRM:28, SAUDE:30, MEDICAMENTOS:27, OUTROS:15 }),
-        gerarColabMock("Carlos Mendes",   5800,  92, 4.35, 49, -1.8, { MNSRM:25, SAUDE:32, MEDICAMENTOS:30, OUTROS:13 }),
-        gerarColabMock("Sofia Rodrigues", 5100,  82, 4.52, 55,  3.4, { MNSRM:22, SAUDE:35, MEDICAMENTOS:29, OUTROS:14 }),
-        gerarColabMock("Vera Aguiar",     4800,  79, 4.41, 50, -0.9, { MNSRM:24, SAUDE:31, MEDICAMENTOS:28, OUTROS:17 }),
+        gerarColabMock("Ana Ferreira",    6200,  98, 4.48, 53,  2.1, { MNSRM:28, SAUDE:30, MEDICAMENTOS:27, OUTROS:15 }, { "Eucerin": {vendas:1600, margem:770}, "Bioderma": {vendas:900, margem:430} }),
+        gerarColabMock("Carlos Mendes",   5800,  92, 4.35, 49, -1.8, { MNSRM:25, SAUDE:32, MEDICAMENTOS:30, OUTROS:13 }, { "Bioderma": {vendas:1200, margem:580}, "Vichy": {vendas:700, margem:340} }),
+        gerarColabMock("Sofia Rodrigues", 5100,  82, 4.52, 55,  3.4, { MNSRM:22, SAUDE:35, MEDICAMENTOS:29, OUTROS:14 }, { "Eucerin": {vendas:800, margem:385}, "Bioderma": {vendas:500, margem:240} }),
+        gerarColabMock("Vera Aguiar",     4800,  79, 4.41, 50, -0.9, { MNSRM:24, SAUDE:31, MEDICAMENTOS:28, OUTROS:17 }, {}),
       ]
     },
     universitaria: {
       nome: "Cidade Universitária",
       kpis: { margem_bruta: 142000, vendas_otc: 52000, vendas_saude: 131000, atendimentos: 1687 },
+      sauda_programa: { valor_atribuido: 3100, rebat_pontos: 240, rebat_vales_sauda: 1700, rebat_vales_ind: 190, saldo_aprox: 970, data_sync: "25/06/2026" },
+      dermo: { "Isdin": {vendas:2100, margem:1010, margem_ant:160, cresc:531}, "Avène": {vendas:1400, margem:670, margem_ant:580, cresc:15.5} },
       colaboradores: [
-        gerarColabMock("Ricardo Nunes",   5400,  88, 4.39, 47,  1.2, { MNSRM:31, SAUDE:27, MEDICAMENTOS:30, OUTROS:12 }),
-        gerarColabMock("Marta Oliveira",  4700,  76, 4.58, 54,  4.1, { MNSRM:26, SAUDE:29, MEDICAMENTOS:32, OUTROS:13 }),
-        gerarColabMock("Paulo Santos",    4200,  68, 4.33, 45, -2.3, { MNSRM:29, SAUDE:28, MEDICAMENTOS:28, OUTROS:15 }),
+        gerarColabMock("Ricardo Nunes",   5400,  88, 4.39, 47,  1.2, { MNSRM:31, SAUDE:27, MEDICAMENTOS:30, OUTROS:12 }, { "Isdin": {vendas:1100, margem:530} }),
+        gerarColabMock("Marta Oliveira",  4700,  76, 4.58, 54,  4.1, { MNSRM:26, SAUDE:29, MEDICAMENTOS:32, OUTROS:13 }, { "Avène": {vendas:900, margem:430}, "Isdin": {vendas:600, margem:290} }),
+        gerarColabMock("Paulo Santos",    4200,  68, 4.33, 45, -2.3, { MNSRM:29, SAUDE:28, MEDICAMENTOS:28, OUTROS:15 }, {}),
       ]
     }
   }
@@ -505,8 +537,8 @@ function renderFarmacia(fkey) {
 
   const oldDermo = document.getElementById('dermo-farm-block');
   if (oldDermo) oldDermo.remove();
-  const chartEl2 = document.getElementById('equipa-chart-wrap');
-  if (chartEl2 && dermoFarmHTML) chartEl2.insertAdjacentHTML('afterend', dermoFarmHTML);
+  const viewEquipa = document.getElementById('view-equipa');
+  if (viewEquipa && dermoFarmHTML) viewEquipa.insertAdjacentHTML('beforeend', dermoFarmHTML);
   const mensalEquipa = calcMensalEquipa(colabs);
   const maxV = Math.max(...mensalEquipa.map(m => m.vendas), 1);
   document.getElementById('equipa-chart').innerHTML = mensalEquipa.map((m,i) => {
