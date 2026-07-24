@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-07-23T22:30:05",
+  "gerado_em": "2026-07-24T16:08:31",
   "ano": 2026,
   "farmacias": {
     "aroeira": {
@@ -11,18 +11,122 @@
         "rent_gen": 4.45
       },
       "kpis": {
-        "vendas_otc": 114888.58,
-        "vendas_saude": 772189.25,
-        "margem_bruta": 308581.49,
-        "atendimentos": 27782
+        "vendas_otc": 115291.22,
+        "vendas_saude": 775145.09,
+        "margem_bruta": 309589.45,
+        "atendimentos": 27878
       },
       "sauda_programa": {
-        "valor_atribuido": 13293.1,
-        "rebat_pontos": 1001.84,
+        "valor_atribuido": 13338.0,
+        "rebat_pontos": 1005.52,
         "rebat_vales_sauda": 4988.57,
         "rebat_vales_ind": 509.35,
-        "saldo_aprox": 6793.35,
-        "data_sync": "22/07/2026"
+        "saldo_aprox": 6834.56,
+        "data_sync": "23/07/2026"
+      },
+      "dermo": {
+        "Isdin": {
+          "vendas": 10879.23,
+          "margem": 4090.38,
+          "margem_ant": 5216.63,
+          "cresc": -21.6
+        },
+        "Bioderma": {
+          "vendas": 2592.27,
+          "margem": 1132.98,
+          "margem_ant": 2013.44,
+          "cresc": -43.7
+        },
+        "Avène": {
+          "vendas": 3364.55,
+          "margem": 1044.03,
+          "margem_ant": 2556.72,
+          "cresc": -59.2
+        },
+        "Lierac": {
+          "vendas": 2380.71,
+          "margem": 1017.22,
+          "margem_ant": 2548.28,
+          "cresc": -60.1
+        },
+        "Nuxe": {
+          "vendas": 2299.92,
+          "margem": 993.52,
+          "margem_ant": 1898.77,
+          "cresc": -47.7
+        },
+        "A-Derma": {
+          "vendas": 1597.52,
+          "margem": 611.09,
+          "margem_ant": 612.4,
+          "cresc": -0.2
+        },
+        "Ducray": {
+          "vendas": 1528.09,
+          "margem": 539.74,
+          "margem_ant": 746.9,
+          "cresc": -27.7
+        },
+        "Klorane": {
+          "vendas": 1097.86,
+          "margem": 447.19,
+          "margem_ant": 877.57,
+          "cresc": -49.0
+        },
+        "Phyto": {
+          "vendas": 1053.98,
+          "margem": 433.53,
+          "margem_ant": 1250.5,
+          "cresc": -65.3
+        },
+        "René Furterer": {
+          "vendas": 528.61,
+          "margem": 243.66,
+          "margem_ant": 671.86,
+          "cresc": -63.7
+        },
+        "Neutrogena": {
+          "vendas": 662.7,
+          "margem": 222.97,
+          "margem_ant": 791.21,
+          "cresc": -71.8
+        },
+        "Vichy": {
+          "vendas": 570.34,
+          "margem": 174.94,
+          "margem_ant": 757.71,
+          "cresc": -76.9
+        },
+        "Eucerin": {
+          "vendas": 521.75,
+          "margem": 169.07,
+          "margem_ant": 242.31,
+          "cresc": -30.2
+        },
+        "Institut Esthederm": {
+          "vendas": 1156.32,
+          "margem": 129.84,
+          "margem_ant": 720.44,
+          "cresc": -82.0
+        },
+        "Isdinceutics": {
+          "vendas": 232.03,
+          "margem": 96.69,
+          "margem_ant": 196.25,
+          "cresc": -50.7
+        },
+        "Martiderm": {
+          "vendas": 298.37,
+          "margem": 60.8,
+          "margem_ant": 613.79,
+          "cresc": -90.1
+        },
+        "La Roche-Posay": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        }
       },
       "colaboradores": [
         {
@@ -118,19 +222,65 @@
           "sauda_mensal": {
             "6": 122,
             "7": 200
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 163.16,
+              "margem": 50.6
+            },
+            "Ducray": {
+              "vendas": 17.72,
+              "margem": 4.67
+            },
+            "A-Derma": {
+              "vendas": 106.63,
+              "margem": 37.25
+            },
+            "Klorane": {
+              "vendas": 34.58,
+              "margem": 9.07
+            },
+            "Lierac": {
+              "vendas": 202.21,
+              "margem": 61.65
+            },
+            "Vichy": {
+              "vendas": 20.96,
+              "margem": 4.36
+            },
+            "Bioderma": {
+              "vendas": 48.71,
+              "margem": 18.28
+            },
+            "Institut Esthederm": {
+              "vendas": 17.24,
+              "margem": 17.24
+            },
+            "Neutrogena": {
+              "vendas": 41.22,
+              "margem": 13.41
+            },
+            "Isdin": {
+              "vendas": 405.7,
+              "margem": 148.97
+            },
+            "Nuxe": {
+              "vendas": 48.7,
+              "margem": 28.24
+            }
           }
         },
         {
           "cod": 109,
           "nome": "Alina Stoica",
-          "vendas_ytd": 187133.41,
-          "margem_ytd": 48121.62,
-          "atend_ytd": 4307,
-          "ticket_medio": 43.45,
-          "margem_atend": 11.17,
-          "cresc_vs_ant": 58.7,
-          "rent_genericos": 4.53,
-          "taxa_sauda": 57.3,
+          "vendas_ytd": 189089.96,
+          "margem_ytd": 48597.83,
+          "atend_ytd": 4354,
+          "ticket_medio": 43.43,
+          "margem_atend": 11.16,
+          "cresc_vs_ant": 60.3,
+          "rent_genericos": 4.52,
+          "taxa_sauda": 57.2,
           "mensal": [
             {
               "mes": 1,
@@ -182,20 +332,20 @@
             },
             {
               "mes": 7,
-              "vendas": 22298.4,
-              "margem": 5945.48,
-              "atend": 473,
-              "ticket": 47.14,
-              "margem_atend": 12.57
+              "vendas": 24254.95,
+              "margem": 6421.69,
+              "atend": 520,
+              "ticket": 46.64,
+              "margem_atend": 12.35
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 64.3,
+            "Medicamento sujeito a receita médica": 64.4,
             "Medicamento não sujeito a receita médica": 12.1,
             "Dispositivos e acessórios": 6.6,
             "Produtos Cosméticos": 6.1,
-            "Suplementos Alimentares": 5.3,
-            "Outros": 2.3,
+            "Suplementos Alimentares": 5.2,
+            "Outros": 2.2,
             "Produtos de Higiene": 2.1,
             "Dietética": 0.8,
             "Puericultura": 0.3,
@@ -228,8 +378,8 @@
               "rent_media": 4.66
             },
             "7": {
-              "unidades": 358,
-              "rent_media": 4.8
+              "unidades": 380,
+              "rent_media": 4.74
             }
           },
           "sauda_mensal": {
@@ -239,7 +389,69 @@
             "4": 466,
             "5": 439,
             "6": 406,
-            "7": 282
+            "7": 305
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 479.37,
+              "margem": 134.44
+            },
+            "Ducray": {
+              "vendas": 215.74,
+              "margem": 79.07
+            },
+            "A-Derma": {
+              "vendas": 182.44,
+              "margem": 59.57
+            },
+            "Klorane": {
+              "vendas": 163.99,
+              "margem": 55.65
+            },
+            "René Furterer": {
+              "vendas": 36.5,
+              "margem": 14.03
+            },
+            "Lierac": {
+              "vendas": 628.22,
+              "margem": 239.85
+            },
+            "Phyto": {
+              "vendas": 173.09,
+              "margem": 77.11
+            },
+            "Vichy": {
+              "vendas": 90.11,
+              "margem": 18.23
+            },
+            "Eucerin": {
+              "vendas": 30.57,
+              "margem": 11.96
+            },
+            "Bioderma": {
+              "vendas": 278.77,
+              "margem": 118.12
+            },
+            "Institut Esthederm": {
+              "vendas": 567.76,
+              "margem": 48.97
+            },
+            "Neutrogena": {
+              "vendas": 81.78,
+              "margem": 26.93
+            },
+            "Isdin": {
+              "vendas": 1311.53,
+              "margem": 491.7
+            },
+            "Martiderm": {
+              "vendas": 9.46,
+              "margem": -0.03
+            },
+            "Nuxe": {
+              "vendas": 170.53,
+              "margem": 93.29
+            }
           }
         },
         {
@@ -346,6 +558,68 @@
             "2": 332,
             "3": 379,
             "4": 279
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 268.11,
+              "margem": 91.67
+            },
+            "Ducray": {
+              "vendas": 42.45,
+              "margem": 20.15
+            },
+            "A-Derma": {
+              "vendas": 30.22,
+              "margem": 26.84
+            },
+            "Klorane": {
+              "vendas": 48.49,
+              "margem": 20.04
+            },
+            "René Furterer": {
+              "vendas": 29.51,
+              "margem": 10.1
+            },
+            "Lierac": {
+              "vendas": 299.59,
+              "margem": 109.91
+            },
+            "Phyto": {
+              "vendas": 62.56,
+              "margem": 27.4
+            },
+            "Vichy": {
+              "vendas": 76.35,
+              "margem": 30.92
+            },
+            "Eucerin": {
+              "vendas": 27.8,
+              "margem": 11.7
+            },
+            "Bioderma": {
+              "vendas": 191.88,
+              "margem": 82.86
+            },
+            "Institut Esthederm": {
+              "vendas": 85.62,
+              "margem": 15.6
+            },
+            "Neutrogena": {
+              "vendas": 111.1,
+              "margem": 36.81
+            },
+            "Isdin": {
+              "vendas": 371.18,
+              "margem": 147.11
+            },
+            "Martiderm": {
+              "vendas": 16.75,
+              "margem": 0.78
+            },
+            "Nuxe": {
+              "vendas": 225.45,
+              "margem": 94.7
+            }
           }
         },
         {
@@ -447,6 +721,60 @@
             "1": 276,
             "2": 331,
             "3": 78
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 71.71,
+              "margem": 9.91
+            },
+            "Ducray": {
+              "vendas": 47.77,
+              "margem": 22.06
+            },
+            "A-Derma": {
+              "vendas": 82.91,
+              "margem": 24.18
+            },
+            "Klorane": {
+              "vendas": 56.63,
+              "margem": 38.03
+            },
+            "René Furterer": {
+              "vendas": 24.31,
+              "margem": 10.94
+            },
+            "Lierac": {
+              "vendas": 157.5,
+              "margem": 105.21
+            },
+            "Phyto": {
+              "vendas": 54.02,
+              "margem": 14.49
+            },
+            "Vichy": {
+              "vendas": 22.6,
+              "margem": 8.73
+            },
+            "Eucerin": {
+              "vendas": 0.0,
+              "margem": 0.0
+            },
+            "Bioderma": {
+              "vendas": 161.34,
+              "margem": 99.94
+            },
+            "Neutrogena": {
+              "vendas": 21.87,
+              "margem": 10.91
+            },
+            "Isdin": {
+              "vendas": 175.0,
+              "margem": 50.72
+            },
+            "Nuxe": {
+              "vendas": 101.67,
+              "margem": 57.6
+            }
           }
         },
         {
@@ -568,19 +896,85 @@
             "5": 439,
             "6": 248,
             "7": 203
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 510.05,
+              "margem": 162.13
+            },
+            "Ducray": {
+              "vendas": 341.69,
+              "margem": 121.8
+            },
+            "A-Derma": {
+              "vendas": 380.49,
+              "margem": 145.92
+            },
+            "Klorane": {
+              "vendas": 76.81,
+              "margem": 29.26
+            },
+            "René Furterer": {
+              "vendas": 30.77,
+              "margem": 11.94
+            },
+            "Lierac": {
+              "vendas": 515.83,
+              "margem": 254.61
+            },
+            "Phyto": {
+              "vendas": 139.85,
+              "margem": 61.75
+            },
+            "Vichy": {
+              "vendas": 96.05,
+              "margem": 27.89
+            },
+            "Eucerin": {
+              "vendas": 164.86,
+              "margem": 56.58
+            },
+            "Bioderma": {
+              "vendas": 392.26,
+              "margem": 156.71
+            },
+            "Institut Esthederm": {
+              "vendas": 48.73,
+              "margem": 0.27
+            },
+            "Neutrogena": {
+              "vendas": 103.33,
+              "margem": 31.94
+            },
+            "Isdin": {
+              "vendas": 1874.46,
+              "margem": 706.84
+            },
+            "Isdinceutics": {
+              "vendas": 123.25,
+              "margem": 51.69
+            },
+            "Martiderm": {
+              "vendas": 98.98,
+              "margem": 11.14
+            },
+            "Nuxe": {
+              "vendas": 366.08,
+              "margem": 150.31
+            }
           }
         },
         {
           "cod": 132,
           "nome": "JESSICA SOUSA",
-          "vendas_ytd": 234946.45,
-          "margem_ytd": 63386.03,
-          "atend_ytd": 5471,
-          "ticket_medio": 42.94,
+          "vendas_ytd": 236404.67,
+          "margem_ytd": 63770.5,
+          "atend_ytd": 5504,
+          "ticket_medio": 42.95,
           "margem_atend": 11.59,
-          "cresc_vs_ant": 567.0,
+          "cresc_vs_ant": 571.2,
           "rent_genericos": 4.48,
-          "taxa_sauda": 53.6,
+          "taxa_sauda": 53.7,
           "mensal": [
             {
               "mes": 1,
@@ -632,11 +1026,11 @@
             },
             {
               "mes": 7,
-              "vendas": 31057.36,
-              "margem": 7852.1,
-              "atend": 647,
-              "ticket": 48.0,
-              "margem_atend": 12.14
+              "vendas": 32515.58,
+              "margem": 8236.57,
+              "atend": 680,
+              "ticket": 47.82,
+              "margem_atend": 12.11
             }
           ],
           "mix": {
@@ -644,7 +1038,7 @@
             "Medicamento não sujeito a receita médica": 13.1,
             "Dispositivos e acessórios": 7.0,
             "Suplementos Alimentares": 6.0,
-            "Produtos Cosméticos": 5.9,
+            "Produtos Cosméticos": 5.8,
             "Outros": 1.9,
             "Produtos de Higiene": 1.9,
             "Dietética": 0.8,
@@ -678,8 +1072,8 @@
               "rent_media": 4.47
             },
             "7": {
-              "unidades": 411,
-              "rent_media": 4.6
+              "unidades": 430,
+              "rent_media": 4.61
             }
           },
           "sauda_mensal": {
@@ -689,7 +1083,69 @@
             "4": 318,
             "5": 482,
             "6": 468,
-            "7": 336
+            "7": 357
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 507.31,
+              "margem": 167.34
+            },
+            "Ducray": {
+              "vendas": 332.29,
+              "margem": 115.33
+            },
+            "A-Derma": {
+              "vendas": 247.96,
+              "margem": 104.48
+            },
+            "Klorane": {
+              "vendas": 262.63,
+              "margem": 97.48
+            },
+            "René Furterer": {
+              "vendas": 159.03,
+              "margem": 74.83
+            },
+            "Lierac": {
+              "vendas": 183.47,
+              "margem": 88.41
+            },
+            "Phyto": {
+              "vendas": 170.49,
+              "margem": 69.09
+            },
+            "Vichy": {
+              "vendas": 42.98,
+              "margem": 12.84
+            },
+            "Eucerin": {
+              "vendas": 88.78,
+              "margem": 27.4
+            },
+            "Bioderma": {
+              "vendas": 518.65,
+              "margem": 216.18
+            },
+            "Institut Esthederm": {
+              "vendas": 39.0,
+              "margem": -0.95
+            },
+            "Neutrogena": {
+              "vendas": 56.71,
+              "margem": 17.87
+            },
+            "Isdin": {
+              "vendas": 1882.1,
+              "margem": 698.77
+            },
+            "Isdinceutics": {
+              "vendas": 78.29,
+              "margem": 31.69
+            },
+            "Nuxe": {
+              "vendas": 514.65,
+              "margem": 215.35
+            }
           }
         },
         {
@@ -796,18 +1252,84 @@
             "2": 292,
             "3": 417,
             "4": 387
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 342.84,
+              "margem": 115.45
+            },
+            "Ducray": {
+              "vendas": 88.72,
+              "margem": 29.04
+            },
+            "A-Derma": {
+              "vendas": 189.9,
+              "margem": 69.84
+            },
+            "Klorane": {
+              "vendas": 102.23,
+              "margem": 48.49
+            },
+            "René Furterer": {
+              "vendas": 119.96,
+              "margem": 62.81
+            },
+            "Lierac": {
+              "vendas": 81.78,
+              "margem": 21.5
+            },
+            "Phyto": {
+              "vendas": 102.49,
+              "margem": 54.61
+            },
+            "Vichy": {
+              "vendas": 52.42,
+              "margem": 21.66
+            },
+            "Eucerin": {
+              "vendas": 47.28,
+              "margem": 13.58
+            },
+            "Bioderma": {
+              "vendas": 177.44,
+              "margem": 74.47
+            },
+            "Institut Esthederm": {
+              "vendas": 36.56,
+              "margem": -0.87
+            },
+            "Neutrogena": {
+              "vendas": 58.58,
+              "margem": 21.04
+            },
+            "Isdin": {
+              "vendas": 1051.88,
+              "margem": 361.23
+            },
+            "Isdinceutics": {
+              "vendas": 15.24,
+              "margem": 6.65
+            },
+            "Martiderm": {
+              "vendas": 83.98,
+              "margem": 29.1
+            },
+            "Nuxe": {
+              "vendas": 205.87,
+              "margem": 76.76
+            }
           }
         },
         {
           "cod": 140,
           "nome": "Leo Souza",
-          "vendas_ytd": 100330.29,
-          "margem_ytd": 25799.6,
-          "atend_ytd": 2437,
-          "ticket_medio": 41.17,
+          "vendas_ytd": 100834.31,
+          "margem_ytd": 25888.9,
+          "atend_ytd": 2445,
+          "ticket_medio": 41.24,
           "margem_atend": 10.59,
           "cresc_vs_ant": null,
-          "rent_genericos": 4.27,
+          "rent_genericos": 4.28,
           "taxa_sauda": 53.5,
           "mensal": [
             {
@@ -860,11 +1382,11 @@
             },
             {
               "mes": 7,
-              "vendas": 29335.07,
-              "margem": 6518.85,
-              "atend": 661,
-              "ticket": 44.38,
-              "margem_atend": 9.86
+              "vendas": 29839.09,
+              "margem": 6608.15,
+              "atend": 669,
+              "ticket": 44.6,
+              "margem_atend": 9.88
             }
           ],
           "mix": {
@@ -872,7 +1394,7 @@
             "Medicamento não sujeito a receita médica": 12.3,
             "Produtos Cosméticos": 8.4,
             "Dispositivos e acessórios": 8.0,
-            "Suplementos Alimentares": 6.2,
+            "Suplementos Alimentares": 6.1,
             "Produtos de Higiene": 2.9,
             "Dietética": 1.5,
             "Outros": 1.5,
@@ -893,15 +1415,77 @@
               "rent_media": 4.36
             },
             "7": {
-              "unidades": 358,
-              "rent_media": 4.11
+              "unidades": 364,
+              "rent_media": 4.14
             }
           },
           "sauda_mensal": {
             "4": 25,
             "5": 443,
             "6": 501,
-            "7": 336
+            "7": 339
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 481.34,
+              "margem": 163.7
+            },
+            "Ducray": {
+              "vendas": 218.63,
+              "margem": 68.16
+            },
+            "A-Derma": {
+              "vendas": 155.85,
+              "margem": 60.71
+            },
+            "Klorane": {
+              "vendas": 138.24,
+              "margem": 51.29
+            },
+            "René Furterer": {
+              "vendas": 67.58,
+              "margem": 41.22
+            },
+            "Lierac": {
+              "vendas": 115.25,
+              "margem": 40.22
+            },
+            "Phyto": {
+              "vendas": 112.48,
+              "margem": 50.02
+            },
+            "Vichy": {
+              "vendas": 37.72,
+              "margem": 16.44
+            },
+            "Eucerin": {
+              "vendas": 37.24,
+              "margem": 9.96
+            },
+            "Bioderma": {
+              "vendas": 380.44,
+              "margem": 175.22
+            },
+            "Institut Esthederm": {
+              "vendas": 161.84,
+              "margem": 16.55
+            },
+            "Neutrogena": {
+              "vendas": 40.85,
+              "margem": 15.08
+            },
+            "Isdin": {
+              "vendas": 1263.36,
+              "margem": 486.0
+            },
+            "Martiderm": {
+              "vendas": 27.94,
+              "margem": 1.64
+            },
+            "Nuxe": {
+              "vendas": 268.31,
+              "margem": 118.0
+            }
           }
         },
         {
@@ -1023,6 +1607,72 @@
             "5": 169,
             "6": 268,
             "7": 217
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 391.88,
+              "margem": 103.22
+            },
+            "Ducray": {
+              "vendas": 176.46,
+              "margem": 65.39
+            },
+            "A-Derma": {
+              "vendas": 137.41,
+              "margem": 32.17
+            },
+            "Klorane": {
+              "vendas": 108.68,
+              "margem": 41.71
+            },
+            "René Furterer": {
+              "vendas": 29.2,
+              "margem": 10.22
+            },
+            "Lierac": {
+              "vendas": 121.17,
+              "margem": 63.99
+            },
+            "Phyto": {
+              "vendas": 227.38,
+              "margem": 74.17
+            },
+            "Vichy": {
+              "vendas": 53.74,
+              "margem": 14.17
+            },
+            "Eucerin": {
+              "vendas": 83.19,
+              "margem": 23.37
+            },
+            "Bioderma": {
+              "vendas": 364.93,
+              "margem": 160.94
+            },
+            "Institut Esthederm": {
+              "vendas": 199.57,
+              "margem": 33.03
+            },
+            "Neutrogena": {
+              "vendas": 99.13,
+              "margem": 29.78
+            },
+            "Isdin": {
+              "vendas": 2066.7,
+              "margem": 816.65
+            },
+            "Isdinceutics": {
+              "vendas": 15.24,
+              "margem": 6.65
+            },
+            "Martiderm": {
+              "vendas": 61.26,
+              "margem": 18.17
+            },
+            "Nuxe": {
+              "vendas": 267.8,
+              "margem": 107.68
+            }
           }
         },
         {
@@ -1124,19 +1774,61 @@
             "1": 86,
             "2": 49,
             "3": 120
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 42.5,
+              "margem": 11.2
+            },
+            "A-Derma": {
+              "vendas": 51.92,
+              "margem": 37.93
+            },
+            "Klorane": {
+              "vendas": 92.6,
+              "margem": 51.13
+            },
+            "René Furterer": {
+              "vendas": 6.67,
+              "margem": 2.66
+            },
+            "Lierac": {
+              "vendas": 18.21,
+              "margem": 15.72
+            },
+            "Vichy": {
+              "vendas": 77.4,
+              "margem": 19.7
+            },
+            "Eucerin": {
+              "vendas": 8.86,
+              "margem": 2.7
+            },
+            "Bioderma": {
+              "vendas": 35.33,
+              "margem": 16.8
+            },
+            "Neutrogena": {
+              "vendas": 19.84,
+              "margem": 6.53
+            },
+            "Isdin": {
+              "vendas": 99.63,
+              "margem": 37.81
+            }
           }
         },
         {
           "cod": 107,
           "nome": "TATIANA CAETANO",
-          "vendas_ytd": 36760.15,
-          "margem_ytd": 10124.61,
-          "atend_ytd": 876,
-          "ticket_medio": 41.96,
-          "margem_atend": 11.56,
-          "cresc_vs_ant": 170.6,
+          "vendas_ytd": 36934.47,
+          "margem_ytd": 10182.6,
+          "atend_ytd": 884,
+          "ticket_medio": 41.78,
+          "margem_atend": 11.52,
+          "cresc_vs_ant": 171.9,
           "rent_genericos": 3.87,
-          "taxa_sauda": 54.0,
+          "taxa_sauda": 54.1,
           "mensal": [
             {
               "mes": 1,
@@ -1188,24 +1880,24 @@
             },
             {
               "mes": 7,
-              "vendas": 3377.27,
-              "margem": 1009.68,
-              "atend": 66,
-              "ticket": 51.17,
-              "margem_atend": 15.3
+              "vendas": 3551.59,
+              "margem": 1067.67,
+              "atend": 74,
+              "ticket": 47.99,
+              "margem_atend": 14.43
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 52.0,
+            "Medicamento sujeito a receita médica": 51.9,
             "Outros": 11.8,
             "Medicamento não sujeito a receita médica": 11.3,
             "Suplementos Alimentares": 6.5,
             "Produtos Cosméticos": 5.9,
-            "Dispositivos e acessórios": 5.6,
+            "Dispositivos e acessórios": 5.7,
             "Homeopatia": 4.4,
             "Produtos de Higiene": 1.9,
             "Dietética": 0.3,
-            "Puericultura": 0.2,
+            "Puericultura": 0.3,
             "Medicamentos e Produtos de Veterinária": 0.1
           },
           "genericos_mensal": {
@@ -1234,8 +1926,8 @@
               "rent_media": 3.92
             },
             "7": {
-              "unidades": 44,
-              "rent_media": 4.63
+              "unidades": 46,
+              "rent_media": 4.57
             }
           },
           "sauda_mensal": {
@@ -1245,7 +1937,57 @@
             "4": 89,
             "5": 206,
             "6": 60,
-            "7": 32
+            "7": 37
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 73.33,
+              "margem": 29.48
+            },
+            "Ducray": {
+              "vendas": 46.61,
+              "margem": 14.06
+            },
+            "A-Derma": {
+              "vendas": 31.79,
+              "margem": 12.2
+            },
+            "Klorane": {
+              "vendas": 12.97,
+              "margem": 5.04
+            },
+            "René Furterer": {
+              "vendas": 7.28,
+              "margem": -1.24
+            },
+            "Lierac": {
+              "vendas": 57.46,
+              "margem": 16.13
+            },
+            "Phyto": {
+              "vendas": 11.63,
+              "margem": 4.9
+            },
+            "Eucerin": {
+              "vendas": 33.17,
+              "margem": 11.83
+            },
+            "Bioderma": {
+              "vendas": 3.95,
+              "margem": 0.38
+            },
+            "Neutrogena": {
+              "vendas": 28.29,
+              "margem": 12.67
+            },
+            "Isdin": {
+              "vendas": 320.91,
+              "margem": 124.73
+            },
+            "Nuxe": {
+              "vendas": 115.11,
+              "margem": 45.33
+            }
           }
         }
       ]
@@ -1259,31 +2001,135 @@
         "rent_gen": 4.45
       },
       "kpis": {
-        "vendas_otc": 101645.65,
-        "vendas_saude": 579558.8,
-        "margem_bruta": 275842.66,
-        "atendimentos": 23472
+        "vendas_otc": 102128.24,
+        "vendas_saude": 581461.46,
+        "margem_bruta": 276639.4,
+        "atendimentos": 23543
       },
       "sauda_programa": {
-        "valor_atribuido": 9678.87,
-        "rebat_pontos": 4980.58,
+        "valor_atribuido": 9733.73,
+        "rebat_pontos": 5000.87,
         "rebat_vales_sauda": 2154.0,
         "rebat_vales_ind": 322.76,
-        "saldo_aprox": 2221.53,
-        "data_sync": "22/07/2026"
+        "saldo_aprox": 2256.09,
+        "data_sync": "23/07/2026"
+      },
+      "dermo": {
+        "Eucerin": {
+          "vendas": 2453.39,
+          "margem": 1125.65,
+          "margem_ant": 2683.18,
+          "cresc": -58.0
+        },
+        "Bioderma": {
+          "vendas": 2482.35,
+          "margem": 868.47,
+          "margem_ant": 1340.76,
+          "cresc": -35.2
+        },
+        "Avène": {
+          "vendas": 2208.92,
+          "margem": 842.41,
+          "margem_ant": 1108.8,
+          "cresc": -24.0
+        },
+        "Ducray": {
+          "vendas": 1276.68,
+          "margem": 442.89,
+          "margem_ant": 694.22,
+          "cresc": -36.2
+        },
+        "Isdin": {
+          "vendas": 331.94,
+          "margem": 99.28,
+          "margem_ant": 299.46,
+          "cresc": -66.8
+        },
+        "A-Derma": {
+          "vendas": 242.76,
+          "margem": 79.64,
+          "margem_ant": 72.83,
+          "cresc": null
+        },
+        "Vichy": {
+          "vendas": 181.22,
+          "margem": 52.15,
+          "margem_ant": 83.71,
+          "cresc": null
+        },
+        "Klorane": {
+          "vendas": 76.91,
+          "margem": 27.19,
+          "margem_ant": 80.95,
+          "cresc": null
+        },
+        "Martiderm": {
+          "vendas": 82.76,
+          "margem": 19.99,
+          "margem_ant": 15.85,
+          "cresc": null
+        },
+        "Neutrogena": {
+          "vendas": 39.3,
+          "margem": 8.43,
+          "margem_ant": 7.07,
+          "cresc": null
+        },
+        "René Furterer": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Lierac": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Phyto": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "La Roche-Posay": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Institut Esthederm": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Isdinceutics": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 21.64,
+          "cresc": null
+        },
+        "Nuxe": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        }
       },
       "colaboradores": [
         {
           "cod": 41,
           "nome": "ANABELA",
-          "vendas_ytd": 143958.35,
-          "margem_ytd": 48746.88,
-          "atend_ytd": 4564,
-          "ticket_medio": 31.54,
-          "margem_atend": 10.68,
-          "cresc_vs_ant": 3.8,
+          "vendas_ytd": 144711.07,
+          "margem_ytd": 49014.66,
+          "atend_ytd": 4593,
+          "ticket_medio": 31.51,
+          "margem_atend": 10.67,
+          "cresc_vs_ant": 4.3,
           "rent_genericos": 4.76,
-          "taxa_sauda": 62.9,
+          "taxa_sauda": 63.0,
           "mensal": [
             {
               "mes": 1,
@@ -1335,11 +2181,11 @@
             },
             {
               "mes": 7,
-              "vendas": 10090.0,
-              "margem": 3585.3,
-              "atend": 320,
-              "ticket": 31.53,
-              "margem_atend": 11.2
+              "vendas": 10842.72,
+              "margem": 3853.08,
+              "atend": 349,
+              "ticket": 31.07,
+              "margem_atend": 11.04
             }
           ],
           "mix": {
@@ -1380,8 +2226,8 @@
               "rent_media": 4.58
             },
             "7": {
-              "unidades": 315,
-              "rent_media": 4.42
+              "unidades": 337,
+              "rent_media": 4.38
             }
           },
           "sauda_mensal": {
@@ -1391,18 +2237,52 @@
             "4": 460,
             "5": 379,
             "6": 470,
-            "7": 199
+            "7": 221
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 441.56,
+              "margem": 148.81
+            },
+            "Ducray": {
+              "vendas": 125.71,
+              "margem": 51.38
+            },
+            "A-Derma": {
+              "vendas": 20.4,
+              "margem": 8.96
+            },
+            "Vichy": {
+              "vendas": 23.95,
+              "margem": 6.96
+            },
+            "Eucerin": {
+              "vendas": 398.49,
+              "margem": 177.25
+            },
+            "Bioderma": {
+              "vendas": 407.49,
+              "margem": 135.68
+            },
+            "Isdin": {
+              "vendas": 60.05,
+              "margem": 19.83
+            },
+            "Martiderm": {
+              "vendas": 41.38,
+              "margem": 6.89
+            }
           }
         },
         {
           "cod": 64,
           "nome": "Gonçalo",
-          "vendas_ytd": 157370.79,
-          "margem_ytd": 54220.7,
-          "atend_ytd": 4600,
-          "ticket_medio": 34.21,
+          "vendas_ytd": 157859.68,
+          "margem_ytd": 54338.42,
+          "atend_ytd": 4610,
+          "ticket_medio": 34.24,
           "margem_atend": 11.79,
-          "cresc_vs_ant": -21.9,
+          "cresc_vs_ant": -21.7,
           "rent_genericos": 4.91,
           "taxa_sauda": 60.6,
           "mensal": [
@@ -1456,11 +2336,11 @@
             },
             {
               "mes": 7,
-              "vendas": 19553.43,
-              "margem": 6622.27,
-              "atend": 545,
-              "ticket": 35.88,
-              "margem_atend": 12.15
+              "vendas": 20042.32,
+              "margem": 6739.99,
+              "atend": 555,
+              "ticket": 36.11,
+              "margem_atend": 12.14
             }
           ],
           "mix": {
@@ -1501,8 +2381,8 @@
               "rent_media": 4.71
             },
             "7": {
-              "unidades": 521,
-              "rent_media": 5.02
+              "unidades": 539,
+              "rent_media": 4.99
             }
           },
           "sauda_mensal": {
@@ -1512,20 +2392,54 @@
             "4": 506,
             "5": 145,
             "6": 298,
-            "7": 319
+            "7": 326
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 480.49,
+              "margem": 205.72
+            },
+            "Ducray": {
+              "vendas": 225.99,
+              "margem": 71.03
+            },
+            "A-Derma": {
+              "vendas": 58.2,
+              "margem": 17.9
+            },
+            "Klorane": {
+              "vendas": 41.14,
+              "margem": 15.9
+            },
+            "Vichy": {
+              "vendas": 83.42,
+              "margem": 24.84
+            },
+            "Eucerin": {
+              "vendas": 551.67,
+              "margem": 242.13
+            },
+            "Bioderma": {
+              "vendas": 465.74,
+              "margem": 176.28
+            },
+            "Isdin": {
+              "vendas": 107.95,
+              "margem": 28.78
+            }
           }
         },
         {
           "cod": 82,
           "nome": "Marcelo Araújo",
-          "vendas_ytd": 172368.85,
-          "margem_ytd": 57746.09,
-          "atend_ytd": 5002,
-          "ticket_medio": 34.46,
+          "vendas_ytd": 172753.17,
+          "margem_ytd": 57819.16,
+          "atend_ytd": 5011,
+          "ticket_medio": 34.47,
           "margem_atend": 11.54,
           "cresc_vs_ant": null,
           "rent_genericos": 4.96,
-          "taxa_sauda": 61.4,
+          "taxa_sauda": 61.3,
           "mensal": [
             {
               "mes": 1,
@@ -1577,11 +2491,11 @@
             },
             {
               "mes": 7,
-              "vendas": 23621.13,
-              "margem": 7711.2,
-              "atend": 652,
-              "ticket": 36.23,
-              "margem_atend": 11.83
+              "vendas": 24005.45,
+              "margem": 7784.27,
+              "atend": 661,
+              "ticket": 36.32,
+              "margem_atend": 11.78
             }
           ],
           "mix": {
@@ -1622,7 +2536,7 @@
               "rent_media": 5.3
             },
             "7": {
-              "unidades": 638,
+              "unidades": 645,
               "rent_media": 4.75
             }
           },
@@ -1633,18 +2547,56 @@
             "4": 466,
             "5": 538,
             "6": 371,
-            "7": 373
+            "7": 376
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 325.51,
+              "margem": 141.04
+            },
+            "Ducray": {
+              "vendas": 162.96,
+              "margem": 43.52
+            },
+            "A-Derma": {
+              "vendas": 46.21,
+              "margem": 12.62
+            },
+            "Klorane": {
+              "vendas": 8.94,
+              "margem": 2.82
+            },
+            "Vichy": {
+              "vendas": 11.57,
+              "margem": 3.34
+            },
+            "Eucerin": {
+              "vendas": 529.45,
+              "margem": 277.62
+            },
+            "Bioderma": {
+              "vendas": 399.1,
+              "margem": 148.27
+            },
+            "Neutrogena": {
+              "vendas": 16.03,
+              "margem": 4.55
+            },
+            "Isdin": {
+              "vendas": 70.27,
+              "margem": 21.41
+            }
           }
         },
         {
           "cod": 46,
           "nome": "Maria Inês Vicente",
-          "vendas_ytd": 120873.04,
-          "margem_ytd": 40828.1,
-          "atend_ytd": 3109,
-          "ticket_medio": 38.88,
+          "vendas_ytd": 121106.8,
+          "margem_ytd": 40915.66,
+          "atend_ytd": 3116,
+          "ticket_medio": 38.87,
           "margem_atend": 13.13,
-          "cresc_vs_ant": -21.5,
+          "cresc_vs_ant": -21.3,
           "rent_genericos": 5.06,
           "taxa_sauda": 65.6,
           "mensal": [
@@ -1698,17 +2650,17 @@
             },
             {
               "mes": 7,
-              "vendas": 11600.38,
-              "margem": 3955.76,
-              "atend": 291,
-              "ticket": 39.86,
-              "margem_atend": 13.59
+              "vendas": 11834.14,
+              "margem": 4043.32,
+              "atend": 298,
+              "ticket": 39.71,
+              "margem_atend": 13.57
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 71.0,
-            "Medicamento não sujeito a receita médica": 11.9,
-            "Dispositivos e acessórios": 6.2,
+            "Medicamento sujeito a receita médica": 70.9,
+            "Medicamento não sujeito a receita médica": 12.0,
+            "Dispositivos e acessórios": 6.1,
             "Outros": 3.8,
             "Suplementos Alimentares": 3.7,
             "Produtos Cosméticos": 1.9,
@@ -1743,7 +2695,7 @@
               "rent_media": 5.22
             },
             "7": {
-              "unidades": 366,
+              "unidades": 368,
               "rent_media": 4.68
             }
           },
@@ -1754,7 +2706,41 @@
             "4": 296,
             "5": 441,
             "6": 336,
-            "7": 186
+            "7": 191
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 203.78,
+              "margem": 76.7
+            },
+            "Ducray": {
+              "vendas": 129.33,
+              "margem": 53.2
+            },
+            "A-Derma": {
+              "vendas": 23.37,
+              "margem": 6.08
+            },
+            "Klorane": {
+              "vendas": 17.89,
+              "margem": 5.65
+            },
+            "Eucerin": {
+              "vendas": 379.2,
+              "margem": 184.84
+            },
+            "Bioderma": {
+              "vendas": 297.74,
+              "margem": 108.54
+            },
+            "Neutrogena": {
+              "vendas": 23.27,
+              "margem": 3.88
+            },
+            "Isdin": {
+              "vendas": 10.81,
+              "margem": 3.64
+            }
           }
         },
         {
@@ -1876,19 +2862,53 @@
             "5": 433,
             "6": 383,
             "7": 144
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 221.45,
+              "margem": 91.28
+            },
+            "Ducray": {
+              "vendas": 432.32,
+              "margem": 143.83
+            },
+            "A-Derma": {
+              "vendas": 82.13,
+              "margem": 32.0
+            },
+            "Vichy": {
+              "vendas": 34.96,
+              "margem": 8.21
+            },
+            "Eucerin": {
+              "vendas": 306.72,
+              "margem": 117.52
+            },
+            "Bioderma": {
+              "vendas": 446.46,
+              "margem": 163.36
+            },
+            "Isdin": {
+              "vendas": 50.65,
+              "margem": 15.24
+            },
+            "Martiderm": {
+              "vendas": 41.38,
+              "margem": 13.1
+            }
           }
         },
         {
           "cod": 4,
           "nome": "VERA",
-          "vendas_ytd": 110650.87,
-          "margem_ytd": 36477.96,
-          "atend_ytd": 2750,
-          "ticket_medio": 40.24,
-          "margem_atend": 13.26,
-          "cresc_vs_ant": -3.0,
+          "vendas_ytd": 111498.16,
+          "margem_ytd": 36728.58,
+          "atend_ytd": 2766,
+          "ticket_medio": 40.31,
+          "margem_atend": 13.28,
+          "cresc_vs_ant": -2.2,
           "rent_genericos": 5.02,
-          "taxa_sauda": 65.1,
+          "taxa_sauda": 64.9,
           "mensal": [
             {
               "mes": 1,
@@ -1940,23 +2960,23 @@
             },
             {
               "mes": 7,
-              "vendas": 21948.7,
-              "margem": 7152.38,
-              "atend": 526,
-              "ticket": 41.73,
-              "margem_atend": 13.6
+              "vendas": 22795.99,
+              "margem": 7403.0,
+              "atend": 542,
+              "ticket": 42.06,
+              "margem_atend": 13.66
             }
           ],
           "mix": {
             "Medicamento sujeito a receita médica": 66.9,
             "Medicamento não sujeito a receita médica": 14.2,
-            "Dispositivos e acessórios": 6.1,
-            "Suplementos Alimentares": 5.0,
-            "Produtos Cosméticos": 2.8,
-            "Dietética": 1.8,
+            "Dispositivos e acessórios": 6.2,
+            "Suplementos Alimentares": 4.9,
+            "Produtos Cosméticos": 2.7,
+            "Dietética": 1.9,
             "Produtos de Higiene": 1.6,
             "Outros": 1.1,
-            "Puericultura": 0.5,
+            "Puericultura": 0.4,
             "Medicamentos e Produtos de Veterinária": 0.0
           },
           "genericos_mensal": {
@@ -1985,7 +3005,7 @@
               "rent_media": 5.22
             },
             "7": {
-              "unidades": 552,
+              "unidades": 572,
               "rent_media": 4.92
             }
           },
@@ -1996,7 +3016,41 @@
             "4": 152,
             "5": 287,
             "6": 257,
-            "7": 306
+            "7": 313
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 536.12,
+              "margem": 178.85
+            },
+            "Ducray": {
+              "vendas": 200.37,
+              "margem": 79.93
+            },
+            "A-Derma": {
+              "vendas": 12.44,
+              "margem": 2.07
+            },
+            "Klorane": {
+              "vendas": 8.94,
+              "margem": 2.82
+            },
+            "Vichy": {
+              "vendas": 27.32,
+              "margem": 8.8
+            },
+            "Eucerin": {
+              "vendas": 287.86,
+              "margem": 126.29
+            },
+            "Bioderma": {
+              "vendas": 465.81,
+              "margem": 136.33
+            },
+            "Isdin": {
+              "vendas": 32.21,
+              "margem": 10.38
+            }
           }
         }
       ]
@@ -2010,18 +3064,116 @@
         "rent_gen": 4.45
       },
       "kpis": {
-        "vendas_otc": 38748.03,
-        "vendas_saude": 198367.88,
-        "margem_bruta": 77251.81,
-        "atendimentos": 9829
+        "vendas_otc": 38916.75,
+        "vendas_saude": 198970.14,
+        "margem_bruta": 77538.14,
+        "atendimentos": 9866
       },
       "sauda_programa": {
-        "valor_atribuido": 804.54,
+        "valor_atribuido": 811.31,
         "rebat_pontos": 182.04,
         "rebat_vales_sauda": 50.0,
         "rebat_vales_ind": 8.94,
-        "saldo_aprox": 563.56,
-        "data_sync": "22/07/2026"
+        "saldo_aprox": 570.33,
+        "data_sync": "23/07/2026"
+      },
+      "dermo": {
+        "Isdin": {
+          "vendas": 1769.14,
+          "margem": 668.97,
+          "margem_ant": 102.72,
+          "cresc": 551.3
+        },
+        "Vichy": {
+          "vendas": 389.56,
+          "margem": 131.36,
+          "margem_ant": 248.63,
+          "cresc": -47.2
+        },
+        "Avène": {
+          "vendas": 336.54,
+          "margem": 125.69,
+          "margem_ant": 74.61,
+          "cresc": null
+        },
+        "Bioderma": {
+          "vendas": 156.49,
+          "margem": 77.55,
+          "margem_ant": 80.1,
+          "cresc": null
+        },
+        "Klorane": {
+          "vendas": 179.15,
+          "margem": 64.4,
+          "margem_ant": 232.69,
+          "cresc": -72.3
+        },
+        "Ducray": {
+          "vendas": 116.43,
+          "margem": 40.46,
+          "margem_ant": 24.64,
+          "cresc": null
+        },
+        "Neutrogena": {
+          "vendas": 107.48,
+          "margem": 36.95,
+          "margem_ant": 91.7,
+          "cresc": null
+        },
+        "Eucerin": {
+          "vendas": 104.11,
+          "margem": 33.89,
+          "margem_ant": 85.34,
+          "cresc": null
+        },
+        "A-Derma": {
+          "vendas": 58.05,
+          "margem": 21.08,
+          "margem_ant": 20.62,
+          "cresc": null
+        },
+        "René Furterer": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Lierac": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Phyto": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "La Roche-Posay": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Isdinceutics": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        },
+        "Martiderm": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 6.42,
+          "cresc": null
+        },
+        "Nuxe": {
+          "vendas": 0.0,
+          "margem": 0.0,
+          "margem_ant": 0.0,
+          "cresc": null
+        }
       },
       "colaboradores": [
         {
@@ -2142,6 +3294,28 @@
             "5": 7,
             "6": 22,
             "7": 8
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 12.44,
+              "margem": 3.99
+            },
+            "Klorane": {
+              "vendas": 9.76,
+              "margem": 3.06
+            },
+            "Vichy": {
+              "vendas": 14.0,
+              "margem": 3.22
+            },
+            "Eucerin": {
+              "vendas": 20.61,
+              "margem": 4.25
+            },
+            "Isdin": {
+              "vendas": 161.92,
+              "margem": 58.43
+            }
           }
         },
         {
@@ -2243,15 +3417,41 @@
             "1": 61,
             "2": 67,
             "3": 53
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 64.51,
+              "margem": 23.93
+            },
+            "Ducray": {
+              "vendas": 9.27,
+              "margem": 3.74
+            },
+            "Vichy": {
+              "vendas": 35.9,
+              "margem": 4.42
+            },
+            "Bioderma": {
+              "vendas": 24.35,
+              "margem": 13.42
+            },
+            "Neutrogena": {
+              "vendas": 23.62,
+              "margem": 8.54
+            },
+            "Isdin": {
+              "vendas": 73.62,
+              "margem": 22.22
+            }
           }
         },
         {
           "cod": 43,
           "nome": "Magda Andrade Silva",
-          "vendas_ytd": 59162.92,
-          "margem_ytd": 15731.12,
-          "atend_ytd": 2011,
-          "ticket_medio": 29.42,
+          "vendas_ytd": 59609.75,
+          "margem_ytd": 15796.91,
+          "atend_ytd": 2020,
+          "ticket_medio": 29.51,
           "margem_atend": 7.82,
           "cresc_vs_ant": null,
           "rent_genericos": 3.99,
@@ -2307,20 +3507,20 @@
             },
             {
               "mes": 7,
-              "vendas": 12811.11,
-              "margem": 3199.41,
-              "atend": 375,
-              "ticket": 34.16,
-              "margem_atend": 8.53
+              "vendas": 13257.94,
+              "margem": 3265.2,
+              "atend": 384,
+              "ticket": 34.53,
+              "margem_atend": 8.5
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 59.8,
+            "Medicamento sujeito a receita médica": 59.7,
             "Medicamento não sujeito a receita médica": 17.1,
             "Dispositivos e acessórios": 8.7,
             "Suplementos Alimentares": 5.5,
             "Produtos Cosméticos": 5.1,
-            "Produtos de Higiene": 2.4,
+            "Produtos de Higiene": 2.5,
             "Dietética": 0.6,
             "Puericultura": 0.5,
             "Outros": 0.3,
@@ -2344,8 +3544,8 @@
               "rent_media": 4.1
             },
             "7": {
-              "unidades": 239,
-              "rent_media": 4.18
+              "unidades": 241,
+              "rent_media": 4.19
             }
           },
           "sauda_mensal": {
@@ -2353,20 +3553,54 @@
             "4": 49,
             "5": 58,
             "6": 63,
-            "7": 46
+            "7": 48
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 40.94,
+              "margem": 15.22
+            },
+            "Ducray": {
+              "vendas": 16.19,
+              "margem": 6.22
+            },
+            "A-Derma": {
+              "vendas": 10.49,
+              "margem": 3.36
+            },
+            "Klorane": {
+              "vendas": 33.05,
+              "margem": 13.03
+            },
+            "Vichy": {
+              "vendas": 108.33,
+              "margem": 25.46
+            },
+            "Bioderma": {
+              "vendas": 72.08,
+              "margem": 38.48
+            },
+            "Neutrogena": {
+              "vendas": 45.33,
+              "margem": 15.15
+            },
+            "Isdin": {
+              "vendas": 567.8,
+              "margem": 215.53
+            }
           }
         },
         {
           "cod": 46,
           "nome": "Rita Seriz",
-          "vendas_ytd": 19393.38,
-          "margem_ytd": 5094.17,
-          "atend_ytd": 543,
-          "ticket_medio": 35.72,
-          "margem_atend": 9.38,
+          "vendas_ytd": 19941.79,
+          "margem_ytd": 5243.31,
+          "atend_ytd": 558,
+          "ticket_medio": 35.74,
+          "margem_atend": 9.4,
           "cresc_vs_ant": null,
-          "rent_genericos": 4.19,
-          "taxa_sauda": 11.6,
+          "rent_genericos": 4.2,
+          "taxa_sauda": 11.8,
           "mensal": [
             {
               "mes": 1,
@@ -2418,23 +3652,23 @@
             },
             {
               "mes": 7,
-              "vendas": 13021.87,
-              "margem": 3369.44,
-              "atend": 339,
-              "ticket": 38.41,
+              "vendas": 13570.28,
+              "margem": 3518.58,
+              "atend": 354,
+              "ticket": 38.33,
               "margem_atend": 9.94
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 54.5,
+            "Medicamento sujeito a receita médica": 54.7,
             "Medicamento não sujeito a receita médica": 15.3,
-            "Dispositivos e acessórios": 11.3,
-            "Produtos Cosméticos": 7.6,
-            "Suplementos Alimentares": 6.1,
-            "Produtos de Higiene": 3.0,
+            "Dispositivos e acessórios": 11.1,
+            "Produtos Cosméticos": 8.0,
+            "Suplementos Alimentares": 5.9,
+            "Produtos de Higiene": 2.9,
             "Dietética": 1.0,
             "Puericultura": 0.5,
-            "Outros": 0.5
+            "Outros": 0.4
           },
           "genericos_mensal": {
             "6": {
@@ -2442,13 +3676,47 @@
               "rent_media": 3.87
             },
             "7": {
-              "unidades": 208,
+              "unidades": 220,
               "rent_media": 4.39
             }
           },
           "sauda_mensal": {
             "6": 26,
-            "7": 37
+            "7": 40
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 26.3,
+              "margem": 8.15
+            },
+            "Ducray": {
+              "vendas": 27.8,
+              "margem": 10.33
+            },
+            "A-Derma": {
+              "vendas": 12.48,
+              "margem": 4.9
+            },
+            "Klorane": {
+              "vendas": 16.1,
+              "margem": 5.15
+            },
+            "Vichy": {
+              "vendas": 13.12,
+              "margem": 1.32
+            },
+            "Eucerin": {
+              "vendas": 32.16,
+              "margem": 11.56
+            },
+            "Neutrogena": {
+              "vendas": 11.06,
+              "margem": 3.52
+            },
+            "Isdin": {
+              "vendas": 212.91,
+              "margem": 78.36
+            }
           }
         },
         {
@@ -2569,6 +3837,40 @@
             "5": 43,
             "6": 61,
             "7": 29
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 160.45,
+              "margem": 61.8
+            },
+            "Ducray": {
+              "vendas": 45.93,
+              "margem": 14.64
+            },
+            "Klorane": {
+              "vendas": 31.27,
+              "margem": 8.65
+            },
+            "Vichy": {
+              "vendas": 119.4,
+              "margem": 54.51
+            },
+            "Eucerin": {
+              "vendas": 28.58,
+              "margem": 10.82
+            },
+            "Bioderma": {
+              "vendas": 38.17,
+              "margem": 17.3
+            },
+            "Neutrogena": {
+              "vendas": 18.62,
+              "margem": 7.31
+            },
+            "Isdin": {
+              "vendas": 493.11,
+              "margem": 192.72
+            }
           }
         },
         {
@@ -2685,6 +3987,44 @@
             "4": 109,
             "5": 97,
             "6": 1
+          },
+          "dermo": {
+            "Avène": {
+              "vendas": 31.91,
+              "margem": 12.6
+            },
+            "Ducray": {
+              "vendas": 17.24,
+              "margem": 5.53
+            },
+            "A-Derma": {
+              "vendas": 35.08,
+              "margem": 12.82
+            },
+            "Klorane": {
+              "vendas": 88.98,
+              "margem": 34.52
+            },
+            "Vichy": {
+              "vendas": 98.82,
+              "margem": 42.43
+            },
+            "Eucerin": {
+              "vendas": 22.76,
+              "margem": 7.26
+            },
+            "Bioderma": {
+              "vendas": 21.89,
+              "margem": 8.35
+            },
+            "Neutrogena": {
+              "vendas": 8.86,
+              "margem": 2.44
+            },
+            "Isdin": {
+              "vendas": 227.71,
+              "margem": 88.83
+            }
           }
         }
       ]
