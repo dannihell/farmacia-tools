@@ -532,9 +532,15 @@ function renderFarmacia(fkey) {
     chartEl.insertAdjacentHTML('beforebegin', saudaHTML.replace('<div style="background', '<div id="sauda-programa-block" style="background'));
   }
 
-  // DERMO — bloco equipa
+  // DERMO — bloco equipa (acumulado até mesFim)
   const dermoFarm = fd.dermo || {};
   const dermoEntries = Object.entries(dermoFarm)
+    .map(([marca, v]) => {
+      const margem = Object.entries(v.mensal||{})
+        .filter(([m]) => +m <= mesFim)
+        .reduce((a,[,val]) => a+val, 0);
+      return [marca, { ...v, margem }];
+    })
     .filter(([,v]) => v.margem > 0)
     .sort((a,b) => b[1].margem - a[1].margem);
   const maxDermoM = dermoEntries.length > 0 ? dermoEntries[0][1].margem : 1;
@@ -582,9 +588,14 @@ function renderFarmacia(fkey) {
     </button>`
   ).join('');
 
-  // Seleciona primeiro colaborador por defeito
+  // Seleciona colaborador actual ou primeiro por defeito
   if (colabs.length > 0) {
-    colabAtual = slug(colabs[0].nome);
+    const colabExiste = colabs.find(c => slug(c.nome) === colabAtual);
+    if (!colabExiste) colabAtual = slug(colabs[0].nome);
+    // Actualizar botões
+    document.querySelectorAll('.colab-btn').forEach((b,i) => {
+      b.classList.toggle('active', slug(colabs[i]?.nome||'') === colabAtual);
+    });
     renderColab(fkey, colabAtual);
   }
 }
@@ -830,19 +841,32 @@ function renderColab(fkey, colabSlug) {
       </div>` : ''}
     </div>`;
 
-  // Dermo individual
+  // Dermo individual — acumulado até mesFim
   const dermoColab = colab.dermo || {};
   const dermoCEntries = Object.entries(dermoColab)
+    .map(([marca, v]) => {
+      const mensal = v.mensal || {};
+      const margemAcum = Object.entries(mensal)
+        .filter(([m]) => parseInt(m) <= mesFim)
+        .reduce((a,[,mv]) => a + mv, 0);
+      const margem = Object.keys(mensal).length > 0 ? margemAcum : (v.margem || 0);
+      return [marca, { ...v, margem }];
+    })
     .filter(([,v]) => v.margem > 0)
     .sort((a,b) => b[1].margem - a[1].margem);
   const maxDermoC = dermoCEntries.length > 0 ? dermoCEntries[0][1].margem : 1;
 
-  // Calcular média da equipa por marca
+  // Calcular média da equipa por marca — acumulado até mesFim
   const dermoMediaEquipa = {};
   for (const c2 of colabs) {
     for (const [marca, v] of Object.entries(c2.dermo || {})) {
+      const mensal = v.mensal || {};
+      const margemAcum = Object.entries(mensal)
+        .filter(([m]) => parseInt(m) <= mesFim)
+        .reduce((a,[,mv]) => a + mv, 0);
+      const margem = Object.keys(mensal).length > 0 ? margemAcum : (v.margem || 0);
       if (!dermoMediaEquipa[marca]) dermoMediaEquipa[marca] = { total: 0, count: 0 };
-      dermoMediaEquipa[marca].total += v.margem || 0;
+      dermoMediaEquipa[marca].total += margem;
       dermoMediaEquipa[marca].count += 1;
     }
   }
