@@ -158,20 +158,6 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); m
   <div class="header-right">
     <div id="period-badge" class="period-badge" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3)"></div>
     <div class="divider-v"></div>
-    <div class="farm-selector" id="mes-selector" style="display:none">
-      <button class="farm-btn" onclick="setMesFim(1,this)">Jan</button>
-      <button class="farm-btn" onclick="setMesFim(2,this)">Fev</button>
-      <button class="farm-btn" onclick="setMesFim(3,this)">Mar</button>
-      <button class="farm-btn" onclick="setMesFim(4,this)">Abr</button>
-      <button class="farm-btn" onclick="setMesFim(5,this)">Mai</button>
-      <button class="farm-btn" onclick="setMesFim(6,this)">Jun</button>
-      <button class="farm-btn" onclick="setMesFim(7,this)">Jul</button>
-      <button class="farm-btn" onclick="setMesFim(8,this)">Ago</button>
-      <button class="farm-btn" onclick="setMesFim(9,this)">Set</button>
-      <button class="farm-btn" onclick="setMesFim(10,this)">Out</button>
-      <button class="farm-btn" onclick="setMesFim(11,this)">Nov</button>
-      <button class="farm-btn" onclick="setMesFim(12,this)">Dez</button>
-    </div>
     <button class="farm-btn" id="btn-periodo" onclick="toggleMesSelector(this)" style="font-size:11px">📅 Período</button>
     <div class="divider-v"></div>
     <div class="mode-switcher">
@@ -179,6 +165,21 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); m
       <button class="mode-btn" onclick="setMode('individual',this)">Individual</button>
     </div>
   </div>
+</div>
+
+<div id="mes-selector" style="display:none;background:var(--white);border-bottom:1px solid var(--line);padding:8px 24px;gap:6px;flex-wrap:wrap">
+  <button class="farm-btn" onclick="setMesFim(1,this)">Jan</button>
+  <button class="farm-btn" onclick="setMesFim(2,this)">Fev</button>
+  <button class="farm-btn" onclick="setMesFim(3,this)">Mar</button>
+  <button class="farm-btn" onclick="setMesFim(4,this)">Abr</button>
+  <button class="farm-btn" onclick="setMesFim(5,this)">Mai</button>
+  <button class="farm-btn" onclick="setMesFim(6,this)">Jun</button>
+  <button class="farm-btn" onclick="setMesFim(7,this)">Jul</button>
+  <button class="farm-btn" onclick="setMesFim(8,this)">Ago</button>
+  <button class="farm-btn" onclick="setMesFim(9,this)">Set</button>
+  <button class="farm-btn" onclick="setMesFim(10,this)">Out</button>
+  <button class="farm-btn" onclick="setMesFim(11,this)">Nov</button>
+  <button class="farm-btn" onclick="setMesFim(12,this)">Dez</button>
 </div>
 
 <div id="loading" class="loading">
@@ -889,7 +890,7 @@ function setMesFim(mes, btn) {
 
 function toggleMesSelector(btn) {
   const sel = document.getElementById('mes-selector');
-  const visible = sel.style.display !== 'none';
+  const visible = sel.style.display === 'flex';
   sel.style.display = visible ? 'none' : 'flex';
   btn.classList.toggle('active', !visible);
 }
