@@ -450,7 +450,7 @@ function renderFarmacia(fkey) {
     `Condição base: margem ≥ ${fmtE(obj.margem)} no final do ano · Prémio = 1 salário × fator × avaliação`;
 
   // KPI GRID
-  const mesAtual = hoje.getMonth() + 1;
+  const mesAtual = mesFim;
   const esp = Math.round((mesAtual / 12) * 100);
   const kpiDefs = [
     { label:'Margem Bruta',    val: fmtE(kpis.margem_bruta), obj: fmtE(obj.margem),    atual: kpis.margem_bruta,    meta: obj.margem },
