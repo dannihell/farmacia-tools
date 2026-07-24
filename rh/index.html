@@ -477,7 +477,36 @@ function renderFarmacia(fkey) {
     chartEl.insertAdjacentHTML('beforebegin', saudaHTML.replace('<div style="background', '<div id="sauda-programa-block" style="background'));
   }
 
-  // CHART EQUIPA
+  // DERMO — bloco equipa
+  const dermoFarm = fd.dermo || {};
+  const dermoEntries = Object.entries(dermoFarm)
+    .filter(([,v]) => v.margem > 0)
+    .sort((a,b) => b[1].margem - a[1].margem);
+  const maxDermoM = dermoEntries.length > 0 ? dermoEntries[0][1].margem : 1;
+
+  const dermoFarmHTML = dermoEntries.length > 0 ? `
+    <div id="dermo-farm-block" style="background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:24px">
+      <div class="sec-label" style="margin-bottom:14px">Dermocosmética · Margem YTD por marca</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${dermoEntries.map(([marca, v]) => {
+          const crescColor = v.cresc === null ? 'var(--ink3)' : v.cresc >= 0 ? 'var(--green)' : 'var(--red)';
+          const crescStr   = v.cresc === null ? '—' : (v.cresc >= 0 ? '▲' : '▼') + ' ' + Math.abs(v.cresc) + '%';
+          return `<div style="display:grid;grid-template-columns:140px 1fr 80px 70px;align-items:center;gap:12px">
+            <div style="font-size:11px;color:var(--ink2);font-weight:500">${marca}</div>
+            <div style="background:var(--bg2);border-radius:2px;height:6px">
+              <div style="background:var(--green-mid);height:6px;border-radius:2px;width:${Math.round((v.margem/maxDermoM)*100)}%"></div>
+            </div>
+            <div style="font-size:11px;font-family:'JetBrains Mono',monospace;text-align:right">${fmtE(v.margem,0)}</div>
+            <div style="font-size:10px;color:${crescColor};text-align:right;font-family:'JetBrains Mono',monospace">${crescStr}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : '';
+
+  const oldDermo = document.getElementById('dermo-farm-block');
+  if (oldDermo) oldDermo.remove();
+  const chartEl2 = document.getElementById('equipa-chart-wrap');
+  if (chartEl2 && dermoFarmHTML) chartEl2.insertAdjacentHTML('afterend', dermoFarmHTML);
   const mensalEquipa = calcMensalEquipa(colabs);
   const maxV = Math.max(...mensalEquipa.map(m => m.vendas), 1);
   document.getElementById('equipa-chart').innerHTML = mensalEquipa.map((m,i) => {
@@ -732,7 +761,56 @@ function renderColab(fkey, colabSlug) {
       </div>` : ''}
     </div>`;
 
-  document.getElementById('colab-grid-bot').innerHTML = objHTML + rentHTML;
+  // Dermo individual
+  const dermoColab = colab.dermo || {};
+  const dermoCEntries = Object.entries(dermoColab)
+    .filter(([,v]) => v.margem > 0)
+    .sort((a,b) => b[1].margem - a[1].margem);
+  const maxDermoC = dermoCEntries.length > 0 ? dermoCEntries[0][1].margem : 1;
+
+  // Calcular média da equipa por marca
+  const dermoMediaEquipa = {};
+  for (const c2 of colabs) {
+    for (const [marca, v] of Object.entries(c2.dermo || {})) {
+      if (!dermoMediaEquipa[marca]) dermoMediaEquipa[marca] = { total: 0, count: 0 };
+      dermoMediaEquipa[marca].total += v.margem || 0;
+      dermoMediaEquipa[marca].count += 1;
+    }
+  }
+
+  const dermoCHTML = dermoCEntries.length > 0 ? `
+    <div class="colab-card">
+      <div class="colab-card-title">Dermocosmética · Margem YTD vs média equipa</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+        ${dermoCEntries.map(([marca, v]) => {
+          const med = dermoMediaEquipa[marca] ? Math.round(dermoMediaEquipa[marca].total / dermoMediaEquipa[marca].count) : 0;
+          const maxBar = Math.max(v.margem, med, 1);
+          return `<div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+              <div style="font-size:11px;color:var(--ink2);font-weight:500">${marca}</div>
+              <div style="font-size:11px;font-family:'JetBrains Mono',monospace">
+                <span style="font-weight:600;color:${cor}">${fmtE(v.margem,0)}</span>
+                <span style="color:var(--ink4)"> / ${fmtE(med,0)}</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <div style="background:var(--bg2);border-radius:2px;height:5px">
+                <div style="background:${cor};height:5px;border-radius:2px;width:${Math.round((v.margem/maxBar)*100)}%"></div>
+              </div>
+              <div style="background:var(--bg2);border-radius:2px;height:5px">
+                <div style="background:#d1d5db;height:5px;border-radius:2px;width:${Math.round((med/maxBar)*100)}%"></div>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+        <div style="display:flex;gap:12px;margin-top:4px">
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:4px;border-radius:2px;background:${cor}"></div><div style="font-size:10px;color:var(--ink3)">Este colaborador</div></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:4px;border-radius:2px;background:#d1d5db"></div><div style="font-size:10px;color:var(--ink3)">Média equipa</div></div>
+        </div>
+      </div>
+    </div>` : '';
+
+  document.getElementById('colab-grid-bot').innerHTML = objHTML + rentHTML + dermoCHTML;
 }
 
 // ── CONTROLOS ─────────────────────────────────────────────────────────────────
