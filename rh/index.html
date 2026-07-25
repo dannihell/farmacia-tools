@@ -536,31 +536,55 @@ function renderFarmacia(fkey) {
   const dermoFarm = fd.dermo || {};
   const dermoEntries = Object.entries(dermoFarm)
     .map(([marca, v]) => {
-      const margem = Object.entries(v.mensal||{})
-        .filter(([m]) => +m <= mesFim)
-        .reduce((a,[,val]) => a+val, 0);
+      const mensal = v.mensal || {};
+      const mesesDisp = Object.keys(mensal).map(Number).filter(m => m <= mesFim);
+      const margem = mesesDisp.length > 0
+        ? mesesDisp.reduce((a, m) => a + (mensal[m] || 0), 0)
+        : (v.margem || 0);
       return [marca, { ...v, margem }];
     })
     .filter(([,v]) => v.margem > 0)
     .sort((a,b) => b[1].margem - a[1].margem);
   const maxDermoM = dermoEntries.length > 0 ? dermoEntries[0][1].margem : 1;
 
+  const totalDermoMargem = dermoEntries.reduce((a,[,v]) => a + v.margem, 0);
+  const totalDermoAnt    = dermoEntries.reduce((a,[,v]) => a + (v.margem_ant||0), 0);
+  const totalDermoCresc  = totalDermoAnt >= 100 ? Math.round((totalDermoMargem - totalDermoAnt) / totalDermoAnt * 1000) / 10 : null;
+  const crescTotalColor  = totalDermoCresc === null ? 'var(--ink3)' : totalDermoCresc >= 0 ? 'var(--green)' : 'var(--red)';
+  const crescTotalStr    = totalDermoCresc === null ? '—' : (totalDermoCresc >= 0 ? '▲' : '▼') + ' ' + Math.abs(totalDermoCresc) + '%';
+
   const dermoFarmHTML = dermoEntries.length > 0 ? `
     <div id="dermo-farm-block" style="background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:24px">
       <div class="sec-label" style="margin-bottom:14px">Dermocosmética · Margem YTD por marca</div>
+      <div style="display:grid;grid-template-columns:140px 1fr 70px 70px 70px;gap:8px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--line)">
+        <div style="font-size:10px;color:var(--ink4)">Marca</div>
+        <div></div>
+        <div style="font-size:10px;color:var(--ink4);text-align:right">Margem</div>
+        <div style="font-size:10px;color:var(--ink4);text-align:right">Ticket</div>
+        <div style="font-size:10px;color:var(--ink4);text-align:right">vs LY</div>
+      </div>
       <div style="display:flex;flex-direction:column;gap:8px">
         ${dermoEntries.map(([marca, v]) => {
           const crescColor = v.cresc === null ? 'var(--ink3)' : v.cresc >= 0 ? 'var(--green)' : 'var(--red)';
           const crescStr   = v.cresc === null ? '—' : (v.cresc >= 0 ? '▲' : '▼') + ' ' + Math.abs(v.cresc) + '%';
-          return `<div style="display:grid;grid-template-columns:140px 1fr 80px 70px;align-items:center;gap:12px">
+          const ticket     = v.ticket ? fmtE(v.ticket, 2) : '—';
+          return `<div style="display:grid;grid-template-columns:140px 1fr 70px 70px 70px;align-items:center;gap:8px">
             <div style="font-size:11px;color:var(--ink2);font-weight:500">${marca}</div>
             <div style="background:var(--bg2);border-radius:2px;height:6px">
               <div style="background:var(--green-mid);height:6px;border-radius:2px;width:${Math.round((v.margem/maxDermoM)*100)}%"></div>
             </div>
             <div style="font-size:11px;font-family:'JetBrains Mono',monospace;text-align:right">${fmtE(v.margem,0)}</div>
+            <div style="font-size:11px;font-family:'JetBrains Mono',monospace;text-align:right;color:var(--ink3)">${ticket}</div>
             <div style="font-size:10px;color:${crescColor};text-align:right;font-family:'JetBrains Mono',monospace">${crescStr}</div>
           </div>`;
         }).join('')}
+        <div style="display:grid;grid-template-columns:140px 1fr 70px 70px 70px;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line)">
+          <div style="font-size:11px;color:var(--ink1);font-weight:700">Total</div>
+          <div></div>
+          <div style="font-size:11px;font-family:'JetBrains Mono',monospace;text-align:right;font-weight:700">${fmtE(totalDermoMargem,0)}</div>
+          <div></div>
+          <div style="font-size:10px;color:${crescTotalColor};text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700">${crescTotalStr}</div>
+        </div>
       </div>
     </div>` : '';
 
@@ -877,6 +901,7 @@ function renderColab(fkey, colabSlug) {
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
         ${dermoCEntries.map(([marca, v]) => {
           const med = dermoMediaEquipa[marca] ? Math.round(dermoMediaEquipa[marca].total / dermoMediaEquipa[marca].count) : 0;
+          const ticket = v.ticket ? fmtE(v.ticket, 2) : '—';
           const maxBar = Math.max(v.margem, med, 1);
           return `<div>
             <div style="display:flex;justify-content:space-between;margin-bottom:3px">
@@ -884,6 +909,7 @@ function renderColab(fkey, colabSlug) {
               <div style="font-size:11px;font-family:'JetBrains Mono',monospace">
                 <span style="font-weight:600;color:${cor}">${fmtE(v.margem,0)}</span>
                 <span style="color:var(--ink4)"> / ${fmtE(med,0)}</span>
+                <span style="color:var(--ink3);font-size:10px"> · ${ticket}</span>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:2px">
@@ -899,6 +925,13 @@ function renderColab(fkey, colabSlug) {
         <div style="display:flex;gap:12px;margin-top:4px">
           <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:4px;border-radius:2px;background:${cor}"></div><div style="font-size:10px;color:var(--ink3)">Este colaborador</div></div>
           <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:4px;border-radius:2px;background:#d1d5db"></div><div style="font-size:10px;color:var(--ink3)">Média equipa</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--line)">
+          <div style="font-size:11px;color:var(--ink1);font-weight:700">Total</div>
+          <div style="font-size:11px;font-family:'JetBrains Mono',monospace">
+            <span style="font-weight:700;color:${cor}">${fmtE(dermoCEntries.reduce((a,[,v])=>a+v.margem,0),0)}</span>
+            <span style="color:var(--ink4)"> / ${fmtE(Math.round(Object.values(dermoMediaEquipa).reduce((a,v)=>a+v.total/v.count,0)),0)}</span>
+          </div>
         </div>
       </div>
     </div>` : '';
