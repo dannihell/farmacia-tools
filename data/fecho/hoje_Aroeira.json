@@ -3,24 +3,24 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-28",
-  "gerado_em": "2026-07-28T21:02:04",
+  "gerado_em": "2026-07-28T23:59:04",
   "estado": "aguarda_tpas",
   "sifarma": {
-    "total_vendas_dinheiro": 4264.63,
+    "total_vendas_dinheiro": 4283.28,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": 240.31,
-      "cartao_declarado": 3813.48,
+      "cartao_declarado": 3832.13,
       "outros_declarado": 210.84,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 122,
-          "valor": 3813.48
+          "n": 123,
+          "valor": 3832.13
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 190,
+          "n": 191,
           "valor": 240.31
         },
         {
@@ -37,8 +37,8 @@
       "cartao_por_posto": [
         {
           "posto": "005",
-          "n": 43,
-          "valor": 1146.49
+          "n": 44,
+          "valor": 1165.14
         },
         {
           "posto": "003",
@@ -62,10 +62,10 @@
     "apuro": 210.47,
     "liquido": 240.31,
     "fundo_na_maquina": 400.0,
-    "cofre": 210.0,
-    "notas_no_cofre": 10,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 610.0,
+    "equipamento_total": 400.0,
     "vendido": 275.49,
     "troco_devolvido": 35.18,
     "por_operador": [
@@ -149,7 +149,7 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 4264.63,
+    "total_sifarma": 4283.28,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
     "numerario_evidenciado": 240.31,
@@ -164,8 +164,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 20.0,
-    "cofre_atual": 210.0,
-    "delta_cofre": 190.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": -20.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -180,7 +180,6 @@
   },
   "avisos": [
     "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 210.00 € (10 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
@@ -214,7 +213,7 @@
       "id": "01123228",
       "posto": "005",
       "talao_bruto": null,
-      "sifarma_cartao": 1146.49,
+      "sifarma_cartao": 1165.14,
       "delta": null
     }
   ],
