@@ -1,0 +1,227 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-07-28",
+  "gerado_em": "2026-07-28T21:02:04",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas_dinheiro": 4264.63,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 240.31,
+      "cartao_declarado": 3813.48,
+      "outros_declarado": 210.84,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 122,
+          "valor": 3813.48
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 190,
+          "valor": 240.31
+        },
+        {
+          "tipo": "Transferência Bancária",
+          "n": 1,
+          "valor": 159.84
+        },
+        {
+          "tipo": "Finanfarma",
+          "n": 1,
+          "valor": 51.0
+        }
+      ],
+      "cartao_por_posto": [
+        {
+          "posto": "005",
+          "n": 43,
+          "valor": 1146.49
+        },
+        {
+          "posto": "003",
+          "n": 33,
+          "valor": 1113.36
+        },
+        {
+          "posto": "002",
+          "n": 33,
+          "valor": 912.01
+        },
+        {
+          "posto": "030",
+          "n": 13,
+          "valor": 641.62
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 210.47,
+    "liquido": 240.31,
+    "fundo_na_maquina": 400.0,
+    "cofre": 210.0,
+    "notas_no_cofre": 10,
+    "dispensavel": 400.0,
+    "equipamento_total": 610.0,
+    "vendido": 275.49,
+    "troco_devolvido": 35.18,
+    "por_operador": [
+      {
+        "operador": "mafaldap",
+        "posto": "3",
+        "atendimentos": 3,
+        "numerario": 130.03,
+        "troco": 0.0,
+        "liquido": 130.03
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 5,
+        "numerario": 61.03,
+        "troco": 0.0,
+        "liquido": 61.03
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 2,
+        "numerario": 58.77,
+        "troco": 34.19,
+        "liquido": 24.58
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "5",
+        "atendimentos": 1,
+        "numerario": 14.09,
+        "troco": 0.0,
+        "liquido": 14.09
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 6.95,
+        "troco": 0.0,
+        "liquido": 6.95
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 3.62,
+        "troco": 0.0,
+        "liquido": 3.62
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 1.0,
+        "troco": 0.0,
+        "liquido": 1.0
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "13",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 0.99,
+        "liquido": -0.99
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 4264.63,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "numerario_evidenciado": 240.31,
+    "base_numerario": "liquido (sem contagem ou sem dia anterior)",
+    "liquido_numerario": 240.31
+  },
+  "verificacao_fisica": {
+    "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
+    "liquido": 240.31,
+    "apuro_contado": null,
+    "fundo_anterior": 400.0,
+    "fundo_atual": 400.0,
+    "delta_fundo": 0.0,
+    "cofre_anterior": 20.0,
+    "cofre_atual": 210.0,
+    "delta_cofre": 190.0,
+    "desvio": null,
+    "ha_desvio": false,
+    "verificavel": false
+  },
+  "tesouraria": {
+    "apuro_maquina": 210.47,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 210.00 € (10 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa.",
+    "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
+  ],
+  "cartao_por_tpa": [
+    {
+      "tpa": "TPA 1 – 01123224",
+      "id": "01123224",
+      "posto": "002",
+      "talao_bruto": null,
+      "sifarma_cartao": 912.01,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 2 – 00983092",
+      "id": "00983092",
+      "posto": "003",
+      "talao_bruto": null,
+      "sifarma_cartao": 1113.36,
+      "delta": null
+    },
+    {
+      "tpa": "TPA Drive – 01123227",
+      "id": "01123227",
+      "posto": "030",
+      "talao_bruto": null,
+      "sifarma_cartao": 641.62,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 4 – 01123228",
+      "id": "01123228",
+      "posto": "005",
+      "talao_bruto": null,
+      "sifarma_cartao": 1146.49,
+      "delta": null
+    }
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 240.31,
+    "sifarma_numerario_declarado": 240.31,
+    "diferenca": 0.0
+  }
+}
