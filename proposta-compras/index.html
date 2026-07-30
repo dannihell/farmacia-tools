@@ -717,7 +717,14 @@ async function carregarPropostaDoPO(poId) {
     // 3. Injectar as quantidades guardadas (sem timers — aplicar() é síncrono)
     const farm = farmSel.value;
     const qtMap = {};
-    (prop.produtos || []).forEach(p => { qtMap[String(p.cod)] = p.quantidade; });
+    vendedorMap = {};
+    (prop.produtos || []).forEach(p => {
+      qtMap[String(p.cod)] = p.quantidade;
+      if (p.qtd_vendedor) vendedorMap[parseInt(p.cod)] = p.qtd_vendedor;
+    });
+    if (Object.keys(vendedorMap).length) {
+      document.getElementById('btn-vendedor').style.display = 'inline-block';
+    }
 
     let aplicadas = 0;
     propostaActual.forEach(prod => {
@@ -1566,6 +1573,7 @@ async function submeterProposta() {
         cod: p.COD_PRD,
         designacao: p.DESIGNACAO,
         quantidade: fd.proposta_edit,
+        qtd_vendedor: vendedorMap[parseInt(p.COD_PRD)] || 0,
         custo_unit: p.pcus,
         total: fd.proposta_edit * p.pcus,
       };
