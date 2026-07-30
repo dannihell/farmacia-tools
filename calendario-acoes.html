@@ -186,6 +186,21 @@
   .bfstat{font-size:12.5px;padding:8px 12px;border-radius:9px;margin-bottom:12px;}
   .bfstat.inc{background:#FCF3E4;color:#8A6A25;}
   .bfstat.ok{background:#EDF4EF;color:#2F5C44;}
+  /* Dossier da ação */
+  .card{cursor:pointer;}
+  .card:hover{box-shadow:0 2px 4px rgba(35,48,42,.09),0 10px 30px rgba(35,48,42,.09);}
+  .cardhint{font-size:11.5px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:5px;}
+  .dosmodal{max-width:820px;}
+  .dos-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;
+    padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:14px;}
+  .dos-head h2{margin:0;}
+  .dos-when{font-family:'Fraunces';font-size:24px;line-height:1.1;text-align:right;white-space:nowrap;}
+  .dos-when span{display:block;font-family:'Inter';font-size:12px;color:var(--muted);}
+  .dos-sec{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    margin:20px 0 8px;padding-top:14px;border-top:1px solid var(--line2);}
+  .dos-sec:first-of-type{border-top:none;padding-top:0;}
+  .dos-prog{font-size:12.5px;color:var(--muted);margin-bottom:8px;}
+  .dos-meta div{font-size:13.5px;padding:3px 0;}
   .prow.t-block{opacity:.55;cursor:not-allowed;}
   .prow.t-block .pchk{color:#B0837D;}
   .blockmsg{font-size:11.5px;color:#8A4B36;background:#FBEEEA;border-radius:7px;padding:5px 9px;margin:2px 0 6px 26px;}
@@ -271,6 +286,11 @@
     <div class="output" id="output"></div>
     <div class="hint" id="hint" style="display:none">Copia isto para o array <b>ACOES</b> no topo do ficheiro e volta a publicar.</div>
   </div>
+</div>
+
+<!-- Modal DOSSIER -->
+<div class="overlay" id="dosOverlay">
+  <div class="modal dosmodal" id="dosBody"></div>
 </div>
 
 <!-- Modal BRIEFING -->
@@ -767,6 +787,78 @@ function bfResumo(a){
   return `<div class="bfbox"><div class="bfh">📋 Briefing${quando?' · '+quando:''}${quem}</div>${linhas}</div>`;
 }
 
+/* ===== DOSSIER DA AÇÃO ===== */
+let dosAtual = null;
+
+function abrirDossier(id){
+  dosAtual = id;
+  document.getElementById('dosOverlay').classList.add('show');
+  renderDossier();
+}
+function fecharDossier(){
+  document.getElementById('dosOverlay').classList.remove('show'); dosAtual=null;
+}
+function renderDossier(){
+  if(!dosAtual) return;
+  const a = ACOES.find(x=>x.id===dosAtual); if(!a) return;
+  const cam=CAMADAS[a.camada], dt=fmtDate(a);
+  const concluida = /conclu/i.test(a.estado||'');
+  const tem = a.ini && tarefasDe(a).length;
+
+  let h=`<div class="dos-head">
+    <div>
+      <h2>${a.titulo}</h2>
+      <div class="tags" style="margin-top:8px">
+        <span class="tag" style="background:${cam.cor}">C${a.camada} · ${cam.nome}</span>
+        <span class="tag tagline">${a.farmacia}</span>
+        <span class="estado ${estadoClass(a.estado)}">${a.estado}</span>
+        ${tem && !concluida ? bfBadge(a) : ''}
+      </div>
+    </div>
+    <div class="dos-when">${dt.top}<span>${dt.bot||''}</span></div>
+  </div>`;
+
+  let meta='';
+  if(a.oferta)      meta+=`<div><span class="lbl">Oferta</span>${a.oferta}</div>`;
+  if(a.detalhe)     meta+=`<div>${a.detalhe}</div>`;
+  if(a.ferramentas) meta+=`<div><span class="lbl">Canais</span>${a.ferramentas.join(' · ')}</div>`;
+  if(a.metrica)     meta+=`<div><span class="lbl">Métrica</span>${a.metrica}</div>`;
+  if(a.notas)       meta+=`<div><span class="lbl">Notas</span>${a.notas}</div>`;
+  if(meta) h+=`<div class="dos-sec">A ação</div><div class="dos-meta">${meta}</div>`;
+
+  if(tem && !concluida){
+    h+=`<div class="dos-sec">Briefing</div>`;
+    const resumo = bfResumo(a);
+    h += resumo || `<div class="bfstat inc">⚠️ Ainda sem briefing. Sem ele, quem produz as peças não sabe o que fazer.</div>`;
+    h += `<div style="margin-top:10px"><button class="btn ghost" onclick="abrirBriefing('${a.id}')">${bfVazio(a.id)?'Preencher briefing':'Editar briefing'}</button></div>`;
+  }
+
+  if(tem){
+    const ts=tarefasComData(a);
+    const feitas=ts.filter(t=>isDone(t.key)).length;
+    h+=`<div class="dos-sec">Produção · checklist</div>
+        <div class="dos-prog">${feitas} de ${ts.length} tarefas feitas${feitas===ts.length?' — completa 🎉':''}</div>
+        <div class="ptable">${ts.map(t=>taskRow(t,false,'d-')).join('')}</div>`;
+  }
+
+  if(a.resultado){
+    const r=a.resultado;
+    const rows=[['Vendas (alvo)',r.vendas_alvo],['Clientes',r.clientes],['Diagnósticos',r.diagnosticos],
+      ['Conversão',r.conversao],['Email',r.email],['SMS',r.sms],['Marcações',r.marcacoes],
+      ['Custo',r.custo],['Dia global',r.dia_global]]
+      .filter(x=>x[1]).map(([k,v])=>`<div class="rrow"><span class="rk">${k}</span><span class="rv">${v}</span></div>`).join('');
+    h+=`<div class="dos-sec">Resultado</div><div class="resbox">${rows}</div>`;
+  }
+  if(a.licoes){
+    h+=`<div class="dos-sec">Lições</div><div class="licbox"><ul>${a.licoes.map(l=>`<li>${l}</li>`).join('')}</ul></div>`;
+  }
+
+  h+=`<div class="modal-actions"><button class="btn ghost" onclick="fecharDossier()">Fechar</button></div>`;
+  document.getElementById('dosBody').innerHTML=h;
+}
+document.getElementById('dosOverlay').addEventListener('click',e=>{if(e.target.id==='dosOverlay')fecharDossier();});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ fecharDossier(); fecharBriefing(); } });
+
 let bfAtual = null;
 function abrirBriefing(id){
   const a = ACOES.find(x=>x.id===id); if(!a) return;
@@ -806,6 +898,7 @@ async function guardarBriefing(){
   try{
     await api('/briefing','POST',{acaoId:bfAtual, dados});
     fecharBriefing(); render();
+    if(dosAtual) document.getElementById('dosOverlay').classList.add('show');
   }catch(e){
     if(anterior) BRIEFINGS[bfAtual]=anterior; else delete BRIEFINGS[bfAtual];
     alert('Não foi possível gravar. Verifica a ligação e tenta outra vez.');
@@ -968,13 +1061,17 @@ function card(a){
     res+=`<div class="licbox"><div class="resh">💡 Lições</div><ul>${a.licoes.map(l=>`<li>${l}</li>`).join('')}</ul></div>`;
   }
   const podeBf = a.ini && tarefasDe(a).length && a.estado!=='concluída' && a.estado!=='concluida';
-  return `<div class="card" style="border-left-color:${cam.cor}">
+  const nT = a.ini ? tarefasComData(a).length : 0;
+  const nF = a.ini ? tarefasComData(a).filter(t=>isDone(t.key)).length : 0;
+  const hint = nT ? `<div class="cardhint">📋 ${nF}/${nT} tarefas · clica para abrir a produção</div>` : '';
+  return `<div class="card" style="border-left-color:${cam.cor}" onclick="abrirDossier('${a.id}')">
     <div class="row1"><h3>${a.titulo}</h3><div class="when"><b>${dt.top}</b>${dt.bot||''}</div></div>
     <div class="tags">${tags.join('')}${podeBf?bfBadge(a):''}</div>
     <span class="estado ${estadoClass(a.estado)}">${a.estado}</span>
     <div class="meta">${meta}</div>
     ${podeBf?bfResumo(a):''}
     ${res}
+    ${hint}
   </div>`;
 }
 
@@ -982,7 +1079,8 @@ function card(a){
 /* tarefas de produção de peças exigem briefing completo */
 function exigeBriefing(task){ return /pe[çc]as/i.test(task.t); }
 
-function taskRow(task, showAcao){
+function taskRow(task, showAcao, pfx){
+  pfx = pfx || '';
   const dd=diasAte(task.data);
   const bloqueada = exigeBriefing(task) && !isDone(task.key) && !bfCompleto(task.acao.id);
   let cls='t-fut', badge=fmtD(task.data);
@@ -990,8 +1088,9 @@ function taskRow(task, showAcao){
   else if(dd<0){ cls='t-late'; badge='atrasada ('+fmtD(task.data)+')'; }
   else if(dd===0){ cls='t-today'; badge='HOJE'; }
   else if(dd<=3){ cls='t-soon'; badge=fmtD(task.data)+' · '+dd+'d'; }
-  const como = task.como ? `<div class="pcomo" id="c-${task.key}">${task.como}</div>` : '';
-  const info = task.como ? `<span class="pinfo" onclick="event.stopPropagation();document.getElementById('c-${task.key}').classList.toggle('show')" title="Como fazer">ⓘ</span>` : '';
+  const cid = 'c-'+pfx+task.key;
+  const como = task.como ? `<div class="pcomo" id="${cid}">${task.como}</div>` : '';
+  const info = task.como ? `<span class="pinfo" onclick="event.stopPropagation();document.getElementById('${cid}').classList.toggle('show')" title="Como fazer">ⓘ</span>` : '';
   let acao='';
   if(showAcao && task.acao){
     const cam=CAMADAS[task.acao.camada];
@@ -1056,7 +1155,7 @@ function renderProd(){
     const cam=CAMADAS[a.camada]; const dt=fmtDate(a);
     html+=`<div class="pacao" style="border-left-color:${cam.cor}">
       <div class="pa-head">
-        <div><b>${a.titulo}</b> <span class="pa-when">${dt.top}</span> ${bfBadge(a)}</div>
+        <div><b class="dos-link" style="cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px" onclick="abrirDossier('${a.id}')">${a.titulo}</b> <span class="pa-when">${dt.top}</span> ${bfBadge(a)}</div>
         <div class="pa-prog">${done}/${ts.length}</div>
       </div>
       <div class="ptable">${ts.map(t=>taskRow(t,false)).join('')}</div>
@@ -1067,6 +1166,7 @@ function renderProd(){
 
 /* ===== RENDER ===== */
 function render(){
+  if(dosAtual) renderDossier();
   const c=document.getElementById('content');
   const list=filtered();
   if(view==='prod'){
