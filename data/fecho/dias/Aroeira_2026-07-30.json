@@ -3,24 +3,24 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-07-30",
-  "gerado_em": "2026-07-30T21:00:04",
+  "gerado_em": "2026-07-30T23:59:04",
   "estado": "aguarda_tpas",
   "sifarma": {
-    "total_vendas_dinheiro": 5078.8,
+    "total_vendas_dinheiro": 5287.23,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": 217.32,
-      "cartao_declarado": 4842.44,
+      "cartao_declarado": 5050.87,
       "outros_declarado": 19.04,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 118,
-          "valor": 4842.44
+          "n": 120,
+          "valor": 5050.87
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 216,
+          "n": 218,
           "valor": 217.32
         },
         {
@@ -42,8 +42,8 @@
         },
         {
           "posto": "005",
-          "n": 47,
-          "valor": 1638.73
+          "n": 48,
+          "valor": 1662.21
         },
         {
           "posto": "030",
@@ -59,6 +59,11 @@
           "posto": "003",
           "n": 14,
           "valor": 284.63
+        },
+        {
+          "posto": "010",
+          "n": 1,
+          "valor": 184.95
         }
       ]
     }
@@ -170,7 +175,7 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 5078.8,
+    "total_sifarma": 5287.23,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
     "numerario_evidenciado": 217.32,
@@ -234,7 +239,7 @@
       "id": "01123228",
       "posto": "005",
       "talao_bruto": null,
-      "sifarma_cartao": 1638.73,
+      "sifarma_cartao": 1662.21,
       "delta": null
     }
   ],
