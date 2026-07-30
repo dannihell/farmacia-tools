@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário de Ações · Farmácias Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F2EC; --surface:#FFFFFF; --ink:#23302A; --muted:#7C7A72;
+    --pine:#22392F; --line:#E4E0D6; --line2:#EEEBE2;
+    --c0:#8A8F98; --c1:#3E7C59; --c2:#3B6FA0; --c3:#B0837D; --c4:#B08D4E;
+    --shadow:0 1px 2px rgba(35,48,42,.06),0 6px 20px rgba(35,48,42,.05);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+
+  header{background:var(--pine);color:#F4F2EC;padding:18px 20px;position:sticky;top:0;z-index:20;}
+  .hwrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .brand{display:flex;flex-direction:column;}
+  .brand .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#9db3a4;}
+  .brand h1{font-family:'Fraunces';font-weight:500;font-size:24px;line-height:1.1;}
+  .back{font-size:12px;letter-spacing:.06em;color:#cfe0d5;text-decoration:none;white-space:nowrap;border:1px solid rgba(255,255,255,.25);padding:8px 12px;border-radius:100px;}
+  .back:hover{background:rgba(255,255,255,.08);}
+
+  .container{max-width:1100px;margin:0 auto;padding:20px;}
+
+  /* Month strip */
+  .strip{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow);margin-bottom:18px;overflow-x:auto;}
+  .months{display:grid;grid-template-columns:repeat(12,minmax(66px,1fr));gap:6px;min-width:820px;}
+  .m{border:1px solid var(--line2);border-radius:10px;padding:10px 6px 8px;text-align:center;cursor:pointer;background:#FBFAF6;transition:.15s;}
+  .m:hover{border-color:var(--c4);}
+  .m.on{background:var(--pine);color:#fff;border-color:var(--pine);}
+  .m .nm{font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
+  .m .ct{font-family:'Fraunces';font-size:22px;margin-top:2px;line-height:1;}
+  .m .dots{display:flex;gap:3px;justify-content:center;margin-top:6px;min-height:6px;}
+  .dot{width:6px;height:6px;border-radius:50%;}
+
+  /* Filters */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;}
+  select,input[type=text]{font-family:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:9px 14px;outline:none;}
+  input[type=text]{flex:1;min-width:150px;}
+  select:focus,input:focus{border-color:var(--c4);}
+  .btn{font-family:inherit;font-size:13px;font-weight:500;border:none;border-radius:100px;padding:10px 16px;cursor:pointer;}
+  .btn.add{background:var(--pine);color:#fff;}
+  .btn.add:hover{background:#2e4c3e;}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted);}
+  .toggle{display:inline-flex;background:var(--line2);border-radius:100px;padding:3px;}
+  .toggle button{border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:500;padding:7px 16px;border-radius:100px;cursor:pointer;color:var(--muted);}
+  .toggle button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);}
+
+  /* Legend */
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:16px;font-size:12px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:11px;height:11px;border-radius:3px;}
+
+  /* Cards */
+  .grid{display:grid;grid-template-columns:1fr;gap:14px;max-width:860px;}
+  .card{background:var(--surface);border:1px solid var(--line);border-left-width:4px;border-radius:12px;padding:16px 16px 14px;box-shadow:var(--shadow);}
+  .card .row1{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
+  .card h3{font-family:'Fraunces';font-weight:500;font-size:19px;line-height:1.15;}
+  .when{font-size:12px;color:var(--muted);white-space:nowrap;text-align:right;}
+  .when b{display:block;color:var(--ink);font-size:13px;font-family:'Fraunces';}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 10px;}
+  .tag{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:100px;color:#fff;}
+  .tagline{border:1px solid var(--line);color:var(--muted);background:transparent;}
+  .meta{font-size:13px;color:var(--ink);border-top:1px solid var(--line2);padding-top:10px;margin-top:4px;}
+  .meta div{margin-bottom:4px;}
+  .meta .lbl{color:var(--muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-right:5px;}
+  .estado{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:100px;}
+  .e-agendada{background:#E7F0EA;color:#2f5d43;}
+  .e-ativa{background:#E9F5EE;color:#1f7a45;}
+  .e-proposta{background:#F3EEDF;color:#8a6d2a;}
+  .e-continuo{background:#EDEEF0;color:#5a606a;}
+  .e-concluida{background:#EDEBE6;color:#8a857c;}
+
+  .section-h{font-family:'Fraunces';font-weight:500;font-size:15px;color:var(--pine);letter-spacing:.02em;margin:22px 0 10px;display:flex;align-items:center;gap:8px;}
+  .section-h::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c0);}
+  .empty{color:var(--muted);font-size:14px;padding:26px;text-align:center;background:var(--surface);border:1px dashed var(--line);border-radius:12px;}
+
+  /* Modal */
+  .overlay{position:fixed;inset:0;background:rgba(35,48,42,.45);display:none;align-items:flex-start;justify-content:center;padding:24px 16px;z-index:40;overflow:auto;}
+  .overlay.show{display:flex;}
+  .modal{background:var(--surface);border-radius:16px;max-width:520px;width:100%;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+  .modal h2{font-family:'Fraunces';font-weight:500;font-size:22px;margin-bottom:4px;}
+  .modal p.sub{font-size:13px;color:var(--muted);margin-bottom:16px;}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+  .field input,.field select,.field textarea{width:100%;font-family:inherit;font-size:14px;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#FBFAF6;}
+  .field textarea{resize:vertical;min-height:54px;}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+  .output{margin-top:14px;background:#1e2b25;color:#dfe8e2;border-radius:10px;padding:12px;font-family:ui-monospace,monospace;font-size:12px;white-space:pre-wrap;word-break:break-all;display:none;}
+  .output.show{display:block;}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:8px;}
+
+  @media(max-width:560px){
+    .brand h1{font-size:20px;}
+    .grid{grid-template-columns:1fr;}
+    .two{grid-template-columns:1fr;}
+  }
+/* ---- Produção ---- */
+.prod-hero{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#083830,#0d5240);color:#fff;border-radius:14px;padding:22px 26px;margin-bottom:10px;}
+.ph-num{font-size:52px;font-weight:800;line-height:1;font-family:Georgia,serif;}
+.ph-txt{font-size:14px;line-height:1.4;opacity:.95;}
+.ptable{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.prow{display:grid;grid-template-columns:26px 1fr auto auto auto;align-items:center;gap:12px;background:#fff;border:1px solid #e6efec;border-radius:9px;padding:11px 14px;cursor:pointer;transition:.12s;font-size:14px;}
+.prow:hover{border-color:#38B048;}
+.pinfo{font-size:15px;color:#0E7C9B;cursor:help;user-select:none;}
+.pcomo{display:none;background:#f2f8f6;border:1px dashed #b9d6cd;border-radius:8px;padding:10px 14px;margin:-2px 0 4px 38px;font-size:13px;color:#3a4a45;line-height:1.5;}
+.pcomo.show{display:block;}
+.prow-wrap{display:flex;flex-direction:column;}
+.pacaoTag{display:flex;align-items:baseline;gap:8px;border-left:3px solid #ccc;padding:0 0 2px 9px;margin:2px 0 -2px 0;}
+.pacaoTag b{font-size:11px;color:#083830;font-weight:700;}
+.pacaoTag span{font-size:10px;color:#8a938e;}
+.pchk{font-size:18px;color:#38B048;}
+.ptxt{color:#132420;}
+.presp{font-size:11px;background:#EAF7F5;color:#083830;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+.pbadge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+.t-late{border-left:4px solid #D01858;} .t-late .pbadge{background:#fde;color:#D01858;}
+.t-today{border-left:4px solid #C9962E;} .t-today .pbadge{background:#fbeecf;color:#9a6b0e;}
+.t-soon{border-left:4px solid #38B048;} .t-soon .pbadge{background:#e4f6e9;color:#1f7a3a;}
+.t-fut .pbadge{background:#eef3f1;color:#8a938e;}
+.t-done{opacity:.55;} .t-done .ptxt{text-decoration:line-through;} .t-done .pbadge{background:#e4f6e9;color:#1f7a3a;}
+.pacao{background:#f7fbfa;border:1px solid #e6efec;border-left:4px solid #ccc;border-radius:11px;padding:14px 16px;margin-bottom:14px;}
+.pa-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.pa-when{color:#8a938e;font-size:12px;margin-left:6px;}
+.pa-prog{font-size:12px;font-weight:700;background:#083830;color:#fff;padding:3px 11px;border-radius:20px;}
+@media(max-width:640px){.prow{grid-template-columns:24px 1fr;} .presp,.pbadge{grid-column:2;justify-self:start;margin-top:2px;}}
+/* ---- Scripts ---- */
+.scard{background:#fff;border:1px solid #e6efec;border-radius:12px;margin-bottom:12px;overflow:hidden;}
+.sc-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;background:#f7fbfa;}
+.sc-head:hover{background:#EAF7F5;}
+.sc-title{font-weight:700;color:#083830;font-size:15px;}
+.sc-toggle{color:#8a938e;transition:.2s;}
+.scard.open .sc-toggle{transform:rotate(180deg);}
+.sc-body{display:none;padding:6px 20px 20px;}
+.scard.open .sc-body{display:block;}
+.sc-meta{font-size:13px;color:#3a4a45;background:#EAF7F5;border-radius:8px;padding:10px 14px;margin:8px 0 16px;line-height:1.6;}
+.slines{display:flex;flex-direction:column;gap:10px;}
+.sline{border-left:3px solid #D01858;padding-left:14px;}
+.slbl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#D01858;font-weight:700;margin-bottom:3px;}
+.stxt{font-size:15px;color:#132420;line-height:1.5;font-style:italic;}
+.sc-notas{margin-top:16px;font-size:13px;color:#3a4a45;background:#fbfdfc;border:1px dashed #d5e2de;border-radius:8px;padding:12px 16px;}
+.sc-notas ul{margin:6px 0 0 18px;} .sc-notas li{margin-bottom:4px;}
+/* ---- Resultado & Lições ---- */
+.resbox{background:#083830;color:#EAF7F5;border-radius:10px;padding:14px 16px;margin-top:14px;}
+.resh{font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px;opacity:.85;}
+.rrow{display:flex;justify-content:space-between;gap:14px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:13px;}
+.rrow:last-child{border-bottom:none;}
+.rk{opacity:.75;} .rv{font-weight:600;text-align:right;}
+.licbox{background:#fff8e8;border:1px solid #f0e0b8;border-radius:10px;padding:14px 16px;margin-top:10px;}
+.licbox .resh{color:#9a6b0e;opacity:1;}
+.licbox ul{margin:0 0 0 18px;} .licbox li{font-size:13px;color:#4a3a1a;margin-bottom:6px;line-height:1.5;}
+
+  /* ===== BRIEFING / SYNC (V2) ===== */
+  .syncbar{max-width:1100px;margin:0 auto 12px;padding:9px 14px;border-radius:100px;font-size:12.5px;
+    display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);}
+  .syncbar b{color:var(--ink);font-weight:600;}
+  .syncbar.err{background:#FBEEEA;border-color:#E3C4B9;color:#8A4B36;}
+  .syncbar.ok{background:#EDF4EF;border-color:#CBE0D2;color:#2F5C44;}
+  .syncbar .sbtn{margin-left:auto;font:inherit;font-size:12px;border:1px solid var(--line);background:var(--surface);
+    color:var(--ink);border-radius:100px;padding:5px 12px;cursor:pointer;}
+
+  .bfbadge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;border-radius:100px;
+    padding:4px 11px;cursor:pointer;border:1px solid transparent;white-space:nowrap;}
+  .bf-ok{background:#EDF4EF;color:#2F5C44;border-color:#CBE0D2;}
+  .bf-inc{background:#FCF3E4;color:#8A6A25;border-color:#EAD9B6;}
+  .bf-vazio{background:#FBEEEA;color:#8A4B36;border-color:#E3C4B9;}
+  .bfbadge:hover{filter:brightness(.97);}
+
+  .bfbox{margin-top:12px;border:1px solid var(--line2);border-radius:11px;background:#FBFAF6;padding:11px 13px;}
+  .bfbox .bfh{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+  .bfrow{display:flex;gap:10px;font-size:13px;padding:3px 0;border-top:1px solid var(--line2);}
+  .bfrow:first-of-type{border-top:none;}
+  .bfrow .bk{min-width:104px;color:var(--muted);font-size:12px;}
+  .bfrow .bv{flex:1;}
+
+  .bfmodal{max-width:640px;}
+  .bfmodal .req{color:#B0837D;font-weight:700;}
+  .bfmodal .fhint{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4;}
+  .bfmodal textarea{min-height:64px;}
+  .bfstat{font-size:12.5px;padding:8px 12px;border-radius:9px;margin-bottom:12px;}
+  .bfstat.inc{background:#FCF3E4;color:#8A6A25;}
+  .bfstat.ok{background:#EDF4EF;color:#2F5C44;}
+  .prow.t-block{opacity:.55;cursor:not-allowed;}
+  .prow.t-block .pchk{color:#B0837D;}
+  .blockmsg{font-size:11.5px;color:#8A4B36;background:#FBEEEA;border-radius:7px;padding:5px 9px;margin:2px 0 6px 26px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="brand">
+      <span class="k">Farmácias Connect</span>
+      <h1>Calendário de Ações</h1>
+    </div>
+    <a class="back" href="https://dannihell.github.io/farmacia-tools/">← Portal</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Month strip -->
+  <div class="strip">
+    <div class="months" id="months"></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend" id="legend"></div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="toggle">
+      <button id="tAno" onclick="setView('ano')">Ano</button>
+      <button id="tLista" class="on" onclick="setView('lista')">Lista</button>
+      <button id="tProd" onclick="setView('prod')">⚙ Produção</button>
+      <button id="tScripts" onclick="setView('scripts')">📞 Scripts</button>
+    </div>
+    <select id="fFarm" onchange="render()">
+      <option value="">Todas as farmácias</option>
+      <option>Grupo</option><option>Aroeira</option><option>Dias e Brito</option><option>Cidade Universitária</option>
+    </select>
+    <select id="fCam" onchange="render()">
+      <option value="">Todas as camadas</option>
+      <option value="0">0 · Automatismos</option>
+      <option value="1">1 · SAÚDA</option>
+      <option value="2">2 · Laboratórios</option>
+      <option value="3">3 · Promotoras</option>
+      <option value="4">4 · Ações próprias</option>
+    </select>
+    <input type="text" id="fTxt" placeholder="Pesquisar…" oninput="render()">
+    <button class="btn ghost" onclick="clearMonth()">Limpar mês</button>
+    <button class="btn add" onclick="openModal()">+ Ação</button>
+  </div>
+
+  <div class="syncbar" id="syncbar">A ligar…</div>
+  <div id="content"></div>
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Nova ação</h2>
+    <p class="sub">Preenche e gera a entrada. No V1 copias para o ficheiro; na V2 grava direto via Worker.</p>
+    <div class="field"><label>Título</label><input id="m_tit" placeholder="Ex: Dia Lierac"></div>
+    <div class="two">
+      <div class="field"><label>Farmácia</label><select id="m_farm"><option>Grupo</option><option selected>Aroeira</option><option>Dias e Brito</option><option>Cidade Universitária</option></select></div>
+      <div class="field"><label>Camada</label><select id="m_cam"><option value="0">0 · Automatismos</option><option value="1">1 · SAÚDA</option><option value="2">2 · Laboratórios</option><option value="3" selected>3 · Promotoras</option><option value="4">4 · Ações próprias</option></select></div>
+    </div>
+    <div class="two">
+      <div class="field"><label>Data início</label><input type="date" id="m_ini"></div>
+      <div class="field"><label>Data fim</label><input type="date" id="m_fim"></div>
+    </div>
+    <div class="two">
+      <div class="field"><label>Tipo (A/B/C)</label><input id="m_tipo" placeholder="A, B"></div>
+      <div class="field"><label>Estado</label><select id="m_est"><option>agendada</option><option>proposta</option><option>ativa</option><option>continuo</option><option>concluida</option></select></div>
+    </div>
+    <div class="field"><label>Oferta / detalhe</label><input id="m_of" placeholder="Ex: −20% Lierac/Phyto/R&G"></div>
+    <div class="field"><label>Ferramentas (vírgulas)</label><input id="m_fer" placeholder="Yclient, IG/FB, Farmácias Portuguesas"></div>
+    <div class="field"><label>Métrica</label><input id="m_met" placeholder="nº marcações · faturação…"></div>
+    <div class="field"><label>Notas</label><textarea id="m_not"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeModal()">Fechar</button>
+      <button class="btn add" onclick="genEntry()">Gerar entrada</button>
+    </div>
+    <div class="output" id="output"></div>
+    <div class="hint" id="hint" style="display:none">Copia isto para o array <b>ACOES</b> no topo do ficheiro e volta a publicar.</div>
+  </div>
+</div>
+
+<!-- Modal BRIEFING -->
+<div class="overlay" id="bfOverlay">
+  <div class="modal bfmodal">
+    <h2 id="bf_titulo">Briefing</h2>
+    <p class="sub">Este briefing torna a ação executável sem perguntar a ninguém. Campos com <span class="req">*</span> são obrigatórios — sem eles a tarefa de produzir peças fica bloqueada.</p>
+    <div class="bfstat" id="bf_stat"></div>
+
+    <div class="field"><label>Oferta <span class="req">*</span></label>
+      <textarea id="bf_oferta" placeholder="Ex: −20% (1un) · −25% (2un) · −30% (3+un) + brinde acima de 60€. Financiado pela marca. Não acumulável com cartão."></textarea>
+      <div class="fhint">Percentagens exatas, escalões, brinde, se acumula. Lição SVR: a oferta assumida de cor sai errada — pedir sempre o material oficial à delegada.</div>
+    </div>
+
+    <div class="field"><label>Mecânica da ação <span class="req">*</span></label>
+      <textarea id="bf_mecanica" placeholder="Ex: Diagnóstico de pele gratuito (15 min) na zona de público. Cliente faz teste → especialista aconselha → compra ao balcão com a oferta aplicada."></textarea>
+      <div class="fhint">O que acontece, por que ordem, e as regras. Quem lê isto tem de conseguir explicar a ação a um cliente.</div>
+    </div>
+
+    <div class="field"><label>Materiais / instrumentos — e quem traz <span class="req">*</span></label>
+      <textarea id="bf_materiais" placeholder="Ex: Máquina de avaliação de pele (delegada) · testers (delegada) · mesa + 2 cadeiras (loja) · sinalização A3 entrada (nós) · folha de registo impressa (nós) · brindes ×20 (delegada)"></textarea>
+      <div class="fhint">Cada item com o dono entre parênteses. O que não tem dono não aparece no dia.</div>
+    </div>
+
+    <div class="two">
+      <div class="field"><label>Responsável da ação <span class="req">*</span></label>
+        <input id="bf_responsavel" placeholder="Nome de quem responde por esta ação">
+        <div class="fhint">Uma pessoa, não uma equipa.</div>
+      </div>
+      <div class="field"><label>Segmento <span class="req">*</span></label>
+        <input id="bf_segmento" placeholder="Ex: Rosto + Cabelo · 18 meses · Aroeira · com consentimento">
+        <div class="fhint">Quem recebe email/SMS no Yclient.</div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="field"><label>Delegada / contacto</label>
+        <input id="bf_delegada" placeholder="Nome · telemóvel · o que traz">
+      </div>
+      <div class="field"><label>Herói / produto foco</label>
+        <input id="bf_heroi" placeholder="Da IQVIA — orienta o linear">
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="field"><label>Link Simplybook</label>
+        <input id="bf_link" placeholder="Link curto (bit.ly)">
+      </div>
+      <div class="field"><label>Preenchido por</label>
+        <input id="bf_autor" placeholder="O teu nome">
+      </div>
+    </div>
+
+    <div class="field"><label>Notas</label><textarea id="bf_notas" placeholder="Qualquer coisa que quem executa precise de saber."></textarea></div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="fecharBriefing()">Fechar</button>
+      <button class="btn add" onclick="guardarBriefing()">Guardar briefing</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== DADOS ===== */
+const ANO = 2026;
+const CAMADAS = {
+  0:{nome:'Automatismos',cor:'var(--c0)'},
+  1:{nome:'SAÚDA',cor:'var(--c1)'},
+  2:{nome:'Laboratórios',cor:'var(--c2)'},
+  3:{nome:'Promotoras',cor:'var(--c3)'},
+  4:{nome:'Ações próprias',cor:'var(--c4)'}
+};
+const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+const ACOES = [
+  {
+    id:'lierac-0708', titulo:'Dia Lierac (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-07-08', fim:'2026-07-08', horario:'10h–17h30',
+    tipo:'A, B', estado:'concluída',
+    oferta:'−20% Lierac · Phyto · Roger & Gallet',
+    detalhe:'Diagnóstico de pele e capilar gratuito. Herói: Lift Integral. Especialista: Mara.',
+    ferramentas:['Email (Zoho/Yclient)','SMS','IG/FB','Google','Chamadas VIP'],
+    metrica:'marcações · diagnósticos · vendas Native (Yclient) · cliques bit.ly',
+    resultado:{
+      vendas_alvo:'€601,92 (9 transações)',
+      clientes:'6 no Yclient → 4 reais (2 eram da equipa)',
+      diagnosticos:'7 testes de pele',
+      conversao:'4/7 = 57% (excelente)',
+      marcacoes:'1 marcação online',
+      custo:'€40 (1000 SMS × €0,04). Email e social: €0.',
+      dia_global:'€9.000 · 160 atendimentos · +30% vs. dia normal (≈ +€2.100, +37 atendimentos)'
+    },
+    licoes:[
+      'BALCÃO FOI O CANAL ESQUECIDO: 160 atendimentos, só 7 diagnósticos. Se a equipa referenciasse, 30-40 testes → ~20 compradores.',
+      'Conversão da promotora é altíssima (57%). O problema é o funil de entrada, não o fecho.',
+      'Público não marca online (1 marcação). Manter Simplybook mas sem esforço de comunicação.',
+      'Email: custo zero, público qualificado → manter.',
+      'SMS: €40 a 1000 contactos é caro e cria fadiga. Filtrar fino (top dermo, 200-300).',
+      'Atribuição do dia global é incerta, mas +30% no dia da ação não é coincidência.',
+      'Filtrar a equipa dos relatórios (inflaciona números).'
+    ],
+    notas:'1ª ação do calendário. Playbook de promotora criado aqui. Próximas: versão LEVE + ativar o balcão.'
+  },
+  { id:'svr-lazartigue-0716', titulo:'SVR / Lazartigue (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-07-16', fim:'2026-07-16', horario:'10h–18h',
+    tipo:'A, B', estado:'concluída',
+    oferta:'SVR: −20% (1un) · −25% (2un) · −30% (3+un) + brinde >60€ | Lazartigue: −25% (1un) · −30% (2+un). Descontos financiados pela NATIVE.',
+    detalhe:'Diagnóstico facial e capilar gratuito. Herói escolhido: Sun Secure (IQVIA). Especialista chegou 1h atrasada (acidente na ponte).',
+    ferramentas:['Email amplo (883)','SMS restrito (55)','IG/FB carrossel','Google','Chamadas top 32'],
+    metrica:'diagnósticos · vendas SVR/Lazartigue · abertura email',
+    resultado:{
+      vendas_alvo:'42 unidades · €1.061,40 PVP · €744,60 líquido',
+      clientes:'17 compradores → 10 do email/SMS · 7 da LOJA (41% sem comunicação). 12 dos 17 são da Charneca/Costa/Corroios.',
+      custo:'€2,20 (55 SMS). Email, social e chamadas: €0. Desconto €316,80 financiado pela Native.',
+      email:'883 enviados · 437 aberturas (49,5% — 2× a média) · 54 cliques (6,1%) · 0 unsubscribes',
+      sms:'55 enviados · 16,4% conversão (vs. 0,4% no Lierac com 1000 SMS)',
+      marcacoes:'2 marcações online (de 54 cliques)',
+      diagnosticos:'NÃO MEDIDO — folha não devolvida'
+    },
+    licoes:[
+      '⭐ ATRIBUIÇÃO REAL: 17 compradores → 10 do email/SMS, 7 da LOJA (41%) sem terem recebido nada. Os dois canais são COMPLEMENTARES: a comunicação traz os fiéis, a loja apanha quem já lá está. Nenhum sozinho faz o dia.',
+      'SMS ULTRA-RESTRITO ganha: 55 SMS (€2,20) → 9 clientes = 16,4%. Lierac: 1000 SMS (€40) → 4 clientes = 0,4%. Conversão 40× melhor, custo 18× menor.',
+      'Email amplo é grátis e abre a 49,5% (2× a média do retalho). Não restringir — não custa nada e não cansa.',
+      'OFERTA ESCALONADA financiada pela marca é a alavanca do ticket: desconto médio 29,8% → quase todos levaram 3+ unidades. 42 un. vs. 20 no Lierac. EXIGIR sempre.',
+      'Herói do IQVIA (Sun Secure) vendeu 4 un.; a especialista vendeu Biotic (6) e Spirial (6). O herói orienta o LINEAR, não a promotora.',
+      'Relatórios Yclient DUPLICAM: email dizia 10 clientes + SMS 9 = 19, mas os contactados que compraram são 10 (os mesmos recebem ambos). NUNCA somar campanhas — pedir sempre o relatório de clientes com coluna de canal.',
+      'Público continua a não marcar: 54 cliques → 2 marcações. Clicam para SABER, não para agendar.',
+      'FALHA: folha não devolvida. Sabemos que 7 vieram sem comunicação, mas não se foram CONVIDADOS ao balcão ou se entraram por acaso e viram a promotora. Folha corrigida com "Como soube?" para a Nuxe.',
+      'Anunciar a D-1 é tarde. Concorrência anuncia a D-12 → 4 toques + 12 dias de balcão. Playbook corrigido.'
+    ],
+    notas:'2ª ação. Montada numa tarde (vs. 24h do Lierac) graças ao playbook. 17 compradores vs. 4 reais no Lierac (4×), 42 un. vs. 20, por €2,20 vs. €40.' },
+  { id:'nuxe-0822', titulo:'Nuxe (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-08-22', fim:'2026-08-22', horario:null,
+    tipo:'A, B', estado:'agendada',
+    oferta:'[a confirmar %]',
+    detalhe:'Nuxe (rosto/corpo). Herói a definir via IQVIA.',
+    ferramentas:['Email','SMS','IG/FB','Google','Chamadas VIP'],
+    metrica:'marcações · diagnósticos · vendas Nuxe',
+    notas:'Segmento: Rosto (+ Corpo). Confirmar horário e oferta.' },
+  { id:'lierac-1001', titulo:'Lierac (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-10-01', fim:'2026-10-01', horario:null,
+    tipo:'A, B', estado:'agendada',
+    oferta:'[a confirmar %]',
+    detalhe:'Lierac (rosto). Herói a definir via IQVIA.',
+    ferramentas:['Email','SMS','IG/FB','Google','Chamadas VIP'],
+    metrica:'marcações · diagnósticos · vendas Lierac',
+    notas:'Segmento: Rosto. Confirmar horário e oferta.' },
+  { id:'nuxe-1013', titulo:'Nuxe (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-10-13', fim:'2026-10-13', horario:null,
+    tipo:'A, B', estado:'agendada',
+    oferta:'[a confirmar %]',
+    detalhe:'Nuxe (rosto/corpo). 2ª ação Nuxe do ano.',
+    ferramentas:['Email','SMS','IG/FB','Google','Chamadas VIP'],
+    metrica:'marcações · diagnósticos · vendas Nuxe',
+    notas:'Segmento: Rosto (+ Corpo). Confirmar horário e oferta.' },
+  { id:'esthederm-1106', titulo:'Esthederm (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-11-06', fim:'2026-11-06', horario:null,
+    tipo:'A, B', estado:'agendada',
+    oferta:'[a confirmar %]',
+    detalhe:'Institut Esthederm (rosto). Herói a definir via IQVIA.',
+    ferramentas:['Email','SMS','IG/FB','Google','Chamadas VIP'],
+    metrica:'marcações · diagnósticos · vendas Esthederm',
+    notas:'Segmento: Rosto. Confirmar horário e oferta.' },
+  { id:'svr-lazartigue-1116', titulo:'SVR / Lazartigue (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-11-16', fim:'2026-11-16', horario:null,
+    tipo:'A, B', estado:'agendada',
+    oferta:'[a confirmar %]',
+    detalhe:'SVR (rosto) + Lazartigue (capilar). 2ª ação SVR/Lazartigue do ano.',
+    ferramentas:['Email','SMS','IG/FB','Google','Chamadas VIP'],
+    metrica:'marcações · diagnósticos · vendas SVR/Lazartigue',
+    notas:'Segmento: Rosto + Cabelo. Confirmar horário e oferta.' },
+  { id:'lierac-1202', titulo:'Lierac (promotora)', farmacia:'Aroeira', camada:3,
+    ini:'2026-12-02', fim:'2026-12-02', horario:null,
+    tipo:'A, B', estado:'agendada',
+    oferta:'[a confirmar %]',
+    detalhe:'Lierac (rosto). Ação de dezembro — cruzar com época de Natal.',
+    ferramentas:['Email','SMS','IG/FB','Google','Chamadas VIP'],
+    metrica:'marcações · diagnósticos · vendas Lierac',
+    notas:'Segmento: Rosto. Natal — potencial cross-sell packs presente.' },
+  /* Camada 1 — SAÚDA */
+  { id:'sauda-vidasaudavel', titulo:'SAÚDA — Vida Saudável (campanha rápida)', farmacia:'Grupo', camada:1,
+    ini:'2026-07-08', fim:'2026-07-31', horario:null,
+    tipo:'A', estado:'agendada',
+    oferta:'Vale 2€ em compra ≥20€ (Nutrição · Desporto · Nutrição Clínica)',
+    detalhe:'Ativar em Aroeira, Dias e Brito e Cidade Universitária. SMS automático ao segmento Saúda "Vida Saudável". Vale carregado no cartão, validade 15 dias. Parametrização pelo Saúda (esforço ≈0).',
+    ferramentas:['Sifarma.Saúda'],
+    metrica:'vales atribuídos vs. resgatados · vendas Nutrição/Desporto/Nutrição Clínica',
+    notas:'Camada 1. Custo real: ~0,015€/SMS + vale só se houver venda ≥20€. Confirmar data-limite de ativação no Sifarma (email dizia 31/7; guia mostrava 29/6). Ativar via Campanha de Grupo se disponível, senão 3x.' },
+  /* Camada 2 — Laboratórios · cadência mensal (ref. concorrência) */
+  { id:'promo-mes', titulo:'Promoções do Mês (email mensal)', farmacia:'Grupo', camada:2,
+    ini:'2026-08-01', fim:'2026-12-31', horario:'1.º dia útil de cada mês',
+    tipo:'A, B', estado:'a arrancar',
+    oferta:'Compilação das promoções de laboratório em vigor (solar, suplementos, capilar, saúde oral...)',
+    detalhe:'A peça de MAIOR alavanca e MENOR esforço: um template fixo, produtos novos todos os meses. ~30 min/mês. Mantém a base quente — a Reis Barata faz isto todos os meses há anos.',
+    ferramentas:['Gerador de Email','Yclient (segmento amplo)'],
+    metrica:'abertura · cliques · vendas das marcas em promoção',
+    notas:'REF. CONCORRÊNCIA: Reis Barata envia 1-2 emails/mês SEMPRE, com o mesmo template ("Promoções do Mês [mês]"). Não exige criatividade nem equipa. É consistência, não talento. GAP ATUAL: só falamos com a base quando há promotora → a base arrefece e tem de ser reaquecida a cada ação.' },
+  /* Camada 4 — Consultas farmacêuticas temáticas (ref. concorrência) */
+  { id:'consulta-glp1', titulo:'⭐ Consulta Peso Saudável (GLP-1)', farmacia:'Aroeira', camada:4,
+    ini:'2026-09-01', fim:'2026-12-31', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Consulta farmacêutica: acompanhamento nutricional para utilizadores de agonistas GLP-1',
+    detalhe:'Vaga enorme de pessoas em Ozempic/Wegovy/Mounjaro que precisam de acompanhamento (perda de massa muscular, efeitos, manutenção). Serviço clínico, não estético.',
+    ferramentas:['Farmacêutico','Simplybook','Email','Balcão'],
+    metrica:'nº consultas · conversão em suplementação/nutrição · recorrência',
+    notas:'⚠️ ESTAMOS ATRASADOS: a Reis Barata lançou "Peso Saudável" em FEV/2026 com #AgonistasGLP-1 #RiscoMetabólico. 5 meses à nossa frente na ideia que tínhamos. Precisa de: farmacêutico dedicado + protocolo + Simplybook. Potencial de diferenciação alto — poucos comunicam isto bem.' },
+  { id:'consulta-sono', titulo:'Consulta Sono Saudável', farmacia:'Aroeira', camada:4,
+    ini:'2026-10-01', fim:'2026-12-31', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Consulta farmacêutica: qualidade do sono, higiene do sono, ansiedade, falta de energia',
+    detalhe:'Serviço temático de baixo custo: farmacêutico + protocolo + cartaz. Puxa melatonina, suplementos, valeriana.',
+    ferramentas:['Farmacêutico','Simplybook','Email','Balcão'],
+    metrica:'nº consultas · conversão em suplementação',
+    notas:'REF: Reis Barata lançou em ABR/2026. Modelo replicável — não exige investimento, só protocolo e comunicação.' },
+  /* Camada 4 — Rastreios-campanha (datas-âncora) */
+  { id:'rast-janeiro', titulo:'Rastreio — Recomeço (peso + IMC)', farmacia:'Aroeira', camada:4,
+    ini:'2027-01-14', fim:'2027-01-14', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Rastreio gratuito de peso e IMC (zona de público)',
+    detalhe:'Pós-Natal. Isco: peso/IMC gratuito → aconselhamento → emagrecimento, detox, nutrição. Balcão convida e acompanha (mesmo mecanismo do Beauty Point).',
+    ferramentas:['Balcão','Zona de público','Sinalização','IG/FB','SMS (segmento fino)'],
+    metrica:'nº rastreios feitos · conversão em venda · valor categoria Nutrição',
+    notas:'Mês vazio de promotoras. Rastreio = porta de entrada, não produto.' },
+  { id:'rast-rim', titulo:'Rastreio — Dia Mundial do Rim (tensão + peso)', farmacia:'Aroeira', camada:4,
+    ini:'2027-03-11', fim:'2027-03-11', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Rastreio gratuito de tensão e peso',
+    detalhe:'Data-âncora. Isco → aconselhamento → hidratação, tensão arterial.',
+    ferramentas:['Balcão','Zona de público','Sinalização','IG/FB'],
+    metrica:'nº rastreios · conversão · valor categoria',
+    notas:'Confirmar data exata do Dia Mundial do Rim (2ª quinta de março).' },
+  { id:'rast-saude', titulo:'Rastreio — Dia Mundial da Saúde (peso + IMC)', farmacia:'Aroeira', camada:4,
+    ini:'2027-04-07', fim:'2027-04-07', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Rastreio gratuito de peso e IMC',
+    detalhe:'Isco → aconselhamento → nutrição, suplementos. Cruza com categorias SAÚDA.',
+    ferramentas:['Balcão','Zona de público','Sinalização','IG/FB'],
+    metrica:'nº rastreios · conversão · valor categoria Nutrição',
+    notas:'7 de abril. Ligar à campanha SAÚDA se houver.' },
+  { id:'rast-coracao-maio', titulo:'Rastreio — Mês do Coração (tensão + colesterol)', farmacia:'Aroeira', camada:4,
+    ini:'2027-05-13', fim:'2027-05-13', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Rastreio gratuito de tensão e colesterol',
+    detalhe:'Isco → aconselhamento → ómega-3, cardio, colesterol.',
+    ferramentas:['Balcão','Zona de público','Sinalização','IG/FB'],
+    metrica:'nº rastreios · conversão · valor categoria cardio',
+    notas:'Maio é mês do coração. Mês vazio de promotoras.' },
+  { id:'rast-coracao-set', titulo:'Rastreio — Dia Mundial do Coração', farmacia:'Aroeira', camada:4,
+    ini:'2026-09-29', fim:'2026-09-29', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Rastreio gratuito de tensão e colesterol',
+    detalhe:'29 de setembro. PRIMEIRA A TESTAR: há tempo de preparar e setembro está vazio. Isco → aconselhamento → cardio/colesterol.',
+    ferramentas:['Balcão','Zona de público','Sinalização','IG/FB'],
+    metrica:'nº rastreios · conversão · valor categoria cardio',
+    notas:'⭐ PILOTO do modelo de rastreio-campanha. 💡 DESCOBERTA (análise concorrência): os rastreios NÃO se pagam do próprio bolso — PEDIR PATROCÍNIO AOS LABS. A Reis Barata faz rastreio cardiovascular "com o apoio de Arko Pharma, Perrigo, Wellion, Qufalan, Nasofis" e rastreio de sinais com a Lusíadas Saúde. Mesmo modelo da Native no Dia SVR: o lab paga, a nossa margem sobe. Wellion dá aparelhos de glicémia, Arko dá suplementos — nós damos o tráfego. Isto transforma os 6 rastreios de "projeto caro" em "custo zero". Testar antes de replicar.' },
+  { id:'rast-diabetes', titulo:'Rastreio — Dia Mundial da Diabetes (glicémia + IMC)', farmacia:'Aroeira', camada:4,
+    ini:'2026-11-14', fim:'2026-11-14', horario:null,
+    tipo:'B, C', estado:'ideia',
+    oferta:'Rastreio gratuito de glicémia e IMC',
+    detalhe:'14 de novembro. Isco → aconselhamento → diabetes, nutrição clínica.',
+    ferramentas:['Balcão','Zona de público','Sinalização','IG/FB'],
+    metrica:'nº rastreios · conversão · valor categoria diabetes',
+    notas:'Novembro já tem 2 promotoras (6 e 16). Cuidado com sobrecarga da equipa.' },
+  { id:'proprio-podologia', titulo:'Podologia — encher todas as quartas', farmacia:'Aroeira', camada:4,
+    ini:'2026-07-22', fim:'2026-12-31', horario:'Quartas',
+    tipo:'A, C', estado:'a comunicar',
+    oferta:'Consulta de podologia · 30€ · 8 vagas/quarta (hoje: quarta sim, quarta não)',
+    detalhe:'A ação própria mais madura: já existe, enche sempre, capacidade ELÁSTICA (a Susana vem todas as quartas se houver procura). Nós faturamos os produtos de pés com margem cheia. Susana externa, fica com 70% da consulta.',
+    ferramentas:['Email (segmento pés + diabéticos)','Balcão','Sinalização','IG/FB'],
+    metrica:'vagas cheias · lista de espera · venda de produtos de pés (Xerial, cremes)',
+    notas:'TESTE: comunicar UMA vez e ver se sobra gente. Se encher com lista de espera → falar com a Susana para passar a semanal (208→416 visitas/ano). Custo do teste: €0. ÂNGULO FORTE: diabéticos — cuidado do pé é PREVENÇÃO de complicações graves, não estética. Mensagem de saúde, não comercial. Nenhum grupo grande comunica isto bem. PREÇO: não subir agora — só quando houver lista de espera. Escala real: 8 vagas/quinzena em ~1.500 atendimentos = 0,5%. "Sempre cheio" não prova procura alta, prova que 8 é pouco e ninguém sabe que existe.' },
+  /* Camada 4 — Ações Próprias Aroeira (diferenciação) */
+  { id:'proprio-farmadrive', titulo:'Farmadrive — conveniência Aroeira', farmacia:'Aroeira', camada:4,
+    ini:'2026-07-08', fim:'2026-12-31', horario:null,
+    tipo:'A, C', estado:'a medir',
+    oferta:'Serviço próprio a comunicar (encomenda + levantamento drive)',
+    detalhe:'Já existe, falta comunicar. Referência: Silveira comunica o Farmadrive como bandeira (foi a 1ª com Via Verde no drive). Vantagem: poucos têm.',
+    ferramentas:['Site','IG/FB','Sinalização exterior','SMS'],
+    metrica:'nº utilizações Farmadrive · notoriedade',
+    notas:'JÁ FUNCIONA — não é ideia. Mas antes de promover: MEDIR quantas utilizações por semana. Sem esse número promove-se às cegas (ninguém usa porque não sabe? ou porque não quer?). Ao contrário da podologia, não tem procura provada. Explorar Via Verde no futuro (como Silveira).' },
+  { id:'proprio-servicos', titulo:'Serviços da Farmácia (manipulados + outros)', farmacia:'Aroeira', camada:4,
+    ini:'2026-07-08', fim:'2026-12-31', horario:null,
+    tipo:'A, C', estado:'ideia',
+    oferta:'Carta de serviços agendáveis (Simplybook) + comunicação',
+    detalhe:'Manipulados como bandeira (ref. Silveira/Reis Barata). + outros serviços atuais [a listar] + serviços futuros. Agendáveis online via Simplybook, comunicados no site.',
+    ferramentas:['Simplybook','Site','IG/FB'],
+    metrica:'nº serviços agendados · nº marcações online',
+    notas:'Camada 4. Concorrência tem carta de serviços agendáveis online (rastreios, nutrição, podologia). Gap: falta página de serviços no site + agendamento permanente (não só eventos).' },
+  { id:'auto-feedback', titulo:'Feedback pós-visita (D+1)', farmacia:'Grupo', camada:0,
+    ini:null, fim:null, estado:'ativo',
+    detalhe:'SMS+email no dia seguinte a pedir avaliação.', ferramentas:['Yclient'],
+    metrica:'taxa de resposta · reviews Google', notas:'Já ativo.' },
+  { id:'auto-react60', titulo:'Reativação 60/90 dias', farmacia:'Grupo', camada:0,
+    ini:null, fim:null, estado:'proposta',
+    detalhe:'SMS a clientes sem visita há 60 e 90 dias.', ferramentas:['Yclient'],
+    metrica:'nº reativados', notas:'A configurar.' },
+  { id:'auto-aniv', titulo:'Aniversário do cliente', farmacia:'Grupo', camada:0,
+    ini:null, fim:null, estado:'proposta',
+    detalhe:'SMS no aniversário com mensagem/oferta.', ferramentas:['Yclient'],
+    metrica:'conversão da oferta', notas:'A configurar.' },
+  { id:'auto-solar', titulo:'Sazonal — proteção solar (Maio)', farmacia:'Grupo', camada:0,
+    ini:null, fim:null, estado:'proposta',
+    detalhe:'Lembrete a clientes com histórico dermo.', ferramentas:['Yclient'],
+    metrica:'vendas solar', notas:'Ligar em maio; gripe em outubro.' },
+];
+
+/* ===== TEMPLATE DE TAREFAS (playbook) ===== */
+/* off = dias face à data da ação (negativo=antes). resp = responsável. como = instrução geral (nível B). */
+const TAREFAS_PROMOTORA = [
+  {t:'Confirmar delegada (oferta, visuais, testers, máquina)', off:-14, resp:'Daniel',
+   como:'A DATA já está marcada — o que falta é o CONTEÚDO. Confirmar: oferta exata (%, escalões, acumulável, brinde), key visuals + packshots, testers e material, máquina de avaliação, nome da especialista, horário. Lição SVR: a oferta assumida de cor sai errada — pedir SEMPRE o material oficial.'},
+  {t:'Criar serviço Simplybook + link curto', off:-13, resp:'MKT',
+   como:'Serviço novo para o dia (slots 20min, recurso só nesse dia). Encurtar o link no bit.ly — o link do Simplybook tem # e parte-se na bio do Instagram.'},
+  {t:'IQVIA da marca → escolher herói', off:-13, resp:'Daniel',
+   como:'Herói = gama a destacar. Regra: crescer em Cresc/Merc = quota a ganhar. Cruzar com sazonalidade (ex: solar em julho).'},
+  {t:'Gerar peças (gerador email + post + story)', off:-13, resp:'MKT',
+   como:'Gerador de Email (farmacia-tools). Social: usar a arte OFICIAL da marca (4:5 feed, 1080x1920 story) + faixa Aroeira. Não encolher a arte da marca.'},
+  {t:'⭐ TOQUE 1 (D-12): anúncio nas redes', off:-12, resp:'MKT',
+   como:'Post no feed (FB+IG+Google) a anunciar. É o "save the date" — grátis, sem fadiga, e dá dias ao algoritmo. A partir daqui o BALCÃO começa a convidar: 12 dias, não 1. Lição: quem anuncia com 12 dias gera marcações; com 1 dia só apanha walk-ins.'},
+  {t:'Foco diário no Kaizen (D-12 a D-0)', off:-12, resp:'DT',
+   como:'Todos os dias, 20s: "Convida cada cliente para o Dia [marca], dia [X]." Sem registo — o objetivo é lembrar. Reforçar com cartaz A4 no backoffice.'},
+  {t:'Emitir segmentos + lista de chamadas', off:-6, resp:'MKT',
+   como:'Yclient. EMAIL amplo: Sub Família Rosto (+Cabelo se capilar) · 18m · Aroeira · consentimento. SMS restrito: o mesmo + transações/valor alto (~250). Lista de chamadas: top ~30 por valor dermo, com cidade (perto = mais provável aparecer).'},
+  {t:'TOQUE 2 (D-5): email amplo "marque já"', off:-5, resp:'MKT',
+   como:'Email (custo zero) ao segmento amplo, com tempo para a pessoa planear. Remetente geral@farmaciaaroeira.pt. SEMPRE teste a si antes. + Story de lembrete.'},
+  {t:'TOQUE 3 (D-1, 17h15): SMS restrito + story', off:-1, resp:'MKT',
+   como:'SMS ao segmento restrito (~250, ~10€) — toque de urgência ("amanhã"). Minificar Links ON. + Story "é amanhã" ~20h30. Fim de tarde é a melhor janela.'},
+  {t:'Briefing à DT + nomear responsável de stories', off:-1, resp:'DT',
+   como:'Entregar o briefing PDF. Nomear UMA pessoa para os stories — as restantes focam-se em convidar e acompanhar.'},
+  {t:'Chamadas às melhores clientes (D-1 / D-0)', off:-1, resp:'Equipa',
+   como:'Lista de ~30 top clientes dermo, folha impressa com guião. Propor a vinda ("prefere de manhã ou de tarde?"), não perguntar "quer?". Priorizar quem mora perto.'},
+  {t:'Sinalização + montar Beauty Point', off:0, resp:'Loja',
+   como:'De manhã: montar o espaço, sinalização à entrada "Hoje: [ação]". Confirmar que a especialista tem tudo.'},
+  {t:'⭐ Ativar o BALCÃO (canal decisivo)', off:0, resp:'DT + equipa',
+   como:'Custo zero, maior potencial. Cada colaborador convida E ACOMPANHA: "É gratuito, demora 15 minutos. Está ali. Venha, eu levo-a." Meta de equipa: 30. Lição Lierac: 160 atendimentos → 7 diagnósticos. Apontar dá 7, acompanhar dá 30.'},
+  {t:'TOQUE 4 (D-0): stories do dia', off:0, resp:'Resp. stories',
+   como:'4 momentos: espaço montado (~9h45), em ação (~11h30, com autorização), "ainda dá tempo" (~14h30), agradecimento (~17h45). Marcar sempre a @ da marca.'},
+  {t:'Medir + follow-up telefónico 48h', off:2, resp:'MKT',
+   como:'MEDIR: diagnósticos (folha da promotora), conversão, vendas das marcas-alvo (Yclient), dia global vs. normal. FILTRAR a equipa dos relatórios. FOLLOW-UP: chamada com script só a quem COMPROU (separador Scripts).'},
+  {t:'Lembrete de recompra (~semana 6)', off:42, resp:'MKT',
+   como:'A ~6 semanas (produto a acabar): contactar quem comprou a lembrar/reservar reposição + convidar para a próxima ação. Fecha o ciclo: comprador de evento → cliente recorrente.'},
+];
+const TAREFAS_SAUDA = [
+  {t:'Confirmar data-limite de ativação no Sifarma', off:-3, resp:'Daniel',
+   como:'Verificar no Sifarma.Saúda a data-limite real de ativação da campanha (janela pode variar). Não deixar passar.'},
+  {t:'Ativar campanha (Grupo, se disponível)', off:0, resp:'Daniel',
+   como:'Sifarma.Saúda → modelo "Vida Saudável" → ativar. Tentar "Campanha de Grupo" para as 3 farmácias de uma vez; senão ativar em cada uma. Manter valores por defeito (vale 2€/compra ≥20€).'},
+  {t:'Medir vales atribuídos vs. resgatados', off:12, resp:'MKT',
+   como:'No fim da campanha, ver no Saúda quantos vales foram atribuídos e quantos resgatados. Cruzar com vendas nas categorias Nutrição/Desporto/Nutrição Clínica.'},
+];
+const TAREFAS_PROPRIA = [
+  {t:'Definir mecânica / oferta', off:-7, resp:'Daniel',
+   como:'Definir o que é a ação: mecânica, oferta (se houver), materiais/instrumentos necessários e onde decorre (gabinete ou zona de público). Nomear responsável.'},
+  {t:'Gerar peças + copy', off:-3, resp:'MKT',
+   como:'Usar o Gerador de Email + adaptar peças social. Copy adaptado ao serviço (não é promotora — é serviço próprio da farmácia).'},
+  {t:'Publicar (site, social, SMS)', off:-1, resp:'MKT',
+   como:'Publicar no site (página de serviços), social (feed/story) e SMS ao segmento relevante. Se for serviço agendável, garantir link Simplybook.'},
+  {t:'Medir resultados', off:5, resp:'MKT',
+   como:'Contar adesões ao serviço (marcações/utilizações) e cruzar com vendas associadas. Registar para decidir se repete.'},
+];
+const TAREFAS_RASTREIO = [
+  {t:'Definir mecânica + categoria a puxar', off:-10, resp:'Daniel',
+   como:'Rastreio gratuito, na zona de público. Definir que categoria de produto o aconselhamento vai puxar (ex: colesterol → ómega-3). O rastreio é a PORTA, não o produto.'},
+  {t:'Preparar espaço na zona de público', off:-3, resp:'Loja',
+   como:'Mesa visível na zona de público (não gabinete). Equipamento pronto e calibrado (tensiómetro, balança, aparelho). Cadeira para o cliente. Privacidade mínima mas visibilidade máxima.'},
+  {t:'Garantir stock da categoria-alvo', off:-3, resp:'Daniel',
+   como:'Se o rastreio vai gerar aconselhamento em X, garantir stock e linear visível de X. Nada pior que detetar colesterol alto e não ter o produto.'},
+  {t:'Peças + copy (post, story, sinalização)', off:-2, resp:'MKT',
+   como:'Usar o Gerador de Email. Sinalização à entrada dias antes: "Rastreio gratuito [dia]". Post + story.'},
+  {t:'Foco diário no Kaizen (D-5 a D-1)', off:-5, resp:'DT',
+   como:'Todos os dias, 20s: "Foco: convidar para o rastreio gratuito de [dia]." Lembrar, não medir.'},
+  {t:'⭐ Briefing do BALCÃO (o canal decisivo)', off:0, resp:'DT + equipa',
+   como:'Cada colaborador convida e ACOMPANHA: "Temos hoje rastreio gratuito de [X]. Demora 5 minutos. Venha, eu levo-o." Definir meta de equipa. Lição do Dia Lierac: apontar dá 7, acompanhar dá 30.'},
+  {t:'Executar rastreios + registar na folha', off:0, resp:'Equipa',
+   como:'Folha de registo: hora, nome, encaminhado por, resultado, comprou? Terminar SEMPRE com aconselhamento — é aí que está o valor.'},
+  {t:'Medir + follow-up dos casos alterados', off:3, resp:'MKT',
+   como:'Contar rastreios feitos, conversão em venda, valor da categoria. Casos com valores alterados: chamada de acompanhamento (com script) — é serviço, não venda.'},
+];
+function tarefasDe(a){
+  if(a.camada===3) return TAREFAS_PROMOTORA;
+  if(a.camada===1) return TAREFAS_SAUDA;
+  if(a.camada===4) return (a.id||'').startsWith('rast-') ? TAREFAS_RASTREIO : TAREFAS_PROPRIA;
+  return [];
+}
+/* devolve tarefas com data calculada a partir da data da ação */
+function tarefasComData(a){
+  if(!a.ini) return [];
+  const base=new Date(a.ini+'T00:00');
+  return tarefasDe(a).map((task,idx)=>{
+    const d=new Date(base); d.setDate(d.getDate()+task.off);
+    return {...task, idx, acao:a, data:d,
+      key:'done:'+a.id+':'+idx };
+  });
+}
+/* ===== V2 · PERSISTÊNCIA VIA CLOUDFLARE WORKER ===== */
+const API = 'https://marketing-briefings.danielgds.workers.dev';
+
+let DONE = {};        /* picagens da checklist */
+let BRIEFINGS = {};   /* briefing por ação, indexado por a.id */
+let LIGADO = false;   /* true = a gravar no servidor */
+
+function codigo(){ return localStorage.getItem('mkt_codigo') || ''; }
+function pedirCodigo(){
+  const c = prompt('Código de acesso da equipa:', codigo());
+  if(c===null) return;
+  localStorage.setItem('mkt_codigo', c.trim());
+  carregarEstado();
+}
+
+function syncbar(estado, texto, botao){
+  const el = document.getElementById('syncbar');
+  if(!el) return;
+  el.className = 'syncbar' + (estado ? ' '+estado : '');
+  el.innerHTML = texto + (botao ? `<button class="sbtn" onclick="${botao[1]}">${botao[0]}</button>` : '');
+}
+
+async function api(rota, metodo, corpo){
+  const r = await fetch(API + rota, {
+    method: metodo,
+    headers: {'Content-Type':'application/json','X-Codigo':codigo()},
+    body: corpo ? JSON.stringify(corpo) : undefined
+  });
+  if(r.status === 401) throw new Error('codigo');
+  if(!r.ok) throw new Error('http '+r.status);
+  return r.json();
+}
+
+async function carregarEstado(){
+  if(!codigo()){
+    LIGADO = false;
+    syncbar('err','<b>Sem código.</b> Introduz o código da equipa para gravar picagens e briefings.',['Introduzir código','pedirCodigo()']);
+    render(); return;
+  }
+  syncbar('', 'A carregar…');
+  try{
+    const d = await api('/state','GET');
+    DONE = d.done || {}; BRIEFINGS = d.briefings || {}; LIGADO = true;
+    const nBf = Object.keys(BRIEFINGS).length, nD = Object.keys(DONE).length;
+    syncbar('ok', `<b>Ligado.</b> ${nD} tarefas picadas · ${nBf} briefings guardados. Tudo o que fizeres fica gravado.`, ['Trocar código','pedirCodigo()']);
+  }catch(e){
+    LIGADO = false;
+    if(String(e.message)==='codigo'){
+      syncbar('err','<b>Código errado.</b> Nada será gravado.',['Corrigir','pedirCodigo()']);
+    } else {
+      syncbar('err','<b>Sem ligação ao servidor.</b> Podes usar o calendário, mas as alterações NÃO ficam gravadas.',['Tentar de novo','carregarEstado()']);
+    }
+  }
+  render();
+}
+
+function isDone(k){ return !!DONE[k]; }
+async function toggleDone(k){
+  const novo = !DONE[k];
+  if(novo) DONE[k]=true; else delete DONE[k];
+  render();
+  if(!LIGADO) return;
+  try{ await api('/done','POST',{key:k, value:novo}); }
+  catch(e){
+    if(novo) delete DONE[k]; else DONE[k]=true;
+    LIGADO=false;
+    syncbar('err','<b>Falhou a gravar.</b> A última alteração foi revertida.',['Reconectar','carregarEstado()']);
+    render();
+  }
+}
+
+/* ===== BRIEFING ===== */
+const BF_OBRIGATORIOS = ['oferta','mecanica','materiais','responsavel','segmento'];
+const BF_NOMES = {oferta:'Oferta', mecanica:'Mecânica', materiais:'Materiais', responsavel:'Responsável',
+  segmento:'Segmento', delegada:'Delegada', heroi:'Herói', link:'Simplybook', autor:'Preenchido por', notas:'Notas'};
+
+function bfDe(id){ return BRIEFINGS[id] || {}; }
+function bfEmFalta(id){
+  const b = bfDe(id);
+  return BF_OBRIGATORIOS.filter(c => !(b[c] && String(b[c]).trim()));
+}
+function bfCompleto(id){ return bfEmFalta(id).length === 0; }
+function bfVazio(id){ return Object.keys(bfDe(id)).filter(k=>k[0]!=='_').length === 0; }
+
+function bfBadge(a){
+  if(bfCompleto(a.id)) return `<span class="bfbadge bf-ok" onclick="event.stopPropagation();abrirBriefing('${a.id}')">✅ Briefing completo</span>`;
+  if(bfVazio(a.id))    return `<span class="bfbadge bf-vazio" onclick="event.stopPropagation();abrirBriefing('${a.id}')">📝 Briefing por preencher</span>`;
+  const f = bfEmFalta(a.id).length;
+  return `<span class="bfbadge bf-inc" onclick="event.stopPropagation();abrirBriefing('${a.id}')">⚠️ Falta ${f} campo${f>1?'s':''}</span>`;
+}
+
+function bfResumo(a){
+  const b = bfDe(a.id);
+  const campos = ['oferta','mecanica','materiais','responsavel','segmento','delegada','heroi','link','notas'];
+  const linhas = campos.filter(c=>b[c] && String(b[c]).trim())
+    .map(c=>`<div class="bfrow"><span class="bk">${BF_NOMES[c]}</span><span class="bv">${String(b[c]).replace(/</g,'&lt;').replace(/\n/g,'<br>')}</span></div>`).join('');
+  if(!linhas) return '';
+  const quem = b._por ? ` · ${b._por}` : '';
+  const quando = b._atualizado ? new Date(b._atualizado).toLocaleDateString('pt-PT') : '';
+  return `<div class="bfbox"><div class="bfh">📋 Briefing${quando?' · '+quando:''}${quem}</div>${linhas}</div>`;
+}
+
+let bfAtual = null;
+function abrirBriefing(id){
+  const a = ACOES.find(x=>x.id===id); if(!a) return;
+  bfAtual = id;
+  const b = bfDe(id);
+  document.getElementById('bf_titulo').textContent = 'Briefing · ' + a.titulo;
+  const g = (k, fallback) => document.getElementById('bf_'+k).value = b[k] || fallback || '';
+  g('oferta', (a.oferta && !a.oferta.includes('[a confirmar')) ? a.oferta : '');
+  g('mecanica'); g('materiais'); g('responsavel'); g('segmento');
+  g('delegada'); g('heroi'); g('link'); g('notas');
+  document.getElementById('bf_autor').value = b.autor || localStorage.getItem('mkt_autor') || '';
+  bfStat();
+  document.getElementById('bfOverlay').classList.add('show');
+}
+function bfStat(){
+  const el = document.getElementById('bf_stat'); if(!bfAtual) return;
+  const falta = bfEmFalta(bfAtual);
+  if(!falta.length){ el.className='bfstat ok'; el.textContent='✅ Briefing completo — a ação está pronta para produzir.'; }
+  else { el.className='bfstat inc'; el.textContent='⚠️ Em falta: ' + falta.map(c=>BF_NOMES[c]).join(' · '); }
+}
+function fecharBriefing(){ document.getElementById('bfOverlay').classList.remove('show'); bfAtual=null; }
+
+async function guardarBriefing(){
+  if(!bfAtual) return;
+  const v = k => document.getElementById('bf_'+k).value.trim();
+  const dados = {oferta:v('oferta'), mecanica:v('mecanica'), materiais:v('materiais'),
+    responsavel:v('responsavel'), segmento:v('segmento'), delegada:v('delegada'),
+    heroi:v('heroi'), link:v('link'), notas:v('notas'), autor:v('autor')};
+  if(dados.autor) localStorage.setItem('mkt_autor', dados.autor);
+  const anterior = BRIEFINGS[bfAtual];
+  BRIEFINGS[bfAtual] = {...dados, _atualizado:new Date().toISOString(), _por:dados.autor};
+  bfStat();
+  if(!LIGADO){
+    alert('Guardado só neste ecrã — não há ligação ao servidor. Reconecta antes de fechar a página.');
+    fecharBriefing(); render(); return;
+  }
+  try{
+    await api('/briefing','POST',{acaoId:bfAtual, dados});
+    fecharBriefing(); render();
+  }catch(e){
+    if(anterior) BRIEFINGS[bfAtual]=anterior; else delete BRIEFINGS[bfAtual];
+    alert('Não foi possível gravar. Verifica a ligação e tenta outra vez.');
+    render();
+  }
+}
+document.getElementById('bfOverlay').addEventListener('click',e=>{if(e.target.id==='bfOverlay')fecharBriefing();});
+function fmtD(d){ return d.getDate()+' '+MESES[d.getMonth()]; }
+function hoje(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
+function diasAte(d){ return Math.round((d-hoje())/86400000); }
+
+/* ===== SCRIPTS (guiões de chamada) ===== */
+const SCRIPTS = [
+  { id:'followup', icon:'📞', titulo:'Follow-up 48h — a quem COMPROU',
+    obj:'Cuidar, não vender. Satisfação + dúvidas + reforço da rotina.',
+    quando:'2 dias após a ação, só a quem comprou.',
+    linhas:[
+      ['Abertura','Boa tarde, Sr(a). [nome]. Daqui é a [nome], da Farmácia Aroeira. Ligo-lhe porque esteve connosco no Dia [marca] e queria saber como está a correr — tem um minutinho?'],
+      ['1 · Satisfação','Está a gostar do/da [produto]? Correu tudo bem com a especialista?'],
+      ['2 · Dúvidas de uso','Tem alguma dúvida sobre como aplicar ou em que altura do dia usar? Às vezes há pequenos detalhes que fazem toda a diferença no resultado.'],
+      ['3 · Reforço da rotina','Lembre-se que estes produtos dão resultado a médio prazo — com uso regular nas próximas semanas vai começar a notar. Qualquer dúvida, estamos cá.'],
+      ['4 · Fecho','Foi só para saber se estava tudo bem. Obrigada por confiar em nós — qualquer coisa, é só passar pela farmácia. Boa tarde!'],
+    ],
+    notas:['Não atende → 1-2 tentativas, depois SMS.','Insatisfeito → ouvir, não defender; anotar e passar à DT.','Registar sempre: atendeu? satisfeito? dúvida?'] },
+  { id:'vip', icon:'⭐', titulo:'Chamada VIP — convite pré-evento',
+    obj:'Encher a agenda com as melhores clientes. Propor marcação, não perguntar "quer?".',
+    quando:'Véspera / manhã do evento, se houver vagas.',
+    linhas:[
+      ['Abertura','Boa tarde, Sr(a). [nome]. Daqui é a [nome], da Farmácia Aroeira.'],
+      ['Convite','Temos [amanhã/hoje] uma especialista da [marca] só para as nossas melhores clientes, com diagnóstico de pele gratuito e [oferta].'],
+      ['Fecho (propor marcação)','Queria reservar-lhe um horário — prefere de manhã ou de tarde?'],
+    ],
+    notas:['Propor marcação (manhã/tarde), não perguntar "quer vir?".','Lista: top clientes dermo (valor alto).','Registar quem marcou.'] },
+  { id:'recompra', icon:'🔁', titulo:'Lembrete de recompra — ~semana 6',
+    obj:'Fechar o ciclo: comprador de evento → cliente recorrente.',
+    quando:'~6 semanas após a compra (produto a acabar). SMS a todos + chamada aos VIP.',
+    linhas:[
+      ['Abertura','Boa tarde, Sr(a). [nome]. Daqui é a [nome], da Farmácia Aroeira.'],
+      ['Motivo','Estou a ligar porque a sua [gama/produto] deve estar a chegar ao fim, e queria saber se quer que reservemos reposição.'],
+      ['Cross / convite','Aproveito para dizer que vamos ter [próxima ação] — se quiser, guardo-lhe um lugar.'],
+      ['Fecho','Fico a aguardar. Qualquer coisa, é só passar pela farmácia. Boa tarde!'],
+    ],
+    notas:['SMS a todos os compradores; chamada só aos VIP.','Ligar antes de o produto acabar, não depois.','Aproveitar para convidar para a próxima ação de dermo.'] },
+  { id:'email-balcao', icon:'✉️', titulo:'Recolha de email ao balcão — ROTINA DIÁRIA',
+    obj:'Duplicar a base de email. Cada email vale €0 e abre a 49,5% — é o canal de maior retorno da farmácia.',
+    quando:'TODOS os dias, em todos os atendimentos. Não é campanha, é hábito. Meta: +500 até 30 set (≈8/dia).',
+    linhas:[
+      ['1 · Abrir a porta (serviço, não favor)','Podemos enviar-lhe a fatura por email?'],
+      ['2 · Ganhar o consentimento','E quer receber também as nossas campanhas? Avisamos quando houver descontos nas marcas que costuma levar.'],
+    ],
+    notas:['Registar SEMPRE o consentimento no Sifarma — email sem consentimento não se pode usar (e queima a reputação do domínio).',
+           'Não é pedir um favor, é oferecer um serviço. Por isso ninguém acha intrusivo.',
+           'É 1 clique. Não há desculpa de "dá trabalho".',
+           'KPI diário no email das 20h55. Kaizen: "quantos emails novos ontem?" — todos os dias.'] },
+  { id:'escoamento', icon:'📦', titulo:'Escoamento / monos — [placeholder]',
+    obj:'A definir quando montarmos a Camada 5 (gestão de stock/validades).',
+    quando:'Reativo: quando houver produtos em risco de validade.',
+    linhas:[['[a completar]','Script a escrever quando a Camada 5 estiver ativa.']],
+    notas:['Placeholder — não usar ainda.'] },
+];
+function renderScripts(){
+  let html='<div class="section-h">📞 Guiões de chamada — prontos a usar pela equipa</div>';
+  SCRIPTS.forEach(s=>{
+    const linhas=s.linhas.map(([lbl,txt])=>`<div class="sline"><div class="slbl">${lbl}</div><div class="stxt">"${txt}"</div></div>`).join('');
+    const notas=s.notas.map(n=>`<li>${n}</li>`).join('');
+    html+=`<div class="scard">
+      <div class="sc-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="sc-title">${s.icon} ${s.titulo}</div>
+        <div class="sc-toggle">▾</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-meta"><b>Objetivo:</b> ${s.obj}<br><b>Quando:</b> ${s.quando}</div>
+        <div class="slines">${linhas}</div>
+        <div class="sc-notas"><b>Notas:</b><ul>${notas}</ul></div>
+      </div>
+    </div>`;
+  });
+  return html;
+}
+
+/* ===== ESTADO ===== */
+let view='lista', selMonth=null;
+
+/* ===== HELPERS ===== */
+function monthOf(a){ return a.ini ? parseInt(a.ini.slice(5,7))-1 : null; }
+function fmtDate(a){
+  if(!a.ini) return {top:'Contínuo',bot:'sempre ativo'};
+  const d=new Date(a.ini+'T00:00'); const dd=d.getDate(); const mm=MESES[d.getMonth()];
+  let bot=a.horario||'';
+  if(a.fim && a.fim!==a.ini){ const d2=new Date(a.fim+'T00:00'); bot=`até ${d2.getDate()} ${MESES[d2.getMonth()]}`; }
+  return {top:`${dd} ${mm}`,bot};
+}
+function estadoClass(e){
+  e=(e||'').toLowerCase();
+  if(e.startsWith('ativ'))return'e-ativa';
+  if(e.startsWith('propos'))return'e-proposta';
+  if(e.startsWith('contin'))return'e-continuo';
+  if(e.startsWith('conclu'))return'e-concluida';
+  return'e-agendada';
+}
+
+/* ===== RENDER MONTH STRIP ===== */
+function renderStrip(){
+  const el=document.getElementById('months'); el.innerHTML='';
+  MESES.forEach((nm,i)=>{
+    const acts=ACOES.filter(a=>monthOf(a)===i);
+    const cams=[...new Set(acts.map(a=>a.camada))];
+    const dots=cams.map(c=>`<span class="dot" style="background:${CAMADAS[c].cor}"></span>`).join('');
+    const d=document.createElement('div');
+    d.className='m'+(selMonth===i?' on':'');
+    d.onclick=()=>{selMonth=selMonth===i?null:i;renderStrip();render();};
+    d.innerHTML=`<div class="nm">${nm}</div><div class="ct">${acts.length||''}</div><div class="dots">${dots}</div>`;
+    el.appendChild(d);
+  });
+}
+function clearMonth(){selMonth=null;renderStrip();render();}
+
+/* ===== LEGEND ===== */
+function renderLegend(){
+  document.getElementById('legend').innerHTML=Object.entries(CAMADAS)
+    .map(([k,v])=>`<span><span class="swatch" style="background:${v.cor}"></span>${k} · ${v.nome}</span>`).join('');
+}
+
+/* ===== FILTER ===== */
+function filtered(){
+  const f=document.getElementById('fFarm').value;
+  const c=document.getElementById('fCam').value;
+  const t=document.getElementById('fTxt').value.toLowerCase();
+  return ACOES.filter(a=>{
+    if(f && a.farmacia!==f) return false;
+    if(c!=='' && a.camada!=parseInt(c)) return false;
+    if(selMonth!==null && monthOf(a)!==selMonth) return false;
+    if(t){ const blob=(a.titulo+' '+(a.detalhe||'')+' '+(a.oferta||'')+' '+(a.notas||'')).toLowerCase(); if(!blob.includes(t)) return false; }
+    return true;
+  });
+}
+
+/* ===== CARD ===== */
+function card(a){
+  const dt=fmtDate(a); const cam=CAMADAS[a.camada];
+  const tags=[`<span class="tag" style="background:${cam.cor}">C${a.camada} · ${cam.nome}</span>`,
+    `<span class="tag tagline">${a.farmacia}</span>`];
+  if(a.tipo) tags.push(`<span class="tag tagline">Tipo ${a.tipo}</span>`);
+  let meta='';
+  if(a.oferta) meta+=`<div><span class="lbl">Oferta</span>${a.oferta}</div>`;
+  if(a.detalhe) meta+=`<div>${a.detalhe}</div>`;
+  if(a.ferramentas) meta+=`<div><span class="lbl">Canais</span>${a.ferramentas.join(' · ')}</div>`;
+  if(a.metrica) meta+=`<div><span class="lbl">Métrica</span>${a.metrica}</div>`;
+  let res='';
+  if(a.resultado){
+    const r=a.resultado;
+    const rows=[
+      ['Vendas (alvo)',r.vendas_alvo],['Clientes',r.clientes],['Diagnósticos',r.diagnosticos],
+      ['Conversão',r.conversao],['Email',r.email],['SMS',r.sms],['Marcações',r.marcacoes],
+      ['Custo',r.custo],['Dia global',r.dia_global]
+    ].filter(x=>x[1]).map(([k,v])=>`<div class="rrow"><span class="rk">${k}</span><span class="rv">${v}</span></div>`).join('');
+    res+=`<div class="resbox"><div class="resh">📊 Resultado</div>${rows}</div>`;
+  }
+  if(a.licoes){
+    res+=`<div class="licbox"><div class="resh">💡 Lições</div><ul>${a.licoes.map(l=>`<li>${l}</li>`).join('')}</ul></div>`;
+  }
+  const podeBf = a.ini && tarefasDe(a).length && a.estado!=='concluída' && a.estado!=='concluida';
+  return `<div class="card" style="border-left-color:${cam.cor}">
+    <div class="row1"><h3>${a.titulo}</h3><div class="when"><b>${dt.top}</b>${dt.bot||''}</div></div>
+    <div class="tags">${tags.join('')}${podeBf?bfBadge(a):''}</div>
+    <span class="estado ${estadoClass(a.estado)}">${a.estado}</span>
+    <div class="meta">${meta}</div>
+    ${podeBf?bfResumo(a):''}
+    ${res}
+  </div>`;
+}
+
+/* ===== PRODUÇÃO ===== */
+/* tarefas de produção de peças exigem briefing completo */
+function exigeBriefing(task){ return /pe[çc]as/i.test(task.t); }
+
+function taskRow(task, showAcao){
+  const dd=diasAte(task.data);
+  const bloqueada = exigeBriefing(task) && !isDone(task.key) && !bfCompleto(task.acao.id);
+  let cls='t-fut', badge=fmtD(task.data);
+  if(isDone(task.key)){ cls='t-done'; badge='✓ feito'; }
+  else if(dd<0){ cls='t-late'; badge='atrasada ('+fmtD(task.data)+')'; }
+  else if(dd===0){ cls='t-today'; badge='HOJE'; }
+  else if(dd<=3){ cls='t-soon'; badge=fmtD(task.data)+' · '+dd+'d'; }
+  const como = task.como ? `<div class="pcomo" id="c-${task.key}">${task.como}</div>` : '';
+  const info = task.como ? `<span class="pinfo" onclick="event.stopPropagation();document.getElementById('c-${task.key}').classList.toggle('show')" title="Como fazer">ⓘ</span>` : '';
+  let acao='';
+  if(showAcao && task.acao){
+    const cam=CAMADAS[task.acao.camada];
+    const d=task.acao.ini ? new Date(task.acao.ini+'T00:00') : null;
+    const quando=d ? (d.getDate()+' '+MESES[d.getMonth()]) : '';
+    acao=`<div class="pacaoTag" style="border-left-color:${cam.cor}"><b>${task.acao.titulo}</b><span>${task.acao.farmacia} · ${quando}</span></div>`;
+  }
+  if(bloqueada){
+    const falta = bfEmFalta(task.acao.id).map(c=>BF_NOMES[c]).join(' · ');
+    return `<div class="prow-wrap">${acao}<div class="prow ${cls} t-block" onclick="abrirBriefing('${task.acao.id}')" title="Briefing incompleto">
+      <span class="pchk">🔒</span>
+      <span class="ptxt">${task.t}</span>
+      ${info}
+      <span class="presp">${task.resp}</span>
+      <span class="pbadge">${badge}</span>
+    </div><div class="blockmsg">🔒 Bloqueada até o briefing estar completo — falta: ${falta}. <b>Clica para preencher.</b></div>${como}</div>`;
+  }
+  return `<div class="prow-wrap">${acao}<div class="prow ${cls}" onclick="toggleDone('${task.key}')">
+    <span class="pchk">${isDone(task.key)?'☑':'☐'}</span>
+    <span class="ptxt">${task.t}</span>
+    ${info}
+    <span class="presp">${task.resp}</span>
+    <span class="pbadge">${badge}</span>
+  </div>${como}</div>`;
+}
+function renderProd(){
+  const list=filtered().filter(a=>a.ini && tarefasDe(a).length);
+  // reunir todas as tarefas
+  let all=[];
+  list.forEach(a=>{ tarefasComData(a).forEach(t=>all.push(t)); });
+  // ESTA SEMANA / EM ATRASO: tarefas não feitas até +7 dias
+  const foco=all.filter(t=>!isDone(t.key) && diasAte(t.data)<=7).sort((x,y)=>x.data-y.data);
+  let html='';
+  html+=`<div class="prod-hero">
+    <div class="ph-num">${foco.length}</div>
+    <div class="ph-txt"><b>tarefas em foco</b><br>em atraso, hoje, ou nos próximos 7 dias</div>
+  </div>`;
+  if(foco.length){
+    html+=`<div class="section-h">🎯 Foco — esta semana</div><div class="ptable">${foco.map(t=>taskRow(t,true)).join('')}</div>`;
+  } else {
+    html+=`<div class="empty">Sem tarefas urgentes. 👌 Tudo em dia ou sem ações próximas.</div>`;
+  }
+  // POR AÇÃO (próximas, ordenadas por data)
+  const dated=list.filter(a=>a.ini).sort((x,y)=>x.ini.localeCompare(y.ini));
+  const semBf = dated.filter(a=>!bfCompleto(a.id));
+  if(semBf.length){
+    html+=`<div class="section-h">📝 Briefings por completar</div>
+      <div class="ptable">`+semBf.map(a=>{
+        const falta=bfEmFalta(a.id).map(c=>BF_NOMES[c]).join(' · ');
+        const d=new Date(a.ini+'T00:00');
+        return `<div class="prow t-fut" onclick="abrirBriefing('${a.id}')">
+          <span class="pchk">📝</span>
+          <span class="ptxt">${a.titulo} — falta: ${falta}</span>
+          <span class="pbadge">${fmtD(d)}</span>
+        </div>`;
+      }).join('')+`</div>`;
+  }
+  html+=`<div class="section-h">📋 Checklist por ação</div>`;
+  dated.forEach(a=>{
+    const ts=tarefasComData(a);
+    const done=ts.filter(t=>isDone(t.key)).length;
+    const cam=CAMADAS[a.camada]; const dt=fmtDate(a);
+    html+=`<div class="pacao" style="border-left-color:${cam.cor}">
+      <div class="pa-head">
+        <div><b>${a.titulo}</b> <span class="pa-when">${dt.top}</span> ${bfBadge(a)}</div>
+        <div class="pa-prog">${done}/${ts.length}</div>
+      </div>
+      <div class="ptable">${ts.map(t=>taskRow(t,false)).join('')}</div>
+    </div>`;
+  });
+  return html;
+}
+
+/* ===== RENDER ===== */
+function render(){
+  const c=document.getElementById('content');
+  const list=filtered();
+  if(view==='prod'){
+    c.innerHTML=renderProd();
+    return;
+  }
+  if(view==='scripts'){
+    c.innerHTML=renderScripts();
+    return;
+  }
+  if(view==='lista'){
+    if(!list.length){ c.innerHTML='<div class="empty">Sem ações para estes filtros.</div>'; return; }
+    // separate continuous (camada 0) from dated
+    const cont=list.filter(a=>!a.ini), dated=list.filter(a=>a.ini).sort((x,y)=>x.ini.localeCompare(y.ini));
+    let html='';
+    if(dated.length) html+=`<div class="grid">${dated.map(card).join('')}</div>`;
+    if(cont.length) html+=`<div class="section-h">Secção 0 · Automatismos (sempre ativos)</div><div class="grid">${cont.map(card).join('')}</div>`;
+    c.innerHTML=html;
+  } else {
+    // ANO view: group by month
+    let html='';
+    for(let i=0;i<12;i++){
+      const acts=list.filter(a=>monthOf(a)===i);
+      if(!acts.length) continue;
+      html+=`<div class="section-h" style="--x:0">${MESES[i]} ${ANO}</div><div class="grid">${acts.map(card).join('')}</div>`;
+    }
+    const cont=list.filter(a=>!a.ini);
+    if(cont.length) html+=`<div class="section-h">Automatismos (sempre ativos)</div><div class="grid">${cont.map(card).join('')}</div>`;
+    c.innerHTML=html||'<div class="empty">Sem ações para estes filtros.</div>';
+  }
+}
+function setView(v){
+  view=v;
+  document.getElementById('tAno').classList.toggle('on',v==='ano');
+  document.getElementById('tLista').classList.toggle('on',v==='lista');
+  document.getElementById('tProd').classList.toggle('on',v==='prod');
+  document.getElementById('tScripts').classList.toggle('on',v==='scripts');
+  render();
+}
+
+/* ===== MODAL ===== */
+function openModal(){document.getElementById('overlay').classList.add('show');}
+function closeModal(){document.getElementById('overlay').classList.remove('show');document.getElementById('output').classList.remove('show');document.getElementById('hint').style.display='none';}
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal();});
+function genEntry(){
+  const g=id=>document.getElementById(id).value.trim();
+  const fer=g('m_fer')?g('m_fer').split(',').map(s=>s.trim()):[];
+  const obj={
+    id:(g('m_tit').toLowerCase().replace(/[^a-z0-9]+/g,'-')||'acao')+'-'+Date.now().toString().slice(-4),
+    titulo:g('m_tit'), farmacia:g('m_farm'), camada:parseInt(g('m_cam')),
+    ini:g('m_ini')||null, fim:g('m_fim')||g('m_ini')||null,
+    tipo:g('m_tipo')||undefined, estado:g('m_est'),
+    oferta:g('m_of')||undefined, detalhe:'', ferramentas:fer,
+    metrica:g('m_met')||undefined, notas:g('m_not')||undefined
+  };
+  Object.keys(obj).forEach(k=>obj[k]===undefined&&delete obj[k]);
+  const out=document.getElementById('output');
+  out.textContent=JSON.stringify(obj,null,2)+',';
+  out.classList.add('show');
+  document.getElementById('hint').style.display='block';
+}
+
+/* ===== INIT ===== */
+renderStrip(); renderLegend(); carregarEstado();
+</script>
+</body>
+</html>
