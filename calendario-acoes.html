@@ -170,6 +170,8 @@
   .bf-ok{background:#EDF4EF;color:#2F5C44;border-color:#CBE0D2;}
   .bf-inc{background:#FCF3E4;color:#8A6A25;border-color:#EAD9B6;}
   .bf-vazio{background:#FBEEEA;color:#8A4B36;border-color:#E3C4B9;}
+  .tbadge{background:#EEF1F5;color:#3E5871;border-color:#D6DEE7;}
+  .tbadge.t-full{background:#EDF4EF;color:#2F5C44;border-color:#CBE0D2;}
   .bfbadge:hover{filter:brightness(.97);}
 
   .bfbox{margin-top:12px;border:1px solid var(--line2);border-radius:11px;background:#FBFAF6;padding:11px 13px;}
@@ -790,10 +792,16 @@ function bfResumo(a){
 /* ===== DOSSIER DA AÇÃO ===== */
 let dosAtual = null;
 
-function abrirDossier(id){
+function abrirDossier(id, irParaTarefas){
   dosAtual = id;
   document.getElementById('dosOverlay').classList.add('show');
   renderDossier();
+  if(irParaTarefas){
+    setTimeout(()=>{
+      const alvo = document.getElementById('dos-tarefas');
+      if(alvo) alvo.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 60);
+  }
 }
 function fecharDossier(){
   document.getElementById('dosOverlay').classList.remove('show'); dosAtual=null;
@@ -836,7 +844,7 @@ function renderDossier(){
   if(tem){
     const ts=tarefasComData(a);
     const feitas=ts.filter(t=>isDone(t.key)).length;
-    h+=`<div class="dos-sec">Produção · checklist</div>
+    h+=`<div class="dos-sec" id="dos-tarefas">Produção · checklist</div>
         <div class="dos-prog">${feitas} de ${ts.length} tarefas feitas${feitas===ts.length?' — completa 🎉':''}</div>
         <div class="ptable">${ts.map(t=>taskRow(t,false,'d-')).join('')}</div>`;
   }
@@ -1063,10 +1071,11 @@ function card(a){
   const podeBf = a.ini && tarefasDe(a).length && a.estado!=='concluída' && a.estado!=='concluida';
   const nT = a.ini ? tarefasComData(a).length : 0;
   const nF = a.ini ? tarefasComData(a).filter(t=>isDone(t.key)).length : 0;
-  const hint = nT ? `<div class="cardhint">📋 ${nF}/${nT} tarefas · clica para abrir a produção</div>` : '';
+  const tBtn = nT ? `<span class="bfbadge tbadge${nF===nT?' t-full':''}" onclick="event.stopPropagation();abrirDossier('${a.id}',true)">📋 Tarefas ${nF}/${nT}</span>` : '';
+  const hint = '';
   return `<div class="card" style="border-left-color:${cam.cor}" onclick="abrirDossier('${a.id}')">
     <div class="row1"><h3>${a.titulo}</h3><div class="when"><b>${dt.top}</b>${dt.bot||''}</div></div>
-    <div class="tags">${tags.join('')}${podeBf?bfBadge(a):''}</div>
+    <div class="tags">${tags.join('')}${tBtn}${podeBf?bfBadge(a):''}</div>
     <span class="estado ${estadoClass(a.estado)}">${a.estado}</span>
     <div class="meta">${meta}</div>
     ${podeBf?bfResumo(a):''}
