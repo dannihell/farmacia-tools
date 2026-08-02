@@ -2,110 +2,126 @@
   "farmacia": "Aroeira",
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
-  "data": "2026-08-01",
-  "gerado_em": "2026-08-01T23:59:06",
+  "data": "2026-08-02",
+  "gerado_em": "2026-08-02T21:02:08",
   "estado": "aguarda_tpas",
   "sifarma": {
-    "total_vendas_dinheiro": 3322.89,
+    "total_vendas_dinheiro": 3901.42,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
-      "numerario_declarado": 187.83,
-      "cartao_declarado": 3135.06,
+      "numerario_declarado": 198.46,
+      "cartao_declarado": 3702.96,
       "outros_declarado": 0.0,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 92,
-          "valor": 3135.06
+          "n": 95,
+          "valor": 3702.96
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 159,
-          "valor": 187.83
+          "n": 156,
+          "valor": 198.46
         }
       ],
       "cartao_por_posto": [
         {
+          "posto": "003",
+          "n": 30,
+          "valor": 1894.56
+        },
+        {
           "posto": "002",
-          "n": 39,
-          "valor": 1293.93
+          "n": 33,
+          "valor": 951.9
         },
         {
           "posto": "005",
-          "n": 22,
-          "valor": 901.72
-        },
-        {
-          "posto": "003",
-          "n": 24,
-          "valor": 745.05
+          "n": 25,
+          "valor": 674.96
         },
         {
           "posto": "030",
           "n": 7,
-          "valor": 194.36
+          "valor": 181.54
         }
       ]
     }
   },
   "cashlogy": {
-    "apuro": 187.83,
-    "liquido": 187.83,
+    "apuro": 198.46,
+    "liquido": 198.46,
     "fundo_na_maquina": 400.0,
-    "cofre": 185.0,
-    "notas_no_cofre": 10,
+    "cofre": 190.0,
+    "notas_no_cofre": 8,
     "dispensavel": 400.0,
-    "equipamento_total": 585.0,
-    "vendido": 223.4,
-    "troco_devolvido": 35.57,
+    "equipamento_total": 590.0,
+    "vendido": 251.69,
+    "troco_devolvido": 53.23,
     "por_operador": [
       {
         "operador": "DUARTE",
-        "posto": "3",
-        "atendimentos": 3,
-        "numerario": 126.6,
-        "troco": 0.0,
-        "liquido": 126.6
-      },
-      {
-        "operador": "DUARTE",
         "posto": "5",
-        "atendimentos": 10,
-        "numerario": 77.34,
-        "troco": 2.25,
-        "liquido": 75.09
+        "atendimentos": 3,
+        "numerario": 96.7,
+        "troco": 0.0,
+        "liquido": 96.7
       },
       {
         "operador": "DUARTE",
+        "posto": "3",
+        "atendimentos": 7,
+        "numerario": 62.64,
+        "troco": 32.96,
+        "liquido": 29.68
+      },
+      {
+        "operador": "CLAUDIAL",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 26.4,
+        "troco": 0.0,
+        "liquido": 26.4
+      },
+      {
+        "operador": "CLAUDIAL",
         "posto": "2",
-        "atendimentos": 1,
-        "numerario": 3.46,
-        "troco": 0.0,
-        "liquido": 3.46
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "10",
-        "atendimentos": 1,
-        "numerario": 2.74,
-        "troco": 0.0,
-        "liquido": 2.74
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "010",
-        "atendimentos": 0,
-        "numerario": 0.0,
-        "troco": 2.74,
-        "liquido": -2.74
+        "atendimentos": 2,
+        "numerario": 36.4,
+        "troco": 19.8,
+        "liquido": 16.6
       },
       {
         "operador": "mafaldap",
         "posto": "2",
-        "atendimentos": 4,
-        "numerario": 13.26,
-        "troco": 30.58,
-        "liquido": -17.32
+        "atendimentos": 5,
+        "numerario": 16.66,
+        "troco": 0.47,
+        "liquido": 16.19
+      },
+      {
+        "operador": "CLAUDIAL",
+        "posto": "5",
+        "atendimentos": 1,
+        "numerario": 8.59,
+        "troco": 0.0,
+        "liquido": 8.59
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 3.9,
+        "troco": 0.0,
+        "liquido": 3.9
+      },
+      {
+        "operador": "mafaldap",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 0.4,
+        "troco": 0.0,
+        "liquido": 0.4
       }
     ]
   },
@@ -123,29 +139,29 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 3322.89,
+    "total_sifarma": 3901.42,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
-    "numerario_evidenciado": 187.83,
+    "numerario_evidenciado": 198.46,
     "base_numerario": "liquido (sem contagem ou sem dia anterior)",
-    "liquido_numerario": 187.83
+    "liquido_numerario": 198.46
   },
   "verificacao_fisica": {
     "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
-    "liquido": 187.83,
+    "liquido": 198.46,
     "apuro_contado": null,
     "fundo_anterior": 400.0,
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
-    "cofre_anterior": 0.0,
-    "cofre_atual": 185.0,
-    "delta_cofre": 185.0,
+    "cofre_anterior": 185.0,
+    "cofre_atual": 190.0,
+    "delta_cofre": 5.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
   },
   "tesouraria": {
-    "apuro_maquina": 187.83,
+    "apuro_maquina": 198.46,
     "apuro_contado": null,
     "fundo_na_maquina": 400.0,
     "desvio_deposito": null,
@@ -153,7 +169,8 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "COFRE COM 185.00 € (10 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 190.00 € (8 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
@@ -163,7 +180,7 @@
       "id": "01123224",
       "posto": "002",
       "talao_bruto": null,
-      "sifarma_cartao": 1293.93,
+      "sifarma_cartao": 951.9,
       "delta": null
     },
     {
@@ -171,7 +188,7 @@
       "id": "00983092",
       "posto": "003",
       "talao_bruto": null,
-      "sifarma_cartao": 745.05,
+      "sifarma_cartao": 1894.56,
       "delta": null
     },
     {
@@ -179,7 +196,7 @@
       "id": "01123227",
       "posto": "030",
       "talao_bruto": null,
-      "sifarma_cartao": 194.36,
+      "sifarma_cartao": 181.54,
       "delta": null
     },
     {
@@ -187,14 +204,14 @@
       "id": "01123228",
       "posto": "005",
       "talao_bruto": null,
-      "sifarma_cartao": 901.72,
+      "sifarma_cartao": 674.96,
       "delta": null
     }
   ],
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
-    "cashlogy_liquido": 187.83,
-    "sifarma_numerario_declarado": 187.83,
+    "cashlogy_liquido": 198.46,
+    "sifarma_numerario_declarado": 198.46,
     "diferenca": 0.0
   }
 }
