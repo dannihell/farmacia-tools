@@ -3,24 +3,24 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-08-08",
-  "gerado_em": "2026-08-08T21:00:04",
+  "gerado_em": "2026-08-08T23:59:04",
   "estado": "aguarda_tpas",
   "sifarma": {
-    "total_vendas_dinheiro": 3612.03,
+    "total_vendas_dinheiro": 3618.98,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": 304.47,
-      "cartao_declarado": 3280.6,
+      "cartao_declarado": 3287.55,
       "outros_declarado": 26.96,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 103,
-          "valor": 3280.6
+          "n": 104,
+          "valor": 3287.55
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 157,
+          "n": 158,
           "valor": 304.47
         },
         {
@@ -47,8 +47,8 @@
         },
         {
           "posto": "030",
-          "n": 4,
-          "valor": 82.16
+          "n": 5,
+          "valor": 89.11
         }
       ]
     }
@@ -144,7 +144,7 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 3612.03,
+    "total_sifarma": 3618.98,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
     "numerario_evidenciado": 331.43,
@@ -200,7 +200,7 @@
       "id": "01123227",
       "posto": "030",
       "talao_bruto": null,
-      "sifarma_cartao": 82.16,
+      "sifarma_cartao": 89.11,
       "delta": null
     },
     {
