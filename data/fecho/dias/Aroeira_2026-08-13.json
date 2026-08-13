@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-08-13",
-  "gerado_em": "2026-08-13T21:03:04",
+  "gerado_em": "2026-08-13T23:59:05",
   "estado": "aguarda_tpas",
   "sifarma": {
     "total_vendas_dinheiro": 3992.76,
@@ -57,10 +57,10 @@
     "apuro": 245.4,
     "liquido": 245.4,
     "fundo_na_maquina": 400.0,
-    "cofre": 245.0,
-    "notas_no_cofre": 12,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 645.0,
+    "equipamento_total": 400.0,
     "vendido": 306.69,
     "troco_devolvido": 61.29,
     "por_operador": [
@@ -183,8 +183,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 665.0,
-    "cofre_atual": 245.0,
-    "delta_cofre": -420.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": -665.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -199,7 +199,6 @@
   },
   "avisos": [
     "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 245.00 € (12 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
