@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-08-14T22:30:02",
+  "gerado_em": "2026-08-15T22:30:02",
   "ano": 2026,
   "farmacias": {
     "aroeira": {
@@ -11,27 +11,27 @@
         "rent_gen": 4.45
       },
       "kpis": {
-        "vendas_otc": 127704.4,
-        "vendas_saude": 855665.15,
-        "margem_bruta": 341770.65,
-        "atendimentos": 30827
+        "vendas_otc": 128497.38,
+        "vendas_saude": 858342.94,
+        "margem_bruta": 343285.2,
+        "atendimentos": 30974
       },
       "sauda_programa": {
-        "valor_atribuido": 14682.88,
-        "rebat_pontos": 1104.85,
+        "valor_atribuido": 14746.04,
+        "rebat_pontos": 1106.08,
         "rebat_vales_sauda": 4988.57,
         "rebat_vales_ind": 509.35,
-        "saldo_aprox": 8080.12,
-        "data_sync": "13/08/2026"
+        "saldo_aprox": 8142.05,
+        "data_sync": "14/08/2026"
       },
       "dermo": {
         "Isdin": {
-          "vendas": 12560.05,
-          "margem": 4712.95,
+          "vendas": 12641.87,
+          "margem": 4745.46,
           "margem_ant": 5216.62,
-          "cresc": -9.7,
-          "atend": 548,
-          "ticket": 22.92,
+          "cresc": -9.0,
+          "atend": 551,
+          "ticket": 22.94,
           "mensal": {
             "1": 270.25,
             "2": 287.49,
@@ -40,16 +40,16 @@
             "5": 691.26,
             "6": 846.62,
             "7": 872.68,
-            "8": 425.48
+            "8": 457.99
           }
         },
         "SVR": {
-          "vendas": 7674.6,
-          "margem": 3175.54,
+          "vendas": 7685.9,
+          "margem": 3180.66,
           "margem_ant": 4292.96,
-          "cresc": -26.0,
-          "atend": 436,
-          "ticket": 17.6,
+          "cresc": -25.9,
+          "atend": 437,
+          "ticket": 17.59,
           "mensal": {
             "1": 233.84,
             "2": 279.02,
@@ -58,7 +58,7 @@
             "5": 543.39,
             "6": 416.25,
             "7": 643.04,
-            "8": 223.13
+            "8": 228.25
           }
         },
         "Bioderma": {
@@ -80,12 +80,12 @@
           }
         },
         "Avène": {
-          "vendas": 3794.29,
-          "margem": 1182.62,
+          "vendas": 3829.55,
+          "margem": 1192.63,
           "margem_ant": 2556.72,
-          "cresc": -53.7,
-          "atend": 246,
-          "ticket": 15.42,
+          "cresc": -53.4,
+          "atend": 249,
+          "ticket": 15.38,
           "mensal": {
             "1": 86.46,
             "2": 105.41,
@@ -94,7 +94,7 @@
             "5": 196.24,
             "6": 216.82,
             "7": 210.85,
-            "8": 85.99
+            "8": 96.01
           }
         },
         "Nuxe": {
@@ -2780,13 +2780,13 @@
         {
           "cod": 130,
           "nome": "MATILDE SOARES",
-          "vendas_ytd": 132584.0,
-          "margem_ytd": 36628.0,
-          "atend_ytd": 3400,
-          "ticket_medio": 39.0,
-          "margem_atend": 10.77,
-          "cresc_vs_ant": -29.8,
-          "rent_genericos": 4.51,
+          "vendas_ytd": 135066.18,
+          "margem_ytd": 37334.25,
+          "atend_ytd": 3471,
+          "ticket_medio": 38.91,
+          "margem_atend": 10.76,
+          "cresc_vs_ant": -28.5,
+          "rent_genericos": 4.52,
           "taxa_sauda": 54.8,
           "mensal": [
             {
@@ -2847,21 +2847,21 @@
             },
             {
               "mes": 8,
-              "vendas": 7613.24,
-              "margem": 2182.76,
-              "atend": 211,
-              "ticket": 36.08,
-              "margem_atend": 10.34
+              "vendas": 10095.42,
+              "margem": 2889.01,
+              "atend": 282,
+              "ticket": 35.8,
+              "margem_atend": 10.24
             }
           ],
           "mix": {
             "Medicamento sujeito a receita médica": 57.7,
-            "Medicamento não sujeito a receita médica": 13.8,
-            "Dispositivos e acessórios": 8.3,
-            "Produtos Cosméticos": 7.7,
+            "Medicamento não sujeito a receita médica": 13.9,
+            "Dispositivos e acessórios": 8.4,
+            "Produtos Cosméticos": 7.6,
             "Suplementos Alimentares": 6.0,
             "Produtos de Higiene": 2.8,
-            "Outros": 2.1,
+            "Outros": 2.0,
             "Dietética": 1.1,
             "Puericultura": 0.3,
             "Medicamentos e Produtos de Veterinária": 0.2
@@ -2896,8 +2896,8 @@
               "rent_media": 4.64
             },
             "8": {
-              "unidades": 124,
-              "rent_media": 4.17
+              "unidades": 165,
+              "rent_media": 4.48
             }
           },
           "sauda_mensal": {
@@ -2908,7 +2908,7 @@
             "5": 169,
             "6": 268,
             "7": 347,
-            "8": 98
+            "8": 136
           },
           "dermo": {
             "SVR": {
@@ -2927,10 +2927,10 @@
               }
             },
             "Avène": {
-              "vendas": 485.41,
-              "margem": 139.03,
-              "atend": 30,
-              "ticket": 16.18,
+              "vendas": 504.03,
+              "margem": 146.03,
+              "atend": 31,
+              "ticket": 16.26,
               "mensal": {
                 "1": 18.72,
                 "3": 3.27,
@@ -2938,7 +2938,7 @@
                 "5": 24.43,
                 "6": 25.08,
                 "7": 49.24,
-                "8": 3.88
+                "8": 10.88
               }
             },
             "Ducray": {
@@ -3079,10 +3079,10 @@
               }
             },
             "Isdin": {
-              "vendas": 2418.93,
-              "margem": 956.13,
-              "atend": 100,
-              "ticket": 24.19,
+              "vendas": 2500.76,
+              "margem": 988.63,
+              "atend": 103,
+              "ticket": 24.28,
               "mensal": {
                 "1": 66.46,
                 "2": 28.0,
@@ -3091,7 +3091,7 @@
                 "5": 131.31,
                 "6": 100.84,
                 "7": 223.38,
-                "8": 90.84
+                "8": 123.35
               }
             },
             "Isdinceutics": {
@@ -3131,14 +3131,14 @@
         {
           "cod": 142,
           "nome": "Mafalda Pais",
-          "vendas_ytd": 10439.49,
-          "margem_ytd": 2874.3,
-          "atend_ytd": 281,
-          "ticket_medio": 37.15,
-          "margem_atend": 10.23,
+          "vendas_ytd": 12894.47,
+          "margem_ytd": 3632.84,
+          "atend_ytd": 353,
+          "ticket_medio": 36.53,
+          "margem_atend": 10.29,
           "cresc_vs_ant": null,
-          "rent_genericos": 3.97,
-          "taxa_sauda": 49.5,
+          "rent_genericos": 3.88,
+          "taxa_sauda": 49.6,
           "mensal": [
             {
               "mes": 1,
@@ -3198,24 +3198,24 @@
             },
             {
               "mes": 8,
-              "vendas": 8065.65,
-              "margem": 2204.97,
-              "atend": 225,
-              "ticket": 35.85,
-              "margem_atend": 9.8
+              "vendas": 10520.63,
+              "margem": 2963.51,
+              "atend": 297,
+              "ticket": 35.42,
+              "margem_atend": 9.98
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 65.8,
-            "Medicamento não sujeito a receita médica": 14.2,
-            "Suplementos Alimentares": 5.9,
-            "Dispositivos e acessórios": 5.4,
-            "Produtos Cosméticos": 4.3,
-            "Dietética": 1.3,
-            "Produtos de Higiene": 1.3,
+            "Medicamento sujeito a receita médica": 61.2,
+            "Medicamento não sujeito a receita médica": 15.7,
+            "Dispositivos e acessórios": 8.4,
+            "Suplementos Alimentares": 6.0,
+            "Produtos Cosméticos": 3.8,
+            "Dietética": 1.8,
+            "Produtos de Higiene": 1.2,
             "Outros": 1.0,
-            "Puericultura": 0.5,
-            "Medicamentos e Produtos de Veterinária": 0.1
+            "Medicamentos e Produtos de Veterinária": 0.5,
+            "Puericultura": 0.4
           },
           "genericos_mensal": {
             "7": {
@@ -3223,13 +3223,13 @@
               "rent_media": 4.55
             },
             "8": {
-              "unidades": 131,
-              "rent_media": 3.79
+              "unidades": 174,
+              "rent_media": 3.72
             }
           },
           "sauda_mensal": {
             "7": 27,
-            "8": 112
+            "8": 148
           },
           "dermo": {
             "SVR": {
@@ -3243,12 +3243,12 @@
               }
             },
             "Avène": {
-              "vendas": 19.84,
-              "margem": 6.69,
-              "atend": 1,
-              "ticket": 19.84,
+              "vendas": 21.43,
+              "margem": 4.58,
+              "atend": 2,
+              "ticket": 10.71,
               "mensal": {
-                "8": 6.69
+                "8": 4.58
               }
             },
             "Ducray": {
@@ -3806,27 +3806,27 @@
         "rent_gen": 4.45
       },
       "kpis": {
-        "vendas_otc": 113206.96,
-        "vendas_saude": 642617.44,
-        "margem_bruta": 306267.9,
-        "atendimentos": 26024
+        "vendas_otc": 114010.46,
+        "vendas_saude": 645212.9,
+        "margem_bruta": 307667.18,
+        "atendimentos": 26178
       },
       "sauda_programa": {
-        "valor_atribuido": 10827.08,
-        "rebat_pontos": 5510.09,
+        "valor_atribuido": 10860.22,
+        "rebat_pontos": 5515.63,
         "rebat_vales_sauda": 2154.0,
         "rebat_vales_ind": 322.76,
-        "saldo_aprox": 2840.22,
-        "data_sync": "13/08/2026"
+        "saldo_aprox": 2867.83,
+        "data_sync": "14/08/2026"
       },
       "dermo": {
         "Bioderma": {
-          "vendas": 4333.21,
-          "margem": 1446.61,
+          "vendas": 4349.43,
+          "margem": 1452.23,
           "margem_ant": 2410.58,
-          "cresc": -40.0,
-          "atend": 230,
-          "ticket": 18.84,
+          "cresc": -39.8,
+          "atend": 231,
+          "ticket": 18.83,
           "mensal": {
             "1": 204.07,
             "2": 172.11,
@@ -3835,16 +3835,16 @@
             "5": 184.06,
             "6": 225.9,
             "7": 174.31,
-            "8": 116.72
+            "8": 122.34
           }
         },
         "Eucerin": {
-          "vendas": 2892.52,
-          "margem": 1304.25,
+          "vendas": 2922.14,
+          "margem": 1309.92,
           "margem_ant": 2683.17,
-          "cresc": -51.4,
-          "atend": 137,
-          "ticket": 21.11,
+          "cresc": -51.2,
+          "atend": 139,
+          "ticket": 21.02,
           "mensal": {
             "1": 106.97,
             "2": 207.73,
@@ -3853,15 +3853,15 @@
             "5": 121.8,
             "6": 156.87,
             "7": 173.61,
-            "8": 111.3
+            "8": 116.98
           }
         },
         "Avène": {
-          "vendas": 2427.57,
-          "margem": 918.68,
+          "vendas": 2445.67,
+          "margem": 927.18,
           "margem_ant": 1108.8,
-          "cresc": -17.1,
-          "atend": 141,
+          "cresc": -16.4,
+          "atend": 142,
           "ticket": 17.22,
           "mensal": {
             "1": 72.42,
@@ -3871,7 +3871,7 @@
             "5": 190.37,
             "6": 87.59,
             "7": 180.77,
-            "8": 43.78
+            "8": 52.28
           }
         },
         "Ducray": {
@@ -4068,14 +4068,14 @@
         {
           "cod": 41,
           "nome": "ANABELA",
-          "vendas_ytd": 150097.16,
-          "margem_ytd": 50684.75,
-          "atend_ytd": 4747,
-          "ticket_medio": 31.62,
+          "vendas_ytd": 151338.16,
+          "margem_ytd": 51137.15,
+          "atend_ytd": 4788,
+          "ticket_medio": 31.61,
           "margem_atend": 10.68,
-          "cresc_vs_ant": -0.8,
+          "cresc_vs_ant": -0.0,
           "rent_genericos": 4.78,
-          "taxa_sauda": 63.0,
+          "taxa_sauda": 62.8,
           "mensal": [
             {
               "mes": 1,
@@ -4135,11 +4135,11 @@
             },
             {
               "mes": 8,
-              "vendas": 4075.68,
-              "margem": 1337.8,
-              "atend": 111,
-              "ticket": 36.72,
-              "margem_atend": 12.05
+              "vendas": 5316.68,
+              "margem": 1790.2,
+              "atend": 152,
+              "ticket": 34.98,
+              "margem_atend": 11.78
             }
           ],
           "mix": {
@@ -4184,8 +4184,8 @@
               "rent_media": 4.41
             },
             "8": {
-              "unidades": 117,
-              "rent_media": 5.59
+              "unidades": 166,
+              "rent_media": 5.28
             }
           },
           "sauda_mensal": {
@@ -4196,7 +4196,7 @@
             "5": 379,
             "6": 470,
             "7": 253,
-            "8": 66
+            "8": 83
           },
           "dermo": {
             "SVR": {
@@ -4277,10 +4277,10 @@
               }
             },
             "Bioderma": {
-              "vendas": 677.21,
-              "margem": 230.04,
-              "atend": 37,
-              "ticket": 18.3,
+              "vendas": 693.43,
+              "margem": 235.66,
+              "atend": 38,
+              "ticket": 18.25,
               "mensal": {
                 "1": 40.08,
                 "2": 27.12,
@@ -4289,7 +4289,7 @@
                 "5": 26.04,
                 "6": 16.21,
                 "7": 25.77,
-                "8": 2.8
+                "8": 8.42
               }
             },
             "Isdin": {
@@ -4319,14 +4319,14 @@
         {
           "cod": 64,
           "nome": "Gonçalo",
-          "vendas_ytd": 185575.76,
-          "margem_ytd": 63739.64,
-          "atend_ytd": 5344,
-          "ticket_medio": 34.73,
-          "margem_atend": 11.93,
+          "vendas_ytd": 185691.64,
+          "margem_ytd": 63789.55,
+          "atend_ytd": 5351,
+          "ticket_medio": 34.7,
+          "margem_atend": 11.92,
           "cresc_vs_ant": -17.7,
           "rent_genericos": 4.94,
-          "taxa_sauda": 61.2,
+          "taxa_sauda": 61.1,
           "mensal": [
             {
               "mes": 1,
@@ -4386,11 +4386,11 @@
             },
             {
               "mes": 8,
-              "vendas": 16065.29,
-              "margem": 5428.33,
-              "atend": 399,
-              "ticket": 40.26,
-              "margem_atend": 13.6
+              "vendas": 16181.17,
+              "margem": 5478.24,
+              "atend": 406,
+              "ticket": 39.86,
+              "margem_atend": 13.49
             }
           ],
           "mix": {
@@ -4435,8 +4435,8 @@
               "rent_media": 5.07
             },
             "8": {
-              "unidades": 438,
-              "rent_media": 5.1
+              "unidades": 439,
+              "rent_media": 5.09
             }
           },
           "sauda_mensal": {
@@ -4583,14 +4583,14 @@
         {
           "cod": 82,
           "nome": "Marcelo Araújo",
-          "vendas_ytd": 188884.66,
-          "margem_ytd": 63308.5,
-          "atend_ytd": 5513,
-          "ticket_medio": 34.26,
-          "margem_atend": 11.48,
+          "vendas_ytd": 189611.39,
+          "margem_ytd": 63583.73,
+          "atend_ytd": 5551,
+          "ticket_medio": 34.16,
+          "margem_atend": 11.45,
           "cresc_vs_ant": null,
           "rent_genericos": 4.98,
-          "taxa_sauda": 61.3,
+          "taxa_sauda": 61.2,
           "mensal": [
             {
               "mes": 1,
@@ -4650,21 +4650,21 @@
             },
             {
               "mes": 8,
-              "vendas": 10809.52,
-              "margem": 3779.82,
-              "atend": 350,
-              "ticket": 30.88,
-              "margem_atend": 10.8
+              "vendas": 11536.25,
+              "margem": 4055.05,
+              "atend": 388,
+              "ticket": 29.73,
+              "margem_atend": 10.45
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 69.0,
+            "Medicamento sujeito a receita médica": 68.9,
             "Medicamento não sujeito a receita médica": 15.3,
             "Dispositivos e acessórios": 7.1,
             "Suplementos Alimentares": 3.8,
             "Produtos Cosméticos": 2.3,
             "Produtos de Higiene": 1.2,
-            "Outros": 0.5,
+            "Outros": 0.6,
             "Dietética": 0.4,
             "Puericultura": 0.3,
             "Medicamentos e Produtos de Veterinária": 0.0
@@ -4699,8 +4699,8 @@
               "rent_media": 4.74
             },
             "8": {
-              "unidades": 276,
-              "rent_media": 5.39
+              "unidades": 292,
+              "rent_media": 5.42
             }
           },
           "sauda_mensal": {
@@ -4711,7 +4711,7 @@
             "5": 538,
             "6": 371,
             "7": 481,
-            "8": 205
+            "8": 218
           },
           "dermo": {
             "Avène": {
@@ -4774,10 +4774,10 @@
               }
             },
             "Eucerin": {
-              "vendas": 638.52,
-              "margem": 325.2,
-              "atend": 28,
-              "ticket": 22.8,
+              "vendas": 657.22,
+              "margem": 327.87,
+              "atend": 29,
+              "ticket": 22.66,
               "mensal": {
                 "1": 12.94,
                 "2": 52.1,
@@ -4786,7 +4786,7 @@
                 "5": 17.8,
                 "6": 79.53,
                 "7": 25.05,
-                "8": 33.66
+                "8": 36.33
               }
             },
             "Bioderma": {
@@ -4832,14 +4832,14 @@
         {
           "cod": 46,
           "nome": "Maria Inês Vicente",
-          "vendas_ytd": 135526.64,
-          "margem_ytd": 45824.48,
-          "atend_ytd": 3539,
-          "ticket_medio": 38.3,
-          "margem_atend": 12.95,
-          "cresc_vs_ant": -25.2,
-          "rent_genericos": 5.01,
-          "taxa_sauda": 65.5,
+          "vendas_ytd": 137680.25,
+          "margem_ytd": 46446.23,
+          "atend_ytd": 3607,
+          "ticket_medio": 38.17,
+          "margem_atend": 12.88,
+          "cresc_vs_ant": -24.1,
+          "rent_genericos": 5.0,
+          "taxa_sauda": 65.0,
           "mensal": [
             {
               "mes": 1,
@@ -4899,17 +4899,17 @@
             },
             {
               "mes": 8,
-              "vendas": 8783.64,
-              "margem": 2998.66,
-              "atend": 271,
-              "ticket": 32.41,
-              "margem_atend": 11.07
+              "vendas": 10937.25,
+              "margem": 3620.41,
+              "atend": 339,
+              "ticket": 32.26,
+              "margem_atend": 10.68
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 70.6,
-            "Medicamento não sujeito a receita médica": 12.2,
-            "Dispositivos e acessórios": 6.1,
+            "Medicamento sujeito a receita médica": 70.4,
+            "Medicamento não sujeito a receita médica": 12.4,
+            "Dispositivos e acessórios": 6.2,
             "Outros": 3.8,
             "Suplementos Alimentares": 3.7,
             "Produtos Cosméticos": 2.0,
@@ -4948,8 +4948,8 @@
               "rent_media": 4.64
             },
             "8": {
-              "unidades": 237,
-              "rent_media": 4.59
+              "unidades": 271,
+              "rent_media": 4.57
             }
           },
           "sauda_mensal": {
@@ -4960,7 +4960,7 @@
             "5": 441,
             "6": 336,
             "7": 286,
-            "8": 177
+            "8": 206
           },
           "dermo": {
             "SVR": {
@@ -4974,10 +4974,10 @@
               }
             },
             "Avène": {
-              "vendas": 269.09,
-              "margem": 106.15,
-              "atend": 16,
-              "ticket": 16.82,
+              "vendas": 287.19,
+              "margem": 114.65,
+              "atend": 17,
+              "ticket": 16.89,
               "mensal": {
                 "2": 3.61,
                 "3": 35.53,
@@ -4985,7 +4985,7 @@
                 "5": 16.66,
                 "6": 10.73,
                 "7": 16.21,
-                "8": 16.76
+                "8": 25.26
               }
             },
             "Ducray": {
@@ -5030,10 +5030,10 @@
               }
             },
             "Eucerin": {
-              "vendas": 435.28,
-              "margem": 207.82,
-              "atend": 18,
-              "ticket": 24.18,
+              "vendas": 446.2,
+              "margem": 210.83,
+              "atend": 19,
+              "ticket": 23.48,
               "mensal": {
                 "1": 14.56,
                 "2": 42.41,
@@ -5042,7 +5042,7 @@
                 "5": 35.98,
                 "6": 2.89,
                 "7": 10.78,
-                "8": 22.98
+                "8": 25.99
               }
             },
             "Bioderma": {
@@ -5584,12 +5584,12 @@
         "atendimentos": 10735
       },
       "sauda_programa": {
-        "valor_atribuido": 876.56,
+        "valor_atribuido": 877.48,
         "rebat_pontos": 182.04,
         "rebat_vales_sauda": 50.0,
         "rebat_vales_ind": 8.94,
-        "saldo_aprox": 635.58,
-        "data_sync": "13/08/2026"
+        "saldo_aprox": 636.5,
+        "data_sync": "14/08/2026"
       },
       "dermo": {
         "Isdin": {
