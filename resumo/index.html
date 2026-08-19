@@ -137,7 +137,7 @@
       <div class="hdr-title">Farmácias Connect</div>
       <div class="hdr-sub">Resumo Diário · Quarta, 19 Ago 2026</div>
     </div>
-    <div class="hdr-meta"><select class="dest-select" id="destSelect" onchange="filterDest(this.value)"><option value="__all__">Todos</option></select>20h57</div>
+    <div class="hdr-meta"><select class="dest-select" id="destSelect" onchange="filterDest(this.value)"><option value="__all__">Todos</option></select>21h26</div>
   </div>
   <div class="body">
     
@@ -167,13 +167,61 @@
             <td>143<span class="rd-delta pos">↑ +5.3%</span></td>
             <td>53,86€<span class="rd-delta pos">↑ +29.3%</span></td>
           </tr>
+          <tr data-farm="DiasBrito">
+            <td><span class="farm-pill pill-b">D&B</span></td>
+            <td>3.483€<span class="rd-delta neg">↓ -18.1%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">1.181€</span><span class="rd-delta neg">↓ -18.9%</span></td>
+            <td>33,9%<span class="rd-delta neg">↓ -0.3pp</span></td>
+            <td>119<span class="rd-delta neg">↓ -4.3%</span></td>
+            <td>29,27€<span class="rd-delta neg">↓ -14.4%</span></td>
+          </tr>
+          <tr data-farm="CidadeUniv">
+            <td><span class="farm-pill pill-c">CU</span></td>
+            <td>2.375€<span class="rd-delta pos">↑ +58.6%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">553€</span><span class="rd-delta pos">↑ +36.6%</span></td>
+            <td>23,3%<span class="rd-delta neg">↓ -3.7pp</span></td>
+            <td>60<span class="rd-delta pos">↑ +25.3%</span></td>
+            <td>39,58€<span class="rd-delta pos">↑ +26.5%</span></td>
+          </tr>
+          <tr data-farm="AltoMoinhos">
+            <td><span class="farm-pill pill-m">AM</span></td>
+            <td>7.779€<span class="rd-delta neg">↓ -14.2%</span></td>
+            <td><span style="color:#8B1A1A;font-weight:600">1.839€</span><span class="rd-delta neg">↓ -19.3%</span></td>
+            <td>23,6%<span class="rd-delta neg">↓ -1.6pp</span></td>
+            <td>170<span class="rd-delta neg">↓ -10.9%</span></td>
+            <td>45,76€<span class="rd-delta neg">↓ -3.7%</span></td>
+          </tr>
+          <tr data-farm="Porfirio">
+            <td><span class="farm-pill pill-p">POR</span></td>
+            <td>6.825€<span class="rd-delta pos">↑ +15.8%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">1.870€</span><span class="rd-delta pos">↑ +9.8%</span></td>
+            <td>27,4%<span class="rd-delta neg">↓ -1.5pp</span></td>
+            <td>167<span class="rd-delta neg">↓ -2.0%</span></td>
+            <td>40,87€<span class="rd-delta pos">↑ +18.2%</span></td>
+          </tr>
+          <tr data-farm="Tulipas">
+            <td><span class="farm-pill pill-t">TUL</span></td>
+            <td>5.280€<span class="rd-delta pos">↑ +0.6%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">1.589€</span><span class="rd-delta pos">↑ +4.7%</span></td>
+            <td>30,1%<span class="rd-delta pos">↑ +1.2pp</span></td>
+            <td>137<span class="rd-delta pos">↑ +12.0%</span></td>
+            <td>38,54€<span class="rd-delta neg">↓ -10.2%</span></td>
+          </tr>
+          <tr data-farm="Castelhana">
+            <td><span class="farm-pill pill-k">CAS</span></td>
+            <td>9.563€<span class="rd-delta pos">↑ +6.8%</span></td>
+            <td><span style="color:#0A6644;font-weight:600">2.775€</span><span class="rd-delta pos">↑ +8.6%</span></td>
+            <td>29,0%<span class="rd-delta pos">↑ +0.5pp</span></td>
+            <td>213<span class="rd-delta pos">↑ +0.7%</span></td>
+            <td>44,90€<span class="rd-delta pos">↑ +6.1%</span></td>
+          </tr>
           <tr class="total-row" data-section="grupo">
             <td>Grupo</td>
-            <td>7.701€ </td>
-            <td style="color:#0A6644">1.851€</td>
-            <td>24,0%</td>
-            <td>143</td>
-            <td>53,86€</td>
+            <td>43.006€ </td>
+            <td style="color:#0A6644">11.659€</td>
+            <td>27,1%</td>
+            <td>1.009</td>
+            <td>42,62€</td>
           </tr>
         </tbody>
       </table>
@@ -383,34 +431,1222 @@
       <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider" data-farm="DiasBrito">Farmácia Dias e Brito</div>
-    <div class="farm-block" data-farm="DiasBrito" style="color:#8B1A1A;font-size:12px;padding:14px">
-      ⚠ Sem dados — erro de ligação Oracle: ORA-12170: Cannot connect. TCP connect timeout of 20s for host 10.23.149.1 port 1521. (CONNECTION_ID=uPyu9mp3RFWhZFmJaLBogw==)
-Help: https://docs.oracle.com/error-help/db/ora-12170/
+    <div class="farm-block" data-farm="DiasBrito">
+      <div class="farm-header">
+        <span class="farm-pill pill-b">D&B</span>
+        <span class="farm-name">Amadora</span>
+      </div>
+
+      <!-- MTD -->
+      <div class="panel-label">MTD vs LY MTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">72.287€</div>
+            <div class="kpi5d-dlt pos">↑ +14.7%</div>
+            <div class="kpi5d-sub">LY 63.015€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val" style="color:#0A6644">24.739€</div>
+            <div class="kpi5d-dlt pos">↑ +15.9%</div>
+            <div class="kpi5d-sub">LY 21.350€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">34,2%</div>
+            <div class="kpi5d-dlt pos">↑ +0.3pp</div>
+            <div class="kpi5d-sub">LY 33,9%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">39,1%</div>
+            <div class="kpi5d-dlt pos">↑ +1.0pp</div>
+            <div class="kpi5d-sub">LY 38,1%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">2.115</div>
+            <div class="kpi5d-dlt pos">↑ +7.6%</div>
+            <div class="kpi5d-sub">LY 1.965</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <!-- YTD -->
+      <div class="panel-label">YTD vs LY YTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">922.411€</div>
+            <div class="kpi5d-dlt pos">↑ +8.4%</div>
+            <div class="kpi5d-sub">LY 850.769€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val">312.056€</div>
+            <div class="kpi5d-dlt pos">↑ +4.8%</div>
+            <div class="kpi5d-sub">LY 297.865€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">33,8%</div>
+            <div class="kpi5d-dlt neg">↓ -1.2pp</div>
+            <div class="kpi5d-sub">LY 35,0%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">38,5%</div>
+            <div class="kpi5d-dlt pos">↑ +0.6pp</div>
+            <div class="kpi5d-sub">LY 37,9%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">26.577</div>
+            <div class="kpi5d-dlt neg">↓ -2.9%</div>
+            <div class="kpi5d-sub">LY 27.384</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      
+      <div class="chart-card">
+        <div class="chart-hdr">
+          <span class="chart-title">Vendas mensais 2026 vs 2025</span>
+          <div class="chart-leg">
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#D3D1C7"></span>2025</span>
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#1D9E75"></span>2026</span>
+          </div>
+        </div>
+        <div class="bar-months">
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:65px"></div>
+            <div class="bar b26p" style="height:68px"></div>
+          </div>
+          <div class="bm-label">Jan</div>
+          <div class="bm-val">126k</div>
+          <div class="bm-mg pos">↑4%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:56px"></div>
+            <div class="bar b26p" style="height:57px"></div>
+          </div>
+          <div class="bm-label">Fev</div>
+          <div class="bm-val">106k</div>
+          <div class="bm-mg pos">↑2%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:62px"></div>
+            <div class="bar b26p" style="height:65px"></div>
+          </div>
+          <div class="bm-label">Mar</div>
+          <div class="bm-val">121k</div>
+          <div class="bm-mg pos">↑6%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:57px"></div>
+            <div class="bar b26p" style="height:67px"></div>
+          </div>
+          <div class="bm-label">Abr</div>
+          <div class="bm-val">125k</div>
+          <div class="bm-mg pos">↑19%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:65px"></div>
+            <div class="bar b26p" style="height:66px"></div>
+          </div>
+          <div class="bm-label">Mai</div>
+          <div class="bm-val">122k</div>
+          <div class="bm-mg pos">↑2%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:55px"></div>
+            <div class="bar b26p" style="height:66px"></div>
+          </div>
+          <div class="bm-label">Jun</div>
+          <div class="bm-val">122k</div>
+          <div class="bm-mg pos">↑20%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:67px"></div>
+            <div class="bar b26p" style="height:70px"></div>
+          </div>
+          <div class="bm-label">Jul</div>
+          <div class="bm-val">129k</div>
+          <div class="bm-mg pos">↑4%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:56px"></div>
+            <div class="bar b26m" style="height:39px"></div>
+          </div>
+          <div class="bm-label"><span style="color:#1D9E75">Ago▸</span></div>
+          <div class="bm-val">72k</div>
+          <div class="bm-mg neu">MTD</div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="stock-inline">
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
+        <span class="stock-now">86.897€</span>
+        <span class='stock-sep'>·</span><span class='stock-hist'>Jul 83,8k · Jun 82,1k · Mai 77,4k</span>
+      </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider" data-farm="CidadeUniv">Farmácia Cidade Universitária</div>
-    <div class="farm-block" data-farm="CidadeUniv" style="color:#8B1A1A;font-size:12px;padding:14px">
-      ⚠ Sem dados — erro de ligação Oracle: ORA-12170: Cannot connect. TCP connect timeout of 20s for host 10.25.64.1 port 1521. (CONNECTION_ID=nOKj6YvzT1CaNOV8bT2oGw==)
-Help: https://docs.oracle.com/error-help/db/ora-12170/
+    <div class="farm-block" data-farm="CidadeUniv">
+      <div class="farm-header">
+        <span class="farm-pill pill-c">CU</span>
+        <span class="farm-name">Lisboa</span>
+      </div>
+
+      <!-- MTD -->
+      <div class="panel-label">MTD vs LY MTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">22.458€</div>
+            <div class="kpi5d-dlt pos">↑ +37.2%</div>
+            <div class="kpi5d-sub">LY 16.366€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val" style="color:#0A6644">6.074€</div>
+            <div class="kpi5d-dlt pos">↑ +22.0%</div>
+            <div class="kpi5d-sub">LY 4.980€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">27,0%</div>
+            <div class="kpi5d-dlt neg">↓ -3.4pp</div>
+            <div class="kpi5d-sub">LY 30,4%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">32,5%</div>
+            <div class="kpi5d-dlt neg">↓ -4.4pp</div>
+            <div class="kpi5d-sub">LY 36,9%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">718</div>
+            <div class="kpi5d-dlt pos">↑ +23.8%</div>
+            <div class="kpi5d-sub">LY 580</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <!-- YTD -->
+      <div class="panel-label">YTD vs LY YTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">340.499€</div>
+            <div class="kpi5d-dlt pos">↑ +65.0%</div>
+            <div class="kpi5d-sub">LY 206.370€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val">90.429€</div>
+            <div class="kpi5d-dlt pos">↑ +23.8%</div>
+            <div class="kpi5d-sub">LY 73.043€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">26,6%</div>
+            <div class="kpi5d-dlt neg">↓ -8.8pp</div>
+            <div class="kpi5d-sub">LY 35,4%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">32,9%</div>
+            <div class="kpi5d-dlt neg">↓ -4.5pp</div>
+            <div class="kpi5d-sub">LY 37,4%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">10.932</div>
+            <div class="kpi5d-dlt pos">↑ +15.5%</div>
+            <div class="kpi5d-sub">LY 9.467</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      
+      <div class="chart-card">
+        <div class="chart-hdr">
+          <span class="chart-title">Vendas mensais 2026 vs 2025</span>
+          <div class="chart-leg">
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#D3D1C7"></span>2025</span>
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#1D9E75"></span>2026</span>
+          </div>
+        </div>
+        <div class="bar-months">
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:37px"></div>
+            <div class="bar b26p" style="height:43px"></div>
+          </div>
+          <div class="bm-label">Jan</div>
+          <div class="bm-val">39k</div>
+          <div class="bm-mg pos">↑14%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:26px"></div>
+            <div class="bar b26p" style="height:38px"></div>
+          </div>
+          <div class="bm-label">Fev</div>
+          <div class="bm-val">35k</div>
+          <div class="bm-mg pos">↑44%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:29px"></div>
+            <div class="bar b26p" style="height:51px"></div>
+          </div>
+          <div class="bm-label">Mar</div>
+          <div class="bm-val">46k</div>
+          <div class="bm-mg pos">↑71%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:30px"></div>
+            <div class="bar b26p" style="height:50px"></div>
+          </div>
+          <div class="bm-label">Abr</div>
+          <div class="bm-val">46k</div>
+          <div class="bm-mg pos">↑65%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:31px"></div>
+            <div class="bar b26p" style="height:49px"></div>
+          </div>
+          <div class="bm-label">Mai</div>
+          <div class="bm-val">45k</div>
+          <div class="bm-mg pos">↑60%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:23px"></div>
+            <div class="bar b26p" style="height:46px"></div>
+          </div>
+          <div class="bm-label">Jun</div>
+          <div class="bm-val">43k</div>
+          <div class="bm-mg pos">↑100%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:29px"></div>
+            <div class="bar b26p" style="height:70px"></div>
+          </div>
+          <div class="bm-label">Jul</div>
+          <div class="bm-val">64k</div>
+          <div class="bm-mg pos">↑139%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:30px"></div>
+            <div class="bar b26m" style="height:24px"></div>
+          </div>
+          <div class="bm-label"><span style="color:#1D9E75">Ago▸</span></div>
+          <div class="bm-val">22k</div>
+          <div class="bm-mg neu">MTD</div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="stock-inline">
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
+        <span class="stock-now">74.326€</span>
+        <span class='stock-sep'>·</span><span class='stock-hist'>Jul 73,9k · Jun 74,3k · Mai 82,5k</span>
+      </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider" data-farm="AltoMoinhos">Farmácia Alto dos Moinhos</div>
-    <div class="farm-block" data-farm="AltoMoinhos" style="color:#8B1A1A;font-size:12px;padding:14px">
-      ⚠ Sem dados — erro de ligação Oracle: ORA-12170: Cannot connect. TCP connect timeout of 20s for host 10.21.70.1 port 1521. (CONNECTION_ID=bCdse7cUTqSdz9wuDvZySA==)
-Help: https://docs.oracle.com/error-help/db/ora-12170/
+    <div class="farm-block" data-farm="AltoMoinhos">
+      <div class="farm-header">
+        <span class="farm-pill pill-m">AM</span>
+        <span class="farm-name">Lisboa</span>
+      </div>
+
+      <!-- MTD -->
+      <div class="panel-label">MTD vs LY MTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">163.099€</div>
+            <div class="kpi5d-dlt neg">↓ -0.5%</div>
+            <div class="kpi5d-sub">LY 163.909€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val" style="color:#8B1A1A">41.020€</div>
+            <div class="kpi5d-dlt neg">↓ -4.2%</div>
+            <div class="kpi5d-sub">LY 42.837€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">25,2%</div>
+            <div class="kpi5d-dlt neg">↓ -0.9pp</div>
+            <div class="kpi5d-sub">LY 26,1%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">34,0%</div>
+            <div class="kpi5d-dlt pos">↑ +0.5pp</div>
+            <div class="kpi5d-sub">LY 33,5%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">3.434</div>
+            <div class="kpi5d-dlt neg">↓ -0.6%</div>
+            <div class="kpi5d-sub">LY 3.456</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <!-- YTD -->
+      <div class="panel-label">YTD vs LY YTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">2.647.798€</div>
+            <div class="kpi5d-dlt pos">↑ +15.0%</div>
+            <div class="kpi5d-sub">LY 2.302.666€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val">613.811€</div>
+            <div class="kpi5d-dlt pos">↑ +1.1%</div>
+            <div class="kpi5d-sub">LY 607.219€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">23,2%</div>
+            <div class="kpi5d-dlt neg">↓ -3.2pp</div>
+            <div class="kpi5d-sub">LY 26,4%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">33,4%</div>
+            <div class="kpi5d-dlt neg">↓ -0.4pp</div>
+            <div class="kpi5d-sub">LY 33,8%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">49.689</div>
+            <div class="kpi5d-dlt neg">↓ -2.7%</div>
+            <div class="kpi5d-sub">LY 51.052</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      
+      <div class="chart-card">
+        <div class="chart-hdr">
+          <span class="chart-title">Vendas mensais 2026 vs 2025</span>
+          <div class="chart-leg">
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#D3D1C7"></span>2025</span>
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#1D9E75"></span>2026</span>
+          </div>
+        </div>
+        <div class="bar-months">
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:58px"></div>
+            <div class="bar b26p" style="height:68px"></div>
+          </div>
+          <div class="bm-label">Jan</div>
+          <div class="bm-val">365k</div>
+          <div class="bm-mg pos">↑17%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:52px"></div>
+            <div class="bar b26p" style="height:63px"></div>
+          </div>
+          <div class="bm-label">Fev</div>
+          <div class="bm-val">338k</div>
+          <div class="bm-mg pos">↑20%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:58px"></div>
+            <div class="bar b26p" style="height:70px"></div>
+          </div>
+          <div class="bm-label">Mar</div>
+          <div class="bm-val">375k</div>
+          <div class="bm-mg pos">↑21%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:53px"></div>
+            <div class="bar b26p" style="height:66px"></div>
+          </div>
+          <div class="bm-label">Abr</div>
+          <div class="bm-val">354k</div>
+          <div class="bm-mg pos">↑23%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:60px"></div>
+            <div class="bar b26p" style="height:66px"></div>
+          </div>
+          <div class="bm-label">Mai</div>
+          <div class="bm-val">357k</div>
+          <div class="bm-mg pos">↑10%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:53px"></div>
+            <div class="bar b26p" style="height:63px"></div>
+          </div>
+          <div class="bm-label">Jun</div>
+          <div class="bm-val">339k</div>
+          <div class="bm-mg pos">↑18%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:61px"></div>
+            <div class="bar b26p" style="height:66px"></div>
+          </div>
+          <div class="bm-label">Jul</div>
+          <div class="bm-val">355k</div>
+          <div class="bm-mg pos">↑7%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:49px"></div>
+            <div class="bar b26m" style="height:30px"></div>
+          </div>
+          <div class="bm-label"><span style="color:#1D9E75">Ago▸</span></div>
+          <div class="bm-val">163k</div>
+          <div class="bm-mg neu">MTD</div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="stock-inline">
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
+        <span class="stock-now">319.660€</span>
+        <span class='stock-sep'>·</span><span class='stock-hist'>Jul 303,1k · Jun 315,6k · Mai 319,7k</span>
+      </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider" data-farm="Porfirio">Farmácia Porfírio</div>
-    <div class="farm-block" data-farm="Porfirio" style="color:#8B1A1A;font-size:12px;padding:14px">
-      ⚠ Sem dados — erro de ligação Oracle: ORA-12170: Cannot connect. TCP connect timeout of 20s for host 10.25.68.1 port 1521. (CONNECTION_ID=x4dSGko+TZae+sPwaqVGww==)
-Help: https://docs.oracle.com/error-help/db/ora-12170/
+    <div class="farm-block" data-farm="Porfirio">
+      <div class="farm-header">
+        <span class="farm-pill pill-p">POR</span>
+        <span class="farm-name">Lisboa</span>
+      </div>
+
+      <!-- MTD -->
+      <div class="panel-label">MTD vs LY MTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">106.077€</div>
+            <div class="kpi5d-dlt pos">↑ +7.3%</div>
+            <div class="kpi5d-sub">LY 98.873€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val" style="color:#0A6644">30.661€</div>
+            <div class="kpi5d-dlt pos">↑ +1.6%</div>
+            <div class="kpi5d-sub">LY 30.177€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">28,9%</div>
+            <div class="kpi5d-dlt neg">↓ -1.6pp</div>
+            <div class="kpi5d-sub">LY 30,5%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">34,9%</div>
+            <div class="kpi5d-dlt neg">↓ -0.3pp</div>
+            <div class="kpi5d-sub">LY 35,2%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">3.068</div>
+            <div class="kpi5d-dlt pos">↑ +1.9%</div>
+            <div class="kpi5d-sub">LY 3.011</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <!-- YTD -->
+      <div class="panel-label">YTD vs LY YTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">1.481.728€</div>
+            <div class="kpi5d-dlt pos">↑ +11.8%</div>
+            <div class="kpi5d-sub">LY 1.325.207€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val">439.565€</div>
+            <div class="kpi5d-dlt pos">↑ +11.6%</div>
+            <div class="kpi5d-sub">LY 393.809€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">29,7%</div>
+            <div class="kpi5d-dlt pos">↑ +0.0pp</div>
+            <div class="kpi5d-sub">LY 29,7%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">35,2%</div>
+            <div class="kpi5d-dlt pos">↑ +1.0pp</div>
+            <div class="kpi5d-sub">LY 34,2%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">43.941</div>
+            <div class="kpi5d-dlt pos">↑ +0.3%</div>
+            <div class="kpi5d-sub">LY 43.789</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      
+      <div class="chart-card">
+        <div class="chart-hdr">
+          <span class="chart-title">Vendas mensais 2026 vs 2025</span>
+          <div class="chart-leg">
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#D3D1C7"></span>2025</span>
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#1D9E75"></span>2026</span>
+          </div>
+        </div>
+        <div class="bar-months">
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:56px"></div>
+            <div class="bar b26p" style="height:64px"></div>
+          </div>
+          <div class="bm-label">Jan</div>
+          <div class="bm-val">194k</div>
+          <div class="bm-mg pos">↑14%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:54px"></div>
+            <div class="bar b26p" style="height:58px"></div>
+          </div>
+          <div class="bm-label">Fev</div>
+          <div class="bm-val">177k</div>
+          <div class="bm-mg pos">↑7%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:57px"></div>
+            <div class="bar b26p" style="height:68px"></div>
+          </div>
+          <div class="bm-label">Mar</div>
+          <div class="bm-val">206k</div>
+          <div class="bm-mg pos">↑19%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:56px"></div>
+            <div class="bar b26p" style="height:62px"></div>
+          </div>
+          <div class="bm-label">Abr</div>
+          <div class="bm-val">188k</div>
+          <div class="bm-mg pos">↑10%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:61px"></div>
+            <div class="bar b26p" style="height:70px"></div>
+          </div>
+          <div class="bm-label">Mai</div>
+          <div class="bm-val">211k</div>
+          <div class="bm-mg pos">↑15%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:55px"></div>
+            <div class="bar b26p" style="height:63px"></div>
+          </div>
+          <div class="bm-label">Jun</div>
+          <div class="bm-val">193k</div>
+          <div class="bm-mg pos">↑16%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:65px"></div>
+            <div class="bar b26p" style="height:68px"></div>
+          </div>
+          <div class="bm-label">Jul</div>
+          <div class="bm-val">207k</div>
+          <div class="bm-mg pos">↑5%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:53px"></div>
+            <div class="bar b26m" style="height:35px"></div>
+          </div>
+          <div class="bm-label"><span style="color:#1D9E75">Ago▸</span></div>
+          <div class="bm-val">106k</div>
+          <div class="bm-mg neu">MTD</div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="stock-inline">
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
+        <span class="stock-now">216.003€</span>
+        <span class='stock-sep'>·</span><span class='stock-hist'>Jul 215,2k · Jun 206,8k · Mai 229,4k</span>
+      </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider" data-farm="Tulipas">Farmácia Túlipas</div>
-    <div class="farm-block" data-farm="Tulipas" style="color:#8B1A1A;font-size:12px;padding:14px">
-      ⚠ Sem dados — erro de ligação Oracle: ORA-12170: Cannot connect. TCP connect timeout of 20s for host 10.25.205.1 port 1521. (CONNECTION_ID=84tV3XH8RbiRu377Ccst5g==)
-Help: https://docs.oracle.com/error-help/db/ora-12170/
+    <div class="farm-block" data-farm="Tulipas">
+      <div class="farm-header">
+        <span class="farm-pill pill-t">TUL</span>
+        <span class="farm-name">Lisboa</span>
+      </div>
+
+      <!-- MTD -->
+      <div class="panel-label">MTD vs LY MTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">78.760€</div>
+            <div class="kpi5d-dlt pos">↑ +4.4%</div>
+            <div class="kpi5d-sub">LY 75.408€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val" style="color:#8B1A1A">22.777€</div>
+            <div class="kpi5d-dlt neg">↓ -3.9%</div>
+            <div class="kpi5d-sub">LY 23.713€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">28,9%</div>
+            <div class="kpi5d-dlt neg">↓ -2.5pp</div>
+            <div class="kpi5d-sub">LY 31,4%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">35,9%</div>
+            <div class="kpi5d-dlt neg">↓ -0.9pp</div>
+            <div class="kpi5d-sub">LY 36,8%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">1.835</div>
+            <div class="kpi5d-dlt pos">↑ +1.0%</div>
+            <div class="kpi5d-sub">LY 1.817</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <!-- YTD -->
+      <div class="panel-label">YTD vs LY YTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">1.215.871€</div>
+            <div class="kpi5d-dlt pos">↑ +6.2%</div>
+            <div class="kpi5d-sub">LY 1.144.811€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val">373.970€</div>
+            <div class="kpi5d-dlt neg">↓ -0.5%</div>
+            <div class="kpi5d-sub">LY 375.692€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">30,8%</div>
+            <div class="kpi5d-dlt neg">↓ -2.0pp</div>
+            <div class="kpi5d-sub">LY 32,8%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">36,9%</div>
+            <div class="kpi5d-dlt neg">↓ -0.2pp</div>
+            <div class="kpi5d-sub">LY 37,1%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">28.759</div>
+            <div class="kpi5d-dlt neg">↓ -2.3%</div>
+            <div class="kpi5d-sub">LY 29.423</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      
+      <div class="chart-card">
+        <div class="chart-hdr">
+          <span class="chart-title">Vendas mensais 2026 vs 2025</span>
+          <div class="chart-leg">
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#D3D1C7"></span>2025</span>
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#1D9E75"></span>2026</span>
+          </div>
+        </div>
+        <div class="bar-months">
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:61px"></div>
+            <div class="bar b26p" style="height:64px"></div>
+          </div>
+          <div class="bm-label">Jan</div>
+          <div class="bm-val">162k</div>
+          <div class="bm-mg pos">↑5%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:56px"></div>
+            <div class="bar b26p" style="height:60px"></div>
+          </div>
+          <div class="bm-label">Fev</div>
+          <div class="bm-val">151k</div>
+          <div class="bm-mg pos">↑6%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:60px"></div>
+            <div class="bar b26p" style="height:67px"></div>
+          </div>
+          <div class="bm-label">Mar</div>
+          <div class="bm-val">170k</div>
+          <div class="bm-mg pos">↑12%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:57px"></div>
+            <div class="bar b26p" style="height:63px"></div>
+          </div>
+          <div class="bm-label">Abr</div>
+          <div class="bm-val">159k</div>
+          <div class="bm-mg pos">↑10%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:70px"></div>
+            <div class="bar b26n" style="height:64px"></div>
+          </div>
+          <div class="bm-label">Mai</div>
+          <div class="bm-val">162k</div>
+          <div class="bm-mg neg">↓7%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:56px"></div>
+            <div class="bar b26p" style="height:63px"></div>
+          </div>
+          <div class="bm-label">Jun</div>
+          <div class="bm-val">159k</div>
+          <div class="bm-mg pos">↑12%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:63px"></div>
+            <div class="bar b26p" style="height:69px"></div>
+          </div>
+          <div class="bm-label">Jul</div>
+          <div class="bm-val">174k</div>
+          <div class="bm-mg pos">↑9%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:46px"></div>
+            <div class="bar b26m" style="height:31px"></div>
+          </div>
+          <div class="bm-label"><span style="color:#1D9E75">Ago▸</span></div>
+          <div class="bm-val">79k</div>
+          <div class="bm-mg neu">MTD</div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="stock-inline">
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
+        <span class="stock-now">149.561€</span>
+        <span class='stock-sep'>·</span><span class='stock-hist'>Jul 143,2k · Jun 138,4k · Mai 145,8k</span>
+      </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     <div class="sec-divider" data-farm="Castelhana">Farmácia Alto da Castelhana</div>
-    <div class="farm-block" data-farm="Castelhana" style="color:#8B1A1A;font-size:12px;padding:14px">
-      ⚠ Sem dados — erro de ligação Oracle: ORA-12170: Cannot connect. TCP connect timeout of 20s for host 10.22.136.1 port 1521. (CONNECTION_ID=OcqyRH8iTy2CEibu3Ju1Kw==)
-Help: https://docs.oracle.com/error-help/db/ora-12170/
+    <div class="farm-block" data-farm="Castelhana">
+      <div class="farm-header">
+        <span class="farm-pill pill-k">CAS</span>
+        <span class="farm-name">Lisboa</span>
+      </div>
+
+      <!-- MTD -->
+      <div class="panel-label">MTD vs LY MTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">170.087€</div>
+            <div class="kpi5d-dlt pos">↑ +15.1%</div>
+            <div class="kpi5d-sub">LY 147.794€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val" style="color:#0A6644">48.555€</div>
+            <div class="kpi5d-dlt pos">↑ +4.8%</div>
+            <div class="kpi5d-sub">LY 46.330€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">28,5%</div>
+            <div class="kpi5d-dlt neg">↓ -2.8pp</div>
+            <div class="kpi5d-sub">LY 31,3%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">34,9%</div>
+            <div class="kpi5d-dlt neg">↓ -1.4pp</div>
+            <div class="kpi5d-sub">LY 36,3%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">4.020</div>
+            <div class="kpi5d-dlt neg">↓ -3.4%</div>
+            <div class="kpi5d-sub">LY 4.160</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <!-- YTD -->
+      <div class="panel-label">YTD vs LY YTD</div>
+      <div class="kpi5d-row">
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Vendas</div>
+            <div class="kpi5d-val">2.040.005€</div>
+            <div class="kpi5d-dlt pos">↑ +6.2%</div>
+            <div class="kpi5d-sub">LY 1.921.315€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-pos"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Margem €</div>
+            <div class="kpi5d-val">617.384€</div>
+            <div class="kpi5d-dlt pos">↑ +0.0%</div>
+            <div class="kpi5d-sub">LY 617.316€</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Mg %</div>
+            <div class="kpi5d-val">30,3%</div>
+            <div class="kpi5d-dlt neg">↓ -1.8pp</div>
+            <div class="kpi5d-sub">LY 32,1%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">s/MSRM&gt;50</div>
+            <div class="kpi5d-val">35,7%</div>
+            <div class="kpi5d-dlt neg">↓ -0.3pp</div>
+            <div class="kpi5d-sub">LY 36,0%</div>
+          </div>
+        </div>
+        <div class="kpi5d">
+          <div class="kpi5d-bar bar-neg"></div>
+          <div class="kpi5d-body">
+            <div class="kpi5d-lbl">Atend.</div>
+            <div class="kpi5d-val">53.087</div>
+            <div class="kpi5d-dlt neg">↓ -8.4%</div>
+            <div class="kpi5d-sub">LY 57.962</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      
+      <div class="chart-card">
+        <div class="chart-hdr">
+          <span class="chart-title">Vendas mensais 2026 vs 2025</span>
+          <div class="chart-leg">
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#D3D1C7"></span>2025</span>
+            <span class="chart-leg-item"><span class="chart-leg-dot" style="background:#1D9E75"></span>2026</span>
+          </div>
+        </div>
+        <div class="bar-months">
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:58px"></div>
+            <div class="bar b26p" style="height:61px"></div>
+          </div>
+          <div class="bm-label">Jan</div>
+          <div class="bm-val">260k</div>
+          <div class="bm-mg pos">↑6%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:54px"></div>
+            <div class="bar b26p" style="height:56px"></div>
+          </div>
+          <div class="bm-label">Fev</div>
+          <div class="bm-val">237k</div>
+          <div class="bm-mg pos">↑3%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:60px"></div>
+            <div class="bar b26p" style="height:65px"></div>
+          </div>
+          <div class="bm-label">Mar</div>
+          <div class="bm-val">276k</div>
+          <div class="bm-mg pos">↑9%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:59px"></div>
+            <div class="bar b26p" style="height:62px"></div>
+          </div>
+          <div class="bm-label">Abr</div>
+          <div class="bm-val">263k</div>
+          <div class="bm-mg pos">↑5%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:63px"></div>
+            <div class="bar b26p" style="height:66px"></div>
+          </div>
+          <div class="bm-label">Mai</div>
+          <div class="bm-val">280k</div>
+          <div class="bm-mg pos">↑5%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:59px"></div>
+            <div class="bar b26p" style="height:61px"></div>
+          </div>
+          <div class="bm-label">Jun</div>
+          <div class="bm-val">259k</div>
+          <div class="bm-mg pos">↑2%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:64px"></div>
+            <div class="bar b26p" style="height:70px"></div>
+          </div>
+          <div class="bm-label">Jul</div>
+          <div class="bm-val">295k</div>
+          <div class="bm-mg pos">↑8%</div>
+        </div>
+        <div class="bar-month">
+          <div class="bar-pair">
+            <div class="bar b25" style="height:56px"></div>
+            <div class="bar b26m" style="height:40px"></div>
+          </div>
+          <div class="bm-label"><span style="color:#1D9E75">Ago▸</span></div>
+          <div class="bm-val">170k</div>
+          <div class="bm-mg neu">MTD</div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="stock-inline">
+        <span class="stock-lbl" title="Localização principal · não inclui Armazém Devoluções nem Reserva de Produtos">Stock custo¹</span>
+        <span class="stock-now">248.886€</span>
+        <span class='stock-sep'>·</span><span class='stock-hist'>Jul 253,5k · Jun 254,3k · Mai 273,3k</span>
+      </div>
+      <div style="font-size:8px;color:#C8C5BE;font-family:'JetBrains Mono',monospace;margin-top:3px;padding-left:2px">¹ Não inclui Armazém Devoluções nem Reserva de Produtos</div>
     </div>
     
     <div class="sec-divider" data-section="ranking">Ranking interno MTD</div>
@@ -429,8 +1665,38 @@ Help: https://docs.oracle.com/error-help/db/ora-12170/
           </tr>
         </thead>
         <tbody>
+          <tr data-farm="Castelhana">
+            <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-k" style="font-size:9px">CAS</span></td>
+            <td style="color:#0A6644;font-weight:600">48.555€</td>
+            <td>170.087€</td>
+            <td>28,5%</td>
+            <td>4.020</td>
+            <td>42,31€</td>
+            <td class="rd pos">↑ +15.1%</td>
+            <td class="rd pos">↑ +6.2%</td>
+          </tr>
+          <tr data-farm="AltoMoinhos">
+            <td><span class="rank-pos rank-2">2</span><span class="farm-pill pill-m" style="font-size:9px">AM</span></td>
+            <td style="color:#8B1A1A;font-weight:600">41.020€</td>
+            <td>163.099€</td>
+            <td>25,2%</td>
+            <td>3.434</td>
+            <td>47,50€</td>
+            <td class="rd neg">↓ -0.5%</td>
+            <td class="rd pos">↑ +15.0%</td>
+          </tr>
+          <tr data-farm="Porfirio">
+            <td><span class="rank-pos rank-3">3</span><span class="farm-pill pill-p" style="font-size:9px">POR</span></td>
+            <td style="color:#0A6644;font-weight:600">30.661€</td>
+            <td>106.077€</td>
+            <td>28,9%</td>
+            <td>3.068</td>
+            <td>34,58€</td>
+            <td class="rd pos">↑ +7.3%</td>
+            <td class="rd pos">↑ +11.8%</td>
+          </tr>
           <tr data-farm="Aroeira">
-            <td><span class="rank-pos rank-1">1</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
+            <td><span class="rank-pos rank-4">4</span><span class="farm-pill pill-a" style="font-size:9px">ARO</span></td>
             <td style="color:#8B1A1A;font-weight:600">28.515€</td>
             <td>107.460€</td>
             <td>26,5%</td>
@@ -438,6 +1704,36 @@ Help: https://docs.oracle.com/error-help/db/ora-12170/
             <td>41,65€</td>
             <td class="rd pos">↑ +7.1%</td>
             <td class="rd pos">↑ +7.9%</td>
+          </tr>
+          <tr data-farm="DiasBrito">
+            <td><span class="rank-pos rank-5">5</span><span class="farm-pill pill-b" style="font-size:9px">D&B</span></td>
+            <td style="color:#0A6644;font-weight:600">24.739€</td>
+            <td>72.287€</td>
+            <td>34,2%</td>
+            <td>2.115</td>
+            <td>34,18€</td>
+            <td class="rd pos">↑ +14.7%</td>
+            <td class="rd pos">↑ +8.4%</td>
+          </tr>
+          <tr data-farm="Tulipas">
+            <td><span class="rank-pos rank-6">6</span><span class="farm-pill pill-t" style="font-size:9px">TUL</span></td>
+            <td style="color:#8B1A1A;font-weight:600">22.777€</td>
+            <td>78.760€</td>
+            <td>28,9%</td>
+            <td>1.835</td>
+            <td>42,92€</td>
+            <td class="rd pos">↑ +4.4%</td>
+            <td class="rd pos">↑ +6.2%</td>
+          </tr>
+          <tr data-farm="CidadeUniv">
+            <td><span class="rank-pos rank-7">7</span><span class="farm-pill pill-c" style="font-size:9px">CU</span></td>
+            <td style="color:#0A6644;font-weight:600">6.074€</td>
+            <td>22.458€</td>
+            <td>27,0%</td>
+            <td>718</td>
+            <td>31,28€</td>
+            <td class="rd pos">↑ +37.2%</td>
+            <td class="rd pos">↑ +65.0%</td>
           </tr></tbody>
       </table>
     </div>
@@ -445,8 +1741,14 @@ Help: https://docs.oracle.com/error-help/db/ora-12170/
     <div class="sec-divider" data-section="alertas">Alertas</div>
     <div class="alerts-block" data-section="alertas">
       <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Aroeira — 535 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Dias e Brito — 630 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Cidade Universitária — 255 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto dos Moinhos — 459 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Porfírio — 449 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Túlipas — 571 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
+      <div class="alert danger"><span class="alert-icon">⚠</span><span><strong>Farmácia Alto da Castelhana — 521 rupturas com rotação ativa.</strong> Produtos sem stock com vendas nos últimos 30 dias.</span></div>
     </div>
-    <div class="footer">Farmácias Connect · Resumo Diário · 20h57</div>
+    <div class="footer">Farmácias Connect · Resumo Diário · 21h26</div>
   </div>
 </div>
 <script>
