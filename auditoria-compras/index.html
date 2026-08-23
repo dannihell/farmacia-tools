@@ -22,7 +22,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 <body>
 <header><div><h1>Auditoria de Compras</h1><p>Grupo próprio · Alliance · Sifarma · preços de custo</p></div><a class="back" href="../">← Ferramentas</a></header>
 <main>
-  <div class="notice"><strong>Dados parciais.</strong> Ausência de documento significa “por validar”, nunca custo zero. Atualização analítica: 23/08/2026.</div>
+  <div class="notice"><strong>Visão multi-período - não corresponde a um único mês.</strong> Cada bloco indica o respetivo período. Ausência de documento significa “por validar”, nunca custo zero. Atualização analítica: 23/08/2026.</div>
   <nav class="tabs" aria-label="Secções">
     <button class="tab" aria-selected="true" data-panel="decisao">Grupo próprio</button>
     <button class="tab" aria-selected="false" data-panel="faturas">Faturas × Sifarma</button>
@@ -32,9 +32,9 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 
   <section id="decisao" class="panel active">
     <div class="grid">
-      <article class="card span3"><div class="label">Avença RC estimada · 3 farmácias/ano</div><div class="value" id="rcAnnual">13 505 €</div><div class="sub">375,13 €/farmácia/mês; confirmar regra contratual final.</div></article>
+      <article class="card span3"><div class="label">Cenário anual · avença RC · 3 farmácias</div><div class="value" id="rcAnnual">13 505 €</div><div class="sub">Projeção de 12 meses a 375,13 €/farmácia/mês.</div></article>
       <article class="card span3"><div class="label">Fees Alliance observados</div><div class="value">1% + 2,35%</div><div class="sub">Plataforma + TO/Tripartidos. Permanecem se o modelo Alliance se mantiver.</div></article>
-      <article class="card span3"><div class="label">Tripartidos no cabaz observado</div><div class="value">9,87%</div><div class="sub">52 474,84 € em 531 822,15 € de compras líquidas documentadas.</div></article>
+      <article class="card span3"><div class="label">Tripartidos · 6 resumos documentados</div><div class="value">9,87%</div><div class="sub">Aroeira out/2025 e fev/2026; Dias out/2025, fev e jul/2026; Alto out/2025.</div></article>
       <article class="card span3"><div class="label">Estado da decisão</div><div class="value warn">Por provar</div><div class="sub">Faltam condições líquidas Botelho/Elofarma e custo operacional do grupo próprio.</div></article>
 
       <article class="card span5">
@@ -61,16 +61,16 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 
   <section id="faturas" class="panel">
     <div class="grid">
-      <article class="card span3"><div class="label">Faturas diárias analisadas</div><div class="value">384</div><div class="sub">Aroeira, Dias e Brito e Alto dos Moinhos.</div></article>
+      <article class="card span3"><div class="label">Faturas diárias · meses carregados</div><div class="value">384</div><div class="sub">Períodos discriminados na tabela abaixo.</div></article>
       <article class="card span3"><div class="label">Encontradas por número</div><div class="value">358</div><div class="sub">93,2% com correspondência única na BD.</div></article>
       <article class="card span3"><div class="label">Líquido coincidente</div><div class="value good">340</div><div class="sub">95,0% das faturas localizadas.</div></article>
       <article class="card span3"><div class="label">Por investigar</div><div class="value bad">44</div><div class="sub">26 ausentes + 18 com diferença no líquido.</div></article>
       <article class="card span12">
         <h2>Estado por farmácia</h2>
-        <div class="table-wrap"><table><thead><tr><th>Farmácia</th><th class="num">PDFs</th><th class="num">Na BD</th><th class="num">Líquido OK</th><th class="num">Ausentes</th><th>Estado</th></tr></thead><tbody>
-          <tr><td>Aroeira</td><td class="num">147</td><td class="num">124</td><td class="num">119</td><td class="num">23</td><td><span class="status alert">Rever</span></td></tr>
-          <tr><td>Dias e Brito</td><td class="num">122</td><td class="num">122</td><td class="num">117</td><td class="num">0</td><td><span class="status partial">5 diferenças</span></td></tr>
-          <tr><td>Alto dos Moinhos</td><td class="num">115</td><td class="num">112</td><td class="num">104</td><td class="num">3</td><td><span class="status alert">Rever</span></td></tr>
+        <div class="table-wrap"><table><thead><tr><th>Farmácia</th><th>Meses incluídos</th><th class="num">PDFs</th><th class="num">Na BD</th><th class="num">Líquido OK</th><th class="num">Ausentes</th><th>Estado</th></tr></thead><tbody>
+          <tr><td>Aroeira</td><td>Out/2025 · Fev/2026 · Jul/2026</td><td class="num">147</td><td class="num">124</td><td class="num">119</td><td class="num">23</td><td><span class="status alert">Rever</span></td></tr>
+          <tr><td>Dias e Brito</td><td>Out/2025 · Fev/2026 · Jul/2026</td><td class="num">122</td><td class="num">122</td><td class="num">117</td><td class="num">0</td><td><span class="status partial">5 diferenças</span></td></tr>
+          <tr><td>Alto dos Moinhos</td><td>Fev/2025 · Fev/2026 · Jul/2026</td><td class="num">115</td><td class="num">112</td><td class="num">104</td><td class="num">3</td><td><span class="status alert">Rever</span></td></tr>
         </tbody></table></div>
       </article>
       <article class="card span12"><h2>Testes automáticos previstos</h2><div class="legend"><span><i class="dot" style="background:var(--ok)"></i>Conforme</span><span><i class="dot" style="background:var(--warn)"></i>Incompleto</span><span><i class="dot" style="background:var(--bad)"></i>Divergente</span></div><div class="table-wrap"><table><tbody>
@@ -101,7 +101,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 
   <section id="produtos" class="panel">
     <div class="grid">
-      <article class="card span4"><div class="label">Pares CNP–mês comparáveis</div><div class="value">10 267</div><div class="sub">Mínimo de 3 unidades em cada grupo.</div></article>
+      <article class="card span4"><div class="label">Pares CNP–mês · ago/2025 a jul/2026</div><div class="value">10 267</div><div class="sub">12 meses; mínimo de 3 unidades em cada grupo.</div></article>
       <article class="card span4"><div class="label">Preço inferior Elofarma</div><div class="value">6 181</div><div class="bar"><span style="width:60.2%"></span></div><div class="sub">Antes de fees e encargos globais.</div></article>
       <article class="card span4"><div class="label">Preço inferior Rede Claro</div><div class="value">2 815</div><div class="bar"><span style="width:27.4%"></span></div><div class="sub">1 271 empates.</div></article>
       <article class="card span12"><h2>Próximos alertas por produto</h2><div class="table-wrap"><table><thead><tr><th>Teste</th><th>Comparação</th><th>Resultado esperado</th></tr></thead><tbody>
