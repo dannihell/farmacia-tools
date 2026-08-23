@@ -61,27 +61,44 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 
   <section id="faturas" class="panel">
     <div class="grid">
-      <article class="card span3"><div class="label">Resumos mensais verificados</div><div class="value">30</div><div class="sub">Aroeira 10 · Dias e Brito 10 · Alto dos Moinhos 10.</div></article>
-      <article class="card span3"><div class="label">Faturas 100… no resumo</div><div class="value">4 769</div><div class="sub">Universo mensal efetivo, não uma amostra de PDFs diários.</div></article>
-      <article class="card span3"><div class="label">Localizadas nas guias Sifarma</div><div class="value good">4 635</div><div class="sub">4 585 por número exato + 50 por data e líquido; 97,2%.</div></article>
-      <article class="card span3"><div class="label">Ainda não localizadas</div><div class="value bad">134</div><div class="sub">Devem ser investigadas; não prova, por si só, perda financeira.</div></article>
+      <article class="card span3"><div class="label">Resumos mensais verificados</div><div class="value">31</div><div class="sub">Aroeira 11 · Dias e Brito 10 · Alto dos Moinhos 10.</div></article>
+      <article class="card span3"><div class="label">Faturas 100… no resumo</div><div class="value">4 930</div><div class="sub">Universo mensal efetivo, não uma amostra de PDFs diários.</div></article>
+      <article class="card span3"><div class="label">Localizadas nas guias Sifarma</div><div class="value good">4 795</div><div class="sub">4 714 por número + 81 por data/valor/conteúdo; 97,3%.</div></article>
+      <article class="card span3"><div class="label">Ainda não localizadas</div><div class="value bad">135</div><div class="sub">Os meses antigos ainda aguardam o teste aprofundado por CNP.</div></article>
       <article class="card span12">
         <h2>Método de controlo mensal</h2>
         <div class="table-wrap"><table><thead><tr><th>Passo</th><th>Fonte</th><th>Validação</th></tr></thead><tbody>
           <tr><td>1. Obter universo do mês</td><td>Fatura-resumo <code>900...</code></td><td>Número, data, líquido, fees, IVA e total de cada documento.</td></tr>
-          <tr><td>2. Procurar cada documento</td><td>Sifarma, apenas leitura</td><td><code>NUM_GUIA</code> e data; detetar ausência ou duplicado.</td></tr>
-          <tr><td>3. Reconciliar valores</td><td>Resumo ↔ cabeçalho/linhas BD</td><td>Líquido, fee e total dentro da tolerância definida.</td></tr>
-          <tr><td>4. Investigar exceção</td><td>Fatura diária, quando disponível</td><td>Produto, quantidade, preço, desconto, categoria T/P e bónus.</td></tr>
+          <tr><td>2. Procurar por número</td><td>Sifarma, apenas leitura</td><td>Número exato e normalizado: zeros, ano, sufixos e caracteres adicionais.</td></tr>
+          <tr><td>3. Procurar pelo conteúdo</td><td>Linhas da fatura ↔ linhas da guia</td><td>CNP, quantidades e valor líquido; admite data de receção diferente.</td></tr>
+          <tr><td>4. Reconciliar valores</td><td>Resumo ↔ cabeçalho/linhas BD</td><td>Líquido, fee e total dentro da tolerância definida.</td></tr>
+          <tr><td>5. Investigar exceção</td><td>Fatura diária, quando disponível</td><td>Produto, quantidade, preço, desconto, categoria T/P e bónus.</td></tr>
         </tbody></table></div>
       </article>
       <article class="card span12">
+        <h2>Teste-piloto integral · Aroeira · julho de 2026</h2>
+        <div class="grid">
+          <div class="span3"><div class="label">Faturas de produto</div><div class="value">177</div><div class="sub">161 documentos 100… + 16 documentos 346…</div></div>
+          <div class="span3"><div class="label">Reconciliadas no Sifarma</div><div class="value good">176</div><div class="sub">99,4% por número ou conteúdo da encomenda.</div></div>
+          <div class="span3"><div class="label">Exceção de produto</div><div class="value bad">1</div><div class="sub">Fatura 1004316443 · 54,66 € com IVA.</div></div>
+          <div class="span3"><div class="label">PDF ↔ resumo</div><div class="value good">177/177</div><div class="sub">Líquido e total coincidem em todas.</div></div>
+        </div>
+        <div class="table-wrap" style="margin-top:16px"><table><thead><tr><th>Bloco</th><th class="num">Documentos</th><th class="num">Valor</th><th>Resultado</th></tr></thead><tbody>
+          <tr><td>Faturas de produto</td><td class="num">177</td><td class="num">112 530,36 € c/IVA</td><td><span class="status">176 reconciliadas</span></td></tr>
+          <tr><td>Notas de lançamento</td><td class="num">3</td><td class="num">886,10 € c/IVA</td><td><span class="status partial">Alerta financeiro</span></td></tr>
+          <tr><td>Notas de crédito</td><td class="num">24</td><td class="num">1 966,82 €</td><td><span class="status partial">22 na BD · 2 por esclarecer</span></td></tr>
+          <tr><td>Exceção ligada</td><td class="num">2</td><td class="num">54,66 € fatura · 63,32 € NC</td><td><span class="status alert">1004316443 / 79814331</span></td></tr>
+        </tbody></table></div>
+        <div class="sub" style="margin-top:10px">As notas de lançamento não são esperadas no circuito de stock, mas são sempre apresentadas como encargos. Consulta Sifarma exclusivamente por SELECT.</div>
+      </article>
+      <article class="card span12">
         <h2>Resultado real por farmácia e mês</h2>
-        <div class="sub" style="margin:-7px 0 10px">Filtro limitado às faturas Alliance <code>100…</code>. Primeiro procura-se o número exato; depois, uma correspondência única no mesmo dia e com líquido a menos de 0,02 €. “Não localizada” não significa automaticamente que nunca entrou noutro circuito do Sifarma.</div>
+        <div class="sub" style="margin:-7px 0 10px">Histórico limitado às faturas Alliance <code>100…</code>. O piloto de julho acrescenta a comparação por CNP, quantidades e líquido. “Não localizada” nunca é assumida como ausência definitiva sem este segundo teste.</div>
         <div style="margin:12px 0"><label class="label" for="farmFilter">Farmácia</label> <select id="farmFilter"><option value="">Todas</option><option>Aroeira</option><option>Dias e Brito</option><option>Alto dos Moinhos</option></select></div>
         <div class="table-wrap"><table><thead><tr><th>Farmácia</th><th>Mês</th><th>Resumo</th><th class="num">Faturas</th><th class="num">Localizadas</th><th class="num">N.º diferente</th><th class="num">Não localizadas</th><th class="num">Líquido OK</th><th>Estado</th></tr></thead><tbody id="summaryRows"></tbody></table></div>
       </article>
       <article class="card span12">
-        <h2>Amostra de faturas diárias já comparada</h2>
+        <h2>Amostra histórica de faturas diárias</h2>
         <div class="sub" style="margin:-7px 0 10px">Estes números medem apenas os PDFs diários recebidos; não permitem concluir quantas faturas do mês estão em falta.</div>
         <div class="table-wrap"><table><thead><tr><th>Farmácia</th><th>Meses incluídos</th><th class="num">PDFs</th><th class="num">Na BD</th><th class="num">Líquido OK</th><th class="num">Ausentes</th><th>Estado</th></tr></thead><tbody>
           <tr><td>Aroeira</td><td>Out/2025 · Fev/2026 · Jul/2026</td><td class="num">147</td><td class="num">124</td><td class="num">119</td><td class="num">23</td><td><span class="status alert">Rever</span></td></tr>
@@ -146,3 +163,4 @@ farmFilter.addEventListener('change',renderSummaries);renderSummaries();
 </script>
 </body>
 </html>
+html>
