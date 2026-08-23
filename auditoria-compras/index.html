@@ -61,10 +61,10 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 
   <section id="faturas" class="panel">
     <div class="grid">
-      <article class="card span3"><div class="label">Fonte principal de completude mensal</div><div class="value">Resumo 900</div><div class="sub">A lista integral de documentos do mês é comparada com o Sifarma.</div></article>
-      <article class="card span3"><div class="label">Faturas diárias já testadas</div><div class="value">384</div><div class="sub">Amostra para validar linhas e valores; não mede completude mensal.</div></article>
-      <article class="card span3"><div class="label">Líquido coincidente na amostra</div><div class="value good">340/358</div><div class="sub">95,0% das faturas diárias localizadas.</div></article>
-      <article class="card span3"><div class="label">Controlo correto de ausências</div><div class="value">Resumo ↔ BD</div><div class="sub">Uma fatura só é marcada ausente se constar do resumo e não existir no Sifarma.</div></article>
+      <article class="card span3"><div class="label">Resumos mensais verificados</div><div class="value">30</div><div class="sub">Aroeira 10 · Dias e Brito 10 · Alto dos Moinhos 10.</div></article>
+      <article class="card span3"><div class="label">Faturas 100… no resumo</div><div class="value">4 769</div><div class="sub">Universo mensal efetivo, não uma amostra de PDFs diários.</div></article>
+      <article class="card span3"><div class="label">Localizadas nas guias Sifarma</div><div class="value good">4 585</div><div class="sub">96,1% por número de documento; consulta apenas de leitura.</div></article>
+      <article class="card span3"><div class="label">Não localizadas nas guias</div><div class="value bad">184</div><div class="sub">Devem ser investigadas; não prova, por si só, perda financeira.</div></article>
       <article class="card span12">
         <h2>Método de controlo mensal</h2>
         <div class="table-wrap"><table><thead><tr><th>Passo</th><th>Fonte</th><th>Validação</th></tr></thead><tbody>
@@ -75,6 +75,12 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
         </tbody></table></div>
       </article>
       <article class="card span12">
+        <h2>Resultado real por farmácia e mês</h2>
+        <div class="sub" style="margin:-7px 0 10px">Filtro limitado às faturas Alliance cujo número começa por <code>100</code>. “Não localizada” significa que o número não apareceu em <code>SIFT_GUIAS_REMESSA</code>; não significa automaticamente que nunca entrou noutro circuito do Sifarma.</div>
+        <div style="margin:12px 0"><label class="label" for="farmFilter">Farmácia</label> <select id="farmFilter"><option value="">Todas</option><option>Aroeira</option><option>Dias e Brito</option><option>Alto dos Moinhos</option></select></div>
+        <div class="table-wrap"><table><thead><tr><th>Farmácia</th><th>Mês</th><th>Resumo</th><th class="num">Faturas</th><th class="num">Localizadas</th><th class="num">Não localizadas</th><th class="num">Líquido OK</th><th>Estado</th></tr></thead><tbody id="summaryRows"></tbody></table></div>
+      </article>
+      <article class="card span12">
         <h2>Amostra de faturas diárias já comparada</h2>
         <div class="sub" style="margin:-7px 0 10px">Estes números medem apenas os PDFs diários recebidos; não permitem concluir quantas faturas do mês estão em falta.</div>
         <div class="table-wrap"><table><thead><tr><th>Farmácia</th><th>Meses incluídos</th><th class="num">PDFs</th><th class="num">Na BD</th><th class="num">Líquido OK</th><th class="num">Ausentes</th><th>Estado</th></tr></thead><tbody>
@@ -83,7 +89,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
           <tr><td>Alto dos Moinhos</td><td>Fev/2025 · Fev/2026 · Jul/2026</td><td class="num">115</td><td class="num">112</td><td class="num">104</td><td class="num">3</td><td><span class="status alert">Rever</span></td></tr>
         </tbody></table></div>
       </article>
-      <article class="card span12"><h2>Testes automáticos previstos</h2><div class="legend"><span><i class="dot" style="background:var(--ok)"></i>Conforme</span><span><i class="dot" style="background:var(--warn)"></i>Incompleto</span><span><i class="dot" style="background:var(--bad)"></i>Divergente</span></div><div class="table-wrap"><table><tbody>
+      <article class="card span12"><h2>Testes automáticos</h2><div class="legend"><span><i class="dot" style="background:var(--ok)"></i>Conforme</span><span><i class="dot" style="background:var(--warn)"></i>Incompleto</span><span><i class="dot" style="background:var(--bad)"></i>Divergente</span></div><div class="table-wrap"><table><tbody>
         <tr><td>Número e data do PDF existem no Sifarma</td><td>PDF ↔ <code>SIFT_GUIAS_REMESSA</code></td></tr>
         <tr><td>Quantidade e linhas recebidas coincidem</td><td>Fatura ↔ guia ↔ linhas</td></tr>
         <tr><td>Líquido, IVA, fees e total fecham</td><td>Fatura diária ↔ resumo mensal</td></tr>
@@ -123,12 +129,20 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
     </div>
   </section>
 </main>
+<script src="./dados-resumos.js"></script>
 <script>
 const euro=new Intl.NumberFormat('pt-PT',{style:'currency',currency:'EUR',maximumFractionDigits:0});
 const inputs=['monthly','pharmacies','ownCost','lostBenefit','newBenefit'].map(id=>document.getElementById(id));
 function calculate(){const [m,p,c,l,n]=inputs.map(x=>Number(x.value)||0);const avoided=m*p*12;const result=avoided+n-c-l;document.getElementById('rcAnnual').textContent=euro.format(avoided);const out=document.getElementById('businessCase');out.textContent=`${euro.format(Math.abs(result))} ${result>=0?'favorável':'desfavorável'}`;out.className=result>=0?'good':'bad'}
 inputs.forEach(x=>x.addEventListener('input',calculate));calculate();
 document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected','false'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));tab.setAttribute('aria-selected','true');document.getElementById(tab.dataset.panel).classList.add('active')}));
+const summaryBody=document.getElementById('summaryRows');
+const farmFilter=document.getElementById('farmFilter');
+function renderSummaries(){
+  const rows=(window.AUDIT_RESUMOS||[]).filter(r=>!farmFilter.value||r[0]===farmFilter.value);
+  summaryBody.innerHTML=rows.map(r=>{const presence=(100*r[4]/r[3]).toFixed(1);const liquid=(100*r[6]/r[7]).toFixed(1);const state=r[5]===0?'<span class="status">Completo</span>':r[5]<=5?'<span class="status partial">Rever</span>':'<span class="status alert">Rever</span>';return `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td class="num">${r[3]}</td><td class="num">${r[4]} (${presence}%)</td><td class="num">${r[5]}</td><td class="num">${r[6]}/${r[7]} (${liquid}%)</td><td>${state}</td></tr>`}).join('');
+}
+farmFilter.addEventListener('change',renderSummaries);renderSummaries();
 </script>
 </body>
 </html>
