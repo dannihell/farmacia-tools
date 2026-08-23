@@ -61,12 +61,22 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 
   <section id="faturas" class="panel">
     <div class="grid">
-      <article class="card span3"><div class="label">Faturas diárias · meses carregados</div><div class="value">384</div><div class="sub">Períodos discriminados na tabela abaixo.</div></article>
-      <article class="card span3"><div class="label">Encontradas por número</div><div class="value">358</div><div class="sub">93,2% com correspondência única na BD.</div></article>
-      <article class="card span3"><div class="label">Líquido coincidente</div><div class="value good">340</div><div class="sub">95,0% das faturas localizadas.</div></article>
-      <article class="card span3"><div class="label">Por investigar</div><div class="value bad">44</div><div class="sub">26 ausentes + 18 com diferença no líquido.</div></article>
+      <article class="card span3"><div class="label">Fonte principal de completude mensal</div><div class="value">Resumo 900</div><div class="sub">A lista integral de documentos do mês é comparada com o Sifarma.</div></article>
+      <article class="card span3"><div class="label">Faturas diárias já testadas</div><div class="value">384</div><div class="sub">Amostra para validar linhas e valores; não mede completude mensal.</div></article>
+      <article class="card span3"><div class="label">Líquido coincidente na amostra</div><div class="value good">340/358</div><div class="sub">95,0% das faturas diárias localizadas.</div></article>
+      <article class="card span3"><div class="label">Controlo correto de ausências</div><div class="value">Resumo ↔ BD</div><div class="sub">Uma fatura só é marcada ausente se constar do resumo e não existir no Sifarma.</div></article>
       <article class="card span12">
-        <h2>Estado por farmácia</h2>
+        <h2>Método de controlo mensal</h2>
+        <div class="table-wrap"><table><thead><tr><th>Passo</th><th>Fonte</th><th>Validação</th></tr></thead><tbody>
+          <tr><td>1. Obter universo do mês</td><td>Fatura-resumo <code>900...</code></td><td>Número, data, líquido, fees, IVA e total de cada documento.</td></tr>
+          <tr><td>2. Procurar cada documento</td><td>Sifarma, apenas leitura</td><td><code>NUM_GUIA</code> e data; detetar ausência ou duplicado.</td></tr>
+          <tr><td>3. Reconciliar valores</td><td>Resumo ↔ cabeçalho/linhas BD</td><td>Líquido, fee e total dentro da tolerância definida.</td></tr>
+          <tr><td>4. Investigar exceção</td><td>Fatura diária, quando disponível</td><td>Produto, quantidade, preço, desconto, categoria T/P e bónus.</td></tr>
+        </tbody></table></div>
+      </article>
+      <article class="card span12">
+        <h2>Amostra de faturas diárias já comparada</h2>
+        <div class="sub" style="margin:-7px 0 10px">Estes números medem apenas os PDFs diários recebidos; não permitem concluir quantas faturas do mês estão em falta.</div>
         <div class="table-wrap"><table><thead><tr><th>Farmácia</th><th>Meses incluídos</th><th class="num">PDFs</th><th class="num">Na BD</th><th class="num">Líquido OK</th><th class="num">Ausentes</th><th>Estado</th></tr></thead><tbody>
           <tr><td>Aroeira</td><td>Out/2025 · Fev/2026 · Jul/2026</td><td class="num">147</td><td class="num">124</td><td class="num">119</td><td class="num">23</td><td><span class="status alert">Rever</span></td></tr>
           <tr><td>Dias e Brito</td><td>Out/2025 · Fev/2026 · Jul/2026</td><td class="num">122</td><td class="num">122</td><td class="num">117</td><td class="num">0</td><td><span class="status partial">5 diferenças</span></td></tr>
