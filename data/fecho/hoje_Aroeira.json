@@ -2,29 +2,34 @@
   "farmacia": "Aroeira",
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
-  "data": "2026-08-27",
-  "gerado_em": "2026-08-27T23:59:04",
+  "data": "2026-08-28",
+  "gerado_em": "2026-08-28T21:00:04",
   "estado": "aguarda_tpas",
   "sifarma": {
-    "total_vendas_dinheiro": 4239.26,
+    "total_vendas_dinheiro": 3494.88,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
-      "numerario_declarado": 284.66,
-      "cartao_declarado": 3954.6,
-      "outros_declarado": 0.0,
+      "numerario_declarado": 455.32,
+      "cartao_declarado": 3034.8,
+      "outros_declarado": 4.76,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 107,
-          "valor": 3954.6
+          "n": 90,
+          "valor": 3034.8
         },
         {
           "tipo": "Caixa Automatica",
           "n": 185,
-          "valor": 284.66
+          "valor": 455.32
         },
         {
-          "tipo": "Numerário",
+          "tipo": "Finanfarma",
+          "n": 1,
+          "valor": 4.76
+        },
+        {
+          "tipo": "Troco",
           "n": 1,
           "valor": 0.0
         }
@@ -32,98 +37,133 @@
       "cartao_por_posto": [
         {
           "posto": "005",
-          "n": 32,
-          "valor": 1515.72
+          "n": 41,
+          "valor": 1482.4
         },
         {
           "posto": "002",
-          "n": 31,
-          "valor": 1209.12
+          "n": 21,
+          "valor": 837.07
         },
         {
           "posto": "003",
-          "n": 30,
-          "valor": 883.19
+          "n": 20,
+          "valor": 522.87
         },
         {
           "posto": "030",
-          "n": 10,
-          "valor": 261.16
-        },
-        {
-          "posto": "007",
-          "n": 4,
-          "valor": 85.41
+          "n": 8,
+          "valor": 192.46
         }
       ]
     }
   },
   "cashlogy": {
-    "apuro": 364.66,
-    "liquido": 284.66,
+    "apuro": 455.32,
+    "liquido": 455.32,
     "fundo_na_maquina": 400.0,
-    "cofre": 0.0,
-    "notas_no_cofre": 0,
+    "cofre": 455.0,
+    "notas_no_cofre": 26,
     "dispensavel": 400.0,
-    "equipamento_total": 400.0,
-    "vendido": 327.54,
-    "troco_devolvido": 42.88,
+    "equipamento_total": 855.0,
+    "vendido": 464.08,
+    "troco_devolvido": 8.76,
     "por_operador": [
+      {
+        "operador": "mafaldap",
+        "posto": "5",
+        "atendimentos": 3,
+        "numerario": 158.49,
+        "troco": 0.0,
+        "liquido": 158.49
+      },
       {
         "operador": "JESSICA",
         "posto": "5",
-        "atendimentos": 4,
-        "numerario": 123.15,
-        "troco": 5.27,
-        "liquido": 117.88
+        "atendimentos": 11,
+        "numerario": 94.39,
+        "troco": 2.71,
+        "liquido": 91.68
       },
       {
-        "operador": "Alina",
-        "posto": "2",
-        "atendimentos": 7,
-        "numerario": 97.5,
+        "operador": "JESSICA",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 54.98,
         "troco": 0.0,
-        "liquido": 97.5
+        "liquido": 54.98
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "30",
+        "atendimentos": 2,
+        "numerario": 49.67,
+        "troco": 0.0,
+        "liquido": 49.67
       },
       {
         "operador": "TATIANA",
         "posto": "3",
         "atendimentos": 3,
-        "numerario": 78.96,
+        "numerario": 33.15,
         "troco": 0.0,
-        "liquido": 78.96
+        "liquido": 33.15
+      },
+      {
+        "operador": "Alina",
+        "posto": "2",
+        "atendimentos": 2,
+        "numerario": 26.09,
+        "troco": 0.0,
+        "liquido": 26.09
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 17.45,
+        "troco": 0.0,
+        "liquido": 17.45
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 3,
+        "numerario": 17.08,
+        "troco": 0.0,
+        "liquido": 17.08
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "5",
+        "atendimentos": 1,
+        "numerario": 8.5,
+        "troco": 0.05,
+        "liquido": 8.45
       },
       {
         "operador": "Leosouza",
         "posto": "3",
         "atendimentos": 1,
-        "numerario": 14.58,
+        "numerario": 2.73,
         "troco": 0.0,
-        "liquido": 14.58
+        "liquido": 2.73
       },
       {
-        "operador": "Alina",
-        "posto": "30",
+        "operador": "mafaldap",
+        "posto": "2",
         "atendimentos": 1,
-        "numerario": 7.95,
+        "numerario": 1.55,
         "troco": 0.0,
-        "liquido": 7.95
+        "liquido": 1.55
       },
       {
-        "operador": "CLAUDIAL",
-        "posto": "7",
-        "atendimentos": 1,
-        "numerario": 5.4,
-        "troco": 0.0,
-        "liquido": 5.4
-      },
-      {
-        "operador": "TATIANA",
-        "posto": "003",
+        "operador": "JESSICA",
+        "posto": "005",
         "atendimentos": 0,
         "numerario": 0.0,
-        "troco": 37.61,
-        "liquido": -37.61
+        "troco": 6.0,
+        "liquido": -6.0
       }
     ]
   },
@@ -141,29 +181,29 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 4239.26,
+    "total_sifarma": 3494.88,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
-    "numerario_evidenciado": 284.66,
+    "numerario_evidenciado": 455.32,
     "base_numerario": "liquido (sem contagem ou sem dia anterior)",
-    "liquido_numerario": 284.66
+    "liquido_numerario": 455.32
   },
   "verificacao_fisica": {
     "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
-    "liquido": 284.66,
+    "liquido": 455.32,
     "apuro_contado": null,
     "fundo_anterior": 400.0,
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
-    "cofre_anterior": 80.0,
-    "cofre_atual": 0.0,
-    "delta_cofre": -80.0,
+    "cofre_anterior": 0.0,
+    "cofre_atual": 455.0,
+    "delta_cofre": 455.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
   },
   "tesouraria": {
-    "apuro_maquina": 364.66,
+    "apuro_maquina": 455.32,
     "apuro_contado": null,
     "fundo_na_maquina": 400.0,
     "desvio_deposito": null,
@@ -171,6 +211,8 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
+    "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 455.00 € (26 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
@@ -180,7 +222,7 @@
       "id": "01123224",
       "posto": "002",
       "talao_bruto": null,
-      "sifarma_cartao": 1209.12,
+      "sifarma_cartao": 837.07,
       "delta": null
     },
     {
@@ -188,7 +230,7 @@
       "id": "00983092",
       "posto": "003",
       "talao_bruto": null,
-      "sifarma_cartao": 883.19,
+      "sifarma_cartao": 522.87,
       "delta": null
     },
     {
@@ -196,7 +238,7 @@
       "id": "01123227",
       "posto": "030",
       "talao_bruto": null,
-      "sifarma_cartao": 261.16,
+      "sifarma_cartao": 192.46,
       "delta": null
     },
     {
@@ -204,14 +246,14 @@
       "id": "01123228",
       "posto": "005",
       "talao_bruto": null,
-      "sifarma_cartao": 1515.72,
+      "sifarma_cartao": 1482.4,
       "delta": null
     }
   ],
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
-    "cashlogy_liquido": 284.66,
-    "sifarma_numerario_declarado": 284.66,
+    "cashlogy_liquido": 455.32,
+    "sifarma_numerario_declarado": 455.32,
     "diferenca": 0.0
   }
 }
