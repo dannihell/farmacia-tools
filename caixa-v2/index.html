@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caixa v2 · Farmácia Aroeira</title>
+<style>
+:root{--ink:#17221d;--muted:#66736c;--paper:#fff;--bg:#f3f6f3;--line:#dce5de;--green:#176b45;--red:#b42318;--amber:#a15c00;--blue:#165d9c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:1080px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);font-weight:800}h1{font-size:25px;margin:3px 0 2px}.sub{color:var(--muted)}.live{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid var(--line);border-radius:20px;background:white;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px #dff2e8}.dot.stale{background:var(--amber);box-shadow:0 0 0 4px #f7ead3}.alertbar{display:none;padding:14px 16px;margin-bottom:16px;border-radius:10px;background:#fff1f0;border:1px solid #f2c5c0;color:#7a1b14}.alertbar.on{display:block}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:13px}.card{grid-column:span 4;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px}.wide{grid-column:span 8}.full{grid-column:1/-1}.label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:750}.value{font-size:28px;font-weight:760;margin:7px 0 1px;font-variant-numeric:tabular-nums}.source{font-size:11px;color:var(--muted)}.status{padding:16px;border-left:5px solid var(--blue)}.status.ok{border-color:var(--green)}.status.warn{border-color:var(--amber)}.status.bad{border-color:var(--red)}h2{font-size:15px;margin:0 0 12px}.formula{display:grid;grid-template-columns:1fr auto;gap:9px;padding:8px 0;border-bottom:1px solid var(--line)}.formula:last-child{border:0}.formula b{font-variant-numeric:tabular-nums}.pill{display:inline-block;font-size:11px;padding:3px 7px;border-radius:10px;background:#edf4ef;color:var(--green);margin-left:5px}.pill.warn{background:#fff2dd;color:var(--amber)}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}th{font-size:11px;color:var(--muted);text-transform:uppercase}.muted{color:var(--muted)}.audit{font-size:12px;padding:11px 13px;background:#f7faf8;border-radius:8px;margin-top:12px}.erro{color:var(--red)}
+@media(max-width:760px){.wrap{padding:13px}.top{display:block}.live{margin-top:12px;width:max-content}.card,.wide{grid-column:1/-1}.value{font-size:24px}}
+</style>
+</head>
+<body><main class="wrap">
+ <header class="top"><div><div class="eyebrow">Farmácias Connect · nova versão</div><h1>Caixa v2</h1><div class="sub">Faturação, recebimentos e tesouraria — separados e explicados.</div></div><div class="live"><span class="dot" id="dot"></span><span id="sync">a carregar…</span></div></header>
+ <div class="alertbar" id="alerta"></div>
+ <section class="grid">
+  <div class="card status wide" id="estadoCard"><div class="label">Estado do dia</div><div class="value" id="estado">A carregar</div><div class="sub" id="estadoSub">—</div></div>
+  <div class="card"><div class="label">Alertas TPA abertos</div><div class="value" id="nAlertas">—</div><div class="source">SmartPay ↔ Sifarma · posto + valor + tempo</div></div>
+  <div class="card"><div class="label">Faturação</div><div class="value" id="faturacao">—</div><div class="source">Sifarma · soma dos pagamentos do dia</div></div>
+  <div class="card"><div class="label">Numerário líquido</div><div class="value" id="numerario">—</div><div class="source">Cashlogy · vendido − troco/devoluções</div></div>
+  <div class="card"><div class="label">TPA bruto ao vivo</div><div class="value" id="tpa">—</div><div class="source">SmartPay · compras aprovadas A061</div></div>
+  <div class="card wide"><h2>Conciliação de vendas</h2><div id="formula"></div><div class="audit">A v2 não chama “caixa certa” a um resultado incompleto. Finanfarma e outras fontes serão acrescentadas quando estiverem confirmadas.</div></div>
+  <div class="card"><h2>Regra do fecho</h2><div class="formula"><span>Diferença até €0,01</span><b>certo</b></div><div class="formula"><span>Diferença superior</span><b>verificar</b></div><div class="formula"><span>Falta algum valor</span><b class="muted">incompleto</b></div><div class="audit">Nunca se assume zero para um valor em falta.</div></div>
+  <div class="card full"><h2>Terminais</h2><table><thead><tr><th>Terminal</th><th>Posto</th><th>Movimentos</th><th>Bruto</th><th>Conciliados</th><th>Alertas</th><th>Último</th></tr></thead><tbody id="postos"><tr><td colspan="7">A carregar…</td></tr></tbody></table></div>
+  <div class="card full"><h2>Registo diário</h2><div class="sub" style="margin:-7px 0 10px">Um registo por dia, com os valores usados e a respetiva diferença.</div><table><thead><tr><th>Dia</th><th>Sifarma</th><th>Recebido</th><th>Diferença</th><th>Estado</th></tr></thead><tbody id="historico"><tr><td colspan="5">A carregar…</td></tr></tbody></table></div>
+ </section>
+</main>
+<script>
+const eur=new Intl.NumberFormat('pt-PT',{style:'currency',currency:'EUR'}), cb=()=>'?v='+Date.now();
+const $=id=>document.getElementById(id), val=(x,f='—')=>x==null?f:eur.format(Number(x));
+async function json(url,optional=false){const r=await fetch(url+cb(),{cache:'no-store'});if(!r.ok){if(optional)return null;throw Error(url+' → '+r.status)}return r.json()}
+function hora(s){return s?new Date(s).toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'}):'—'}
+async function carregar(){
+ try{
+  const [f,t,serie]=await Promise.all([json('../data/fecho/hoje_Aroeira.json'),json('../data/fecho/tpa_tempo_real_Aroeira.json',true),json('../data/fecho/serie_Aroeira.json',true)]);
+  const sif=f.sifarma||{}, cash=f.cashlogy||{}, temLive=!!t, mesmaData=!t||f.data===t.data;
+  const total=mesmaData?sif.total_vendas_dinheiro:null, num=mesmaData?cash.liquido:null;
+  $('faturacao').textContent=val(total);$('numerario').textContent=val(num);$('tpa').textContent=val(t&&t.resumo.bruto);$('nAlertas').textContent=t?t.resumo.alertas_abertos:'—';
+  const parcial=(num||0)+((t&&t.resumo.bruto)||0), restante=total==null?null:Math.round((total-parcial)*100)/100;
+  $('formula').innerHTML=`<div class="formula"><span>Faturação Sifarma</span><b>${val(total)}</b></div><div class="formula"><span>− Numerário Cashlogy</span><b>${val(num)}</b></div><div class="formula"><span>− TPAs SmartPay</span><b>${val(t&&t.resumo.bruto)}</b></div><div class="formula"><span>= Por explicar / outros meios</span><b>${val(restante)}</b></div>`;
+  const alerts=t?t.resumo.alertas_abertos:0, stale=!t||Date.now()-new Date(t.gerado_em)>120000;
+  $('dot').classList.toggle('stale',stale);$('sync').textContent=t?`TPAs atualizados ${hora(t.gerado_em)}`:`Último fecho: ${f.data}`;
+  const card=$('estadoCard');card.className='card status wide '+(alerts?'bad':stale?'warn':'ok');
+  $('estado').textContent=alerts?'Intervenção necessária':!mesmaData?'Fecho Sifarma desatualizado':!temLive?'Último fecho registado':stale?'Monitor a confirmar':'Sem falhas TPA detetadas';
+  $('estadoSub').textContent=alerts?`${alerts} pagamento(s) aprovado(s) ainda sem venda no Sifarma`:!mesmaData?`O fecho publicado é de ${f.data}; os TPAs são de ${t&&t.data}. Não são somados.`:!temLive?`Consulta o resultado e o histórico diário. Os alertas imediatos continuam ativos por email.`:'Conciliação global incompleta até validar os outros meios de pagamento.';
+  if(alerts){$('alerta').className='alertbar on';$('alerta').innerHTML='<b>Alerta imediato:</b> confirmar a venda no posto antes de continuar.'}
+  const postos=t&&t.postos||{};$('postos').innerHTML=Object.entries(postos).map(([nome,p])=>`<tr><td><b>${nome}</b>${p.erro_log?' <span class="pill warn">inacessível</span>':''}</td><td>${p.posto}</td><td>${p.movimentos}</td><td>${val(p.bruto)}</td><td>${p.conciliados}</td><td class="${p.alertas_abertos?'erro':''}">${p.alertas_abertos}</td><td>${hora(p.ultimo_movimento)}</td></tr>`).join('')||'<tr><td colspan="7">Sem snapshot dos terminais.</td></tr>';
+  const dias=Array.isArray(serie)?serie.slice(-31).reverse():[];
+  $('historico').innerHTML=dias.map(d=>{const dif=d.diferenca_caixa, completo=d.recebido_real!=null&&dif!=null;const estado=!completo?'incompleto':Math.abs(dif)<=.01?'certo':'diferença';return `<tr><td><b>${d.data}</b></td><td>${val(d.total_sifarma)}</td><td>${val(d.recebido_real)}</td><td class="${completo&&Math.abs(dif)>.01?'erro':''}">${completo?(dif>0?'+':'')+val(dif):'—'}</td><td><span class="pill ${estado==='diferença'?'warn':''}">${estado}</span></td></tr>`}).join('')||'<tr><td colspan="5">Ainda não existem fechos diários registados.</td></tr>';
+ }catch(e){$('estado').textContent='Dados indisponíveis';$('estadoSub').textContent=e.message;$('estadoCard').className='card status wide bad'}
+}
+carregar();setInterval(carregar,30000);
+</script></body></html>
