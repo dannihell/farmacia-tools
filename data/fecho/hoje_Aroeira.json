@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-08-31",
-  "gerado_em": "2026-08-31T21:07:17",
+  "gerado_em": "2026-08-31T23:59:17",
   "estado": "aguarda_tpas",
   "sifarma": {
     "total_vendas": 7152.44,
@@ -63,10 +63,10 @@
     "apuro": 565.82,
     "liquido": 205.82,
     "fundo_na_maquina": 400.0,
-    "cofre": 565.0,
-    "notas_no_cofre": 32,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 965.0,
+    "equipamento_total": 400.0,
     "vendido": 206.15,
     "troco_devolvido": 0.33,
     "por_operador": [
@@ -167,8 +167,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 360.0,
-    "cofre_atual": 565.0,
-    "delta_cofre": 205.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": -360.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -182,8 +182,7 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "7 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 565.00 € (32 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "8 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
@@ -336,6 +335,6 @@
       }
     ],
     "movimentos": 112,
-    "gerado_em": "2026-08-31T21:07:16"
+    "gerado_em": "2026-08-31T23:59:16"
   }
 }
