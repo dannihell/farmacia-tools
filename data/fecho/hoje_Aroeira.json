@@ -3,16 +3,16 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-09-02",
-  "gerado_em": "2026-09-02T21:02:22",
+  "gerado_em": "2026-09-02T23:59:04",
   "estado": "aguarda_confirmacao",
   "sifarma": {
-    "total_vendas": 5006.71,
-    "total_vendas_dinheiro": 3853.56,
+    "total_vendas": 5030.04,
+    "total_vendas_dinheiro": 3876.89,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": 238.3,
       "cartao_declarado": 3615.26,
-      "outros_declarado": 0.0,
+      "outros_declarado": 23.33,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
@@ -21,8 +21,15 @@
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 210,
+          "n": 211,
           "valor": 238.3
+        },
+        {
+          "tipo": "My Finanfarma",
+          "n": 1,
+          "valor": 23.33,
+          "tipo_codigo": "my_finanfarma",
+          "tipo_origem": "Finanfarma"
         },
         {
           "tipo": "Troco",
@@ -189,7 +196,7 @@
     "tpas_taxa_total": null,
     "tpas_liquido_total": null,
     "finanfarma": null,
-    "my_finanfarma": 0.0,
+    "my_finanfarma": 23.33,
     "transferencia": null,
     "apuro_contado": null,
     "terminais": [
@@ -247,7 +254,7 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 3853.56,
+    "total_sifarma": 3876.89,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
     "numerario_evidenciado": 238.3,
@@ -277,7 +284,7 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "2 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -427,6 +434,6 @@
       }
     ],
     "movimentos": 85,
-    "gerado_em": "2026-09-02T21:02:20"
+    "gerado_em": "2026-09-02T23:59:03"
   }
 }
