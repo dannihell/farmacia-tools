@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-09-11",
-  "gerado_em": "2026-09-11T21:00:05",
+  "gerado_em": "2026-09-11T23:59:06",
   "estado": "aguarda_confirmacao",
   "sifarma": {
     "total_vendas": 6142.19,
@@ -133,8 +133,8 @@
   },
   "manual": {
     "tpas_total": 4468.38,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
+    "tpas_taxa_total": 17.82,
+    "tpas_liquido_total": 4450.56,
     "finanfarma": null,
     "my_finanfarma": 0.0,
     "transferencia": null,
@@ -188,12 +188,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 1600.31,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1595.08,
+        "comissao": 5.23,
         "operacoes": 18,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -301,9 +301,9 @@
     "faltam_terminais": [],
     "tpas_total": 4468.38,
     "tpas_bruto_observado": 4468.38,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "taxa_pct_media": null,
+    "tpas_taxa_total": 17.82,
+    "tpas_liquido_total": 4450.56,
+    "taxa_pct_media": 0.3988,
     "tpas": [
       {
         "id": "ps1",
@@ -353,12 +353,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 1600.31,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1595.08,
+        "comissao": 5.23,
         "operacoes": 18,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -425,12 +425,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 1600.31,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1595.08,
+        "comissao": 5.23,
         "operacoes": 18,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -449,7 +449,7 @@
       }
     ],
     "movimentos": 103,
-    "ultimo_evento_em": "2026-09-11T20:59:21",
-    "gerado_em": "2026-09-11T21:00:04"
+    "ultimo_evento_em": "2026-09-11T21:00:41",
+    "gerado_em": "2026-09-11T23:59:03"
   }
 }
