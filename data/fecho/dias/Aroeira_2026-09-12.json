@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-09-12",
-  "gerado_em": "2026-09-12T21:00:06",
+  "gerado_em": "2026-09-12T23:59:06",
   "estado": "aguarda_tpas",
   "sifarma": {
     "total_vendas": 4929.73,
@@ -178,7 +178,7 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "2 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
@@ -243,12 +243,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 485.44,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 482.94,
+        "comissao": 2.5,
         "operacoes": 19,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -285,12 +285,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 154.92,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 154.25,
+        "comissao": 0.67,
         "operacoes": 12,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -315,12 +315,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 485.44,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 482.94,
+        "comissao": 2.5,
         "operacoes": 19,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -357,12 +357,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 154.92,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 154.25,
+        "comissao": 0.67,
         "operacoes": 12,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -381,7 +381,7 @@
       }
     ],
     "movimentos": 85,
-    "ultimo_evento_em": "2026-09-12T20:54:31",
-    "gerado_em": "2026-09-12T21:00:04"
+    "ultimo_evento_em": "2026-09-12T21:01:22",
+    "gerado_em": "2026-09-12T23:59:05"
   }
 }
