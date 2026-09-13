@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-09-13",
-  "gerado_em": "2026-09-13T21:00:08",
+  "gerado_em": "2026-09-13T23:59:06",
   "estado": "aguarda_tpas",
   "sifarma": {
     "total_vendas": 5354.12,
@@ -202,12 +202,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 1556.35,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1550.86,
+        "comissao": 5.49,
         "operacoes": 42,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -244,12 +244,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 586.96,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 585.51,
+        "comissao": 1.45,
         "operacoes": 12,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -274,12 +274,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 1556.35,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1550.86,
+        "comissao": 5.49,
         "operacoes": 42,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -316,12 +316,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 586.96,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 585.51,
+        "comissao": 1.45,
         "operacoes": 12,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -340,7 +340,7 @@
       }
     ],
     "movimentos": 94,
-    "ultimo_evento_em": "2026-09-13T20:54:46",
-    "gerado_em": "2026-09-13T21:00:05"
+    "ultimo_evento_em": "2026-09-13T21:01:21",
+    "gerado_em": "2026-09-13T23:59:05"
   }
 }
