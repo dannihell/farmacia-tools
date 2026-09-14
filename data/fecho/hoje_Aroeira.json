@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-09-14",
-  "gerado_em": "2026-09-14T21:02:08",
+  "gerado_em": "2026-09-14T23:59:06",
   "estado": "aguarda_confirmacao",
   "sifarma": {
     "total_vendas": 8579.42,
@@ -65,10 +65,10 @@
     "apuro": 558.3,
     "liquido": 359.46,
     "fundo_na_maquina": 400.0,
-    "cofre": 555.0,
-    "notas_no_cofre": 17,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 955.0,
+    "equipamento_total": 400.0,
     "vendido": 403.98,
     "troco_devolvido": 44.52,
     "por_operador": [
@@ -164,8 +164,8 @@
   },
   "manual": {
     "tpas_total": 5090.84,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
+    "tpas_taxa_total": 20.87,
+    "tpas_liquido_total": 5069.97,
     "finanfarma": null,
     "my_finanfarma": 65.05,
     "transferencia": null,
@@ -177,12 +177,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 950.56,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 947.38,
+        "comissao": 3.18,
         "operacoes": 34,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -219,12 +219,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 1969.62,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1960.75,
+        "comissao": 8.87,
         "operacoes": 20,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -265,8 +265,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 51.16,
     "cofre_anterior": 250.0,
-    "cofre_atual": 555.0,
-    "delta_cofre": 305.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": -250.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -280,7 +280,7 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "COFRE COM 555.00 € (17 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -332,9 +332,9 @@
     "faltam_terminais": [],
     "tpas_total": 5090.84,
     "tpas_bruto_observado": 5090.84,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "taxa_pct_media": null,
+    "tpas_taxa_total": 20.87,
+    "tpas_liquido_total": 5069.97,
+    "taxa_pct_media": 0.41,
     "tpas": [
       {
         "id": "ps1",
@@ -342,12 +342,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 950.56,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 947.38,
+        "comissao": 3.18,
         "operacoes": 34,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -384,12 +384,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 1969.62,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1960.75,
+        "comissao": 8.87,
         "operacoes": 20,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -414,12 +414,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 950.56,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 947.38,
+        "comissao": 3.18,
         "operacoes": 34,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -456,12 +456,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 1969.62,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 1960.75,
+        "comissao": 8.87,
         "operacoes": 20,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -480,7 +480,7 @@
       }
     ],
     "movimentos": 119,
-    "ultimo_evento_em": "2026-09-14T21:01:36",
-    "gerado_em": "2026-09-14T21:02:06"
+    "ultimo_evento_em": "2026-09-14T21:02:47",
+    "gerado_em": "2026-09-14T23:59:05"
   }
 }
