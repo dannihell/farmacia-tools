@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-09-16",
-  "gerado_em": "2026-09-16T21:01:07",
+  "gerado_em": "2026-09-16T23:59:05",
   "estado": "aguarda_confirmacao",
   "sifarma": {
     "total_vendas": 7178.54,
@@ -75,10 +75,10 @@
     "apuro": 223.77,
     "liquido": 236.77,
     "fundo_na_maquina": 400.0,
-    "cofre": 220.0,
-    "notas_no_cofre": 5,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 620.0,
+    "equipamento_total": 400.0,
     "vendido": 342.03,
     "troco_devolvido": 105.26,
     "por_operador": [
@@ -181,9 +181,9 @@
     ]
   },
   "manual": {
-    "tpas_total": 4650.12,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
+    "tpas_total": 4657.02,
+    "tpas_taxa_total": 17.88,
+    "tpas_liquido_total": 4639.14,
     "finanfarma": null,
     "my_finanfarma": 233.94,
     "transferencia": null,
@@ -195,12 +195,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 810.34,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 807.01,
+        "comissao": 3.33,
         "operacoes": 41,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -236,13 +236,13 @@
         "nome": "FARMADRIVE",
         "posto": "030",
         "terminal": "01123227",
-        "bruto": 887.92,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 22,
-        "fechos": 0,
+        "bruto": 894.82,
+        "liquido": 891.0,
+        "comissao": 3.82,
+        "operacoes": 23,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -283,8 +283,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 220.0,
-    "delta_cofre": 220.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -299,7 +299,6 @@
   },
   "avisos": [
     "6 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 220.00 € (5 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -349,11 +348,11 @@
     "data": "2026-09-16",
     "completo": true,
     "faltam_terminais": [],
-    "tpas_total": 4650.12,
-    "tpas_bruto_observado": 4650.12,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "taxa_pct_media": null,
+    "tpas_total": 4657.02,
+    "tpas_bruto_observado": 4657.02,
+    "tpas_taxa_total": 17.88,
+    "tpas_liquido_total": 4639.14,
+    "taxa_pct_media": 0.3839,
     "tpas": [
       {
         "id": "ps1",
@@ -361,12 +360,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 810.34,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 807.01,
+        "comissao": 3.33,
         "operacoes": 41,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -402,13 +401,13 @@
         "nome": "FARMADRIVE",
         "posto": "030",
         "terminal": "01123227",
-        "bruto": 887.92,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 22,
-        "fechos": 0,
+        "bruto": 894.82,
+        "liquido": 891.0,
+        "comissao": 3.82,
+        "operacoes": 23,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -433,12 +432,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 810.34,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 807.01,
+        "comissao": 3.33,
         "operacoes": 41,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -474,13 +473,13 @@
         "nome": "FARMADRIVE",
         "posto": "030",
         "terminal": "01123227",
-        "bruto": 887.92,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 22,
-        "fechos": 0,
+        "bruto": 894.82,
+        "liquido": 891.0,
+        "comissao": 3.82,
+        "operacoes": 23,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -498,8 +497,8 @@
         "cobertura_confirmada": true
       }
     ],
-    "movimentos": 151,
-    "ultimo_evento_em": "2026-09-16T20:57:43",
-    "gerado_em": "2026-09-16T21:01:06"
+    "movimentos": 152,
+    "ultimo_evento_em": "2026-09-16T21:01:26",
+    "gerado_em": "2026-09-16T23:59:03"
   }
 }
