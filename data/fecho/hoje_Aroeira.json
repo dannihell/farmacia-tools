@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-09-18",
-  "gerado_em": "2026-09-18T21:08:06",
+  "gerado_em": "2026-09-18T23:59:05",
   "estado": "aguarda_confirmacao",
   "sifarma": {
     "total_vendas": 6691.93,
@@ -65,10 +65,10 @@
     "apuro": 284.9,
     "liquido": 284.9,
     "fundo_na_maquina": 400.0,
-    "cofre": 280.0,
-    "notas_no_cofre": 9,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 680.0,
+    "equipamento_total": 400.0,
     "vendido": 322.43,
     "troco_devolvido": 37.53,
     "por_operador": [
@@ -273,8 +273,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 280.0,
-    "delta_cofre": 280.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -289,7 +289,6 @@
   },
   "avisos": [
     "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 280.00 € (9 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -490,6 +489,6 @@
     ],
     "movimentos": 110,
     "ultimo_evento_em": "2026-09-18T21:04:57",
-    "gerado_em": "2026-09-18T21:08:05"
+    "gerado_em": "2026-09-18T23:59:03"
   }
 }
