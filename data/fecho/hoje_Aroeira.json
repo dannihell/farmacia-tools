@@ -2,27 +2,27 @@
   "farmacia": "Aroeira",
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
-  "data": "2026-09-17",
-  "gerado_em": "2026-09-17T23:59:07",
+  "data": "2026-09-18",
+  "gerado_em": "2026-09-18T21:08:06",
   "estado": "aguarda_confirmacao",
   "sifarma": {
-    "total_vendas": 6992.53,
-    "total_vendas_dinheiro": 3925.94,
+    "total_vendas": 6691.93,
+    "total_vendas_dinheiro": 4764.68,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
-      "numerario_declarado": 142.51,
-      "cartao_declarado": 3742.97,
-      "outros_declarado": 40.46,
+      "numerario_declarado": 284.9,
+      "cartao_declarado": 4431.9,
+      "outros_declarado": 47.88,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 102,
-          "valor": 3742.97
+          "n": 110,
+          "valor": 4431.9
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 184,
-          "valor": 142.51
+          "n": 205,
+          "valor": 284.9
         },
         {
           "tipo": "My Finanfarma",
@@ -30,179 +30,150 @@
           "valor": 47.88,
           "tipo_codigo": "my_finanfarma",
           "tipo_origem": "Finanfarma"
-        },
-        {
-          "tipo": "Numerário",
-          "n": 5,
-          "valor": -7.42
         }
       ],
       "cartao_por_posto": [
         {
-          "posto": "005",
-          "n": 33,
-          "valor": 1356.25
+          "posto": "002",
+          "n": 35,
+          "valor": 1507.24
         },
         {
-          "posto": "030",
-          "n": 19,
-          "valor": 889.01
+          "posto": "005",
+          "n": 25,
+          "valor": 1201.46
         },
         {
           "posto": "003",
-          "n": 19,
-          "valor": 718.17
-        },
-        {
-          "posto": "002",
-          "n": 26,
-          "valor": 698.36
+          "n": 28,
+          "valor": 986.42
         },
         {
           "posto": "007",
-          "n": 5,
-          "valor": 81.18
+          "n": 10,
+          "valor": 496.45
+        },
+        {
+          "posto": "030",
+          "n": 12,
+          "valor": 240.33
         }
       ]
     }
   },
   "cashlogy": {
-    "apuro": 157.38,
-    "liquido": 157.38,
+    "apuro": 284.9,
+    "liquido": 284.9,
     "fundo_na_maquina": 400.0,
-    "cofre": 0.0,
-    "notas_no_cofre": 0,
+    "cofre": 280.0,
+    "notas_no_cofre": 9,
     "dispensavel": 400.0,
-    "equipamento_total": 400.0,
-    "vendido": 303.49,
-    "troco_devolvido": 146.11,
+    "equipamento_total": 680.0,
+    "vendido": 322.43,
+    "troco_devolvido": 37.53,
     "por_operador": [
       {
-        "operador": "DUARTE",
-        "posto": "5",
-        "atendimentos": 3,
-        "numerario": 75.48,
-        "troco": 0.0,
-        "liquido": 75.48
-      },
-      {
         "operador": "silvia",
         "posto": "3",
-        "atendimentos": 2,
-        "numerario": 63.6,
-        "troco": 0.72,
-        "liquido": 62.88
+        "atendimentos": 5,
+        "numerario": 59.33,
+        "troco": 0.0,
+        "liquido": 59.33
       },
       {
         "operador": "Leosouza",
         "posto": "5",
-        "atendimentos": 2,
-        "numerario": 37.75,
-        "troco": 0.0,
-        "liquido": 37.75
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "2",
-        "atendimentos": 1,
-        "numerario": 22.48,
-        "troco": 0.0,
-        "liquido": 22.48
-      },
-      {
-        "operador": "MATILDE",
-        "posto": "5",
         "atendimentos": 3,
-        "numerario": 19.75,
-        "troco": 0.0,
-        "liquido": 19.75
-      },
-      {
-        "operador": "MATILDE",
-        "posto": "30",
-        "atendimentos": 2,
-        "numerario": 14.96,
-        "troco": 0.0,
-        "liquido": 14.96
+        "numerario": 48.25,
+        "troco": 4.95,
+        "liquido": 43.3
       },
       {
         "operador": "Leosouza",
         "posto": "7",
         "atendimentos": 1,
-        "numerario": 13.45,
+        "numerario": 43.0,
         "troco": 0.0,
-        "liquido": 13.45
+        "liquido": 43.0
       },
       {
         "operador": "Alina",
         "posto": "2",
-        "atendimentos": 2,
-        "numerario": 14.4,
-        "troco": 1.98,
-        "liquido": 12.42
-      },
-      {
-        "operador": "Alina",
-        "posto": "3",
-        "atendimentos": 2,
-        "numerario": 12.4,
-        "troco": 0.0,
-        "liquido": 12.4
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "30",
-        "atendimentos": 2,
-        "numerario": 10.87,
-        "troco": 0.0,
-        "liquido": 10.87
-      },
-      {
-        "operador": "Leosouza",
-        "posto": "3",
-        "atendimentos": 1,
-        "numerario": 9.71,
-        "troco": 0.0,
-        "liquido": 9.71
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "30",
-        "atendimentos": 1,
-        "numerario": 5.0,
-        "troco": 0.0,
-        "liquido": 5.0
-      },
-      {
-        "operador": "Alina",
-        "posto": "7",
-        "atendimentos": 1,
-        "numerario": 3.64,
-        "troco": 0.0,
-        "liquido": 3.64
-      },
-      {
-        "operador": "DUARTE",
-        "posto": "005",
-        "atendimentos": 0,
-        "numerario": 0.0,
-        "troco": 48.21,
-        "liquido": -48.21
+        "atendimentos": 4,
+        "numerario": 46.95,
+        "troco": 4.99,
+        "liquido": 41.96
       },
       {
         "operador": "silvia",
-        "posto": "003",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 40.13,
+        "troco": 0.0,
+        "liquido": 40.13
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 32.22,
+        "troco": 0.0,
+        "liquido": 32.22
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 3,
+        "numerario": 27.44,
+        "troco": 0.0,
+        "liquido": 27.44
+      },
+      {
+        "operador": "DUARTE",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 16.33,
+        "troco": 0.0,
+        "liquido": 16.33
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 1,
+        "numerario": 8.78,
+        "troco": 0.0,
+        "liquido": 8.78
+      },
+      {
+        "operador": "Alina",
+        "posto": "3",
         "atendimentos": 0,
         "numerario": 0.0,
-        "troco": 95.2,
-        "liquido": -95.2
+        "troco": 3.5,
+        "liquido": -3.5
+      },
+      {
+        "operador": "Alina",
+        "posto": "30",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 5.9,
+        "liquido": -5.9
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "002",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 18.19,
+        "liquido": -18.19
       }
     ]
   },
   "manual": {
-    "tpas_total": 3722.16,
-    "tpas_taxa_total": 15.45,
-    "tpas_liquido_total": 3706.71,
+    "tpas_total": 4431.9,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
     "finanfarma": null,
     "my_finanfarma": 47.88,
     "transferencia": null,
@@ -213,13 +184,13 @@
         "nome": "PS1",
         "posto": "002",
         "terminal": "01123224",
-        "bruto": 692.42,
-        "liquido": 689.9,
-        "comissao": 2.52,
-        "operacoes": 25,
-        "fechos": 1,
+        "bruto": 1507.24,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 35,
+        "fechos": 0,
         "movimentos_apos_fecho": 0,
-        "origem_total": "fecho_tpa",
+        "origem_total": "movimentos_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -227,10 +198,10 @@
         "nome": "PS2",
         "posto": "003",
         "terminal": "00983092",
-        "bruto": 703.3,
-        "liquido": 700.82,
-        "comissao": 2.48,
-        "operacoes": 18,
+        "bruto": 986.42,
+        "liquido": 982.4,
+        "comissao": 4.02,
+        "operacoes": 28,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -241,10 +212,10 @@
         "nome": "PS4",
         "posto": "005",
         "terminal": "01123228",
-        "bruto": 1356.25,
-        "liquido": 1351.08,
-        "comissao": 5.17,
-        "operacoes": 32,
+        "bruto": 1201.46,
+        "liquido": 1198.18,
+        "comissao": 3.28,
+        "operacoes": 25,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -255,10 +226,10 @@
         "nome": "FARMADRIVE",
         "posto": "030",
         "terminal": "01123227",
-        "bruto": 889.01,
-        "liquido": 884.07,
-        "comissao": 4.94,
-        "operacoes": 19,
+        "bruto": 240.33,
+        "liquido": 239.3,
+        "comissao": 1.03,
+        "operacoes": 12,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -269,10 +240,10 @@
         "nome": "TPA003",
         "posto": "007",
         "terminal": "01123226",
-        "bruto": 81.18,
-        "liquido": 80.84,
-        "comissao": 0.34,
-        "operacoes": 5,
+        "bruto": 496.45,
+        "liquido": 494.56,
+        "comissao": 1.89,
+        "operacoes": 10,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -287,29 +258,29 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 3925.94,
+    "total_sifarma": 4764.68,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
-    "numerario_evidenciado": 157.38,
+    "numerario_evidenciado": 284.9,
     "base_numerario": "liquido (sem contagem ou sem dia anterior)",
-    "liquido_numerario": 157.38
+    "liquido_numerario": 284.9
   },
   "verificacao_fisica": {
     "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
-    "liquido": 157.38,
+    "liquido": 284.9,
     "apuro_contado": null,
     "fundo_anterior": 400.0,
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 0.0,
-    "delta_cofre": 0.0,
+    "cofre_atual": 280.0,
+    "delta_cofre": 280.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
   },
   "tesouraria": {
-    "apuro_maquina": 157.38,
+    "apuro_maquina": 284.9,
     "apuro_contado": null,
     "fundo_na_maquina": 400.0,
     "desvio_deposito": null,
@@ -317,7 +288,8 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "5 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "1 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 280.00 € (9 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -326,7 +298,7 @@
       "id": "01123224",
       "posto": "002",
       "talao_bruto": null,
-      "sifarma_cartao": 698.36,
+      "sifarma_cartao": 1507.24,
       "delta": null
     },
     {
@@ -334,7 +306,7 @@
       "id": "00983092",
       "posto": "003",
       "talao_bruto": null,
-      "sifarma_cartao": 718.17,
+      "sifarma_cartao": 986.42,
       "delta": null
     },
     {
@@ -342,7 +314,7 @@
       "id": "01123227",
       "posto": "030",
       "talao_bruto": null,
-      "sifarma_cartao": 889.01,
+      "sifarma_cartao": 240.33,
       "delta": null
     },
     {
@@ -350,41 +322,41 @@
       "id": "01123228",
       "posto": "005",
       "talao_bruto": null,
-      "sifarma_cartao": 1356.25,
+      "sifarma_cartao": 1201.46,
       "delta": null
     }
   ],
   "diagnostico_numerario": {
     "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
-    "cashlogy_liquido": 157.38,
-    "sifarma_numerario_declarado": 142.51,
-    "diferenca": 14.87
+    "cashlogy_liquido": 284.9,
+    "sifarma_numerario_declarado": 284.9,
+    "diferenca": 0.0
   },
   "smartpay": {
     "fonte": "SmartPay � fechos P142, complementados por movimentos posteriores quando existam",
     "origem": "smartpay_automatico",
     "extras_confirmados": false,
-    "data": "2026-09-17",
+    "data": "2026-09-18",
     "completo": true,
     "faltam_terminais": [],
-    "tpas_total": 3722.16,
-    "tpas_bruto_observado": 3722.16,
-    "tpas_taxa_total": 15.45,
-    "tpas_liquido_total": 3706.71,
-    "taxa_pct_media": 0.4151,
+    "tpas_total": 4431.9,
+    "tpas_bruto_observado": 4431.9,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "taxa_pct_media": null,
     "tpas": [
       {
         "id": "ps1",
         "nome": "PS1",
         "posto": "002",
         "terminal": "01123224",
-        "bruto": 692.42,
-        "liquido": 689.9,
-        "comissao": 2.52,
-        "operacoes": 25,
-        "fechos": 1,
+        "bruto": 1507.24,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 35,
+        "fechos": 0,
         "movimentos_apos_fecho": 0,
-        "origem_total": "fecho_tpa",
+        "origem_total": "movimentos_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -392,10 +364,10 @@
         "nome": "PS2",
         "posto": "003",
         "terminal": "00983092",
-        "bruto": 703.3,
-        "liquido": 700.82,
-        "comissao": 2.48,
-        "operacoes": 18,
+        "bruto": 986.42,
+        "liquido": 982.4,
+        "comissao": 4.02,
+        "operacoes": 28,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -406,10 +378,10 @@
         "nome": "PS4",
         "posto": "005",
         "terminal": "01123228",
-        "bruto": 1356.25,
-        "liquido": 1351.08,
-        "comissao": 5.17,
-        "operacoes": 32,
+        "bruto": 1201.46,
+        "liquido": 1198.18,
+        "comissao": 3.28,
+        "operacoes": 25,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -420,10 +392,10 @@
         "nome": "FARMADRIVE",
         "posto": "030",
         "terminal": "01123227",
-        "bruto": 889.01,
-        "liquido": 884.07,
-        "comissao": 4.94,
-        "operacoes": 19,
+        "bruto": 240.33,
+        "liquido": 239.3,
+        "comissao": 1.03,
+        "operacoes": 12,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -434,10 +406,10 @@
         "nome": "TPA003",
         "posto": "007",
         "terminal": "01123226",
-        "bruto": 81.18,
-        "liquido": 80.84,
-        "comissao": 0.34,
-        "operacoes": 5,
+        "bruto": 496.45,
+        "liquido": 494.56,
+        "comissao": 1.89,
+        "operacoes": 10,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -450,13 +422,13 @@
         "nome": "PS1",
         "posto": "002",
         "terminal": "01123224",
-        "bruto": 692.42,
-        "liquido": 689.9,
-        "comissao": 2.52,
-        "operacoes": 25,
-        "fechos": 1,
+        "bruto": 1507.24,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 35,
+        "fechos": 0,
         "movimentos_apos_fecho": 0,
-        "origem_total": "fecho_tpa",
+        "origem_total": "movimentos_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -464,10 +436,10 @@
         "nome": "PS2",
         "posto": "003",
         "terminal": "00983092",
-        "bruto": 703.3,
-        "liquido": 700.82,
-        "comissao": 2.48,
-        "operacoes": 18,
+        "bruto": 986.42,
+        "liquido": 982.4,
+        "comissao": 4.02,
+        "operacoes": 28,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -478,10 +450,10 @@
         "nome": "PS4",
         "posto": "005",
         "terminal": "01123228",
-        "bruto": 1356.25,
-        "liquido": 1351.08,
-        "comissao": 5.17,
-        "operacoes": 32,
+        "bruto": 1201.46,
+        "liquido": 1198.18,
+        "comissao": 3.28,
+        "operacoes": 25,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -492,10 +464,10 @@
         "nome": "FARMADRIVE",
         "posto": "030",
         "terminal": "01123227",
-        "bruto": 889.01,
-        "liquido": 884.07,
-        "comissao": 4.94,
-        "operacoes": 19,
+        "bruto": 240.33,
+        "liquido": 239.3,
+        "comissao": 1.03,
+        "operacoes": 12,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
@@ -506,18 +478,18 @@
         "nome": "TPA003",
         "posto": "007",
         "terminal": "01123226",
-        "bruto": 81.18,
-        "liquido": 80.84,
-        "comissao": 0.34,
-        "operacoes": 5,
+        "bruto": 496.45,
+        "liquido": 494.56,
+        "comissao": 1.89,
+        "operacoes": 10,
         "fechos": 1,
         "movimentos_apos_fecho": 0,
         "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       }
     ],
-    "movimentos": 99,
-    "ultimo_evento_em": "2026-09-17T21:01:19",
-    "gerado_em": "2026-09-17T23:59:06"
+    "movimentos": 110,
+    "ultimo_evento_em": "2026-09-18T21:04:57",
+    "gerado_em": "2026-09-18T21:08:05"
   }
 }
