@@ -1,0 +1,473 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-09-23",
+  "gerado_em": "2026-09-23T21:00:10",
+  "estado": "aguarda_confirmacao",
+  "sifarma": {
+    "total_vendas": 6566.5,
+    "total_vendas_dinheiro": 4645.39,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 415.93,
+      "cartao_declarado": 4155.1,
+      "outros_declarado": 74.36,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 98,
+          "valor": 4155.1
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 195,
+          "valor": 415.93
+        },
+        {
+          "tipo": "My Finanfarma",
+          "n": 2,
+          "valor": 74.36,
+          "tipo_codigo": "my_finanfarma",
+          "tipo_origem": "Finanfarma"
+        },
+        {
+          "tipo": "Numerário",
+          "n": 10,
+          "valor": 0.0
+        },
+        {
+          "tipo": "Troco",
+          "n": 1,
+          "valor": 0.0
+        }
+      ],
+      "cartao_por_posto": [
+        {
+          "posto": "002",
+          "n": 30,
+          "valor": 1836.08
+        },
+        {
+          "posto": "003",
+          "n": 28,
+          "valor": 1218.55
+        },
+        {
+          "posto": "005",
+          "n": 15,
+          "valor": 525.72
+        },
+        {
+          "posto": "030",
+          "n": 23,
+          "valor": 495.76
+        },
+        {
+          "posto": "007",
+          "n": 2,
+          "valor": 78.99
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 389.79,
+    "liquido": 415.93,
+    "fundo_na_maquina": 400.0,
+    "cofre": 380.0,
+    "notas_no_cofre": 15,
+    "dispensavel": 400.0,
+    "equipamento_total": 780.0,
+    "vendido": 473.93,
+    "troco_devolvido": 58.0,
+    "por_operador": [
+      {
+        "operador": "Alina",
+        "posto": "2",
+        "atendimentos": 10,
+        "numerario": 148.13,
+        "troco": 2.89,
+        "liquido": 145.24
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "5",
+        "atendimentos": 4,
+        "numerario": 80.73,
+        "troco": 0.0,
+        "liquido": 80.73
+      },
+      {
+        "operador": "silvia",
+        "posto": "3",
+        "atendimentos": 7,
+        "numerario": 129.24,
+        "troco": 52.94,
+        "liquido": 76.3
+      },
+      {
+        "operador": "MATILDE",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 38.0,
+        "troco": 0.0,
+        "liquido": 38.0
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "5",
+        "atendimentos": 3,
+        "numerario": 35.08,
+        "troco": 0.0,
+        "liquido": 35.08
+      },
+      {
+        "operador": "Alina",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 24.95,
+        "troco": 0.0,
+        "liquido": 24.95
+      },
+      {
+        "operador": "Alina",
+        "posto": "30",
+        "atendimentos": 3,
+        "numerario": 17.8,
+        "troco": 0.0,
+        "liquido": 17.8
+      },
+      {
+        "operador": "silvia",
+        "posto": "2",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 2.17,
+        "liquido": -2.17
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": 4155.1,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "my_finanfarma": 74.36,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 1836.08,
+        "liquido": 1824.95,
+        "comissao": 11.13,
+        "operacoes": 30,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 1218.55,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 28,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 525.72,
+        "liquido": 521.82,
+        "comissao": 3.9,
+        "operacoes": 15,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 495.76,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 23,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 78.99,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 2,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      }
+    ],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null,
+    "origem": "smartpay_automatico",
+    "componentes_confirmados": false
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 4645.39,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "numerario_evidenciado": 415.93,
+    "base_numerario": "liquido (sem contagem ou sem dia anterior)",
+    "liquido_numerario": 415.93
+  },
+  "verificacao_fisica": {
+    "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
+    "liquido": 415.93,
+    "apuro_contado": null,
+    "fundo_anterior": 373.86,
+    "fundo_atual": 400.0,
+    "delta_fundo": 26.14,
+    "cofre_anterior": 0.0,
+    "cofre_atual": 380.0,
+    "delta_cofre": 380.0,
+    "desvio": null,
+    "ha_desvio": false,
+    "verificavel": false
+  },
+  "tesouraria": {
+    "apuro_maquina": 389.79,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "2 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 380.00 € (15 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
+  ],
+  "cartao_por_tpa": [
+    {
+      "tpa": "TPA 1 – 01123224",
+      "id": "01123224",
+      "posto": "002",
+      "talao_bruto": null,
+      "sifarma_cartao": 1836.08,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 2 – 00983092",
+      "id": "00983092",
+      "posto": "003",
+      "talao_bruto": null,
+      "sifarma_cartao": 1218.55,
+      "delta": null
+    },
+    {
+      "tpa": "TPA Drive – 01123227",
+      "id": "01123227",
+      "posto": "030",
+      "talao_bruto": null,
+      "sifarma_cartao": 495.76,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 4 – 01123228",
+      "id": "01123228",
+      "posto": "005",
+      "talao_bruto": null,
+      "sifarma_cartao": 525.72,
+      "delta": null
+    }
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 415.93,
+    "sifarma_numerario_declarado": 415.93,
+    "diferenca": 0.0
+  },
+  "smartpay": {
+    "fonte": "SmartPay � fechos P142, complementados por movimentos posteriores quando existam",
+    "origem": "smartpay_automatico",
+    "extras_confirmados": false,
+    "data": "2026-09-23",
+    "completo": true,
+    "faltam_terminais": [],
+    "tpas_total": 4155.1,
+    "tpas_bruto_observado": 4155.1,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "taxa_pct_media": null,
+    "tpas": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 1836.08,
+        "liquido": 1824.95,
+        "comissao": 11.13,
+        "operacoes": 30,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 1218.55,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 28,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 525.72,
+        "liquido": 521.82,
+        "comissao": 3.9,
+        "operacoes": 15,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 495.76,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 23,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 78.99,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 2,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      }
+    ],
+    "terminais": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 1836.08,
+        "liquido": 1824.95,
+        "comissao": 11.13,
+        "operacoes": 30,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 1218.55,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 28,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 525.72,
+        "liquido": 521.82,
+        "comissao": 3.9,
+        "operacoes": 15,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 495.76,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 23,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 78.99,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 2,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      }
+    ],
+    "movimentos": 98,
+    "ultimo_evento_em": "2026-09-23T20:56:45",
+    "gerado_em": "2026-09-23T21:00:09"
+  }
+}
