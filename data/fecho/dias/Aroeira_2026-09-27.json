@@ -1,0 +1,993 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-09-27",
+  "gerado_em": "2026-09-27T23:59:06",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas": 2486.79,
+    "total_vendas_dinheiro": 1787.18,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 0.0,
+      "cartao_declarado": 1813.41,
+      "outros_declarado": -26.23,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 84,
+          "valor": 1813.41
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 97,
+          "valor": 0.0
+        },
+        {
+          "tipo": "Numerário",
+          "n": 1,
+          "valor": -26.23
+        }
+      ],
+      "cartao_por_posto": [
+        {
+          "posto": "003",
+          "n": 37,
+          "valor": 892.82
+        },
+        {
+          "posto": "002",
+          "n": 37,
+          "valor": 772.21
+        },
+        {
+          "posto": "030",
+          "n": 10,
+          "valor": 148.38
+        }
+      ],
+      "cartao_movimentos": [
+        {
+          "atendimento": 918589,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "09:08:49",
+          "valor": 10.9,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918590,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "09:16:58",
+          "valor": 20.0,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918594,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "09:28:44",
+          "valor": 57.75,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918593,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "09:30:43",
+          "valor": 3.65,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918595,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "09:41:26",
+          "valor": 6.58,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918597,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "09:42:32",
+          "valor": 2.1,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918598,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "09:57:39",
+          "valor": 29.9,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918599,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "10:13:23",
+          "valor": 17.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918600,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "10:26:34",
+          "valor": 22.21,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918601,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "10:27:18",
+          "valor": 30.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918602,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "10:28:44",
+          "valor": 39.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918603,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "10:49:34",
+          "valor": 17.72,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918603,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "10:49:34",
+          "valor": 20.0,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918607,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "11:22:26",
+          "valor": 179.82,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918609,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "11:23:49",
+          "valor": 22.05,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918610,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "11:26:22",
+          "valor": 7.17,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918611,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "11:33:56",
+          "valor": 12.17,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918614,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "11:49:29",
+          "valor": 31.62,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918617,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "11:56:34",
+          "valor": 9.72,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918618,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "12:00:12",
+          "valor": 9.8,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918619,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:13:22",
+          "valor": 4.97,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918621,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:16:01",
+          "valor": 14.75,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918622,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:22:10",
+          "valor": 13.25,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918624,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:27:30",
+          "valor": 26.85,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918625,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:32:51",
+          "valor": 18.4,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918627,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "12:39:42",
+          "valor": 10.79,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918630,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:51:01",
+          "valor": 31.75,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918631,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "12:56:13",
+          "valor": 40.8,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918635,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "13:29:41",
+          "valor": 8.56,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918636,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "13:30:36",
+          "valor": 6.21,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918637,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "13:43:05",
+          "valor": 7.96,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918640,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:14:42",
+          "valor": 7.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918644,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:29:49",
+          "valor": 22.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918646,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:59:31",
+          "valor": 38.74,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918647,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "15:03:56",
+          "valor": 13.73,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918648,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "15:06:06",
+          "valor": 26.26,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918650,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "15:24:53",
+          "valor": 7.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918652,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "15:36:58",
+          "valor": 21.95,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918653,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "15:55:42",
+          "valor": 17.46,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918655,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:03:33",
+          "valor": 36.14,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918656,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:04:47",
+          "valor": 3.05,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918657,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:06:51",
+          "valor": 7.45,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918654,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "16:09:36",
+          "valor": 27.96,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918658,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:13:46",
+          "valor": 52.32,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918660,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:16:52",
+          "valor": 11.97,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918662,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "16:20:18",
+          "valor": 2.74,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918661,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:21:31",
+          "valor": 16.56,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918664,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:22:37",
+          "valor": 10.4,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918666,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "16:30:42",
+          "valor": 1.55,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918665,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:32:27",
+          "valor": 9.51,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918668,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:35:33",
+          "valor": 26.23,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918671,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:39:25",
+          "valor": 26.23,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918667,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "16:43:19",
+          "valor": 45.26,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918673,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:43:52",
+          "valor": 19.64,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918674,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:46:31",
+          "valor": 12.87,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918675,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:48:26",
+          "valor": 26.92,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918677,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:56:44",
+          "valor": 28.48,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918676,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "16:56:53",
+          "valor": 10.72,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918678,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:02:57",
+          "valor": 13.1,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918679,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:03:06",
+          "valor": 7.75,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918682,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:28:48",
+          "valor": 1.24,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918683,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:31:46",
+          "valor": 3.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918684,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:35:52",
+          "valor": 5.28,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918685,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:38:43",
+          "valor": 11.4,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918687,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:46:55",
+          "valor": 56.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918688,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:02:51",
+          "valor": 7.87,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918689,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:05:38",
+          "valor": 0.89,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918690,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:13:17",
+          "valor": 32.25,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918691,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:19:42",
+          "valor": 204.98,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918692,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:26:54",
+          "valor": 10.45,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918693,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:30:05",
+          "valor": 12.45,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918696,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:58:42",
+          "valor": 33.48,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918698,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:12:13",
+          "valor": 17.6,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918699,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:18:51",
+          "valor": 12.12,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918700,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:21:43",
+          "valor": 2.95,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918702,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:30:35",
+          "valor": 15.17,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918703,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:39:25",
+          "valor": 33.35,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918707,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:02:17",
+          "valor": 10.91,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918708,
+          "cod_empregado": 130,
+          "operador": "MATILDE SOARES",
+          "hora": "20:03:40",
+          "valor": 13.03,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918709,
+          "cod_empregado": 130,
+          "operador": "MATILDE SOARES",
+          "hora": "20:07:48",
+          "valor": 13.5,
+          "posto": "003"
+        },
+        {
+          "atendimento": 918710,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:09:20",
+          "valor": 1.55,
+          "posto": "030"
+        },
+        {
+          "atendimento": 918711,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:43:46",
+          "valor": 3.15,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918712,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:51:00",
+          "valor": 10.45,
+          "posto": "002"
+        },
+        {
+          "atendimento": 918713,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "21:00:37",
+          "valor": 8.7,
+          "posto": "002"
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 0.0,
+    "liquido": 37.72,
+    "fundo_na_maquina": null,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
+    "dispensavel": 399.8,
+    "equipamento_total": 399.8,
+    "vendido": 37.72,
+    "troco_devolvido": 0.0,
+    "por_operador": [
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 37.72,
+        "troco": 0.0,
+        "liquido": 37.72
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "my_finanfarma": 0.0,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null,
+    "origem": null,
+    "componentes_confirmados": false
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 1787.18,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "numerario_evidenciado": 37.72,
+    "base_numerario": "liquido (sem contagem ou sem dia anterior)",
+    "liquido_numerario": 37.72
+  },
+  "verificacao_fisica": {
+    "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
+    "liquido": 37.72,
+    "apuro_contado": null,
+    "fundo_anterior": 400.0,
+    "fundo_atual": null,
+    "delta_fundo": null,
+    "cofre_anterior": 0.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
+    "desvio": null,
+    "ha_desvio": false,
+    "verificavel": false
+  },
+  "tesouraria": {
+    "apuro_maquina": 0.0,
+    "apuro_contado": null,
+    "fundo_na_maquina": null,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "Sem retirada de apuro (op 52) nesta data — caixa ainda não fechada?",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa.",
+    "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
+  ],
+  "cartao_por_tpa": [
+    {
+      "tpa": "TPA 1 – 01123224",
+      "id": "01123224",
+      "posto": "002",
+      "talao_bruto": null,
+      "sifarma_cartao": 772.21,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 2 – 00983092",
+      "id": "00983092",
+      "posto": "003",
+      "talao_bruto": null,
+      "sifarma_cartao": 892.82,
+      "delta": null
+    },
+    {
+      "tpa": "TPA Drive – 01123227",
+      "id": "01123227",
+      "posto": "030",
+      "talao_bruto": null,
+      "sifarma_cartao": 148.38,
+      "delta": null
+    }
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 37.72,
+    "sifarma_numerario_declarado": 0.0,
+    "diferenca": 37.72
+  },
+  "smartpay": {
+    "fonte": "SmartPay � fechos P142, complementados por movimentos posteriores quando existam",
+    "origem": "smartpay_automatico",
+    "extras_confirmados": false,
+    "data": "2026-09-27",
+    "completo": false,
+    "faltam_terminais": [
+      "PS4",
+      "TPA003"
+    ],
+    "tpas_total": null,
+    "tpas_bruto_observado": 1767.18,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "taxa_pct_media": null,
+    "tpas": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 772.21,
+        "liquido": 768.68,
+        "comissao": 3.53,
+        "operacoes": 37,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 846.59,
+        "liquido": 841.99,
+        "comissao": 4.6,
+        "operacoes": 35,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 148.38,
+        "liquido": 147.55,
+        "comissao": 0.83,
+        "operacoes": 10,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      }
+    ],
+    "terminais": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 772.21,
+        "liquido": 768.68,
+        "comissao": 3.53,
+        "operacoes": 37,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 846.59,
+        "liquido": 841.99,
+        "comissao": 4.6,
+        "operacoes": 35,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 148.38,
+        "liquido": 147.55,
+        "comissao": 0.83,
+        "operacoes": 10,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      }
+    ],
+    "movimentos": 82,
+    "ultimo_evento_em": "2026-09-27T21:01:34",
+    "gerado_em": "2026-09-27T23:59:05"
+  }
+}
