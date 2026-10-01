@@ -3,10 +3,10 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-10-01",
-  "gerado_em": "2026-10-01T21:02:07",
+  "gerado_em": "2026-10-01T23:59:12",
   "estado": "aguarda_confirmacao",
   "sifarma": {
-    "total_vendas": 6312.69,
+    "total_vendas": 6318.99,
     "total_vendas_dinheiro": 4638.12,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
@@ -21,7 +21,7 @@
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 226,
+          "n": 228,
           "valor": 503.9
         },
         {
@@ -955,10 +955,10 @@
     "apuro": 505.45,
     "liquido": 505.45,
     "fundo_na_maquina": 400.0,
-    "cofre": 500.0,
-    "notas_no_cofre": 24,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 900.0,
+    "equipamento_total": 400.0,
     "vendido": 510.78,
     "troco_devolvido": 5.33,
     "por_operador": [
@@ -1139,8 +1139,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 500.0,
-    "delta_cofre": 500.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -1154,7 +1154,6 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "COFRE COM 500.00 € (24 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -1355,6 +1354,6 @@
     ],
     "movimentos": 111,
     "ultimo_evento_em": "2026-10-01T21:00:07",
-    "gerado_em": "2026-10-01T21:02:06"
+    "gerado_em": "2026-10-01T23:59:10"
   }
 }
