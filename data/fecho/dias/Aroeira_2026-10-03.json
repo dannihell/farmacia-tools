@@ -1,0 +1,1312 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-10-03",
+  "gerado_em": "2026-10-03T21:10:08",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas": 7529.14,
+    "total_vendas_dinheiro": 5014.82,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 389.39,
+      "cartao_declarado": 4621.73,
+      "outros_declarado": 3.7,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 117,
+          "valor": 4621.73
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 195,
+          "valor": 389.39
+        },
+        {
+          "tipo": "My Finanfarma",
+          "n": 1,
+          "valor": 3.7,
+          "tipo_codigo": "my_finanfarma",
+          "tipo_origem": "Finanfarma"
+        }
+      ],
+      "cartao_por_posto": [
+        {
+          "posto": "005",
+          "n": 52,
+          "valor": 2209.63
+        },
+        {
+          "posto": "003",
+          "n": 45,
+          "valor": 1987.04
+        },
+        {
+          "posto": "030",
+          "n": 14,
+          "valor": 296.64
+        },
+        {
+          "posto": "002",
+          "n": 6,
+          "valor": 128.42
+        }
+      ],
+      "cartao_movimentos": [
+        {
+          "atendimento": 926167,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "09:08:48",
+          "valor": 17.46,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926240,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "09:47:09",
+          "valor": 4.55,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926257,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "09:55:31",
+          "valor": 45.84,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926329,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:19:20",
+          "valor": 13.15,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926328,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "10:22:03",
+          "valor": 70.14,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926346,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "10:27:20",
+          "valor": 13.8,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926353,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "10:29:18",
+          "valor": 11.18,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926368,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:36:00",
+          "valor": 10.77,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926376,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:40:33",
+          "valor": 5.28,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926419,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:00:13",
+          "valor": 25.15,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926443,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:08:31",
+          "valor": 52.75,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926446,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:09:07",
+          "valor": 9.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926457,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:19:18",
+          "valor": 8.47,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926482,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:24:16",
+          "valor": 430.46,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926498,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:27:26",
+          "valor": 54.92,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926487,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:28:37",
+          "valor": 30.68,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926503,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:29:53",
+          "valor": 32.85,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926515,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:33:48",
+          "valor": 18.4,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926522,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:38:13",
+          "valor": 10.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926509,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:39:30",
+          "valor": 43.55,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926526,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:41:45",
+          "valor": 16.21,
+          "posto": "002"
+        },
+        {
+          "atendimento": 926535,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:42:40",
+          "valor": 12.89,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926548,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:46:39",
+          "valor": 22.4,
+          "posto": "002"
+        },
+        {
+          "atendimento": 926540,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:49:06",
+          "valor": 27.89,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926543,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:49:08",
+          "valor": 139.19,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926555,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:49:50",
+          "valor": 4.03,
+          "posto": "002"
+        },
+        {
+          "atendimento": 926565,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:52:47",
+          "valor": 52.67,
+          "posto": "002"
+        },
+        {
+          "atendimento": 926567,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:53:35",
+          "valor": 17.65,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926586,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "12:01:34",
+          "valor": 21.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926601,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:08:35",
+          "valor": 3.0,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926602,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "12:09:32",
+          "valor": 10.85,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926614,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "12:23:53",
+          "valor": 52.45,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926625,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:24:05",
+          "valor": 17.44,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926657,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:40:01",
+          "valor": 92.93,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926675,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:44:05",
+          "valor": 42.29,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926676,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "12:45:03",
+          "valor": 67.8,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926682,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:51:43",
+          "valor": 3.85,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926688,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "12:57:28",
+          "valor": 10.43,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926716,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "13:04:51",
+          "valor": 9.65,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926732,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "13:12:49",
+          "valor": 4.76,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926744,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "13:21:26",
+          "valor": 60.75,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926749,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "13:23:48",
+          "valor": 198.53,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926779,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "13:42:23",
+          "valor": 9.72,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926808,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "13:51:11",
+          "valor": 16.72,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926846,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "14:07:11",
+          "valor": 0.46,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926903,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "14:32:07",
+          "valor": 21.39,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926909,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "14:34:50",
+          "valor": 16.94,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926913,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "14:41:57",
+          "valor": 9.46,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926917,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "14:46:44",
+          "valor": 53.15,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926933,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "14:49:47",
+          "valor": 7.92,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926935,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "14:59:18",
+          "valor": 9.02,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926942,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "15:04:06",
+          "valor": 41.28,
+          "posto": "003"
+        },
+        {
+          "atendimento": 926943,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:04:15",
+          "valor": 19.63,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926954,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:08:53",
+          "valor": 61.27,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926944,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "15:10:26",
+          "valor": 17.77,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926968,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:15:19",
+          "valor": 11.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926975,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "15:17:37",
+          "valor": 2.41,
+          "posto": "030"
+        },
+        {
+          "atendimento": 926980,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:20:32",
+          "valor": 14.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 926987,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:27:18",
+          "valor": 116.98,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927014,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:35:57",
+          "valor": 8.5,
+          "posto": "030"
+        },
+        {
+          "atendimento": 927009,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "15:36:11",
+          "valor": 46.82,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927020,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:38:42",
+          "valor": 16.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927033,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:44:55",
+          "valor": 15.14,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927043,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:47:06",
+          "valor": 6.18,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927057,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "15:54:54",
+          "valor": 182.92,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927064,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "15:58:27",
+          "valor": 108.35,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927073,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "16:03:01",
+          "valor": 29.02,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927048,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:03:15",
+          "valor": 32.85,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927093,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "16:12:15",
+          "valor": 20.02,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927105,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "16:14:26",
+          "valor": 3.53,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927087,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:17:40",
+          "valor": 171.33,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927109,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "16:17:52",
+          "valor": 13.0,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927152,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:34:55",
+          "valor": 337.63,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927170,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "16:43:49",
+          "valor": 9.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927183,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "16:47:14",
+          "valor": 6.43,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927189,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:51:25",
+          "valor": 40.93,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927205,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "16:58:28",
+          "valor": 11.08,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927207,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "17:01:01",
+          "valor": 1.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927237,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "17:11:51",
+          "valor": 14.95,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927248,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "17:19:49",
+          "valor": 13.49,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927257,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "17:20:19",
+          "valor": 12.85,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927266,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "17:28:15",
+          "valor": 20.59,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927275,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "17:40:00",
+          "valor": 57.62,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927279,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "17:46:54",
+          "valor": 290.82,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927293,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "17:53:15",
+          "valor": 22.74,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927311,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:04:56",
+          "valor": 28.8,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927285,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "18:09:13",
+          "valor": 20.4,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927327,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:12:59",
+          "valor": 8.6,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927346,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "18:19:55",
+          "valor": 7.14,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927347,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:20:36",
+          "valor": 11.3,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927357,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "18:29:21",
+          "valor": 24.65,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927373,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "18:32:27",
+          "valor": 36.0,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927389,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:44:52",
+          "valor": 69.23,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927412,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "18:48:15",
+          "valor": 13.4,
+          "posto": "030"
+        },
+        {
+          "atendimento": 927409,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:49:30",
+          "valor": 21.98,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927377,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "18:54:25",
+          "valor": 25.46,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927416,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:58:24",
+          "valor": 28.58,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927444,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "19:07:34",
+          "valor": 20.95,
+          "posto": "030"
+        },
+        {
+          "atendimento": 927451,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "19:13:06",
+          "valor": 31.83,
+          "posto": "030"
+        },
+        {
+          "atendimento": 927454,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "19:17:13",
+          "valor": 22.5,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927453,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "19:17:55",
+          "valor": 55.22,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927465,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "19:20:08",
+          "valor": 13.85,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927487,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "19:35:38",
+          "valor": 89.74,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927509,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "19:42:09",
+          "valor": 12.4,
+          "posto": "030"
+        },
+        {
+          "atendimento": 927506,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "19:44:56",
+          "valor": 81.74,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927513,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "19:50:37",
+          "valor": 37.48,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927514,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "19:51:56",
+          "valor": 17.75,
+          "posto": "030"
+        },
+        {
+          "atendimento": 927523,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "19:59:12",
+          "valor": 18.0,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927533,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "20:02:06",
+          "valor": 20.35,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927548,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "20:06:22",
+          "valor": 7.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927538,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "20:09:20",
+          "valor": 19.63,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927565,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "20:13:54",
+          "valor": 4.4,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927554,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "20:17:52",
+          "valor": 80.86,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927573,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "20:19:04",
+          "valor": 19.91,
+          "posto": "003"
+        },
+        {
+          "atendimento": 927622,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "20:44:45",
+          "valor": 12.4,
+          "posto": "005"
+        },
+        {
+          "atendimento": 927626,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "20:48:59",
+          "valor": 21.8,
+          "posto": "002"
+        },
+        {
+          "atendimento": 927633,
+          "cod_empregado": 118,
+          "operador": "Claudia Velez",
+          "hora": "20:57:40",
+          "valor": 11.31,
+          "posto": "002"
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 389.39,
+    "liquido": 389.39,
+    "fundo_na_maquina": 400.0,
+    "cofre": 350.0,
+    "notas_no_cofre": 29,
+    "dispensavel": 400.0,
+    "equipamento_total": 750.0,
+    "vendido": 397.65,
+    "troco_devolvido": 8.26,
+    "por_operador": [
+      {
+        "operador": "claudiav",
+        "posto": "3",
+        "atendimentos": 5,
+        "numerario": 143.88,
+        "troco": 4.24,
+        "liquido": 139.64
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "5",
+        "atendimentos": 10,
+        "numerario": 106.1,
+        "troco": 0.0,
+        "liquido": 106.1
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "3",
+        "atendimentos": 3,
+        "numerario": 73.45,
+        "troco": 4.02,
+        "liquido": 69.43
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "30",
+        "atendimentos": 3,
+        "numerario": 51.83,
+        "troco": 0.0,
+        "liquido": 51.83
+      },
+      {
+        "operador": "claudiav",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 18.4,
+        "troco": 0.0,
+        "liquido": 18.4
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 3.99,
+        "troco": 0.0,
+        "liquido": 3.99
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "my_finanfarma": 3.7,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null,
+    "origem": null,
+    "componentes_confirmados": false
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 5014.82,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "numerario_evidenciado": 389.39,
+    "base_numerario": "liquido (sem contagem ou sem dia anterior)",
+    "liquido_numerario": 389.39
+  },
+  "verificacao_fisica": {
+    "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
+    "liquido": 389.39,
+    "apuro_contado": null,
+    "fundo_anterior": 400.0,
+    "fundo_atual": 400.0,
+    "delta_fundo": 0.0,
+    "cofre_anterior": 0.0,
+    "cofre_atual": 350.0,
+    "delta_cofre": 350.0,
+    "desvio": null,
+    "ha_desvio": false,
+    "verificavel": false
+  },
+  "tesouraria": {
+    "apuro_maquina": 389.39,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "3 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 350.00 € (29 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa.",
+    "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
+  ],
+  "cartao_por_tpa": [
+    {
+      "tpa": "TPA 1 – 01123224",
+      "id": "01123224",
+      "posto": "002",
+      "talao_bruto": null,
+      "sifarma_cartao": 128.42,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 2 – 00983092",
+      "id": "00983092",
+      "posto": "003",
+      "talao_bruto": null,
+      "sifarma_cartao": 1987.04,
+      "delta": null
+    },
+    {
+      "tpa": "TPA Drive – 01123227",
+      "id": "01123227",
+      "posto": "030",
+      "talao_bruto": null,
+      "sifarma_cartao": 296.64,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 4 – 01123228",
+      "id": "01123228",
+      "posto": "005",
+      "talao_bruto": null,
+      "sifarma_cartao": 2209.63,
+      "delta": null
+    }
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 389.39,
+    "sifarma_numerario_declarado": 389.39,
+    "diferenca": 0.0
+  },
+  "smartpay": {
+    "fonte": "SmartPay � fechos P142, complementados por movimentos posteriores quando existam",
+    "origem": "smartpay_automatico",
+    "extras_confirmados": false,
+    "data": "2026-10-03",
+    "completo": false,
+    "faltam_terminais": [
+      "TPA003"
+    ],
+    "tpas_total": null,
+    "tpas_bruto_observado": 4621.73,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "taxa_pct_media": null,
+    "tpas": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 128.42,
+        "liquido": 127.98,
+        "comissao": 0.44,
+        "operacoes": 6,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 1987.04,
+        "liquido": 1979.77,
+        "comissao": 7.27,
+        "operacoes": 45,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 2209.63,
+        "liquido": 2201.83,
+        "comissao": 7.8,
+        "operacoes": 52,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 296.64,
+        "liquido": 295.51,
+        "comissao": 1.13,
+        "operacoes": 14,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      }
+    ],
+    "terminais": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 128.42,
+        "liquido": 127.98,
+        "comissao": 0.44,
+        "operacoes": 6,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 1987.04,
+        "liquido": 1979.77,
+        "comissao": 7.27,
+        "operacoes": 45,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 2209.63,
+        "liquido": 2201.83,
+        "comissao": 7.8,
+        "operacoes": 52,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 296.64,
+        "liquido": 295.51,
+        "comissao": 1.13,
+        "operacoes": 14,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      }
+    ],
+    "movimentos": 117,
+    "ultimo_evento_em": "2026-10-03T21:05:26",
+    "gerado_em": "2026-10-03T21:10:07"
+  }
+}
