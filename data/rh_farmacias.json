@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-03T22:30:02",
+  "gerado_em": "2026-10-04T22:30:02",
   "ano": 2026,
   "farmacias": {
     "aroeira": {
@@ -11,18 +11,18 @@
         "rent_gen": 4.45
       },
       "kpis": {
-        "vendas_otc": 156449.28,
-        "vendas_saude": 1040593.71,
-        "margem_bruta": 415505.3,
-        "atendimentos": 37558
+        "vendas_otc": 156926.35,
+        "vendas_saude": 1043190.86,
+        "margem_bruta": 416515.73,
+        "atendimentos": 37649
       },
       "sauda_programa": {
-        "valor_atribuido": 17675.78,
-        "rebat_pontos": 1456.32,
+        "valor_atribuido": 17736.6,
+        "rebat_pontos": 1462.47,
         "rebat_vales_sauda": 4988.57,
         "rebat_vales_ind": 509.35,
-        "saldo_aprox": 10721.54,
-        "data_sync": "02/10/2026"
+        "saldo_aprox": 10776.21,
+        "data_sync": "03/10/2026"
       },
       "dermo": {
         "Isdin": {
@@ -2184,14 +2184,14 @@
         {
           "cod": 132,
           "nome": "JESSICA SOUSA",
-          "vendas_ytd": 304335.12,
-          "margem_ytd": 81877.71,
-          "atend_ytd": 7024,
-          "ticket_medio": 43.33,
-          "margem_atend": 11.66,
-          "cresc_vs_ant": 314.8,
+          "vendas_ytd": 305746.6,
+          "margem_ytd": 82253.25,
+          "atend_ytd": 7068,
+          "ticket_medio": 43.26,
+          "margem_atend": 11.64,
+          "cresc_vs_ant": 316.8,
           "rent_genericos": 4.45,
-          "taxa_sauda": 53.4,
+          "taxa_sauda": 53.3,
           "mensal": [
             {
               "mes": 1,
@@ -2267,17 +2267,17 @@
             },
             {
               "mes": 10,
-              "vendas": 3063.46,
-              "margem": 874.15,
-              "atend": 65,
-              "ticket": 47.13,
-              "margem_atend": 13.45
+              "vendas": 4474.94,
+              "margem": 1249.69,
+              "atend": 109,
+              "ticket": 41.05,
+              "margem_atend": 11.47
             }
           ],
           "mix": {
             "Medicamento sujeito a receita médica": 62.4,
             "Medicamento não sujeito a receita médica": 12.8,
-            "Dispositivos e acessórios": 7.2,
+            "Dispositivos e acessórios": 7.1,
             "Suplementos Alimentares": 6.2,
             "Produtos Cosméticos": 5.7,
             "Outros": 1.9,
@@ -2325,8 +2325,8 @@
               "rent_media": 4.05
             },
             "10": {
-              "unidades": 53,
-              "rent_media": 4.22
+              "unidades": 65,
+              "rent_media": 4.11
             }
           },
           "sauda_mensal": {
@@ -2339,7 +2339,7 @@
             "7": 369,
             "8": 342,
             "9": 400,
-            "10": 43
+            "10": 59
           },
           "dermo": {
             "SVR": {
@@ -3638,14 +3638,14 @@
         {
           "cod": 142,
           "nome": "Mafalda Pais",
-          "vendas_ytd": 33911.82,
-          "margem_ytd": 9400.3,
-          "atend_ytd": 918,
-          "ticket_medio": 36.94,
-          "margem_atend": 10.24,
+          "vendas_ytd": 36374.31,
+          "margem_ytd": 10035.19,
+          "atend_ytd": 965,
+          "ticket_medio": 37.69,
+          "margem_atend": 10.4,
           "cresc_vs_ant": null,
-          "rent_genericos": 3.96,
-          "taxa_sauda": 52.3,
+          "rent_genericos": 4.0,
+          "taxa_sauda": 52.2,
           "mensal": [
             {
               "mes": 1,
@@ -3721,23 +3721,23 @@
             },
             {
               "mes": 10,
-              "vendas": 0,
-              "margem": 0,
-              "atend": 0,
-              "ticket": 0,
-              "margem_atend": 0
+              "vendas": 2462.49,
+              "margem": 634.89,
+              "atend": 47,
+              "ticket": 52.39,
+              "margem_atend": 13.51
             }
           ],
           "mix": {
-            "Medicamento sujeito a receita médica": 60.4,
+            "Medicamento sujeito a receita médica": 60.2,
             "Medicamento não sujeito a receita médica": 14.9,
-            "Dispositivos e acessórios": 7.7,
-            "Suplementos Alimentares": 7.1,
+            "Dispositivos e acessórios": 8.1,
+            "Suplementos Alimentares": 7.0,
             "Produtos Cosméticos": 4.4,
             "Produtos de Higiene": 1.7,
-            "Dietética": 1.4,
-            "Outros": 1.3,
-            "Puericultura": 0.7,
+            "Outros": 1.4,
+            "Dietética": 1.3,
+            "Puericultura": 0.6,
             "Medicamentos e Produtos de Veterinária": 0.3
           },
           "genericos_mensal": {
@@ -3752,12 +3752,17 @@
             "9": {
               "unidades": 154,
               "rent_media": 4.17
+            },
+            "10": {
+              "unidades": 34,
+              "rent_media": 4.81
             }
           },
           "sauda_mensal": {
             "7": 27,
             "8": 329,
-            "9": 124
+            "9": 124,
+            "10": 24
           },
           "dermo": {
             "SVR": {
@@ -4698,12 +4703,12 @@
         "atendimentos": 31650
       },
       "sauda_programa": {
-        "valor_atribuido": 13125.88,
-        "rebat_pontos": 6670.29,
+        "valor_atribuido": 13164.94,
+        "rebat_pontos": 6679.21,
         "rebat_vales_sauda": 2154.0,
         "rebat_vales_ind": 322.76,
-        "saldo_aprox": 3978.83,
-        "data_sync": "02/10/2026"
+        "saldo_aprox": 4008.97,
+        "data_sync": "03/10/2026"
       },
       "dermo": {
         "Bioderma": {
@@ -6672,12 +6677,12 @@
         "atendimentos": 13018
       },
       "sauda_programa": {
-        "valor_atribuido": 1043.1,
+        "valor_atribuido": 1045.5,
         "rebat_pontos": 182.04,
         "rebat_vales_sauda": 50.0,
         "rebat_vales_ind": 8.94,
-        "saldo_aprox": 802.12,
-        "data_sync": "02/10/2026"
+        "saldo_aprox": 804.52,
+        "data_sync": "03/10/2026"
       },
       "dermo": {
         "Isdin": {
