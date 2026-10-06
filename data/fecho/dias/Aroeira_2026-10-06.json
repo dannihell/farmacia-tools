@@ -1,0 +1,1487 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-10-06",
+  "gerado_em": "2026-10-06T21:03:08",
+  "estado": "aguarda_confirmacao",
+  "sifarma": {
+    "total_vendas": 6760.71,
+    "total_vendas_dinheiro": 4844.51,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 511.9,
+      "cartao_declarado": 4326.71,
+      "outros_declarado": 5.9,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 125,
+          "valor": 4326.71
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 295,
+          "valor": 511.9
+        },
+        {
+          "tipo": "Numerário",
+          "n": 5,
+          "valor": 5.9
+        }
+      ],
+      "cartao_por_posto": [
+        {
+          "posto": "002",
+          "n": 49,
+          "valor": 1923.12
+        },
+        {
+          "posto": "005",
+          "n": 25,
+          "valor": 895.0
+        },
+        {
+          "posto": "003",
+          "n": 22,
+          "valor": 778.11
+        },
+        {
+          "posto": "030",
+          "n": 27,
+          "valor": 709.91
+        },
+        {
+          "posto": "007",
+          "n": 2,
+          "valor": 20.57
+        }
+      ],
+      "cartao_movimentos": [
+        {
+          "atendimento": 935037,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "08:24:00",
+          "valor": 4.42,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935060,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "08:32:48",
+          "valor": 12.4,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935085,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "08:56:59",
+          "valor": 71.12,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935119,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "09:04:11",
+          "valor": 15.16,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935152,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "09:15:49",
+          "valor": 19.22,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935186,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "09:29:11",
+          "valor": 39.11,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935213,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "09:39:14",
+          "valor": 17.29,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935224,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "09:45:04",
+          "valor": 10.95,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935247,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "09:53:10",
+          "valor": 35.23,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935333,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:30:33",
+          "valor": 35.15,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935313,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "10:35:51",
+          "valor": 25.76,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935358,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "10:37:25",
+          "valor": 11.0,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935375,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:50:24",
+          "valor": 129.62,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935385,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "10:51:26",
+          "valor": 19.4,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935397,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:57:22",
+          "valor": 6.32,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935410,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:00:14",
+          "valor": 13.45,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935415,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:04:19",
+          "valor": 3.8,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935436,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:09:37",
+          "valor": 24.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935434,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:09:59",
+          "valor": 57.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935455,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:15:18",
+          "valor": 24.6,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935482,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:28:03",
+          "valor": 13.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935499,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "11:35:06",
+          "valor": 0.6,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935512,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:40:52",
+          "valor": 33.74,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935522,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:43:30",
+          "valor": 10.5,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935555,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "11:57:36",
+          "valor": 13.4,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935558,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "12:00:51",
+          "valor": 66.54,
+          "posto": "003"
+        },
+        {
+          "atendimento": 935562,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "12:04:30",
+          "valor": 435.28,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935564,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "12:04:45",
+          "valor": 93.8,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935578,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "12:06:32",
+          "valor": 17.25,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935587,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "12:14:55",
+          "valor": 32.72,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935641,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "12:30:42",
+          "valor": 13.45,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935658,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "12:38:14",
+          "valor": 68.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935704,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "12:58:03",
+          "valor": 14.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935748,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "13:14:57",
+          "valor": 40.93,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935773,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "13:31:41",
+          "valor": 30.98,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935751,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "13:39:22",
+          "valor": 72.36,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935823,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "13:47:11",
+          "valor": 35.4,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935830,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "13:49:43",
+          "valor": 22.3,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935852,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:01:11",
+          "valor": 7.4,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935862,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:03:02",
+          "valor": 19.95,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935858,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:05:22",
+          "valor": 27.74,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935867,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:08:07",
+          "valor": 73.52,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935874,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:11:01",
+          "valor": 11.41,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935912,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "14:35:19",
+          "valor": 144.24,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935952,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "14:42:32",
+          "valor": 23.2,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935961,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "14:44:28",
+          "valor": 21.66,
+          "posto": "002"
+        },
+        {
+          "atendimento": 935964,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "14:45:13",
+          "valor": 19.94,
+          "posto": "030"
+        },
+        {
+          "atendimento": 935938,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "14:45:48",
+          "valor": 38.2,
+          "posto": "005"
+        },
+        {
+          "atendimento": 935969,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "14:49:55",
+          "valor": 44.31,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936012,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "15:06:56",
+          "valor": 37.8,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936049,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "15:27:44",
+          "valor": 24.3,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936068,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "15:30:57",
+          "valor": 27.96,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936076,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "15:32:38",
+          "valor": 29.4,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936088,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "15:37:37",
+          "valor": 14.99,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936098,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "15:41:54",
+          "valor": 7.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936121,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "15:47:35",
+          "valor": 14.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936120,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "15:53:09",
+          "valor": 89.27,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936136,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "15:54:36",
+          "valor": 24.95,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936146,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "15:59:48",
+          "valor": 9.72,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936141,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "16:06:56",
+          "valor": 74.83,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936167,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "16:09:38",
+          "valor": 12.4,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936191,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "16:23:57",
+          "valor": 3.0,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936230,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "16:36:07",
+          "valor": 15.3,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936247,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "16:43:32",
+          "valor": 45.0,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936278,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "16:58:21",
+          "valor": 64.81,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936296,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:02:34",
+          "valor": 7.65,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936297,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:02:59",
+          "valor": 61.86,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936293,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "17:04:51",
+          "valor": 25.53,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936307,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:07:34",
+          "valor": 7.92,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936314,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:10:22",
+          "valor": 4.11,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936330,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "17:13:35",
+          "valor": 15.4,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936329,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:13:59",
+          "valor": 15.4,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936337,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:16:04",
+          "valor": 7.7,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936351,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:23:24",
+          "valor": 153.08,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936356,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "17:25:18",
+          "valor": 8.73,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936358,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:25:48",
+          "valor": 9.95,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936367,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:32:56",
+          "valor": 2.83,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936382,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "17:36:01",
+          "valor": 2.81,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936404,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "17:44:49",
+          "valor": 9.67,
+          "posto": "007"
+        },
+        {
+          "atendimento": 936387,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:45:34",
+          "valor": 10.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936387,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:45:34",
+          "valor": 40.93,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936418,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:49:46",
+          "valor": 61.4,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936424,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "17:52:23",
+          "valor": 11.68,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936439,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:59:06",
+          "valor": 11.64,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936446,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:03:52",
+          "valor": 8.74,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936452,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "18:08:08",
+          "valor": 34.8,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936457,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:09:10",
+          "valor": 216.05,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936463,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:09:51",
+          "valor": 10.9,
+          "posto": "007"
+        },
+        {
+          "atendimento": 936467,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "18:10:54",
+          "valor": 13.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936470,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:14:07",
+          "valor": 26.4,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936477,
+          "cod_empregado": 109,
+          "operador": "Alina Stoica",
+          "hora": "18:17:26",
+          "valor": 24.4,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936516,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:29:35",
+          "valor": 1.97,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936506,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:41:06",
+          "valor": 28.1,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936539,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:41:13",
+          "valor": 34.88,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936558,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:49:29",
+          "valor": 14.52,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936577,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:52:30",
+          "valor": 10.2,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936586,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:00:58",
+          "valor": 215.74,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936616,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:12:51",
+          "valor": 18.4,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936638,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:17:22",
+          "valor": 17.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936639,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:19:18",
+          "valor": 24.32,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936650,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:24:00",
+          "valor": 14.79,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936659,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:26:34",
+          "valor": 14.9,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936662,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:27:57",
+          "valor": 1.49,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936668,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:33:33",
+          "valor": 10.45,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936683,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:35:16",
+          "valor": 10.5,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936692,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:39:11",
+          "valor": 7.57,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936684,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:41:37",
+          "valor": 36.68,
+          "posto": "003"
+        },
+        {
+          "atendimento": 936690,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:41:42",
+          "valor": 38.92,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936708,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:49:57",
+          "valor": 45.29,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936717,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:50:04",
+          "valor": 45.04,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936749,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:05:29",
+          "valor": 14.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936758,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:08:10",
+          "valor": 30.75,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936763,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:11:21",
+          "valor": 54.04,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936771,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:11:40",
+          "valor": 13.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936775,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:15:01",
+          "valor": 78.2,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936776,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:15:25",
+          "valor": 3.82,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936799,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:23:45",
+          "valor": 5.19,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936795,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:24:31",
+          "valor": 61.05,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936811,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:30:01",
+          "valor": 15.36,
+          "posto": "030"
+        },
+        {
+          "atendimento": 936819,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:30:24",
+          "valor": 22.93,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936839,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:38:10",
+          "valor": 16.5,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936846,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:47:40",
+          "valor": 13.8,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936864,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:52:19",
+          "valor": 20.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 936867,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:55:14",
+          "valor": 30.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 936884,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "21:03:00",
+          "valor": 26.58,
+          "posto": "030"
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 511.9,
+    "liquido": 511.9,
+    "fundo_na_maquina": 400.0,
+    "cofre": 510.0,
+    "notas_no_cofre": 21,
+    "dispensavel": 400.0,
+    "equipamento_total": 910.0,
+    "vendido": 556.36,
+    "troco_devolvido": 44.46,
+    "por_operador": [
+      {
+        "operador": "Alina",
+        "posto": "2",
+        "atendimentos": 11,
+        "numerario": 357.85,
+        "troco": 23.74,
+        "liquido": 334.11
+      },
+      {
+        "operador": "mafaldap",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 66.1,
+        "troco": 0.0,
+        "liquido": 66.1
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "2",
+        "atendimentos": 2,
+        "numerario": 39.19,
+        "troco": 0.0,
+        "liquido": 39.19
+      },
+      {
+        "operador": "Alina",
+        "posto": "3",
+        "atendimentos": 6,
+        "numerario": 35.61,
+        "troco": 0.0,
+        "liquido": 35.61
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 25.61,
+        "troco": 0.0,
+        "liquido": 25.61
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "2",
+        "atendimentos": 1,
+        "numerario": 9.7,
+        "troco": 0.0,
+        "liquido": 9.7
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "30",
+        "atendimentos": 1,
+        "numerario": 8.3,
+        "troco": 0.0,
+        "liquido": 8.3
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "5",
+        "atendimentos": 1,
+        "numerario": 12.8,
+        "troco": 7.19,
+        "liquido": 5.61
+      },
+      {
+        "operador": "Alina",
+        "posto": "7",
+        "atendimentos": 1,
+        "numerario": 1.2,
+        "troco": 0.0,
+        "liquido": 1.2
+      },
+      {
+        "operador": "Alina",
+        "posto": "002",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 5.9,
+        "liquido": -5.9
+      },
+      {
+        "operador": "mafaldap",
+        "posto": "2",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 7.63,
+        "liquido": -7.63
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": 4326.71,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "my_finanfarma": 0.0,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 1923.12,
+        "liquido": 1916.01,
+        "comissao": 7.11,
+        "operacoes": 49,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 778.11,
+        "liquido": 775.08,
+        "comissao": 3.03,
+        "operacoes": 22,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 895.0,
+        "liquido": 890.79,
+        "comissao": 4.21,
+        "operacoes": 25,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 709.91,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 27,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 20.57,
+        "liquido": 20.5,
+        "comissao": 0.07,
+        "operacoes": 2,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      }
+    ],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null,
+    "origem": "smartpay_automatico",
+    "componentes_confirmados": false
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 4844.51,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "numerario_evidenciado": 511.9,
+    "base_numerario": "liquido (sem contagem ou sem dia anterior)",
+    "liquido_numerario": 511.9
+  },
+  "verificacao_fisica": {
+    "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
+    "liquido": 511.9,
+    "apuro_contado": null,
+    "fundo_anterior": 400.0,
+    "fundo_atual": 400.0,
+    "delta_fundo": 0.0,
+    "cofre_anterior": 0.0,
+    "cofre_atual": 510.0,
+    "delta_cofre": 510.0,
+    "desvio": null,
+    "ha_desvio": false,
+    "verificavel": false
+  },
+  "tesouraria": {
+    "apuro_maquina": 511.9,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 510.00 € (21 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
+  ],
+  "cartao_por_tpa": [
+    {
+      "tpa": "TPA 1 – 01123224",
+      "id": "01123224",
+      "posto": "002",
+      "talao_bruto": null,
+      "sifarma_cartao": 1923.12,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 2 – 00983092",
+      "id": "00983092",
+      "posto": "003",
+      "talao_bruto": null,
+      "sifarma_cartao": 778.11,
+      "delta": null
+    },
+    {
+      "tpa": "TPA Drive – 01123227",
+      "id": "01123227",
+      "posto": "030",
+      "talao_bruto": null,
+      "sifarma_cartao": 709.91,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 4 – 01123228",
+      "id": "01123228",
+      "posto": "005",
+      "talao_bruto": null,
+      "sifarma_cartao": 895.0,
+      "delta": null
+    }
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 511.9,
+    "sifarma_numerario_declarado": 511.9,
+    "diferenca": 0.0
+  },
+  "smartpay": {
+    "fonte": "SmartPay � fechos P142, complementados por movimentos posteriores quando existam",
+    "origem": "smartpay_automatico",
+    "extras_confirmados": false,
+    "data": "2026-10-06",
+    "completo": true,
+    "faltam_terminais": [],
+    "tpas_total": 4326.71,
+    "tpas_bruto_observado": 4326.71,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "taxa_pct_media": null,
+    "tpas": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 1923.12,
+        "liquido": 1916.01,
+        "comissao": 7.11,
+        "operacoes": 49,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 778.11,
+        "liquido": 775.08,
+        "comissao": 3.03,
+        "operacoes": 22,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 895.0,
+        "liquido": 890.79,
+        "comissao": 4.21,
+        "operacoes": 25,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 709.91,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 27,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 20.57,
+        "liquido": 20.5,
+        "comissao": 0.07,
+        "operacoes": 2,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      }
+    ],
+    "terminais": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 1923.12,
+        "liquido": 1916.01,
+        "comissao": 7.11,
+        "operacoes": 49,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 778.11,
+        "liquido": 775.08,
+        "comissao": 3.03,
+        "operacoes": 22,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 895.0,
+        "liquido": 890.79,
+        "comissao": 4.21,
+        "operacoes": 25,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 709.91,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 27,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 20.57,
+        "liquido": 20.5,
+        "comissao": 0.07,
+        "operacoes": 2,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      }
+    ],
+    "movimentos": 125,
+    "ultimo_evento_em": "2026-10-06T21:02:36",
+    "gerado_em": "2026-10-06T21:03:07"
+  }
+}
