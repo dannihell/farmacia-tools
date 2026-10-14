@@ -3,25 +3,25 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-10-14",
-  "gerado_em": "2026-10-14T21:00:12",
+  "gerado_em": "2026-10-14T23:59:29",
   "estado": "aguarda_confirmacao",
   "sifarma": {
-    "total_vendas": 5652.61,
-    "total_vendas_dinheiro": 3861.37,
+    "total_vendas": 5662.51,
+    "total_vendas_dinheiro": 3871.27,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": 538.88,
-      "cartao_declarado": 3319.49,
+      "cartao_declarado": 3329.39,
       "outros_declarado": 3.0,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 107,
-          "valor": 3319.49
+          "n": 108,
+          "valor": 3329.39
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 294,
+          "n": 295,
           "valor": 538.88
         },
         {
@@ -35,8 +35,8 @@
       "cartao_por_posto": [
         {
           "posto": "003",
-          "n": 29,
-          "valor": 947.21
+          "n": 30,
+          "valor": 957.11
         },
         {
           "posto": "005",
@@ -915,6 +915,14 @@
           "hora": "20:44:19",
           "valor": 4.02,
           "posto": "005"
+        },
+        {
+          "atendimento": 941443,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "21:00:47",
+          "valor": 9.9,
+          "posto": "003"
         }
       ]
     }
@@ -923,10 +931,10 @@
     "apuro": 538.88,
     "liquido": 538.88,
     "fundo_na_maquina": 400.0,
-    "cofre": 530.0,
-    "notas_no_cofre": 20,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 930.0,
+    "equipamento_total": 400.0,
     "vendido": 566.65,
     "troco_devolvido": 27.77,
     "por_operador": [
@@ -1021,9 +1029,9 @@
     ]
   },
   "manual": {
-    "tpas_total": 3319.49,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
+    "tpas_total": 3329.39,
+    "tpas_taxa_total": 13.37,
+    "tpas_liquido_total": 3316.02,
     "finanfarma": null,
     "my_finanfarma": 3.0,
     "transferencia": null,
@@ -1048,13 +1056,13 @@
         "nome": "PS2",
         "posto": "003",
         "terminal": "00983092",
-        "bruto": 947.21,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 29,
-        "fechos": 0,
+        "bruto": 957.11,
+        "liquido": 953.59,
+        "comissao": 3.52,
+        "operacoes": 30,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1077,12 +1085,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 581.12,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 578.51,
+        "comissao": 2.61,
         "operacoes": 16,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1108,7 +1116,7 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 3861.37,
+    "total_sifarma": 3871.27,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
     "numerario_evidenciado": 538.88,
@@ -1123,8 +1131,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 530.0,
-    "delta_cofre": 530.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -1138,8 +1146,7 @@
     "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
   },
   "avisos": [
-    "2 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 530.00 € (20 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "4 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -1156,7 +1163,7 @@
       "id": "00983092",
       "posto": "003",
       "talao_bruto": null,
-      "sifarma_cartao": 947.21,
+      "sifarma_cartao": 957.11,
       "delta": null
     },
     {
@@ -1189,11 +1196,11 @@
     "data": "2026-10-14",
     "completo": true,
     "faltam_terminais": [],
-    "tpas_total": 3319.49,
-    "tpas_bruto_observado": 3319.49,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "taxa_pct_media": null,
+    "tpas_total": 3329.39,
+    "tpas_bruto_observado": 3329.39,
+    "tpas_taxa_total": 13.37,
+    "tpas_liquido_total": 3316.02,
+    "taxa_pct_media": 0.4016,
     "tpas": [
       {
         "id": "ps1",
@@ -1214,13 +1221,13 @@
         "nome": "PS2",
         "posto": "003",
         "terminal": "00983092",
-        "bruto": 947.21,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 29,
-        "fechos": 0,
+        "bruto": 957.11,
+        "liquido": 953.59,
+        "comissao": 3.52,
+        "operacoes": 30,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1243,12 +1250,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 581.12,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 578.51,
+        "comissao": 2.61,
         "operacoes": 16,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1286,13 +1293,13 @@
         "nome": "PS2",
         "posto": "003",
         "terminal": "00983092",
-        "bruto": 947.21,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 29,
-        "fechos": 0,
+        "bruto": 957.11,
+        "liquido": 953.59,
+        "comissao": 3.52,
+        "operacoes": 30,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1315,12 +1322,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 581.12,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 578.51,
+        "comissao": 2.61,
         "operacoes": 16,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1338,8 +1345,8 @@
         "cobertura_confirmada": true
       }
     ],
-    "movimentos": 107,
-    "ultimo_evento_em": "2026-10-14T20:55:44",
-    "gerado_em": "2026-10-14T21:00:10"
+    "movimentos": 108,
+    "ultimo_evento_em": "2026-10-14T21:01:48",
+    "gerado_em": "2026-10-14T23:59:26"
   }
 }
