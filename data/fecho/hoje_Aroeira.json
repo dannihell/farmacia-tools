@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-10-17",
-  "gerado_em": "2026-10-17T21:02:08",
+  "gerado_em": "2026-10-17T23:59:24",
   "estado": "aguarda_tpas",
   "sifarma": {
     "total_vendas": 4812.54,
@@ -918,10 +918,10 @@
     "apuro": 475.14,
     "liquido": 475.14,
     "fundo_na_maquina": 400.0,
-    "cofre": 475.0,
-    "notas_no_cofre": 21,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 875.0,
+    "equipamento_total": 400.0,
     "vendido": 521.33,
     "troco_devolvido": 46.19,
     "por_operador": [
@@ -1007,8 +1007,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 475.0,
-    "delta_cofre": 475.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -1023,7 +1023,6 @@
   },
   "avisos": [
     "6 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 475.00 € (21 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
@@ -1088,12 +1087,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 968.28,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 963.35,
+        "comissao": 4.93,
         "operacoes": 29,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1130,12 +1129,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 302.14,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 300.18,
+        "comissao": 1.96,
         "operacoes": 17,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1160,12 +1159,12 @@
         "posto": "002",
         "terminal": "01123224",
         "bruto": 968.28,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 963.35,
+        "comissao": 4.93,
         "operacoes": 29,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1202,12 +1201,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 302.14,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 300.18,
+        "comissao": 1.96,
         "operacoes": 17,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1226,7 +1225,7 @@
       }
     ],
     "movimentos": 107,
-    "ultimo_evento_em": "2026-10-17T21:00:38",
-    "gerado_em": "2026-10-17T21:02:07"
+    "ultimo_evento_em": "2026-10-17T21:03:48",
+    "gerado_em": "2026-10-17T23:59:22"
   }
 }
