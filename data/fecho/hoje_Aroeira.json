@@ -3,7 +3,7 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-10-27",
-  "gerado_em": "2026-10-27T21:02:08",
+  "gerado_em": "2026-10-27T22:59:19",
   "estado": "aguarda_tpas",
   "sifarma": {
     "total_vendas": 6888.36,
@@ -1062,10 +1062,10 @@
     "apuro": 296.48,
     "liquido": 296.48,
     "fundo_na_maquina": 400.0,
-    "cofre": 290.0,
-    "notas_no_cofre": 15,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 690.0,
+    "equipamento_total": 400.0,
     "vendido": 419.37,
     "troco_devolvido": 122.89,
     "por_operador": [
@@ -1207,8 +1207,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 290.0,
-    "delta_cofre": 290.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -1223,7 +1223,6 @@
   },
   "avisos": [
     "2 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 290.00 € (15 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Faltam os TPAs (talões) para fechar a diferença de caixa.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
@@ -1330,12 +1329,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 499.42,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 497.33,
+        "comissao": 2.09,
         "operacoes": 17,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1402,12 +1401,12 @@
         "posto": "030",
         "terminal": "01123227",
         "bruto": 499.42,
-        "liquido": null,
-        "comissao": null,
+        "liquido": 497.33,
+        "comissao": 2.09,
         "operacoes": 17,
-        "fechos": 0,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1426,7 +1425,7 @@
       }
     ],
     "movimentos": 124,
-    "ultimo_evento_em": "2026-10-27T21:00:30",
-    "gerado_em": "2026-10-27T21:02:07"
+    "ultimo_evento_em": "2026-10-27T21:01:09",
+    "gerado_em": "2026-10-27T22:59:17"
   }
 }
