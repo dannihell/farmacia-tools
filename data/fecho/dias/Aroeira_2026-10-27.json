@@ -1,0 +1,1432 @@
+{
+  "farmacia": "Aroeira",
+  "farmacia_nome": "Farmácia Aroeira",
+  "tipo": "fecho",
+  "data": "2026-10-27",
+  "gerado_em": "2026-10-27T21:02:08",
+  "estado": "aguarda_tpas",
+  "sifarma": {
+    "total_vendas": 6888.36,
+    "total_vendas_dinheiro": 4353.0,
+    "diagnostico": {
+      "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
+      "numerario_declarado": 296.48,
+      "cartao_declarado": 4005.93,
+      "outros_declarado": 50.59,
+      "por_tipo": [
+        {
+          "tipo": "Cartão de Débito",
+          "n": 125,
+          "valor": 4005.93
+        },
+        {
+          "tipo": "Caixa Automatica",
+          "n": 240,
+          "valor": 296.48
+        },
+        {
+          "tipo": "My Finanfarma",
+          "n": 2,
+          "valor": 50.59,
+          "tipo_codigo": "my_finanfarma",
+          "tipo_origem": "Finanfarma"
+        }
+      ],
+      "cartao_por_posto": [
+        {
+          "posto": "005",
+          "n": 45,
+          "valor": 1385.31
+        },
+        {
+          "posto": "003",
+          "n": 43,
+          "valor": 1212.55
+        },
+        {
+          "posto": "002",
+          "n": 20,
+          "valor": 908.65
+        },
+        {
+          "posto": "030",
+          "n": 17,
+          "valor": 499.42
+        }
+      ],
+      "cartao_movimentos": [
+        {
+          "atendimento": 944130,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "08:18:24",
+          "valor": 56.65,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944132,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "08:39:49",
+          "valor": 20.2,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944133,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "08:51:12",
+          "valor": 14.96,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944134,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "08:53:20",
+          "valor": 0.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944136,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "08:56:26",
+          "valor": 21.3,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944135,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "08:58:35",
+          "valor": 43.05,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944140,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "09:08:22",
+          "valor": 12.26,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944142,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "09:16:12",
+          "valor": 7.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944148,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "09:42:31",
+          "valor": 31.26,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944151,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "09:48:24",
+          "valor": 33.45,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944153,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "09:52:28",
+          "valor": 28.59,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944152,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "10:00:34",
+          "valor": 39.11,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944160,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "10:11:15",
+          "valor": 23.35,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944159,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "10:11:23",
+          "valor": 6.06,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944162,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "10:16:45",
+          "valor": 17.39,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944163,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "10:25:42",
+          "valor": 8.57,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944166,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "10:31:23",
+          "valor": 42.88,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944165,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:32:40",
+          "valor": 8.85,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944169,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "10:38:26",
+          "valor": 5.46,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944170,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:38:31",
+          "valor": 11.9,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944172,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "10:41:44",
+          "valor": 12.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944175,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "10:53:58",
+          "valor": 31.25,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944178,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:55:47",
+          "valor": 8.91,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944181,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:57:31",
+          "valor": 20.75,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944182,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "10:59:46",
+          "valor": 23.6,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944183,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "11:04:17",
+          "valor": 12.5,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944185,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "11:06:01",
+          "valor": 10.69,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944193,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:30:42",
+          "valor": 40.94,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944197,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:51:34",
+          "valor": 27.35,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944196,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "11:51:51",
+          "valor": 10.67,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944198,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "11:58:27",
+          "valor": 28.3,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944199,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:01:14",
+          "valor": 32.05,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944202,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:10:18",
+          "valor": 111.22,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944208,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:22:47",
+          "valor": 108.58,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944212,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:28:58",
+          "valor": 10.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944214,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:32:58",
+          "valor": 3.91,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944213,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:34:37",
+          "valor": 32.31,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944218,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "12:45:27",
+          "valor": 15.77,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944219,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "12:49:09",
+          "valor": 33.08,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944211,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "12:54:51",
+          "valor": 76.99,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944227,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "13:12:27",
+          "valor": 5.9,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944228,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "13:15:20",
+          "valor": 19.4,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944231,
+          "cod_empregado": 145,
+          "operador": "Luiza Oliveira",
+          "hora": "13:41:44",
+          "valor": 14.11,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944232,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "13:48:14",
+          "valor": 12.84,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944233,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "14:07:02",
+          "valor": 52.27,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944236,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "14:17:12",
+          "valor": 44.29,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944240,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "14:34:21",
+          "valor": 14.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944242,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "14:42:17",
+          "valor": 13.95,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944243,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "14:45:36",
+          "valor": 16.93,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944245,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "14:50:59",
+          "valor": 32.79,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944247,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "14:54:35",
+          "valor": 18.95,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944248,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "14:59:15",
+          "valor": 10.5,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944249,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "15:10:41",
+          "valor": 3.64,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944256,
+          "cod_empregado": 107,
+          "operador": "TATIANA CAETANO",
+          "hora": "15:33:00",
+          "valor": 35.0,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944257,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "15:40:15",
+          "valor": 23.24,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944260,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "15:49:42",
+          "valor": 68.29,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944258,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:52:41",
+          "valor": 129.29,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944261,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "15:54:44",
+          "valor": 0.9,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944263,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:00:42",
+          "valor": 20.16,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944262,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "16:03:41",
+          "valor": 86.49,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944266,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:07:39",
+          "valor": 7.5,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944270,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:13:07",
+          "valor": 25.95,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944269,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:20:11",
+          "valor": 50.15,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944272,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:24:10",
+          "valor": 14.72,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944277,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:31:43",
+          "valor": 29.42,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944276,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:37:32",
+          "valor": 30.5,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944267,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "16:39:06",
+          "valor": 210.47,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944279,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:44:56",
+          "valor": 50.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944281,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:45:28",
+          "valor": 10.95,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944283,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "16:46:17",
+          "valor": 39.5,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944285,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "16:54:44",
+          "valor": 21.08,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944294,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:05:29",
+          "valor": 92.3,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944295,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:08:06",
+          "valor": 9.58,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944297,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:13:25",
+          "valor": 37.26,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944303,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:29:08",
+          "valor": 41.15,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944301,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:31:04",
+          "valor": 1.19,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944304,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:33:20",
+          "valor": 62.85,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944306,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:35:38",
+          "valor": 8.95,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944305,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:36:33",
+          "valor": 7.95,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944308,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:38:05",
+          "valor": 16.45,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944307,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:38:28",
+          "valor": 9.56,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944312,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:47:12",
+          "valor": 23.5,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944310,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "17:47:40",
+          "valor": 41.32,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944315,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:54:05",
+          "valor": 12.26,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944316,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "17:54:26",
+          "valor": 23.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944317,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "17:56:37",
+          "valor": 10.45,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944318,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:04:03",
+          "valor": 6.9,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944320,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:08:12",
+          "valor": 1.95,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944319,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:10:03",
+          "valor": 23.03,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944321,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:11:01",
+          "valor": 29.95,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944323,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:13:27",
+          "valor": 19.6,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944314,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:14:53",
+          "valor": 117.73,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944324,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:16:02",
+          "valor": 16.81,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944326,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:18:17",
+          "valor": 12.7,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944325,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:20:22",
+          "valor": 20.95,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944328,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:22:07",
+          "valor": 26.9,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944327,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:22:29",
+          "valor": 51.96,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944330,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:24:35",
+          "valor": 26.9,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944333,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:31:29",
+          "valor": 41.71,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944331,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:39:10",
+          "valor": 36.92,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944338,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "18:50:08",
+          "valor": 18.45,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944339,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:51:54",
+          "valor": 7.2,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944337,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "18:52:14",
+          "valor": 27.39,
+          "posto": "002"
+        },
+        {
+          "atendimento": 944342,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "18:58:09",
+          "valor": 20.17,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944344,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:00:02",
+          "valor": 21.45,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944345,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:05:17",
+          "valor": 24.65,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944346,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:08:48",
+          "valor": 6.2,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944349,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:14:54",
+          "valor": 6.66,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944348,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:15:28",
+          "valor": 11.44,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944350,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:23:22",
+          "valor": 67.97,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944352,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:27:47",
+          "valor": 7.98,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944353,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "19:41:50",
+          "valor": 16.95,
+          "posto": "030"
+        },
+        {
+          "atendimento": 944354,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "19:45:07",
+          "valor": 15.95,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944357,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:06:14",
+          "valor": 489.6,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944360,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:13:52",
+          "valor": 3.52,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944359,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:16:26",
+          "valor": 44.34,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944361,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:17:57",
+          "valor": 1.21,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944362,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:19:57",
+          "valor": 13.01,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944364,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:26:50",
+          "valor": 9.97,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944365,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:34:05",
+          "valor": 33.21,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944366,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:34:53",
+          "valor": 77.07,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944368,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:40:13",
+          "valor": 17.66,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944367,
+          "cod_empregado": 142,
+          "operador": "Mafalda Pais",
+          "hora": "20:40:14",
+          "valor": 16.76,
+          "posto": "005"
+        },
+        {
+          "atendimento": 944369,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:44:15",
+          "valor": 0.3,
+          "posto": "003"
+        },
+        {
+          "atendimento": 944372,
+          "cod_empregado": 140,
+          "operador": "Leo Souza",
+          "hora": "20:59:27",
+          "valor": 12.4,
+          "posto": "005"
+        }
+      ]
+    }
+  },
+  "cashlogy": {
+    "apuro": 296.48,
+    "liquido": 296.48,
+    "fundo_na_maquina": 400.0,
+    "cofre": 290.0,
+    "notas_no_cofre": 15,
+    "dispensavel": 400.0,
+    "equipamento_total": 690.0,
+    "vendido": 419.37,
+    "troco_devolvido": 122.89,
+    "por_operador": [
+      {
+        "operador": "JESSICA",
+        "posto": "2",
+        "atendimentos": 7,
+        "numerario": 128.44,
+        "troco": 0.0,
+        "liquido": 128.44
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "5",
+        "atendimentos": 4,
+        "numerario": 79.13,
+        "troco": 0.0,
+        "liquido": 79.13
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 56.25,
+        "troco": 0.0,
+        "liquido": 56.25
+      },
+      {
+        "operador": "mafaldap",
+        "posto": "5",
+        "atendimentos": 3,
+        "numerario": 50.0,
+        "troco": 9.97,
+        "liquido": 40.03
+      },
+      {
+        "operador": "Leosouza",
+        "posto": "2",
+        "atendimentos": 3,
+        "numerario": 33.67,
+        "troco": 0.0,
+        "liquido": 33.67
+      },
+      {
+        "operador": "mafaldap",
+        "posto": "30",
+        "atendimentos": 3,
+        "numerario": 33.24,
+        "troco": 0.0,
+        "liquido": 33.24
+      },
+      {
+        "operador": "Luiza",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 11.28,
+        "troco": 0.0,
+        "liquido": 11.28
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "10",
+        "atendimentos": 1,
+        "numerario": 9.26,
+        "troco": 0.0,
+        "liquido": 9.26
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "3",
+        "atendimentos": 2,
+        "numerario": 7.72,
+        "troco": 0.0,
+        "liquido": 7.72
+      },
+      {
+        "operador": "mafaldap",
+        "posto": "3",
+        "atendimentos": 1,
+        "numerario": 0.2,
+        "troco": 0.0,
+        "liquido": 0.2
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "010",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 9.8,
+        "liquido": -9.8
+      },
+      {
+        "operador": "TATIANA",
+        "posto": "5",
+        "atendimentos": 2,
+        "numerario": 10.18,
+        "troco": 30.65,
+        "liquido": -20.47
+      },
+      {
+        "operador": "JESSICA",
+        "posto": "005",
+        "atendimentos": 0,
+        "numerario": 0.0,
+        "troco": 72.47,
+        "liquido": -72.47
+      }
+    ]
+  },
+  "manual": {
+    "tpas_total": null,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "finanfarma": null,
+    "my_finanfarma": 50.59,
+    "transferencia": null,
+    "apuro_contado": null,
+    "terminais": [],
+    "responsaveis": [],
+    "comentario": "",
+    "submetido_em": null,
+    "origem": null,
+    "componentes_confirmados": false
+  },
+  "conciliacao": {
+    "recebido_real": null,
+    "total_sifarma": 4353.0,
+    "diferenca_caixa": null,
+    "tolerancia": 5.0,
+    "numerario_evidenciado": 296.48,
+    "base_numerario": "liquido (sem contagem ou sem dia anterior)",
+    "liquido_numerario": 296.48
+  },
+  "verificacao_fisica": {
+    "nota": "apuro_contado + delta fundo + delta cofre = líquido. Mede o dinheiro CONTADO contra o que a máquina recebeu; não depende do que ela declara ter entregue.",
+    "liquido": 296.48,
+    "apuro_contado": null,
+    "fundo_anterior": 400.0,
+    "fundo_atual": 400.0,
+    "delta_fundo": 0.0,
+    "cofre_anterior": 0.0,
+    "cofre_atual": 290.0,
+    "delta_cofre": 290.0,
+    "desvio": null,
+    "ha_desvio": false,
+    "verificavel": false
+  },
+  "tesouraria": {
+    "apuro_maquina": 296.48,
+    "apuro_contado": null,
+    "fundo_na_maquina": 400.0,
+    "desvio_deposito": null,
+    "ha_desvio_deposito": false,
+    "nota": "Controlo do depósito, não da diferença de caixa. O fundo de maneio transita de um dia para o outro."
+  },
+  "avisos": [
+    "2 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
+    "COFRE COM 290.00 € (15 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
+    "Faltam os TPAs (talões) para fechar a diferença de caixa.",
+    "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
+  ],
+  "cartao_por_tpa": [
+    {
+      "tpa": "TPA 1 – 01123224",
+      "id": "01123224",
+      "posto": "002",
+      "talao_bruto": null,
+      "sifarma_cartao": 908.65,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 2 – 00983092",
+      "id": "00983092",
+      "posto": "003",
+      "talao_bruto": null,
+      "sifarma_cartao": 1212.55,
+      "delta": null
+    },
+    {
+      "tpa": "TPA Drive – 01123227",
+      "id": "01123227",
+      "posto": "030",
+      "talao_bruto": null,
+      "sifarma_cartao": 499.42,
+      "delta": null
+    },
+    {
+      "tpa": "TPA 4 – 01123228",
+      "id": "01123228",
+      "posto": "005",
+      "talao_bruto": null,
+      "sifarma_cartao": 1385.31,
+      "delta": null
+    }
+  ],
+  "diagnostico_numerario": {
+    "nota": "Líquido Cashlogy vs Caixa Automática Sifarma (ambos numerário). Localiza se um desvio nasce do numerário ou do cartão.",
+    "cashlogy_liquido": 296.48,
+    "sifarma_numerario_declarado": 296.48,
+    "diferenca": 0.0
+  },
+  "smartpay": {
+    "fonte": "SmartPay � fechos P142, complementados por movimentos posteriores quando existam",
+    "origem": "smartpay_automatico",
+    "extras_confirmados": false,
+    "data": "2026-10-27",
+    "completo": false,
+    "faltam_terminais": [
+      "TPA003"
+    ],
+    "tpas_total": null,
+    "tpas_bruto_observado": 3976.51,
+    "tpas_taxa_total": null,
+    "tpas_liquido_total": null,
+    "taxa_pct_media": null,
+    "tpas": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 908.65,
+        "liquido": 905.22,
+        "comissao": 3.43,
+        "operacoes": 20,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 1212.55,
+        "liquido": 1206.32,
+        "comissao": 6.23,
+        "operacoes": 43,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 1355.89,
+        "liquido": 1350.3,
+        "comissao": 5.59,
+        "operacoes": 44,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 499.42,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 17,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      }
+    ],
+    "terminais": [
+      {
+        "id": "ps1",
+        "nome": "PS1",
+        "posto": "002",
+        "terminal": "01123224",
+        "bruto": 908.65,
+        "liquido": 905.22,
+        "comissao": 3.43,
+        "operacoes": 20,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps2",
+        "nome": "PS2",
+        "posto": "003",
+        "terminal": "00983092",
+        "bruto": 1212.55,
+        "liquido": 1206.32,
+        "comissao": 6.23,
+        "operacoes": 43,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "ps4",
+        "nome": "PS4",
+        "posto": "005",
+        "terminal": "01123228",
+        "bruto": 1355.89,
+        "liquido": 1350.3,
+        "comissao": 5.59,
+        "operacoes": 44,
+        "fechos": 1,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "fecho_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "farmadrive",
+        "nome": "FARMADRIVE",
+        "posto": "030",
+        "terminal": "01123227",
+        "bruto": 499.42,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 17,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": true
+      },
+      {
+        "id": "tpa003",
+        "nome": "TPA003",
+        "posto": "007",
+        "terminal": "01123226",
+        "bruto": 0,
+        "liquido": null,
+        "comissao": null,
+        "operacoes": 0,
+        "fechos": 0,
+        "movimentos_apos_fecho": 0,
+        "origem_total": "movimentos_tpa",
+        "cobertura_confirmada": false
+      }
+    ],
+    "movimentos": 124,
+    "ultimo_evento_em": "2026-10-27T21:00:30",
+    "gerado_em": "2026-10-27T21:02:07"
+  }
+}
