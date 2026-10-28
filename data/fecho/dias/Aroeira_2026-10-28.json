@@ -3,25 +3,25 @@
   "farmacia_nome": "Farmácia Aroeira",
   "tipo": "fecho",
   "data": "2026-10-28",
-  "gerado_em": "2026-10-28T21:01:07",
+  "gerado_em": "2026-10-28T22:59:22",
   "estado": "aguarda_confirmacao",
   "sifarma": {
-    "total_vendas": 5921.78,
-    "total_vendas_dinheiro": 3918.56,
+    "total_vendas": 5941.44,
+    "total_vendas_dinheiro": 3931.89,
     "diagnostico": {
       "nota": "Decomposição por forma de pagamento — NÃO fiável para conciliar; só para investigar de que lado está um desvio.",
       "numerario_declarado": 276.8,
-      "cartao_declarado": 3599.85,
+      "cartao_declarado": 3613.18,
       "outros_declarado": 41.91,
       "por_tipo": [
         {
           "tipo": "Cartão de Débito",
-          "n": 108,
-          "valor": 3599.85
+          "n": 109,
+          "valor": 3613.18
         },
         {
           "tipo": "Caixa Automatica",
-          "n": 233,
+          "n": 234,
           "valor": 276.8
         },
         {
@@ -35,8 +35,8 @@
       "cartao_por_posto": [
         {
           "posto": "005",
-          "n": 46,
-          "valor": 1502.03
+          "n": 47,
+          "valor": 1515.36
         },
         {
           "posto": "003",
@@ -923,6 +923,14 @@
           "hora": "20:59:17",
           "valor": 48.9,
           "posto": "030"
+        },
+        {
+          "atendimento": 944611,
+          "cod_empregado": 132,
+          "operador": "JESSICA SOUSA",
+          "hora": "21:01:41",
+          "valor": 13.33,
+          "posto": "005"
         }
       ]
     }
@@ -931,10 +939,10 @@
     "apuro": 276.8,
     "liquido": 276.8,
     "fundo_na_maquina": 400.0,
-    "cofre": 275.0,
-    "notas_no_cofre": 20,
+    "cofre": 0.0,
+    "notas_no_cofre": 0,
     "dispensavel": 400.0,
-    "equipamento_total": 675.0,
+    "equipamento_total": 400.0,
     "vendido": 331.79,
     "troco_devolvido": 54.99,
     "por_operador": [
@@ -1013,9 +1021,9 @@
     ]
   },
   "manual": {
-    "tpas_total": 3599.85,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
+    "tpas_total": 3613.18,
+    "tpas_taxa_total": 15.21,
+    "tpas_liquido_total": 3597.97,
     "finanfarma": null,
     "my_finanfarma": 41.91,
     "transferencia": null,
@@ -1054,13 +1062,13 @@
         "nome": "PS4",
         "posto": "005",
         "terminal": "01123228",
-        "bruto": 1502.03,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 46,
-        "fechos": 0,
+        "bruto": 1515.36,
+        "liquido": 1509.5,
+        "comissao": 5.86,
+        "operacoes": 47,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1100,7 +1108,7 @@
   },
   "conciliacao": {
     "recebido_real": null,
-    "total_sifarma": 3918.56,
+    "total_sifarma": 3931.89,
     "diferenca_caixa": null,
     "tolerancia": 5.0,
     "numerario_evidenciado": 276.8,
@@ -1115,8 +1123,8 @@
     "fundo_atual": 400.0,
     "delta_fundo": 0.0,
     "cofre_anterior": 0.0,
-    "cofre_atual": 275.0,
-    "delta_cofre": 275.0,
+    "cofre_atual": 0.0,
+    "delta_cofre": 0.0,
     "desvio": null,
     "ha_desvio": false,
     "verificavel": false
@@ -1131,7 +1139,6 @@
   },
   "avisos": [
     "6 troca(s) de espécie na máquina — operação normal (carregar moedas / retirar notas do mesmo valor), sem impacto no fundo.",
-    "COFRE COM 275.00 € (20 notas) no fim do dia — o dinheiro NÃO foi retirado da máquina. Retirar e registar como apuro contado.",
     "Sem apuro contado — não é possível confirmar que o dinheiro recebido chegou ao saco."
   ],
   "cartao_por_tpa": [
@@ -1164,7 +1171,7 @@
       "id": "01123228",
       "posto": "005",
       "talao_bruto": null,
-      "sifarma_cartao": 1502.03,
+      "sifarma_cartao": 1515.36,
       "delta": null
     }
   ],
@@ -1181,11 +1188,11 @@
     "data": "2026-10-28",
     "completo": true,
     "faltam_terminais": [],
-    "tpas_total": 3599.85,
-    "tpas_bruto_observado": 3599.85,
-    "tpas_taxa_total": null,
-    "tpas_liquido_total": null,
-    "taxa_pct_media": null,
+    "tpas_total": 3613.18,
+    "tpas_bruto_observado": 3613.18,
+    "tpas_taxa_total": 15.21,
+    "tpas_liquido_total": 3597.97,
+    "taxa_pct_media": 0.421,
     "tpas": [
       {
         "id": "ps1",
@@ -1220,13 +1227,13 @@
         "nome": "PS4",
         "posto": "005",
         "terminal": "01123228",
-        "bruto": 1502.03,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 46,
-        "fechos": 0,
+        "bruto": 1515.36,
+        "liquido": 1509.5,
+        "comissao": 5.86,
+        "operacoes": 47,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1292,13 +1299,13 @@
         "nome": "PS4",
         "posto": "005",
         "terminal": "01123228",
-        "bruto": 1502.03,
-        "liquido": null,
-        "comissao": null,
-        "operacoes": 46,
-        "fechos": 0,
+        "bruto": 1515.36,
+        "liquido": 1509.5,
+        "comissao": 5.86,
+        "operacoes": 47,
+        "fechos": 1,
         "movimentos_apos_fecho": 0,
-        "origem_total": "movimentos_tpa",
+        "origem_total": "fecho_tpa",
         "cobertura_confirmada": true
       },
       {
@@ -1330,8 +1337,8 @@
         "cobertura_confirmada": true
       }
     ],
-    "movimentos": 108,
-    "ultimo_evento_em": "2026-10-28T20:59:55",
-    "gerado_em": "2026-10-28T21:01:06"
+    "movimentos": 109,
+    "ultimo_evento_em": "2026-10-28T21:03:03",
+    "gerado_em": "2026-10-28T22:59:20"
   }
 }
